@@ -54,11 +54,6 @@
 #include <stk_mesh/base/GetBuckets.hpp>
 #include <stk_mesh/base/CreateAdjacentEntities.hpp>
 
-// #include <stk_rebalance/Rebalance.hpp>
-// #include <stk_rebalance/Partition.hpp>
-// #include <stk_rebalance/ZoltanPartition.hpp>
-// #include <stk_rebalance_utils/RebalanceUtils.hpp>
-
 #include <stk_util/parallel/ParallelReduce.hpp>
 #include <stk_util/parallel/CommSparse.hpp>
 
@@ -72,6 +67,11 @@
 #include <percept/PerceptMesh.hpp>
 #include <adapt/UniformRefinerPattern.hpp>
 #include <adapt/UniformRefiner.hpp>
+#endif
+
+#if defined(PANZER_HAVE_PERCEPT) && defined(PANZER_HAVE_STKBALANCE)
+#include <stk_balance/balance.hpp>
+#include <Panzer_STK_RebalancePercept.hpp>
 #endif
 
 #include "Panzer_STK_PeriodicBC_Matcher.hpp"
@@ -2009,6 +2009,31 @@ void STK_Interface::rebalance(const Teuchos::ParameterList & /* params */)
 
   currentLocalId_ = 0;
   orderedElementVector_ = Teuchos::null; // forces rebuild of ordered lists
+#endif
+}
+
+void STK_Interface::rebalance_percept()
+{
+#if defined(PANZER_HAVE_PERCEPT) && defined(PANZER_HAVE_STKBALANCE)
+
+  // This inactive part will contain root elements as well as intermediate refined elements.
+  // From there, the RebalancePercept class will assign weights to only the root elements for balancing,
+  // and then the ModifyDecomposition override will pair all children with parents.
+  stk::mesh::Part* parent_part = refinedMesh_->get_part("refine_inactive_elements_part_3",true);
+  stk::mesh::Selector parent_selector = (*parent_part);
+  
+  // TODO: Adding a field incurs performance penalties when not done before committing the mesh.
+  metaData_->enable_late_fields();
+  stk::mesh::Field<double>* weightField = & metaData_->declare_field<stk::balance::DoubleFieldType>(stk::topology::ELEM_RANK, "Element Weights", 1);
+  stk::mesh::put_field_on_mesh(*weightField, metaData_->universal_part(), static_cast<double*>(nullptr));
+
+  Panzer_STK_RebalancePercept balanceSettings(parent_selector,*bulkData_,*weightField,refinedMesh_);
+  
+  stk::balance::balanceStkMesh(balanceSettings, *bulkData_, {parent_selector});
+
+#else
+  TEUCHOS_TEST_FOR_EXCEPTION(true,std::logic_error,
+                             "ERROR: Percept-based mesh rebalancing requested. This requires the Percept and STKBalance packages to be enabled in Trilinos!");
 #endif
 }
 

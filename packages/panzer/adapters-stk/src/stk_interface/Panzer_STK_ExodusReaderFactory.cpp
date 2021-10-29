@@ -275,8 +275,13 @@ void STK_ExodusReaderFactory::completeMeshConstruction(STK_Interface & mesh,stk:
    delete meshData;
 
    if(rebalancing_ == "default")
-     // calls Stk_MeshFactory::rebalance
      this->rebalance(mesh);
+   else if(rebalancing_ == "percept") 
+   {
+     //TEUCHOS_TEST_FOR_EXCEPTION((keepPerceptData_ && keepPerceptParentElements_),std::runtime_error,
+     //                           "ERROR: Percept-based rebalancing may only be performed if Keep Percept Data and Keep Percept Parent Elements are set to true");
+     mesh.rebalance_percept();
+   }
    else if(rebalancing_ != "none")
    {
      TEUCHOS_TEST_FOR_EXCEPTION(true,std::logic_error,
@@ -398,7 +403,7 @@ Teuchos::RCP<const Teuchos::ParameterList> STK_ExodusReaderFactory::getValidPara
 
       validParams->set("Keep Percept Parent Elements",false,"Keep the parent element information in the Percept data");
 
-      validParams->set("Rebalancing","default","The type of rebalancing to be performed on the mesh after creation (default, none)");
+      validParams->set("Rebalancing","default","The type of rebalancing to be performed on the mesh after creation (default, none, percept)");
 
       // default to false for backward compatibility
       validParams->set("Create Edge Blocks",false,"Create or copy edge blocks in the mesh");

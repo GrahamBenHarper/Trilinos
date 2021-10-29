@@ -1157,6 +1157,10 @@ public:
      */
    void rebalance(const Teuchos::ParameterList & params);
 
+   /** Rebalance using STK and Percept.
+     */
+   void rebalance_percept();
+
    /** Set the weight for a particular element block. Larger means more costly
      * to assemble and evaluate.
      */

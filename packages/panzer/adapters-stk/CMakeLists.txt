@@ -16,6 +16,14 @@ ELSE()
    GLOBAL_SET(PANZER_HAVE_PERCEPT OFF)
 ENDIF()
 
+# Optional STKBalance dependency
+##########################
+IF(${PACKAGE_NAME}_ENABLE_STKBalance)
+   GLOBAL_SET(PANZER_HAVE_STKBALANCE ON)
+ELSE()
+   GLOBAL_SET(PANZER_HAVE_STKBALANCE OFF)
+ENDIF()
+
 # Optional Teko dependency
 ##########################
 IF(${PACKAGE_NAME}_ENABLE_Teko)
