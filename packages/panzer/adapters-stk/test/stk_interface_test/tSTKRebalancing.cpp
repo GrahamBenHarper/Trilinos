@@ -112,4 +112,31 @@ TEUCHOS_UNIT_TEST(tSTKRebalancing, none)
   }
 }
 
+#ifdef PANZER_HAVE_PERCEPT
+// Test to make sure the percept option for mesh rebalancing doesn't throw
+TEUCHOS_UNIT_TEST(tSTKRebalancing, percept)
+{
+  using namespace Teuchos;
+  using Teuchos::RCP;
+  using Teuchos::rcp;
+
+  TEST_EQUALITY(Teuchos::DefaultComm<int>::getComm()->getSize(),4);
+
+  {
+    out << "\nCreating pamgen mesh" << std::endl;
+    RCP<ParameterList> p = parameterList();
+    const std::string input_file_name = "pamgen_test.gen";
+    p->set("File Name",input_file_name);
+    p->set("File Type","Pamgen");
+    p->set("Rebalancing","percept");
+
+    RCP<STK_ExodusReaderFactory> pamgenFactory = rcp(new STK_ExodusReaderFactory());
+    TEST_NOTHROW(pamgenFactory->setParameterList(p));
+
+    RCP<STK_Interface> mesh = pamgenFactory->buildMesh(MPI_COMM_WORLD);
+    TEST_ASSERT(mesh!=Teuchos::null);
+  }
+}
+#endif
+
 } // namespace panzer_stk
