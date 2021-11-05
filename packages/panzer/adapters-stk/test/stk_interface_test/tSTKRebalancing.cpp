@@ -112,7 +112,7 @@ TEUCHOS_UNIT_TEST(tSTKRebalancing, none)
   }
 }
 
-#ifdef PANZER_HAVE_PERCEPT
+#if defined(PANZER_HAVE_PERCEPT) && defined(PANZER_HAVE_STKBALANCE)
 // Test to make sure the percept option for mesh rebalancing doesn't throw
 TEUCHOS_UNIT_TEST(tSTKRebalancing, percept)
 {
@@ -120,6 +120,7 @@ TEUCHOS_UNIT_TEST(tSTKRebalancing, percept)
   using Teuchos::RCP;
   using Teuchos::rcp;
 
+  // This should only run on 4 MPI ranks at the moment
   TEST_EQUALITY(Teuchos::DefaultComm<int>::getComm()->getSize(),4);
 
   {
@@ -128,6 +129,9 @@ TEUCHOS_UNIT_TEST(tSTKRebalancing, percept)
     const std::string input_file_name = "pamgen_test.gen";
     p->set("File Name",input_file_name);
     p->set("File Type","Pamgen");
+    p->set("Levels of Uniform Refinement",1);
+    p->set("Keep Percept Data",true);
+    p->set("Keep Percept Parent Elements",true);
     p->set("Rebalancing","percept");
 
     RCP<STK_ExodusReaderFactory> pamgenFactory = rcp(new STK_ExodusReaderFactory());
