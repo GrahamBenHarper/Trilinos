@@ -44,13 +44,6 @@ IF (${PACKAGE_NAME}_ENABLE_Epetra)
     )
   ENDIF()
 
-  # TRIBITS_ADD_EXECUTABLE_AND_TEST(
-  #   simple1D-Emin
-  #   SOURCES Emin.cpp
-  #   ARGS ""
-  #   COMM serial mpi
-  #   )
-
   TRIBITS_ADD_EXECUTABLE(
     simple1D-UncoupledAggregation
     SOURCES simple1D-UncoupledAggregation.cpp

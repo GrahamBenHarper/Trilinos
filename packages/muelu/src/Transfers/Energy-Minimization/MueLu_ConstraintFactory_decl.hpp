@@ -77,7 +77,7 @@ namespace MueLu {
 
     /*! @brief Constructor.
       User can supply a factory for generating the nonzero pattern. The nullspace vectors (both fine and coarse) will
-      be taken from the corresponding level factories
+      be taken from the corresponding level factories. Additional constraints may be specified.
       */
     ConstraintFactory() { }
 

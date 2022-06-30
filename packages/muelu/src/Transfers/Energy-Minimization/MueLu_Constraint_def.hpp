@@ -67,8 +67,8 @@
 namespace MueLu {
 
   template<class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
-  void Constraint<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Setup(const MultiVector& /* B */, const MultiVector& Bc, RCP<const CrsGraph> Ppattern) {
-    const size_t NSDim = Bc.getNumVectors();
+  void Constraint<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Setup(const MultiVector& B, const MultiVector& Bc, RCP<const CrsGraph> Ppattern) {
+    const size_t numConstraints = Bc.getNumVectors();
 
     Ppattern_ = Ppattern;
 
@@ -77,23 +77,25 @@ namespace MueLu {
 
     RCP<const Import> importer = Ppattern_->getImporter();
 
-    X_ = MultiVectorFactory::Build(Ppattern_->getColMap(), NSDim);
+    coarseConstraints_ = MultiVectorFactory::Build(Ppattern_->getColMap(), numConstraints);
     if (!importer.is_null())
-      X_->doImport(Bc, *importer, Xpetra::INSERT);
+      coarseConstraints_->doImport(Bc, *importer, Xpetra::INSERT);
     else
-      *X_ = Bc;
+      *coarseConstraints_ = Bc;
 
-    std::vector<const SC*> Xval(NSDim);
-    for (size_t j = 0; j < NSDim; j++)
-      Xval[j] = X_->getData(j).get();
+    *fineConstraints_ = B;
+
+    std::vector<const SC*> coarseVal(numConstraints);
+    for (size_t j = 0; j < numConstraints; j++)
+      coarseVal[j] = coarseConstraints_->getData(j).get();
 
     SC zero = Teuchos::ScalarTraits<SC>::zero();
     SC one  = Teuchos::ScalarTraits<SC>::one();
 
     Teuchos::BLAS  <LO,SC> blas;
     Teuchos::LAPACK<LO,SC> lapack;
-    LO lwork = 3*NSDim;
-    ArrayRCP<LO> IPIV(NSDim);
+    LO lwork = 3*numConstraints;
+    ArrayRCP<LO> IPIV(numConstraints);
     ArrayRCP<SC> WORK(lwork);
 
     for (size_t i = 0; i < numRows; i++) {
@@ -102,32 +104,32 @@ namespace MueLu {
 
       size_t nnz = indices.size();
 
-      XXtInv_[i] = Teuchos::SerialDenseMatrix<LO,SC>(NSDim, NSDim, false/*zeroOut*/);
+      XXtInv_[i] = Teuchos::SerialDenseMatrix<LO,SC>(numConstraints, numConstraints, false/*zeroOut*/);
       Teuchos::SerialDenseMatrix<LO,SC>& XXtInv = XXtInv_[i];
 
-      if (NSDim == 1) {
+      if (numConstraints == 1) {
         SC d = zero;
         for (size_t j = 0; j < nnz; j++)
-          d += Xval[0][indices[j]] * Xval[0][indices[j]];
+          d += coarseVal[0][indices[j]] * coarseVal[0][indices[j]];
         XXtInv(0,0) = one/d;
 
       } else {
-        Teuchos::SerialDenseMatrix<LO,SC> locX(NSDim, nnz, false/*zeroOut*/);
+        Teuchos::SerialDenseMatrix<LO,SC> locX(numConstraints, nnz, false/*zeroOut*/);
         for (size_t j = 0; j < nnz; j++)
-          for (size_t k = 0; k < NSDim; k++)
-            locX(k,j) = Xval[k][indices[j]];
+          for (size_t k = 0; k < numConstraints; k++)
+            locX(k,j) = coarseVal[k][indices[j]];
 
         // XXtInv_ = (locX*locX^T)^{-1}
-        blas.GEMM(Teuchos::NO_TRANS, Teuchos::CONJ_TRANS, NSDim, NSDim, nnz,
+        blas.GEMM(Teuchos::NO_TRANS, Teuchos::CONJ_TRANS, numConstraints, numConstraints, nnz,
                    one,   locX.values(),   locX.stride(),
                           locX.values(),   locX.stride(),
                   zero, XXtInv.values(), XXtInv.stride());
 
         LO info;
         // Compute LU factorization using partial pivoting with row exchanges
-        lapack.GETRF(NSDim, NSDim, XXtInv.values(), XXtInv.stride(), IPIV.get(), &info);
+        lapack.GETRF(numConstraints, numConstraints, XXtInv.values(), XXtInv.stride(), IPIV.get(), &info);
         // Use the computed factorization to compute the inverse
-        lapack.GETRI(NSDim, XXtInv.values(), XXtInv.stride(), IPIV.get(), WORK.get(), lwork, &info);
+        lapack.GETRI(numConstraints, XXtInv.values(), XXtInv.stride(), IPIV.get(), WORK.get(), lwork, &info);
       }
     }
   }
@@ -138,7 +140,7 @@ namespace MueLu {
     // We check only row maps. Column may be different.
     TEUCHOS_TEST_FOR_EXCEPTION(!P.getRowMap()->isSameAs(*Projected.getRowMap()), Exceptions::Incompatible,
                                "Row maps are incompatible");
-    const size_t NSDim   = X_->getNumVectors();
+    const size_t numConstraints   = coarseConstraints_->getNumVectors();
     const size_t numRows = P.getLocalNumRows();
 
     const Map& colMap  = *P.getColMap();
@@ -155,9 +157,9 @@ namespace MueLu {
     SC zero    = Teuchos::ScalarTraits<SC> ::zero();
     SC one     = Teuchos::ScalarTraits<SC> ::one();
 
-    std::vector<const SC*> Xval(NSDim);
-    for (size_t j = 0; j < NSDim; j++)
-      Xval[j] = X_->getData(j).get();
+    std::vector<const SC*> coarseVal(numConstraints);
+    for (size_t j = 0; j < numConstraints; j++)
+      coarseVal[j] = coarseConstraints_->getData(j).get();
 
     for (size_t i = 0; i < numRows; i++) {
       P        .getLocalRowView(i,  indices,  values);
@@ -186,40 +188,44 @@ namespace MueLu {
         else
           newValues[j] = zero;
       }
-      for (size_t j = 0; j < nnz; j++)
-        valuesAll[indices[j]] = zero;
 
       // Step 3: project to the space
       Teuchos::SerialDenseMatrix<LO,SC>& XXtInv = XXtInv_[i];
 
-      Teuchos::SerialDenseMatrix<LO,SC> locX(NSDim, pnnz, false);
+      Teuchos::SerialDenseMatrix<LO,SC> locX(numConstraints, pnnz, false);
       for (size_t j = 0; j < pnnz; j++)
-        for (size_t k = 0; k < NSDim; k++)
-          locX(k,j) = Xval[k][pindices[j]];
+        for (size_t k = 0; k < numConstraints; k++)
+          locX(k,j) = coarseVal[k][pindices[j]];
 
-      Teuchos::SerialDenseVector<LO,SC> val(pnnz, false), val1(NSDim, false), val2(NSDim, false);
+      Teuchos::SerialDenseVector<LO,SC> val(pnnz, false), val1(numConstraints, false), val2(numConstraints, false);
       for (size_t j = 0; j < pnnz; j++)
         val[j] = newValues[j];
 
       Teuchos::BLAS<LO,SC> blas;
       // val1 = locX * val;
-      blas.GEMV(Teuchos::NO_TRANS, NSDim, pnnz,
+      blas.GEMV(Teuchos::NO_TRANS, numConstraints, pnnz,
                 one, locX.values(), locX.stride(),
                 val.values(), oneLO,
                 zero, val1.values(), oneLO);
+      // val1 = fineConstraints - val1
+      std::vector<const SC*> fineVal(numConstraints);
+      for (size_t j = 0; j < numConstraints; j++)
+        fineVal[j] = fineConstraints_->getData(j).get();
+      for (size_t j = 0; j < numConstraints; j++)
+        val1[j] = 0 - val1[j];// GH: FIXME fineVal[0][j] - val1[j];
       // val2 = XXtInv * val1
-      blas.GEMV(Teuchos::NO_TRANS, NSDim, NSDim,
+      blas.GEMV(Teuchos::NO_TRANS, numConstraints, numConstraints,
                 one, XXtInv.values(), XXtInv.stride(),
                 val1.values(), oneLO,
                 zero,   val2.values(), oneLO);
       // val = X^T * val2
-      blas.GEMV(Teuchos::CONJ_TRANS, NSDim, pnnz,
+      blas.GEMV(Teuchos::CONJ_TRANS, numConstraints, pnnz,
                 one, locX.values(), locX.stride(),
                 val2.values(), oneLO,
                 zero,  val.values(), oneLO);
 
       for (size_t j = 0; j < pnnz; j++)
-        newValues[j] -= val[j];
+        newValues[j] += val[j]; 
 
       Projected.replaceLocalValues(i, pindices, newValues);
     }

@@ -112,9 +112,14 @@ namespace MueLu {
       P0     = Get< RCP<Matrix> >(coarseLevel, "P");
       numIts = pL.get<int>("emin: num iterations");
     }
+
     // NOTE: the main assumption here that P0 satisfies both constraints:
     //   - nonzero pattern
     //   - nullspace preservation
+    // In the case where the constraints are not automatically satisfied by P0,
+    // (i.e. constraints beyond the typical nullspace), then we need to update
+    // the rows of P0 so that it satisfies the additional constraints.
+    // This update takes the form row_i = row_i + (v_c v_c^T)^{-1} v_c*(v_f - P_i*v_c)
 
     // Get/make constraint operator
     RCP<Constraint> X;

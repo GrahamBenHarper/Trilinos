@@ -472,6 +472,8 @@ MueLu::MueLu_AMGX_initialize_plugins();
         userParamList.set("Node Comm",nodeComm);
       }
 #endif
+
+
       out2<<"*********** MueLu ParameterList ***********"<<std::endl;
       out2<<mueluList;
       out2<<"*******************************************"<<std::endl;

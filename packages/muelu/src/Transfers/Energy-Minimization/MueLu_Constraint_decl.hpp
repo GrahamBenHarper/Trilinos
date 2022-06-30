@@ -138,7 +138,8 @@ namespace MueLu {
     }
 
   private:
-    RCP<MultiVector>    X_;                                     //!< Overlapped coarse nullspace
+    RCP<MultiVector>    coarseConstraints_;                     //!< Left-hand side of constraints (coarse)
+    RCP<MultiVector>    fineConstraints_;                       //!< Right-hand side of constraints (fine)
     RCP<const CrsGraph> Ppattern_;                              //!< Nonzero sparsity pattern
     ArrayRCP<Teuchos::SerialDenseMatrix<LO,SC> > XXtInv_;       //!< Array storing \f$(Q_i Q_i^H)^{-1}\f$
   };

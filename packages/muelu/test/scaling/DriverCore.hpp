@@ -215,6 +215,9 @@ void PreconditionerSetup(Teuchos::RCP<Xpetra::Matrix<Scalar,LocalOrdinal,GlobalO
        if (!nullspace.is_null() && setNullSpace )
          userParamList.set<RCP<Xpetra::MultiVector<SC,LO,GO,NO>> >("Nullspace", nullspace);
        userParamList.set<Teuchos::Array<LO> >("Array<LO> lNodesPerDim", lNodesPerDim);
+       //GH: this is terrible practice; come clean it up later
+       Teuchos::RCP<MultiVector> additionalConstraints;
+       userParamList.set<RCP<MultiVector>>("MultiVector AdditionalConstraints", additionalConstraints);
        H = MueLu::CreateXpetraPreconditioner(A, mueluList);
      }
    }
