@@ -45,6 +45,7 @@
 
 #include "Ifpack2_ContainerFactory_decl.hpp"
 #include "Ifpack2_TriDiContainer.hpp"
+#include "Ifpack2_DatabaseContainer.hpp"
 #include "Ifpack2_DenseContainer.hpp"
 #include "Ifpack2_SparseContainer.hpp"
 #include "Ifpack2_BandedContainer.hpp"
@@ -61,6 +62,7 @@ void ContainerFactory<MatrixType>::
 registerDefaults()
 {
   registerContainer<Ifpack2::TriDiContainer<MatrixType, scalar_type>>("TriDi");
+  registerContainer<Ifpack2::DatabaseContainer<MatrixType, scalar_type>>("Database");
   registerContainer<Ifpack2::DenseContainer<MatrixType, scalar_type>>("Dense");
   registerContainer<Ifpack2::BandedContainer<MatrixType, scalar_type>>("Banded");
   registerContainer<SparseContainer<MatrixType, ILUT<MatrixType>>>("SparseILUT");
