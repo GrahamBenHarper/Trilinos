@@ -55,6 +55,7 @@
 #include <iostream>
 
 #include <Ifpack2_UnitTestHelpers.hpp>
+#include <Ifpack2_DatabaseContainer.hpp>
 #include <Ifpack2_DenseContainer.hpp>
 #include <Ifpack2_SparseContainer.hpp>
 #include <Ifpack2_BandedContainer.hpp>
@@ -173,6 +174,157 @@ TEUCHOS_UNIT_TEST_TEMPLATE_3_DECL(SparseContainer, ILUT, Scalar, LocalOrdinal, G
   out << "Computing results" << endl;
   TEST_COMPARE_FLOATING_ARRAYS(y.get1dView(), z.get1dView(), 1e4*Teuchos::ScalarTraits<Scalar>::eps());
 
+}
+
+
+
+// Unit test for DatabaseContainer.
+//
+// 1. Create a global test matrix A, exact solution x_exact, and
+//    right-hand side b (defined as b = A*x_exact).
+// 2. Define the local submatrix as the entire local matrix.
+// 3. Apply DatabaseContainer to approximate the solution x of Ax=b.
+//
+// If running on only one (MPI) process, x should equal x_exact (to
+// within a reasonable tolerance).
+TEUCHOS_UNIT_TEST_TEMPLATE_3_DECL(DatabaseContainer, FullMatrixSameScalar, Scalar, LocalOrdinal, GlobalOrdinal)
+{
+  using Teuchos::Array;
+  using Teuchos::ArrayRCP;
+  using Teuchos::outArg;
+  using Teuchos::RCP;
+  using Teuchos::REDUCE_MIN;
+  using Teuchos::reduceAll;
+  using std::cerr;
+  using std::endl;
+  typedef Tpetra::Map<LocalOrdinal, GlobalOrdinal, Node> map_type;
+  typedef Tpetra::CrsMatrix<Scalar, LocalOrdinal, GlobalOrdinal, Node> crs_matrix_type;
+  typedef Tpetra::RowMatrix<Scalar, LocalOrdinal, GlobalOrdinal, Node> row_matrix_type;
+  typedef Tpetra::Vector<Scalar, LocalOrdinal, GlobalOrdinal, Node> vec_type;
+  typedef Ifpack2::DatabaseContainer<row_matrix_type, Scalar> container_type;
+  typedef Teuchos::ScalarTraits<Scalar> STS;
+  typedef typename Teuchos::ScalarTraits<Scalar>::magnitudeType magnitude_type;
+  typedef Teuchos::ScalarTraits<magnitude_type> STM;
+
+  int localSuccess = 1;
+  int globalSuccess = 1;
+
+  out << "Ifpack2::Version(): " << Ifpack2::Version () << endl
+      << "Creating test problem" << endl;
+
+  global_size_t numRowsPerProc = 5;
+  RCP<const map_type> rowMap =
+    tif_utest::create_tpetra_map<LocalOrdinal, GlobalOrdinal, Node> (numRowsPerProc);
+
+  out << "Creating the test matrix A" << endl;
+  RCP<const crs_matrix_type> A =
+    tif_utest::create_test_matrix<Scalar, LocalOrdinal, GlobalOrdinal, Node> (rowMap);
+
+  out << "Creating an exact solution vector x" << endl;
+  vec_type x_exact (rowMap);
+  Teuchos::ScalarTraits<double>::seedrandom (24601);
+  x_exact.randomize ();
+
+  out << "Creating the right-hand side vector b of the linear system Ax=b" << endl;
+  vec_type b (rowMap);
+  A->apply (x_exact, b);
+
+  vec_type y (rowMap);
+  vec_type d (rowMap);
+
+  // Set indices to grab the whole matrix
+  Array<Array<LocalOrdinal>> blockRows(1);
+  blockRows[0].resize(numRowsPerProc);
+  for (size_t i = 0; i < numRowsPerProc; ++i) {
+    blockRows[0][i] = i;
+  }
+
+  // For all the DatabaseContainer operations, we take special care to
+  // ensure that all processes successfully make it through each
+  // operation without throwing an exception.  This helped me a lot
+  // when I was debugging DatabaseContainer::extract(), for example.  I
+  // found that printing the exception message on each process to cerr
+  // (instead of to out) actually let me read the exception message
+  // before the test quit.  Otherwise, I wouldn't get to see the
+  // exception message.
+
+  out << "DatabaseContainer constructor" << endl;
+  RCP<container_type> MyContainer;
+  try {
+    MyContainer = Teuchos::rcp (new container_type (A, blockRows, Teuchos::null, false));
+    localSuccess = 1;
+  } catch (std::exception& e) {
+    localSuccess = 0;
+    cerr << e.what () << endl;
+  }
+  reduceAll<int, int> (* (rowMap->getComm ()), REDUCE_MIN,
+                       localSuccess, outArg (globalSuccess));
+  TEST_EQUALITY_CONST( globalSuccess, 1 );
+
+  out << "DatabaseContainer::initialize" << endl;
+  try {
+    MyContainer->initialize ();
+    localSuccess = 1;
+  } catch (std::exception& e) {
+    localSuccess = 0;
+    cerr << e.what () << endl;
+  }
+  reduceAll<int, int> (* (rowMap->getComm ()), REDUCE_MIN,
+                       localSuccess, outArg (globalSuccess));
+  TEST_EQUALITY_CONST( globalSuccess, 1 );
+
+  out << "DatabaseContainer::compute" << endl;
+  try {
+    MyContainer->compute ();
+    localSuccess = 1;
+  } catch (std::exception& e) {
+    localSuccess = 0;
+    cerr << e.what () << endl;
+  }
+  reduceAll<int, int> (* (rowMap->getComm ()), REDUCE_MIN,
+                       localSuccess, outArg (globalSuccess));
+  TEST_EQUALITY_CONST( globalSuccess, 1 );
+
+  // Apply the DatabaseContainer to solve the linear system Ax=b for x.
+  vec_type x (rowMap);
+  x.putScalar (0.0);
+  out << "DatabaseContainer::apply" << endl;
+  try {
+    MyContainer->applyMV(b, x);
+    localSuccess = 1;
+  } catch (std::exception& e) {
+    localSuccess = 0;
+    cerr << e.what () << endl;
+  }
+  reduceAll<int, int> (* (rowMap->getComm ()), REDUCE_MIN,
+                       localSuccess, outArg (globalSuccess));
+  TEST_EQUALITY_CONST( globalSuccess, 1 );
+
+  out << "Computing results:" << endl;
+  magnitude_type errNorm = STM::zero ();
+  {
+    vec_type e (x, Teuchos::Copy);
+    e.update (-1.0, x_exact, 1.0); // e = x - x_exact
+    errNorm = e.norm2 ();
+    out << "  ||x - x_exact||_2 = " << errNorm << endl;
+  }
+
+  // DatabaseContainer only solves the global system exactly
+  // if there is only one MPI process in the communicator.
+  if (rowMap->getComm ()->getSize () == 1) {
+    localSuccess = (errNorm <= magnitude_type(1.0e2) * STS::eps ()) ? 1 : 0;
+    globalSuccess = 1;
+    reduceAll<int, int> (* (rowMap->getComm ()), REDUCE_MIN,
+                         localSuccess, outArg (globalSuccess));
+  }
+
+  out << "DatabaseContainer::weightedApply" << endl;
+  d.putScalar (1.0);
+  MyContainer->weightedApplyMV(b, y, d);
+
+  out << "Computing results of apply() and weightedApply() "
+      << "(they should be the same in this case)" << endl;
+  TEST_COMPARE_FLOATING_ARRAYS( x.get1dView(), y.get1dView(), magnitude_type(1.0e2) * STS::eps () );
 }
 
 

@@ -330,6 +330,202 @@ namespace Details
   struct StridedRowView;
 }
 
+/// \class ContainerDatabaseImpl
+/// \brief The implementation of the numerical features of
+/// Container (Jacobi, Gauss-Seidel, SGS). This class 
+/// allows a custom scalar type (LocalScalarType) to be 
+/// used for storing blocks and solving the block systems.
+/// Hiding this template parameter from the Container
+/// interface simplifies the 
+/// BlockRelaxation and ContainerFactory classes.
+
+template<class MatrixType, class LocalScalarType>
+class ContainerDatabaseImpl : public Container<MatrixType>
+{
+  //! @name Internal typedefs (protected)
+  //@{
+protected:
+  using local_scalar_type = LocalScalarType;
+  using SC = typename Container<MatrixType>::scalar_type;
+  using LO = typename Container<MatrixType>::local_ordinal_type;
+  using GO = typename Container<MatrixType>::global_ordinal_type;
+  using NO = typename Container<MatrixType>::node_type;
+  using StridedRowView = Details::StridedRowView<SC, LO, GO, NO>;
+  using typename Container<MatrixType>::import_type;
+  using typename Container<MatrixType>::row_matrix_type;
+  using typename Container<MatrixType>::crs_matrix_type;
+  using typename Container<MatrixType>::block_crs_matrix_type;
+  using typename Container<MatrixType>::mv_type;
+  using typename Container<MatrixType>::vector_type;
+  using typename Container<MatrixType>::map_type;
+  using typename Container<MatrixType>::ISC;
+  //! The internal representation of LocalScalarType in Kokkos::View
+  using LSC = LocalScalarType;
+  using LISC = typename Kokkos::Details::ArithTraits<LSC>::val_type;
+
+  using local_mv_type = Tpetra::MultiVector<LSC, LO, GO, NO>;
+
+  using typename Container<MatrixType>::HostView;
+  using typename Container<MatrixType>::ConstHostView;
+  using HostViewLocal = typename local_mv_type::dual_view_type::t_host;
+  using HostSubviewLocal = Kokkos::View<LISC**, Kokkos::LayoutStride, typename HostViewLocal::memory_space>;
+  using ConstHostSubviewLocal = Kokkos::View<const LISC**, Kokkos::LayoutStride, typename HostViewLocal::memory_space>;
+
+  static_assert(std::is_same<MatrixType, row_matrix_type>::value,
+                "Ifpack2::Container: Please use MatrixType = Tpetra::RowMatrix.");
+  //@}
+  //
+
+  //! Translate local row (if `pointIndexed_`, then a row within a block row/node)
+  //! to the corresponding column, so that the intersection of the
+  //! row and column is on the global diagonal. Translates to global ID first
+  //! using the row map, and then back to a local column ID using the col map.
+  //! If the corresponding column is off-process, then returns
+  //! OrdinalTraits<LO>::invalid() and does not throw an exception.
+  LO translateRowToCol(LO row);
+
+  //! View a row of the input matrix.
+  Details::StridedRowView<SC, LO, GO, NO> getInputRowView(LO row) const;
+
+  /// \brief Extract the submatrices identified by the local indices set by the constructor. BlockMatrix may be any type that
+  /// supports direct entry access: `Scalar& operator()(size_t row, size_t col)`.
+  /// \param diagBlocks [in/out] The diagonal block matrices. Its size must be `this->numBlocks_`.
+  ///   Each BlockMatrix must be ready for entries to be assigned.
+  virtual void extract() = 0;
+
+public:
+
+  ContainerDatabaseImpl (const Teuchos::RCP<const row_matrix_type>& matrix,
+                 const Teuchos::Array<Teuchos::Array<LO> >& partitions,
+                 bool pointIndexed);
+
+  //! Destructor.
+  virtual ~ContainerDatabaseImpl();
+
+  /// \brief Do all set-up operations that only require matrix structure.
+  ///
+  /// If the input matrix's structure changes, you must call this
+  /// method before you may call compute().  You must then call
+  /// compute() before you may call apply() or weightedApply().
+  ///
+  /// "Structure" refers to the graph of the matrix: the local and
+  /// global dimensions, and the populated entries in each row.
+  virtual void initialize () = 0;
+
+  /// \brief Extract the local diagonal blocks and prepare the solver.
+  ///
+  /// If any entries' values in the input matrix have changed, you
+  /// must call this method before you may call apply() or
+  /// weightedApply().
+  ///
+  /// If DOF decoupling is to be used, it must be enabled with enableDecoupling() 
+  /// before calling compute().
+  virtual void compute () = 0;
+
+  //! Set parameters, if any.
+  virtual void setParameters (const Teuchos::ParameterList& List);
+
+  /// \brief Compute <tt>Y := alpha * M^{-1} X + beta*Y</tt>.
+  ///
+  /// X is in the domain Map of the original matrix (the argument to
+  /// compute()), and Y is in the range Map of the original matrix.
+  /// This method only reads resp. modifies the permuted subset of
+  /// entries of X resp. Y related to the diagonal block M.  That
+  /// permuted subset is defined by the indices passed into the
+  /// constructor.
+  ///
+  /// This method is marked \c const for compatibility with
+  /// Tpetra::Operator's method of the same name.  This might require
+  /// subclasses to mark some of their instance data as \c mutable.
+  virtual void
+  apply(ConstHostView X,
+        HostView Y,
+        int blockIndex,
+        Teuchos::ETransp mode = Teuchos::NO_TRANS,
+        SC alpha = Teuchos::ScalarTraits<SC>::one(),
+        SC beta = Teuchos::ScalarTraits<SC>::zero()) const;
+
+  //! Compute <tt>Y := alpha * diag(D) * M^{-1} (diag(D) * X) + beta*Y</tt>.
+  virtual void
+  weightedApply(ConstHostView X,
+                HostView Y,
+                ConstHostView D,
+                int blockIndex,
+                Teuchos::ETransp mode = Teuchos::NO_TRANS,
+                SC alpha = Teuchos::ScalarTraits<SC>::one(),
+                SC beta = Teuchos::ScalarTraits<SC>::zero()) const;
+
+  /// \brief Compute <tt>Y := (1 - a) Y + a D^{-1} (X - R*Y)</tt>.
+  ///
+  // The underlying container implements the splitting <tt>A = D + R</tt>. Only
+  // it can have efficient access to D and R, as these are constructed in the
+  // symbolic and numeric phases.
+  //
+  // This is the first performance-portable implementation of a block
+  // relaxation, and it is supported currently only by BlockTriDiContainer.
+  virtual void applyInverseJacobi (const mv_type& /* X */, mv_type& /* Y */,
+                                   SC dampingFactor,
+                                   bool /* zeroStartingSolution = false */,
+                                   int /* numSweeps = 1 */) const;
+
+  //! Wrapper for apply with MVs, used in unit tests (never called by BlockRelaxation)
+  void applyMV (const mv_type& X, mv_type& Y) const;
+
+  //! Wrapper for weightedApply with MVs, used in unit tests (never called by BlockRelaxation)
+  void weightedApplyMV (const mv_type& X,
+                        mv_type& Y,
+                        vector_type& W) const;
+
+  virtual void clearBlocks();
+
+  //! Print basic information about the container to \c os.
+  virtual std::ostream& print (std::ostream& os) const = 0;
+
+  //! Returns string describing the container.
+  //! See <tt>Details::ContainerFactory</tt>.
+  static std::string getName();
+
+protected:
+  //Do Gauss-Seidel on only block i (this is used by DoGaussSeidel and DoSGS)
+  void DoGSBlock(ConstHostView X, HostView Y, HostView Y2, HostView Resid,
+      SC dampingFactor, LO i) const;
+
+  //! Exactly solves the linear system By = x, where B is a diagonal block matrix
+  //! (blockIndex), and X, Y are multivector subviews with the same length as B's dimensions.
+  //!
+  //! The Dense, Banded and TriDi containers all implement this and it is used in ContainerDatabaseImpl::apply().
+  //! The Sparse and BlockTriDi containers have their own implementation of apply() and do not use solveBlock.
+  virtual void
+  solveBlock(ConstHostSubviewLocal X,
+             HostSubviewLocal Y,
+             int blockIndex,
+             Teuchos::ETransp mode,
+             const LSC alpha,
+             const LSC beta) const;
+
+  //! Scratch vectors used in apply().
+  mutable HostViewLocal X_local_;  //length: blockRows_.size()
+  mutable HostViewLocal Y_local_;  //length: blockRows_.size()
+
+  //! \c applyScratch provides space for temporary block-sized vectors
+  //! in \c weightedApply(), so that full Kokkos::Views don't
+  //! need to be created for every block apply (slow).
+  //!
+  //! Layout of applyScratch_:
+  //! | Name     | Range                                   |
+  //! |----------|-----------------------------------------|
+  //! | D_local  | 0 to maxBlockSize_                      |
+  //! | X_scaled | maxBlockSize_  to 2 * maxBlockSize_     |
+  //! | Y_temp   | 2 * maxBlockSize_  to 3 * maxBlockSize_ |
+  mutable HostViewLocal weightedApplyScratch_;
+
+  //! Views for holding pieces of X corresponding to each block
+  mutable std::vector<HostSubviewLocal> X_localBlocks_;
+
+  //! Views for holding pieces of Y corresponding to each block
+  mutable std::vector<HostSubviewLocal> Y_localBlocks_;
+};
+
 /// \class ContainerImpl
 /// \brief The implementation of the numerical features of
 /// Container (Jacobi, Gauss-Seidel, SGS). This class 
