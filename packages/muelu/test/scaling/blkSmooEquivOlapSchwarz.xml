@@ -24,18 +24,18 @@
     <Parameter name="schwarz: overlap level"            type="int"    value="1"/>
     <Parameter name="schwarz: combine mode"             type="string" value="ADD"/>
     <Parameter name="schwarz: use reordering"           type="bool"   value="false"/>
+    <Parameter name="schwarz: update damping"           type="double" value="1.0"/>
     <ParameterList name="schwarz: reordering list">
       <Parameter name="order_method"                    type="string"  value="rcm"/>
     </ParameterList>
 
     <Parameter name="subdomain solver name"             type="string" value="BLOCK_RELAXATION"/>
     <ParameterList name="subdomain solver parameters">
-      <Parameter name= "relaxation: type"                type="string" value="Jacobi"/>
-      <Parameter name= "relaxation: sweeps"                type="int" value="1"/>
-      <Parameter name= "relaxation: zero starting solution"                type="bool" value="false"/>
-      <Parameter name= "partitioner: type"                type="string" value="user"/>
+      <Parameter name= "relaxation: type"                   type="string" value="Jacobi"/>
+      <Parameter name= "relaxation: sweeps"                 type="int" value="1"/>
+      <Parameter name= "relaxation: zero starting solution" type="bool" value="false"/>
+      <Parameter name= "partitioner: type"                  type="string" value="user"/>
       <Parameter name= "partitioner: nonsymmetric overlap combine"  type="bool" value="true"/>
-      <Parameter name= "relaxation: damping factor"                type="double" value="1.0"/>
     </ParameterList>
   </ParameterList>
 
