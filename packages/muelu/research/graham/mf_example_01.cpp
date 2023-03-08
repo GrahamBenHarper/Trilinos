@@ -72,7 +72,7 @@
 #include "Kokkos_Core.hpp"
 //#include "kokkosTools.hpp"
 
-//Tpetra includes
+// Tpetra includes
 #include "Tpetra_Map.hpp"
 #include "Tpetra_MultiVector.hpp"
 #include "Tpetra_CrsMatrix.hpp"
@@ -80,7 +80,7 @@
 #include "Tpetra_Export.hpp"
 #include "MatrixMarket_Tpetra.hpp"
 
-//Xpetra includes
+// Xpetra includes
 #include "Xpetra_TpetraMultiVector.hpp"
 #include "Xpetra_Map.hpp"
 #include "Xpetra_MultiVector.hpp"
@@ -109,12 +109,14 @@
 #include "MueLu_Level.hpp"
 #include "MueLu_Hierarchy.hpp"
 #include "MueLu_HierarchyManager.hpp"
+#include "MueLu_Factory.hpp"
+#include "MueLu_FactoryManager.hpp"
+#include "MueLu_SmootherFactory.hpp"
 #include "MueLu_ParameterListInterpreter.hpp"
 #include "MueLu_AmalgamationFactory.hpp"
 #include "MueLu_CoordinatesTransferFactory.hpp"
 #include "MueLu_UncoupledAggregationFactory.hpp"
 #include "MueLu_AggregationExportFactory.hpp"
-#include "MueLu_Factory.hpp"
 
 // Kokkos typedefs
 typedef Kokkos::Serial HostExec;
@@ -538,9 +540,9 @@ int main_(Teuchos::CommandLineProcessor &clp, Xpetra::UnderlyingLib lib, int arg
       // std::cout << "Creating Belos solver..." << std::endl;
 
       // // Create the solver
-      // std::string solver_name = "Tpetra CG";
-      // Teuchos::RCP<Belos::SolverManager<SC, Tpetra::MultiVector<SC,LO,GO,NO>, Tpetra::Operator<SC,LO,GO,NO>> solver;
-      // Belos::SolverFactory<SC, Tpetra::MultiVector<SC,LO,GO,NO>, Tpetra::Operator<SC,LO,GO,NO>> factory;
+      // std::string solver_name = "Xpetra CG";
+      // Teuchos::RCP<Belos::SolverManager<SC, Xpetra::MultiVector<SC,LO,GO,NO>, Xpetra::Operator<SC,LO,GO,NO>> solver;
+      // Belos::SolverFactory<SC, Xpetra::MultiVector<SC,LO,GO,NO>, Xpetra::Operator<SC,LO,GO,NO>> factory;
       // solver = factory.create(solver_name, Teuchos::null);
 
       // // Add settings to the solver
@@ -579,23 +581,36 @@ int main_(Teuchos::CommandLineProcessor &clp, Xpetra::UnderlyingLib lib, int arg
 
       // create MueLu hierarchy and levels
       Teuchos::RCP<MueLu::Hierarchy<SC,LO,GO,NO>> H = Teuchos::rcp(new typename MueLu::Hierarchy<SC,LO,GO,NO>());
+      Teuchos::RCP<MueLu::FactoryManager<SC,LO,GO,NO>> M = Teuchos::rcp(new MueLu::FactoryManager<SC,LO,GO,NO>());
       Teuchos::RCP<MueLu::Level> fineLevel = H->GetLevel(0);
       fineLevel->Set("A", matrix);
       
+      // set coarse discretization
       H->AddNewLevel();
       Teuchos::RCP<MueLu::Level> coarseLevel = H->GetLevel(1);
       coarseLevel->Set("P", P);
-      //coarseLevel->Set("A", coarse_matrix);
+      coarseLevel->Set("A", coarse_matrix);
 
+      // MueLu params
       Teuchos::ParameterList params;
       params.set("coarse: max size", 1);
       params.set("max levels", 2);
       params.set("transpose: use implicit", true);
+      params.set("rap: algorithm", "none");
+      
+      // smoother
+      std::string ifpackType = "RELAXATION";
+      Teuchos::ParameterList ifpackList;
+      ifpackList.set("relaxation: sweeps", (LO) 1);
+      ifpackList.set("relaxation: damping factor", (SC) 0.8);
+      Teuchos::RCP<MueLu::SmootherPrototype<SC,LO,GO,NO>> smootherPrototype = Teuchos::rcp(new MueLu::TrilinosSmoother<SC,LO,GO,NO>(ifpackType, ifpackList));
+      M->SetFactory("Smoother", Teuchos::rcp(new MueLu::SmootherFactory<SC,LO,GO,NO>(smootherPrototype)));
 
       Teuchos::RCP<MueLu::HierarchyManager<SC,LO,GO,NO>> mueLuFactory = Teuchos::rcp(new MueLu::ParameterListInterpreter<SC,LO,GO,NO>(params,matrix->getDomainMap()->getComm()));
       //H->setlib(matrix->getDomainMap()->lib());
       H->SetProcRankVerbose(matrix->getDomainMap()->getComm()->getRank());
-      //mueLuFactory->SetupHierarchy(*H);
+      mueLuFactory->SetupHierarchy(*H);
+      //H.Setup(M,startLevel,maxLevels);
 
       std::cout << "Finished hierarchy!" << std::endl;
 
