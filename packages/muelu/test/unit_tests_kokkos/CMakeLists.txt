@@ -21,7 +21,7 @@ APPEND_SET(SOURCES
   AmalgamationInfo_kokkos.cpp
   CoalesceDropFactory_kokkos.cpp
   CoarseMapFactory_kokkos.cpp
-  IndexManager_kokkos.cpp
+  IndexManager.cpp
   LWGraph_kokkos.cpp
   MatrixFree_kokkos.cpp
   MueLu_TestHelpers_kokkos.cpp

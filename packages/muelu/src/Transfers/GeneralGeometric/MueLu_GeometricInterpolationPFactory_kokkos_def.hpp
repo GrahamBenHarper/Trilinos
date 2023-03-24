@@ -51,7 +51,7 @@
 
 #include "MueLu_MasterList.hpp"
 #include "MueLu_Monitor.hpp"
-#include "MueLu_IndexManager_kokkos.hpp"
+#include "MueLu_IndexManager.hpp"
 
 #ifdef HAVE_MUELU_TPETRA
 #include "Xpetra_TpetraCrsMatrix.hpp"
@@ -152,7 +152,7 @@ namespace MueLu {
       SubFactoryMonitor sfm(*this, "BuildCoordinates", coarseLevel);
 
       // Extract data from fine level
-      RCP<IndexManager_kokkos> geoData = Get<RCP<IndexManager_kokkos> >(fineLevel, "indexManager");
+      RCP<IndexManager> geoData = Get<RCP<IndexManager> >(fineLevel, "indexManager");
       fineCoordinates = Get< RCP<realvaluedmultivector_type> >(fineLevel, "Coordinates");
 
       // Build coarse coordinates map/multivector
@@ -586,7 +586,7 @@ namespace MueLu {
 
   template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
   GeometricInterpolationPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
-  coarseCoordinatesBuilderFunctor::coarseCoordinatesBuilderFunctor(RCP<IndexManager_kokkos> geoData,
+  coarseCoordinatesBuilderFunctor::coarseCoordinatesBuilderFunctor(RCP<IndexManager> geoData,
                                                                    coord_view_type fineCoordView,
                                                                    coord_view_type coarseCoordView)
     : geoData_(*geoData), fineCoordView_(fineCoordView), coarseCoordView_(coarseCoordView) {

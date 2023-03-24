@@ -54,7 +54,7 @@
 #include "MueLu_AmalgamationFactory.hpp"
 #include "MueLu_CoalesceDropFactory_kokkos.hpp"
 #include "MueLu_CoarseMapFactory.hpp"
-#include "MueLu_IndexManager_kokkos.hpp"
+#include "MueLu_IndexManager.hpp"
 #include "MueLu_StructuredAggregationFactory_kokkos.hpp"
 #include "MueLu_NullspaceFactory_kokkos.hpp"
 #include "MueLu_TentativePFactory_kokkos.hpp"

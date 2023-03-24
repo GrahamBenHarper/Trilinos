@@ -43,21 +43,21 @@
 // ***********************************************************************
 //
 // @HEADER
-#ifndef MUELU_INDEXMANAGER_KOKKOS_FWD_HPP
-#define MUELU_INDEXMANAGER_KOKKOS_FWD_HPP
+#ifndef MUELU_INDEXMANAGER_FWD_HPP
+#define MUELU_INDEXMANAGER_FWD_HPP
 
 
 
 
 namespace MueLu {
   template <class LocalOrdinal, class GlobalOrdinal, class Node>
-  class IndexManager_kokkos;
+  class IndexManager;
 }
 
-#ifndef MUELU_INDEXMANAGER_KOKKOS_SHORT
-#define MUELU_INDEXMANAGER_KOKKOS_SHORT
+#ifndef MUELU_INDEXMANAGER_SHORT
+#define MUELU_INDEXMANAGER_SHORT
 #endif
 
 
 
-#endif // MUELU_INDEXMANAGER_KOKKOS_FWD_HPP
+#endif // MUELU_INDEXMANAGER_FWD_HPP

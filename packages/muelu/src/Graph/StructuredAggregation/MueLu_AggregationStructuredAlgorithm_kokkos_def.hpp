@@ -60,7 +60,7 @@
 
 #include "MueLu_LWGraph_kokkos.hpp"
 #include "MueLu_Aggregates_kokkos.hpp"
-#include "MueLu_IndexManager_kokkos.hpp"
+#include "MueLu_IndexManager.hpp"
 #include "MueLu_AggregationStructuredAlgorithm_kokkos_decl.hpp"
 
 namespace MueLu {
@@ -81,7 +81,7 @@ namespace MueLu {
       out = Teuchos::getFancyOStream(rcp(new Teuchos::oblackholestream()));
     }
 
-    RCP<IndexManager_kokkos> geoData = aggregates.GetIndexManager();
+    RCP<IndexManager> geoData = aggregates.GetIndexManager();
     const LO numLocalFineNodes= geoData->getNumLocalFineNodes();
     const LO numCoarseNodes   = geoData->getNumCoarseNodes();
     LOVectorView vertex2AggId = aggregates.GetVertex2AggId()->getDeviceLocalView(Xpetra::Access::ReadWrite);
@@ -108,7 +108,7 @@ namespace MueLu {
 
   template <class LocalOrdinal, class GlobalOrdinal, class Node>
   void AggregationStructuredAlgorithm_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
-  BuildGraph(const LWGraph_kokkos& graph, RCP<IndexManager_kokkos>& geoData, const LO dofsPerNode,
+  BuildGraph(const LWGraph_kokkos& graph, RCP<IndexManager>& geoData, const LO dofsPerNode,
              RCP<CrsGraph>& myGraph) const {
     Monitor m(*this, "BuildGraphP");
 
@@ -203,7 +203,7 @@ namespace MueLu {
 
   template <class LocalOrdinal, class GlobalOrdinal, class Node>
   AggregationStructuredAlgorithm_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
-  fillAggregatesFunctor::fillAggregatesFunctor(RCP<IndexManager_kokkos> geoData,
+  fillAggregatesFunctor::fillAggregatesFunctor(RCP<IndexManager> geoData,
                                                const int myRank,
                                                Kokkos::View<unsigned*, device_type> aggStat,
                                                LOVectorView vertex2AggID,
@@ -245,7 +245,7 @@ namespace MueLu {
   template <class LocalOrdinal, class GlobalOrdinal, class Node>
   AggregationStructuredAlgorithm_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
   computeGraphDataConstantFunctor::
-  computeGraphDataConstantFunctor(RCP<IndexManager_kokkos> geoData,
+  computeGraphDataConstantFunctor(RCP<IndexManager> geoData,
                                   const LO NumGhostedNodes,
                                   const LO dofsPerNode,
                                   constIntTupleView coarseRate,
@@ -297,7 +297,7 @@ namespace MueLu {
 
   template <class LocalOrdinal, class GlobalOrdinal, class Node>
   AggregationStructuredAlgorithm_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
-  computeGraphRowPtrFunctor::computeGraphRowPtrFunctor(RCP<IndexManager_kokkos> geoData,
+  computeGraphRowPtrFunctor::computeGraphRowPtrFunctor(RCP<IndexManager> geoData,
                                                        const LO dofsPerNode,
                                                        const int numInterpolationPoints,
                                                        const LO  numLocalRows,
@@ -337,7 +337,7 @@ namespace MueLu {
 
   template <class LocalOrdinal, class GlobalOrdinal, class Node>
   AggregationStructuredAlgorithm_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
-  computeGraphDataLinearFunctor::computeGraphDataLinearFunctor(RCP<IndexManager_kokkos> geoData,
+  computeGraphDataLinearFunctor::computeGraphDataLinearFunctor(RCP<IndexManager> geoData,
                                                                const int numDimensions,
                                                                const LO numGhostedNodes,
                                                                const LO dofsPerNode,

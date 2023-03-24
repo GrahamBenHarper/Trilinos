@@ -55,7 +55,7 @@
 #include "MueLu_ConfigDefs.hpp"
 #include "MueLu_Types.hpp"
 #include "MueLu_Exceptions.hpp"
-#include <MueLu_IndexManager_kokkos_decl.hpp>
+#include <MueLu_IndexManager_decl.hpp>
 
 /*****************************************************************************
 
@@ -64,8 +64,8 @@
 namespace MueLu {
 
   template<class LocalOrdinal, class GlobalOrdinal, class Node>
-  IndexManager_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
-  IndexManager_kokkos(const int NumDimensions,
+  IndexManager<LocalOrdinal, GlobalOrdinal, Node>::
+  IndexManager(const int NumDimensions,
                       const int interpolationOrder,
                       const int MyRank,
                       const ArrayView<const LO> LFineNodesPerDir,
@@ -89,10 +89,10 @@ namespace MueLu {
 
     *out << "Computed Mesh Parameters" << std::endl;
 
-  } // IndexManager_kokkos Constructor
+  } // IndexManager Constructor
 
   template<class LocalOrdinal, class GlobalOrdinal, class Node>
-  void IndexManager_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
+  void IndexManager<LocalOrdinal, GlobalOrdinal, Node>::
   setupIM(const int NumDimensions, const int interpolationOrder,
           const ArrayView<const int> CoarseRate, const ArrayView<const LO> LFineNodesPerDir) {
 
@@ -131,7 +131,7 @@ namespace MueLu {
   } // setupIM
 
   template<class LocalOrdinal, class GlobalOrdinal, class Node>
-  void IndexManager_kokkos<LocalOrdinal, GlobalOrdinal, Node>::computeMeshParameters() {
+  void IndexManager<LocalOrdinal, GlobalOrdinal, Node>::computeMeshParameters() {
 
     RCP<Teuchos::FancyOStream> out;
     if(const char* dbg = std::getenv("MUELU_INDEXMANAGER_DEBUG")) {
@@ -214,7 +214,7 @@ namespace MueLu {
   }
 
   template<class LocalOrdinal, class GlobalOrdinal, class Node>
-  Array<LocalOrdinal> IndexManager_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
+  Array<LocalOrdinal> IndexManager<LocalOrdinal, GlobalOrdinal, Node>::
   getCoarseNodesPerDirArray() const {
     typename LOTupleView::HostMirror coarseNodesPerDir_h = Kokkos::create_mirror_view(coarseNodesPerDir);
     Kokkos::deep_copy(coarseNodesPerDir_h, coarseNodesPerDir);
@@ -229,5 +229,5 @@ namespace MueLu {
 
 } //namespace MueLu
 
-#define MUELU_INDEXMANAGER_KOKKOS_SHORT
+#define MUELU_INDEXMANAGER_SHORT
 #endif // MUELU_INDEXMANAGER_DEF_KOKKOS_HPP

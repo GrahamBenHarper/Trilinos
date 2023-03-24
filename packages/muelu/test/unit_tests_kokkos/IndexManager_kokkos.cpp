@@ -51,7 +51,7 @@
 
 #include "MueLu_Level.hpp"
 #include "MueLu_FactoryManagerBase.hpp"
-#include "MueLu_IndexManager_kokkos.hpp"
+#include "MueLu_IndexManager.hpp"
 
 namespace MueLuTests {
 
@@ -72,7 +72,7 @@ namespace MueLuTests {
     }
   };
 
-  TEUCHOS_UNIT_TEST_TEMPLATE_4_DECL(IndexManager_kokkos, IndexManager, Scalar, LocalOrdinal, GlobalOrdinal, Node)
+  TEUCHOS_UNIT_TEST_TEMPLATE_4_DECL(IndexManager, IndexManager, Scalar, LocalOrdinal, GlobalOrdinal, Node)
   {
 #   include "MueLu_UseShortNames.hpp"
     MUELU_TESTING_SET_OSTREAM;
@@ -113,15 +113,15 @@ namespace MueLuTests {
                                                                                     "Local Lexicographic");
 
     std::cout << "Hello!" << std::endl;
-    RCP<IndexManager_kokkos> myIndexManager = rcp(new IndexManager_kokkos(numDimensions,
+    RCP<IndexManager> myIndexManager = rcp(new IndexManager(numDimensions,
                                                                           interpolationOrder,
                                                                           comm->getRank(),
                                                                           lNodesPerDir,
                                                                           coarseRate));
 
-    using execution_space = typename IndexManager_kokkos::execution_space;
-    using memory_space    = typename IndexManager_kokkos::memory_space;
-    using device_type     = typename IndexManager_kokkos::device_type;
+    using execution_space = typename IndexManager::execution_space;
+    using memory_space    = typename IndexManager::memory_space;
+    using device_type     = typename IndexManager::device_type;
 
     Kokkos::fence();
     std::cout << "Allocate host views before performing checks" << std::endl;
@@ -197,7 +197,7 @@ namespace MueLuTests {
 
     std::cout << "Testing UIM methods call from device." << std::endl;
 
-    testFunctor<IndexManager_kokkos, LO> myTestFunctor(myIndexManager);
+    testFunctor<IndexManager, LO> myTestFunctor(myIndexManager);
     Kokkos::parallel_for("test UIM::getFineLID2FineTuple()",
                          Kokkos::RangePolicy<execution_space>(0, 125),
                          myTestFunctor);
@@ -209,7 +209,7 @@ namespace MueLuTests {
 #define MUELU_ETI_GROUP(SC,LO,GO,NO)
 #else
 #define MUELU_ETI_GROUP(SC,LO,GO,NO) \
-  TEUCHOS_UNIT_TEST_TEMPLATE_4_INSTANT(IndexManager_kokkos, IndexManager, SC, LO, GO, NO)
+  TEUCHOS_UNIT_TEST_TEMPLATE_4_INSTANT(IndexManager, IndexManager, SC, LO, GO, NO)
 #endif
   
 #include <MueLu_ETI_4arg.hpp>

@@ -56,8 +56,8 @@ using HybridAggregationFactory [[maybe_unused]] = MueLu::HybridAggregationFactor
 #ifdef MUELU_INDEXMANAGER_SHORT
 using IndexManager [[maybe_unused]] = MueLu::IndexManager<LocalOrdinal,GlobalOrdinal,Node>;
 #endif
-#ifdef MUELU_INDEXMANAGER_KOKKOS_SHORT
-using IndexManager_kokkos [[maybe_unused]] = MueLu::IndexManager_kokkos<LocalOrdinal,GlobalOrdinal,Node>;
+#ifdef MUELU_INDEXMANAGER_SHORT
+using IndexManager [[maybe_unused]] = MueLu::IndexManager<LocalOrdinal,GlobalOrdinal,Node>;
 #endif
 #ifdef MUELU_INTERFACEAGGREGATIONALGORITHM_SHORT
 using InterfaceAggregationAlgorithm [[maybe_unused]] = MueLu::InterfaceAggregationAlgorithm<LocalOrdinal,GlobalOrdinal,Node>;

@@ -43,8 +43,8 @@
 // ***********************************************************************
 //
 // @HEADER
-#ifndef MUELU_INDEXMANAGER_KOKKOS_DECL_HPP
-#define MUELU_INDEXMANAGER_KOKKOS_DECL_HPP
+#ifndef MUELU_INDEXMANAGER_DECL_HPP
+#define MUELU_INDEXMANAGER_DECL_HPP
 
 #include "MueLu_ConfigDefs.hpp"
 #include "MueLu_Types.hpp"
@@ -55,7 +55,7 @@
 
 
 #include "MueLu_BaseClass.hpp"
-#include "MueLu_IndexManager_kokkos_fwd.hpp"
+#include "MueLu_IndexManager_fwd.hpp"
 
 /*****************************************************************************
 
@@ -64,19 +64,19 @@
 namespace MueLu {
 
 /*!
-    @class IndexManager_kokkos
+    @class IndexManager
     @brief Container class for mesh layout and indices calculation.
 
     @ingroup Aggregation
 
     Structure holding mesh parameters for structured mesh. Based on these
-    parameters the IndexManager_kokkos computes indices in different index
+    parameters the IndexManager computes indices in different index
     spaces and it also provides utilites for coarsening.
 */
 
   template <class LocalOrdinal, class GlobalOrdinal, class Node>
-  class IndexManager_kokkos : public BaseClass {
-#undef MUELU_INDEXMANAGER_KOKKOS_SHORT
+  class IndexManager : public BaseClass {
+#undef MUELU_INDEXMANAGER_SHORT
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
   public:
@@ -106,16 +106,16 @@ namespace MueLu {
   public:
 
     //! Default constructor, return empty object
-    IndexManager_kokkos() = default;
+    IndexManager() = default;
 
     //! Constructs for uncoupled meshes
-    IndexManager_kokkos(const int NumDimensions,
+    IndexManager(const int NumDimensions,
                         const int interpolationOrder,
                         const int MyRank,
                         const ArrayView<const LO> LFineNodesPerDir,
                         const ArrayView<const int> CoarseRate);
 
-    virtual ~IndexManager_kokkos() {}
+    virtual ~IndexManager() {}
 
     //! Common setup pattern used for all the different types of undelying mesh
     void setupIM(const int NumDimensions,
@@ -181,5 +181,5 @@ namespace MueLu {
 
 } //namespace MueLu
 
-#define MUELU_INDEXMANAGER_KOKKOS_SHORT
-#endif // MUELU_INDEXMANAGER_KOKKOS_DECL_HPP
+#define MUELU_INDEXMANAGER_SHORT
+#endif // MUELU_INDEXMANAGER_DECL_HPP

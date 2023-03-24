@@ -55,7 +55,7 @@
 
 #include "MueLu_PFactory.hpp"
 #include "MueLu_Level_fwd.hpp"
-#include "MueLu_IndexManager_kokkos_fwd.hpp"
+#include "MueLu_IndexManager_fwd.hpp"
 
 namespace MueLu{
 
@@ -108,11 +108,11 @@ namespace MueLu{
 
     struct coarseCoordinatesBuilderFunctor{
 
-      IndexManager_kokkos geoData_;
+      IndexManager geoData_;
       coord_view_type fineCoordView_;
       coord_view_type coarseCoordView_;
 
-      coarseCoordinatesBuilderFunctor(RCP<IndexManager_kokkos> geoData,
+      coarseCoordinatesBuilderFunctor(RCP<IndexManager> geoData,
                                       coord_view_type fineCoordView,
                                       coord_view_type coarseCoordView);
 

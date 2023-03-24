@@ -51,7 +51,7 @@
 #include "MueLu_AggregationStructuredAlgorithm_kokkos_fwd.hpp"
 
 #include "MueLu_Aggregates_kokkos_fwd.hpp"
-#include "MueLu_IndexManager_kokkos_fwd.hpp"
+#include "MueLu_IndexManager_fwd.hpp"
 #include "MueLu_LWGraph_kokkos.hpp"
 
 namespace MueLu {
@@ -117,7 +117,7 @@ namespace MueLu {
     /*! @brief Build a CrsGraph instead of aggregates. */
 
     void BuildGraph(const LWGraph_kokkos& graph,
-                    RCP<IndexManager_kokkos>& geoData,
+                    RCP<IndexManager>& geoData,
                     const LO dofsPerNode,
                     RCP<CrsGraph>& myGraph) const;
     //@}
@@ -126,13 +126,13 @@ namespace MueLu {
 
     struct fillAggregatesFunctor{
 
-      IndexManager_kokkos geoData_;
+      IndexManager geoData_;
       const int myRank_;
       Kokkos::View<unsigned*, device_type> aggStat_;
       LOVectorView vertex2AggID_;
       LOVectorView procWinner_;
 
-      fillAggregatesFunctor(RCP<IndexManager_kokkos> geoData,
+      fillAggregatesFunctor(RCP<IndexManager> geoData,
                             const int myRank,
                             Kokkos::View<unsigned*, device_type> aggStat,
                             LOVectorView vertex2AggID,
@@ -145,7 +145,7 @@ namespace MueLu {
 
     struct computeGraphDataConstantFunctor {
 
-      IndexManager_kokkos geoData_;
+      IndexManager geoData_;
       const int numGhostedNodes_;
       const LO dofsPerNode_;
       constIntTupleView coarseRate_;
@@ -155,7 +155,7 @@ namespace MueLu {
       entries_type                       colIndex_;
 
 
-      computeGraphDataConstantFunctor(RCP<IndexManager_kokkos> geoData,
+      computeGraphDataConstantFunctor(RCP<IndexManager> geoData,
                                       const LO numGhostedNodes, const LO dofsPerNode,
                                       constIntTupleView coarseRate, constIntTupleView endRate,
                                       constLOTupleView  lFineNodesPerDir,
@@ -168,7 +168,7 @@ namespace MueLu {
 
     struct computeGraphRowPtrFunctor {
 
-      IndexManager_kokkos geoData_;
+      IndexManager geoData_;
       const LO dofsPerNode_;
       const int numInterpolationPoints_;
       const LO numLocalRows_;
@@ -176,7 +176,7 @@ namespace MueLu {
       constLOTupleView lFineNodesPerDir_;
       non_const_row_map_type rowPtr_;
 
-      computeGraphRowPtrFunctor(RCP<IndexManager_kokkos> geoData,
+      computeGraphRowPtrFunctor(RCP<IndexManager> geoData,
                                 const LO dofsPerNode,
                                 const int numInterpolationPoints, const LO  numLocalRows,
                                 constIntTupleView coarseRate, constLOTupleView lFineNodesPerDir,
@@ -188,7 +188,7 @@ namespace MueLu {
 
     struct computeGraphDataLinearFunctor {
 
-      IndexManager_kokkos geoData_;
+      IndexManager geoData_;
       const int numDimensions_;
       const int numGhostedNodes_;
       const LO dofsPerNode_;
@@ -201,7 +201,7 @@ namespace MueLu {
       entries_type                              colIndex_;
 
 
-      computeGraphDataLinearFunctor(RCP<IndexManager_kokkos> geoData,
+      computeGraphDataLinearFunctor(RCP<IndexManager> geoData,
                                     const int numDimensions,
                                     const LO numGhostedNodes, const LO dofsPerNode,
                                     const int numInterpolationPoints,

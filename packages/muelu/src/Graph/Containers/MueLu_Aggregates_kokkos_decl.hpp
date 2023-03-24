@@ -61,7 +61,7 @@
 #include "MueLu_BaseClass.hpp"
 
 #include "MueLu_LWGraph_kokkos.hpp"
-#include "MueLu_IndexManager_kokkos.hpp"
+#include "MueLu_IndexManager.hpp"
 
 #define MUELU_UNAGGREGATED  -1   /* indicates that a node is unassigned to  */
                                  /* any aggregate.                          */
@@ -159,12 +159,12 @@ namespace MueLu {
     /*! @brief Get the index manager used by structured aggregation algorithms.
         This has to be done by the aggregation factory.
     */
-    RCP<IndexManager_kokkos>& GetIndexManager() { return geoData_; }
+    RCP<IndexManager>& GetIndexManager() { return geoData_; }
 
     /*! @brief Set the index manager used by structured aggregation algorithms.
         This has to be done by the aggregation factory.
     */
-    void SetIndexManager(RCP<IndexManager_kokkos> & geoData) { geoData_ = geoData; }
+    void SetIndexManager(RCP<IndexManager> & geoData) { geoData_ = geoData; }
 
     /*! @brief Get a distance 2 coloring of the underlying graph.
         The coloring is computed and set during Phase1 of aggregation.
@@ -304,7 +304,7 @@ namespace MueLu {
     /*! geoData stores an index manager object that is used to perform structured aggreation
      *  on a problem.
      */
-    RCP<IndexManager_kokkos> geoData_;
+    RCP<IndexManager> geoData_;
 
     /*! graphColors_ stores a view that assigns a color to each node in the graph
      *  These colors are used to parallelize the aggregation process in UncoupledAggregation

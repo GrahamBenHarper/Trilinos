@@ -58,7 +58,7 @@
 // MueLu specific includes (kokkos version)
 #include "MueLu_LWGraph_kokkos.hpp"
 #include "MueLu_Aggregates_kokkos.hpp"
-#include "MueLu_IndexManager_kokkos.hpp"
+#include "MueLu_IndexManager.hpp"
 #include "MueLu_AggregationStructuredAlgorithm_kokkos.hpp"
 
 #include "MueLu_StructuredAggregationFactory_kokkos_decl.hpp"
@@ -197,7 +197,7 @@ namespace MueLu {
                                " components as the number of spatial dimensions in the problem.");
 
     // Now that we have extracted info from the level, create the IndexManager
-    RCP<IndexManager_kokkos> geoData = rcp(new IndexManager_kokkos(numDimensions,
+    RCP<IndexManager> geoData = rcp(new IndexManager(numDimensions,
                                                                    interpolationOrder, myRank,
                                                                    lFineNodesPerDir,
                                                                    coarseRate));

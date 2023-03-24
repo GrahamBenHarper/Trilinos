@@ -16,7 +16,7 @@ Graph
 GraphBase
 HybridAggregationFactory
 IndexManager
-IndexManager_kokkos
+IndexManager
 InterfaceAggregationAlgorithm
 InterfaceMappingTransferFactory
 IsolatedNodeAggregationAlgorithm
