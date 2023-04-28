@@ -353,7 +353,7 @@ int main(int argc, char* argv[]) {
   }
 
   if (lib == Xpetra::UseTpetra) {
-    std::cout << "Skip permutation tests for Tpetra." << std::endl;
+    return main_<double,int,int,Tpetra::KokkosClassic::DefaultNode::DefaultNodeType>(clp, lib, argc, argv);
   }
 
   return ( success ? EXIT_SUCCESS : EXIT_FAILURE );
