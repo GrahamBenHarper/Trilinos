@@ -120,7 +120,9 @@ namespace MueLu {
 
     } else {
       // It is necessary to initialize this to 0
+      std::cout << "GH Waiting..." << std::endl;
       aggregates_sizes_type aggregateSizes("aggregates", numAggregates_);
+      std::cout << "GH Pass!" << std::endl;
 
       int myPID = GetMap()->getComm()->getRank();
 

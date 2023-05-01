@@ -121,16 +121,11 @@
  *  using block matrices
  */
 
-
-int main(int argc, char *argv[]) {
+template<class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
+int main_(Teuchos::CommandLineProcessor &clp, Xpetra::UnderlyingLib lib, int argc, char *argv[]) {
 #if defined(HAVE_MUELU_EPETRA) && defined(HAVE_MUELU_EPETRAEXT)
-  typedef double Scalar;
-  typedef int LocalOrdinal;
-  typedef int GlobalOrdinal;
-  typedef LocalOrdinal LO;
-  typedef GlobalOrdinal GO;
-  typedef Xpetra::EpetraNode Node;
-#include "MueLu_UseShortNames.hpp"
+  // GH: since this is guarded by Epetra but also ETI'd, this only runs when Scalar=double, LO=int, GO=int. There are some implicit assumptions based on that in here.
+#include <MueLu_UseShortNames.hpp>
 
   using Teuchos::RCP;
   using Teuchos::rcp;
@@ -299,7 +294,7 @@ int main(int argc, char *argv[]) {
       RCP<Vector> xRhs = rcp(new Xpetra::EpetraVectorT<int,Node>(epv));
 
       // calculate initial (absolute) residual
-      Array<ScalarTraits<SC>::magnitudeType> norms(1);
+      Array<typename ScalarTraits<SC>::magnitudeType> norms(1);
       xRhs->norm2(norms);
       *out << "||x_0|| = " << norms[0] << std::endl;
 
@@ -345,4 +340,12 @@ int main(int argc, char *argv[]) {
   std::cout << "Epetra (and/or EpetraExt) are not available. Skip test." << std::endl;
   return EXIT_SUCCESS;
 #endif
+}
+
+//- -- --------------------------------------------------------
+#define MUELU_AUTOMATIC_TEST_ETI_NAME main_
+#include "MueLu_Test_ETI.hpp"
+
+int main(int argc, char *argv[]) {
+  return Automatic_Test_ETI(argc,argv);
 }
