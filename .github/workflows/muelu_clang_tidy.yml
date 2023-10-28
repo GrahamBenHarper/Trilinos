@@ -8,19 +8,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - uses: DoozyX/clang-format-lint-action@v0.16.2
       with:
         source: './packages/muelu'
         exclude: './lib'
         extensions: 'cpp,hpp'
         clangFormatVersion: 8
-        inplace: True
-    - uses: EndBug/add-and-commit@v9
-      with:
-        author_name: MueLu ClangBot
-        author_email: muelu-developers@software.sandia.gov
-        message: 'Committing clang-format changes'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        inplace: False
