@@ -1,22 +1,17 @@
-# Run clang-tidy
-name: Clang-tidy
+name: Run clang-format Linter
 
-on:
-  pull_request:
-    branches: [ master ]
+on: [pull_request]
 
 jobs:
-  checkout-and-check-formatting:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Run clang-tidy
-      uses: HorstBaerbel/action-clang-tidy@1.2
-      # These are optional (defaults displayed)
+    - uses: actions/checkout@v2
+    - uses: DoozyX/clang-format-lint-action@v0.16.2
       with:
-        scandir: './packages/muelu'
-        builddir: 'build'
-        excludedirs: ''
+        source: './packages/muelu'
+        exclude: './lib'
         extensions: 'cpp,hpp'
-        cmakeoptions: ''
+        clangFormatVersion: 8
+        inplace: False
