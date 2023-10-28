@@ -8,9 +8,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: DoozyX/clang-format-lint-action@v0.8
+    - uses: DoozyX/clang-format-lint-action@v0.16.2
       with:
-        source: './packages/muelu'
+        source: './packages/muelu/src'
         exclude: './lib'
         extensions: 'cpp,hpp'
 	# the action uses clang-format 8.0.1 when clang-format 8 is specified
