@@ -13,7 +13,6 @@ jobs:
         source: './packages/muelu/src'
         exclude: './lib'
         extensions: 'cpp,hpp'
-	# the action uses clang-format 8.0.1 when clang-format 8 is specified
         clangFormatVersion: 8
 	style: file
         inplace: False
