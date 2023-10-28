@@ -58,7 +58,7 @@
 #include "MueLu_LWGraph_kokkos.hpp"
 
 namespace MueLu {
-  /*!
+/*!
     @class OnePtAggregationAlgorithm class.
     @brief Algorithm for coarsening a graph with uncoupled aggregation.
     keep special marked nodes as singleton node aggregates over all multigrid levels
@@ -76,45 +76,42 @@ namespace MueLu {
 
   */
 
-  template<class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class OnePtAggregationAlgorithm_kokkos :
-    public MueLu::AggregationAlgorithmBase_kokkos<LocalOrdinal,GlobalOrdinal,Node> {
+template <class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class OnePtAggregationAlgorithm_kokkos : public MueLu::AggregationAlgorithmBase_kokkos<LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_ONEPTAGGREGATIONALGORITHM_KOKKOS_SHORT
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
-  public:
-    using device_type  = typename LWGraph_kokkos::device_type;
-    using memory_space = typename LWGraph_kokkos::memory_space;
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  using device_type  = typename LWGraph_kokkos::device_type;
+  using memory_space = typename LWGraph_kokkos::memory_space;
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    OnePtAggregationAlgorithm_kokkos(RCP<const FactoryBase> const &graphFact = Teuchos::null);
+  //! Constructor.
+  OnePtAggregationAlgorithm_kokkos(RCP<const FactoryBase> const& graphFact = Teuchos::null);
 
-    //! Destructor.
-    virtual ~OnePtAggregationAlgorithm_kokkos() { }
+  //! Destructor.
+  virtual ~OnePtAggregationAlgorithm_kokkos() {}
 
-    //@}
+  //@}
 
+  //! @name Aggregation methods.
+  //@{
 
-    //! @name Aggregation methods.
-    //@{
+  /*! @brief Local aggregation. */
 
-    /*! @brief Local aggregation. */
+  void BuildAggregates(Teuchos::ParameterList const& params,
+                       LWGraph_kokkos const& graph,
+                       Aggregates& aggregates,
+                       Kokkos::View<unsigned*, device_type>& aggStat,
+                       LO& numNonAggregatedNodes) const;
+  //@}
 
-    void BuildAggregates(Teuchos::ParameterList const & params,
-                         LWGraph_kokkos const & graph,
-                         Aggregates & aggregates,
-                         Kokkos::View<unsigned*, device_type>& aggStat,
-                         LO& numNonAggregatedNodes) const;
-    //@}
+};  //class OnePtAggregationAlgorithm_kokkos
 
-
-  }; //class OnePtAggregationAlgorithm_kokkos
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_ONEPTAGGREGATIONALGORITHM_KOKKOS_SHORT
-#endif // MUELU_ONEPTAGGREGATIONALGORITHM_KOKKOS_DECL_HPP
+#endif  // MUELU_ONEPTAGGREGATIONALGORITHM_KOKKOS_DECL_HPP

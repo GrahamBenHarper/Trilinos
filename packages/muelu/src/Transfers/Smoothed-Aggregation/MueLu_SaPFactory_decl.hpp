@@ -60,7 +60,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class SaPFactory class.
     @ingroup MueLuTransferClasses
     @brief Factory for building Smoothed Aggregation prolongators.
@@ -91,52 +91,51 @@ namespace MueLu {
 
   */
 
-template <class Scalar = DefaultScalar,
-          class LocalOrdinal = DefaultLocalOrdinal,
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
-          class Node = DefaultNode>
-  class SaPFactory : public PFactory {
+          class Node          = DefaultNode>
+class SaPFactory : public PFactory {
 #undef MUELU_SAPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
-
-    /*! @brief Constructor.
+  /*! @brief Constructor.
       User can supply a factory for generating the tentative prolongator.
     */
-    SaPFactory() { }
+  SaPFactory() {}
 
-    //! Destructor.
-    virtual ~SaPFactory() { }
+  //! Destructor.
+  virtual ~SaPFactory() {}
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //@}
+  //@}
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
+  void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    /*!
+  /*!
       @brief Build method.
 
       Builds smoothed aggregation prolongator and returns it in <tt>coarseLevel</tt>.
       //FIXME what does the return code mean (unclear in MueMat)?
       */
-    void Build(Level& fineLevel, Level &coarseLevel) const;
+  void Build(Level &fineLevel, Level &coarseLevel) const;
 
-    void BuildP(Level &fineLevel, Level &coarseLevel) const; //Build()
+  void BuildP(Level &fineLevel, Level &coarseLevel) const;  //Build()
 
-    /*!
+  /*!
       @brief Enforce constraints on prolongator
 
       Modifies the prolongator so that all entries lie between 0 and 1. It also
@@ -144,18 +143,16 @@ template <class Scalar = DefaultScalar,
       sense in the SA constext if the tentative prolgonator does not use
       the QR factorization.
       */
-    void SatisfyPConstraints(RCP<Matrix> A, RCP<Matrix>& P) const;
-    void optimalSatisfyPConstraintsForScalarPDEs(RCP<Matrix>& P) const;
+  void SatisfyPConstraints(RCP<Matrix> A, RCP<Matrix> &P) const;
+  void optimalSatisfyPConstraintsForScalarPDEs(RCP<Matrix> &P) const;
 
-    bool constrainRow(Scalar *orig, LocalOrdinal nEntries, Scalar leftBound, Scalar rghtBound,Scalar rsumTarget, Scalar *fixedUnsorted, Scalar *scalarData) const;
+  bool constrainRow(Scalar *orig, LocalOrdinal nEntries, Scalar leftBound, Scalar rghtBound, Scalar rsumTarget, Scalar *fixedUnsorted, Scalar *scalarData) const;
 
+  //@}
 
+};  //class SaPFactory
 
-    //@}
-
-  }; //class SaPFactory
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_SAPFACTORY_SHORT
-#endif // MUELU_SAPFACTORY_DECL_HPP
+#endif  // MUELU_SAPFACTORY_DECL_HPP

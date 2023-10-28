@@ -58,7 +58,7 @@
 #include "MueLu_LWGraph_kokkos.hpp"
 
 namespace MueLu {
-  /*!
+/*!
     @class AggregationPhase1Algorithm class.
     @brief Algorithm for coarsening a graph with uncoupled aggregation.
 
@@ -82,60 +82,57 @@ namespace MueLu {
     Only nodes with state READY are changed to AGGREGATED. Nodes with other states are not touched.
   */
 
-  template<class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class AggregationPhase1Algorithm_kokkos :
-    public MueLu::AggregationAlgorithmBase_kokkos<LocalOrdinal,GlobalOrdinal,Node> {
+template <class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class AggregationPhase1Algorithm_kokkos : public MueLu::AggregationAlgorithmBase_kokkos<LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_AGGREGATIONPHASE1ALGORITHM_KOKKOS_SHORT
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
-  public:
-    using device_type     = typename LWGraph_kokkos::device_type;
-    using execution_space = typename LWGraph_kokkos::execution_space;
-    using memory_space    = typename LWGraph_kokkos::memory_space;
+ public:
+  using device_type     = typename LWGraph_kokkos::device_type;
+  using execution_space = typename LWGraph_kokkos::execution_space;
+  using memory_space    = typename LWGraph_kokkos::memory_space;
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    AggregationPhase1Algorithm_kokkos(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) { }
+  //! Constructor.
+  AggregationPhase1Algorithm_kokkos(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) {}
 
-    //! Destructor.
-    virtual ~AggregationPhase1Algorithm_kokkos() { }
+  //! Destructor.
+  virtual ~AggregationPhase1Algorithm_kokkos() {}
 
-    //@}
+  //@}
 
+  //! @name Aggregation methods.
+  //@{
 
-    //! @name Aggregation methods.
-    //@{
+  /*! @brief Local aggregation. */
 
-    /*! @brief Local aggregation. */
+  void BuildAggregates(const Teuchos::ParameterList& params,
+                       const LWGraph_kokkos& graph,
+                       Aggregates& aggregates,
+                       Kokkos::View<unsigned*, device_type>& aggStat,
+                       LO& numNonAggregatedNodes) const;
 
-    void BuildAggregates(const Teuchos::ParameterList& params,
-                         const LWGraph_kokkos& graph,
-                         Aggregates& aggregates,
-                         Kokkos::View<unsigned*, device_type>& aggStat,
-                         LO& numNonAggregatedNodes) const;
+  void BuildAggregatesRandom(const LO maxAggSize,
+                             const LWGraph_kokkos& graph,
+                             Aggregates& aggregates,
+                             Kokkos::View<unsigned*, device_type>& aggStat,
+                             LO& numNonAggregatedNodes) const;
 
-    void BuildAggregatesRandom(const LO maxAggSize,
-                               const LWGraph_kokkos& graph,
-                               Aggregates& aggregates,
-                               Kokkos::View<unsigned*, device_type>& aggStat,
-                               LO& numNonAggregatedNodes) const;
+  void BuildAggregatesDeterministic(const LO maxAggSize,
+                                    const LWGraph_kokkos& graph,
+                                    Aggregates& aggregates,
+                                    Kokkos::View<unsigned*, device_type>& aggStat,
+                                    LO& numNonAggregatedNodes) const;
+  //@}
 
-    void BuildAggregatesDeterministic(const LO maxAggSize,
-                                      const LWGraph_kokkos& graph,
-                                      Aggregates& aggregates,
-                                      Kokkos::View<unsigned*, device_type>& aggStat,
-                                      LO& numNonAggregatedNodes) const;
-    //@}
+  std::string description() const { return "Phase 1 (main)"; }
+};
 
-    std::string description() const { return "Phase 1 (main)"; }
-
-  };
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_AGGREGATIONPHASE1ALGORITHM_KOKKOS_SHORT
-#endif // MUELU_AGGREGATIONPHASE1ALGORITHM_KOKKOS_DECL_HPP
+#endif  // MUELU_AGGREGATIONPHASE1ALGORITHM_KOKKOS_DECL_HPP

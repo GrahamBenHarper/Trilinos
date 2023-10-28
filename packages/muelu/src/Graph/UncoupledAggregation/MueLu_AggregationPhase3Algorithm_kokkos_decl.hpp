@@ -58,7 +58,7 @@
 #include "MueLu_LWGraph_kokkos_fwd.hpp"
 
 namespace MueLu {
-  /*!
+/*!
     @class AggregationPhase3Algorithm class.
     @brief Handle leftover nodes. Try to avoid singleton nodes
     @ingroup Aggregation
@@ -75,53 +75,51 @@ namespace MueLu {
 
   */
 
-  template<class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class AggregationPhase3Algorithm_kokkos :
-    public MueLu::AggregationAlgorithmBase_kokkos<LocalOrdinal,GlobalOrdinal,Node> {
+template <class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class AggregationPhase3Algorithm_kokkos : public MueLu::AggregationAlgorithmBase_kokkos<LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_AGGREGATIONPHASE3ALGORITHM_KOKKOS_SHORT
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
-  public:
-    using device_type     = typename LWGraph_kokkos::device_type;
-    using execution_space = typename LWGraph_kokkos::execution_space;
-    using memory_space    = typename LWGraph_kokkos::memory_space;
+ public:
+  using device_type     = typename LWGraph_kokkos::device_type;
+  using execution_space = typename LWGraph_kokkos::execution_space;
+  using memory_space    = typename LWGraph_kokkos::memory_space;
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    AggregationPhase3Algorithm_kokkos(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) { }
+  //! Constructor.
+  AggregationPhase3Algorithm_kokkos(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) {}
 
-    //! Destructor.
-    virtual ~AggregationPhase3Algorithm_kokkos() { }
+  //! Destructor.
+  virtual ~AggregationPhase3Algorithm_kokkos() {}
 
-    //@}
+  //@}
 
+  //! @name Aggregation methods.
+  //@{
 
-    //! @name Aggregation methods.
-    //@{
+  /*! @brief Local aggregation. */
 
-    /*! @brief Local aggregation. */
+  void BuildAggregates(const ParameterList& params,
+                       const LWGraph_kokkos& graph,
+                       Aggregates& aggregates,
+                       Kokkos::View<unsigned*, device_type>& aggStat,
+                       LO& numNonAggregatedNodes) const;
 
-    void BuildAggregates(const ParameterList& params,
-                         const LWGraph_kokkos& graph,
-                         Aggregates& aggregates,
-                         Kokkos::View<unsigned*, device_type>& aggStat,
-                         LO& numNonAggregatedNodes) const;
+  void BuildAggregatesRandom(const ParameterList& params,
+                             const LWGraph_kokkos& graph,
+                             Aggregates& aggregates,
+                             Kokkos::View<unsigned*, device_type>& aggStat,
+                             LO& numNonAggregatedNodes) const;
+  //@}
 
-    void BuildAggregatesRandom(const ParameterList& params,
-                               const LWGraph_kokkos& graph,
-                               Aggregates& aggregates,
-                               Kokkos::View<unsigned*, device_type>& aggStat,
-                               LO& numNonAggregatedNodes) const;
-    //@}
+  std::string description() const { return "Phase 3 (cleanup)"; }
+};
 
-    std::string description() const { return "Phase 3 (cleanup)"; }
-  };
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_AGGREGATIONPHASE3ALGORITHM_KOKKOS_SHORT
-#endif // MUELU_AGGREGATIONPHASE3ALGORITHM_KOKKOS_DECL_HPP
+#endif  // MUELU_AGGREGATIONPHASE3ALGORITHM_KOKKOS_DECL_HPP

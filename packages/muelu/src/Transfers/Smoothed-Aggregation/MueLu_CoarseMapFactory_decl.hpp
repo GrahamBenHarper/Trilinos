@@ -59,7 +59,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class CoarseMapFactory class.
     @brief Factory for generating coarse level map. Used by TentativePFactory.
 
@@ -107,108 +107,104 @@ namespace MueLu {
 
   */
 
-  template <class Scalar = DefaultScalar,
-          class LocalOrdinal = DefaultLocalOrdinal,
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
-          class Node = DefaultNode>
-  class CoarseMapFactory : public SingleLevelFactoryBase {
+          class Node          = DefaultNode>
+class CoarseMapFactory : public SingleLevelFactoryBase {
 #undef MUELU_COARSEMAPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Input
+  //@{
 
-    //! @name Input
-    //@{
+  RCP<const ParameterList> GetValidParameterList() const override;
 
-    RCP<const ParameterList> GetValidParameterList() const override;
-
-    /*!
+  /*!
       @brief Specifies the data that this class needs, and the factories that generate that data.
 
       If the Build method of this class requires some data, but the generating factory is not specified in DeclareInput,
       then this class will fall back to the settings in FactoryManager.
     */
-    void DeclareInput(Level &currentLevel) const override;
+  void DeclareInput(Level& currentLevel) const override;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    //! Build an object with this factory.
-    void Build(Level &currentLevel) const override;
+  //! Build an object with this factory.
+  void Build(Level& currentLevel) const override;
 
-    //@}
+  //@}
 
-
-    /*! @brief Get information on the fixed block size
+  /*! @brief Get information on the fixed block size
      *
      * Returns the full block size (number of DOFs per node) of the domain DOF map (= coarse map).
      * This is the sum of all entries in the striding vector.
      * e.g. for 2 velocity dofs and 1 pressure dof the return value is 3.
      */
-    virtual size_t getFixedBlockSize() const {
-      // sum up size of all strided blocks (= number of dofs per node)
-      size_t blkSize = 0;
-      std::vector<size_t>::const_iterator it;
-      for(it = stridingInfo_.begin(); it != stridingInfo_.end(); ++it) {
-        blkSize += *it;
-      }
-      return blkSize;
+  virtual size_t getFixedBlockSize() const {
+    // sum up size of all strided blocks (= number of dofs per node)
+    size_t blkSize = 0;
+    std::vector<size_t>::const_iterator it;
+    for (it = stridingInfo_.begin(); it != stridingInfo_.end(); ++it) {
+      blkSize += *it;
     }
+    return blkSize;
+  }
 
-    //! @name Get/Set functions
+  //! @name Get/Set functions
 
-    /*! @brief getStridingData
+  /*! @brief getStridingData
      * returns vector with size of striding blocks in the domain DOF map (= coarse map).
      * e.g. for 2 velocity dofs and 1 pressure dof the vector is (2,1)
      */
-    virtual std::vector<size_t> getStridingData() const { return stridingInfo_; }
+  virtual std::vector<size_t> getStridingData() const { return stridingInfo_; }
 
-    /*! @brief setStridingData
+  /*! @brief setStridingData
      * set striding vector for the domain DOF map (= coarse map),
      * e.g. (2,1) for 2 velocity dofs and 1 pressure dof
      */
-    virtual void setStridingData(std::vector<size_t> stridingInfo);
+  virtual void setStridingData(std::vector<size_t> stridingInfo);
 
-    /*! @brief getStridedBlockId
+  /*! @brief getStridedBlockId
      * returns strided block id for the domain DOF map of Ptent (= coarse map)
      * or -1 if full strided map is stored in the domain map of Ptent (= coarse map)
      */
-    virtual LocalOrdinal getStridedBlockId() const {
-      const ParameterList & pL = GetParameterList();
-      return pL.get<LocalOrdinal>("Strided block id");
-    }
+  virtual LocalOrdinal getStridedBlockId() const {
+    const ParameterList& pL = GetParameterList();
+    return pL.get<LocalOrdinal>("Strided block id");
+  }
 
-    /*! @brief setStridedBlockId
+  /*! @brief setStridedBlockId
      * set strided block id for the domain DOF map of Ptent (= coarse map)
      * or -1 if full strided map is stored in the domain map of Ptent (= coarse map)
      */
-    virtual void setStridedBlockId(LocalOrdinal stridedBlockId) {
-      SetParameter("Strided block id", ParameterEntry(stridedBlockId));
-    }
+  virtual void setStridedBlockId(LocalOrdinal stridedBlockId) {
+    SetParameter("Strided block id", ParameterEntry(stridedBlockId));
+  }
 
-    //@}
+  //@}
 
-  protected:
+ protected:
+  //! Build the coarse map using the domain GID offset
+  virtual void BuildCoarseMap(Level& currentLevel, const GlobalOrdinal domainGIDOffset) const;
 
-    //! Build the coarse map using the domain GID offset
-    virtual void BuildCoarseMap(Level& currentLevel, const GlobalOrdinal domainGIDOffset) const;
+  //! Extract domain GID offset from user data
+  virtual GlobalOrdinal GetDomainGIDOffset(Level& currentLevel) const;
 
-    //! Extract domain GID offset from user data
-    virtual GlobalOrdinal GetDomainGIDOffset(Level& currentLevel) const;
+ private:
+  virtual void CheckForConsistentStridingInformation(
+      LocalOrdinal stridedBlockId, const size_t nullspaceDimension) const;
 
-  private:
+  //! Vector with size of strided blocks (dofs)
+  mutable std::vector<size_t> stridingInfo_;
 
-    virtual void CheckForConsistentStridingInformation(
-        LocalOrdinal stridedBlockId, const size_t nullspaceDimension) const;
+};  //class CoarseMapFactory
 
-    //! Vector with size of strided blocks (dofs)
-    mutable std::vector<size_t> stridingInfo_;
-
-  }; //class CoarseMapFactory
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_COARSEMAPFACTORY_SHORT
 #endif /* MUELU_COARSEMAPFACTORY_DECL_HPP_ */

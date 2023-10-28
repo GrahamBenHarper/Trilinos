@@ -62,7 +62,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class SaPFactory_kokkos class.
     @brief Factory for building Smoothed Aggregation prolongators.
     @ingroup MueLuTransferClasses
@@ -91,69 +91,67 @@ namespace MueLu {
     | P       | SaPFactory_kokkos   | Smoothed prolongator
 
   */
-  template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
-  class SaPFactory_kokkos;
+template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
+class SaPFactory_kokkos;
 
-  template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class DeviceType>
-  class SaPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType> > : public PFactory {
-  public:
-    typedef LocalOrdinal                                        local_ordinal_type;
-    typedef GlobalOrdinal                                       global_ordinal_type;
-    typedef typename DeviceType::execution_space                execution_space;
-    typedef Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType> node_type;
+template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class DeviceType>
+class SaPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType> > : public PFactory {
+ public:
+  typedef LocalOrdinal local_ordinal_type;
+  typedef GlobalOrdinal global_ordinal_type;
+  typedef typename DeviceType::execution_space execution_space;
+  typedef Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType> node_type;
 
-  private:
-    // For compatibility
-    typedef node_type                                           Node;
+ private:
+  // For compatibility
+  typedef node_type Node;
 #undef MUELU_SAPFACTORY_KOKKOS_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
-
-    /*! @brief Constructor.
+  /*! @brief Constructor.
       User can supply a factory for generating the tentative prolongator.
     */
-    SaPFactory_kokkos() { }
+  SaPFactory_kokkos() {}
 
-    //! Destructor.
-    virtual ~SaPFactory_kokkos() { }
+  //! Destructor.
+  virtual ~SaPFactory_kokkos() {}
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //@}
+  //@}
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
+  void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    /*!
+  /*!
       @brief Build method.
 
       Builds smoothed aggregation prolongator and returns it in <tt>coarseLevel</tt>.
       //FIXME what does the return code mean (unclear in MueMat)?
       */
-    void Build (Level& fineLevel, Level& coarseLevel) const;
+  void Build(Level& fineLevel, Level& coarseLevel) const;
 
-    void BuildP(Level& fineLevel, Level& coarseLevel) const;
+  void BuildP(Level& fineLevel, Level& coarseLevel) const;
 
-    void SatisfyPConstraints(RCP<Matrix> A, RCP<Matrix>& P) const;
+  void SatisfyPConstraints(RCP<Matrix> A, RCP<Matrix>& P) const;
 
-    void optimalSatisfyPConstraintsForScalarPDEs( RCP<Matrix>& P) const;
+  void optimalSatisfyPConstraintsForScalarPDEs(RCP<Matrix>& P) const;
 
-    //@}
+  //@}
+};
 
-  };
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_SAPFACTORY_KOKKOS_SHORT
-#endif // MUELU_SAPFACTORY_KOKKOS_DECL_HPP
+#endif  // MUELU_SAPFACTORY_KOKKOS_DECL_HPP

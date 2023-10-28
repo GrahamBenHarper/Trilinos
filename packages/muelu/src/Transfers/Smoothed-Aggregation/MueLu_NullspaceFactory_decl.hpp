@@ -58,7 +58,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
      @class NullspaceFactory class.
      @brief Factory for generating nullspace
 
@@ -102,63 +102,62 @@ namespace MueLu {
 
   */
 
-template <class Scalar = DefaultScalar,
-          class LocalOrdinal = DefaultLocalOrdinal,
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
-          class Node = DefaultNode>
-  class NullspaceFactory : public SingleLevelFactoryBase {
+          class Node          = DefaultNode>
+class NullspaceFactory : public SingleLevelFactoryBase {
 #undef MUELU_NULLSPACEFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! Constructor
+  NullspaceFactory(const std::string &nspName = "Nullspace") {
+    SetParameter("Fine level nullspace", ParameterEntry(nspName));
+  }
 
-    //! Constructor
-    NullspaceFactory(const std::string & nspName = "Nullspace") {
-      SetParameter("Fine level nullspace", ParameterEntry(nspName));
-    }
+  //! Destructor
+  virtual ~NullspaceFactory() {}
 
-    //! Destructor
-    virtual ~NullspaceFactory() { }
+  //@}
 
-    //@}
+  //! @name Input
 
-    //! @name Input
+  //@{
 
-    //@{
+  /*! @brief Define valid parameters for internal factory parameters */
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    /*! @brief Define valid parameters for internal factory parameters */
-    RCP<const ParameterList> GetValidParameterList() const;
-
-    /*! @brief Specifies the data that this class needs, and the factories that generate that data.
+  /*! @brief Specifies the data that this class needs, and the factories that generate that data.
 
         If the Build method of this class requires some data, but the generating factory is not specified in DeclareInput, then this class
         will fall back to the settings in FactoryManager.
     */
 
-    void DeclareInput(Level &currentLevel) const;
+  void DeclareInput(Level &currentLevel) const;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    //! Build an object with this factory.
-    void Build(Level &currentLevel) const;
+  //! Build an object with this factory.
+  void Build(Level &currentLevel) const;
 
-    //@}
+  //@}
 
-  private:
-    //! Helper function to recursively fill BlockedMultiVector with default null space vectors
-    void fillNullspaceVector(const RCP<BlockedMultiVector>& nsp, LocalOrdinal numPDEs, ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType> xvals, ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType> yvals, ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType> zvals, LocalOrdinal nullspaceDim, Scalar cx, Scalar cy, Scalar cz) const;
+ private:
+  //! Helper function to recursively fill BlockedMultiVector with default null space vectors
+  void fillNullspaceVector(const RCP<BlockedMultiVector> &nsp, LocalOrdinal numPDEs, ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType> xvals, ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType> yvals, ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType> zvals, LocalOrdinal nullspaceDim, Scalar cx, Scalar cy, Scalar cz) const;
 
-    mutable bool calculateRotations_ = false;
+  mutable bool calculateRotations_ = false;
 
-  }; //class NullspaceFactory
+};  //class NullspaceFactory
 
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_NULLSPACEFACTORY_SHORT
-#endif // MUELU_NULLSPACEFACTORY_DECL_HPP
+#endif  // MUELU_NULLSPACEFACTORY_DECL_HPP

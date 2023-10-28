@@ -47,7 +47,6 @@
 #ifndef PACKAGES_MUELU_SRC_GRAPH_MUELU_VARIABLEDOFLAPLACIANFACTORY_DECL_HPP_
 #define PACKAGES_MUELU_SRC_GRAPH_MUELU_VARIABLEDOFLAPLACIANFACTORY_DECL_HPP_
 
-
 #include "MueLu_ConfigDefs.hpp"
 #include "MueLu_SingleLevelFactoryBase.hpp"
 #include "MueLu_VariableDofLaplacianFactory_fwd.hpp"
@@ -57,7 +56,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class VariableDofLaplacianFactory class.
     @brief Factory for building scalar Laplace operator (that is used as fake operator for variable dof size problems)
 
@@ -97,269 +96,255 @@ namespace MueLu {
     | A       | VariableDofLaplacianFactory   | Laplacian operator
     | DofStatus | VariableDofLaplacianFactory | Status array for next coarse level
   */
-  template<class Scalar = DefaultScalar,
-           class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class VariableDofLaplacianFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class VariableDofLaplacianFactory : public SingleLevelFactoryBase {
 #undef MUELU_VARIABLEDOFLAPLACIANFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! Constructor
+  VariableDofLaplacianFactory();
 
-    //! Constructor
-    VariableDofLaplacianFactory();
+  //! Destructor
+  virtual ~VariableDofLaplacianFactory() {}
 
-    //! Destructor
-    virtual ~VariableDofLaplacianFactory() { }
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //@}
 
-    //@}
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level& currentLevel) const;
 
-    void DeclareInput(Level &currentLevel) const;
+  //@}
 
-    //@}
+  void Build(Level& currentLevel) const;  // Build
 
-    void Build(Level &currentLevel) const; // Build
+ private:
+  void buildPaddedMap(const Teuchos::ArrayRCP<const LocalOrdinal>& dofPresent, std::vector<LocalOrdinal>& map, size_t nDofs) const;
+  void assignGhostLocalNodeIds(const Teuchos::RCP<const Map>& rowDofMap, const Teuchos::RCP<const Map>& colDofMap, std::vector<LocalOrdinal>& myLocalNodeIds, const std::vector<LocalOrdinal>& dofMap, size_t maxDofPerNode, size_t& nLocalNodes, size_t& nLocalPlusGhostNodes, Teuchos::RCP<const Teuchos::Comm<int> > comm) const;
+  void squeezeOutNnzs(Teuchos::ArrayRCP<size_t>& rowPtr, Teuchos::ArrayRCP<LocalOrdinal>& cols, Teuchos::ArrayRCP<Scalar>& vals, const std::vector<bool>& keep) const;
+  void buildLaplacian(const Teuchos::ArrayRCP<size_t>& rowPtr, const Teuchos::ArrayRCP<LocalOrdinal>& cols, Teuchos::ArrayRCP<Scalar>& vals, const size_t& numdim, const RCP<Xpetra::MultiVector<typename Teuchos::ScalarTraits<Scalar>::magnitudeType, LocalOrdinal, GlobalOrdinal, Node> >& ghostedCoords) const;
 
-  private:
+  template <class listType>
+  void MueLu_az_sort(listType list[], size_t N, size_t list2[], Scalar list3[]) const {
+    /* local variables */
 
-    void buildPaddedMap(const Teuchos::ArrayRCP<const LocalOrdinal> & dofPresent, std::vector<LocalOrdinal> & map, size_t nDofs) const;
-    void assignGhostLocalNodeIds(const Teuchos::RCP<const Map> & rowDofMap, const Teuchos::RCP<const Map> & colDofMap, std::vector<LocalOrdinal> & myLocalNodeIds, const std::vector<LocalOrdinal> & dofMap, size_t maxDofPerNode, size_t& nLocalNodes, size_t& nLocalPlusGhostNodes, Teuchos::RCP< const Teuchos::Comm< int > > comm) const;
-    void squeezeOutNnzs(Teuchos::ArrayRCP<size_t> & rowPtr, Teuchos::ArrayRCP<LocalOrdinal> & cols, Teuchos::ArrayRCP<Scalar> & vals, const std::vector<bool>& keep) const;
-    void buildLaplacian(const Teuchos::ArrayRCP<size_t>& rowPtr, const Teuchos::ArrayRCP<LocalOrdinal>& cols, Teuchos::ArrayRCP<Scalar>& vals, const size_t& numdim, const RCP<Xpetra::MultiVector<typename Teuchos::ScalarTraits<Scalar>::magnitudeType,LocalOrdinal,GlobalOrdinal,Node> > & ghostedCoords) const;
+    listType RR, K;
+    size_t l, r, j, i;
+    int flag;
+    size_t RR2;
+    Scalar RR3;
 
-    template <class listType>
-    void MueLu_az_sort(listType list[], size_t N, size_t list2[], Scalar list3[]) const {
-      /* local variables */
+    /*********************** execution begins ******************************/
 
-      listType RR, K;
-      size_t l, r, j, i;
-      int flag;
-      size_t RR2;
-      Scalar RR3;
+    if (N <= 1) return;
 
-      /*********************** execution begins ******************************/
+    l  = N / 2 + 1;
+    r  = N - 1;
+    l  = l - 1;
+    RR = list[l - 1];
+    K  = list[l - 1];
 
-      if (N <= 1) return;
+    if ((list2 != NULL) && (list3 != NULL)) {
+      RR2 = list2[l - 1];
+      RR3 = list3[l - 1];
+      while (r != 0) {
+        j    = l;
+        flag = 1;
 
-      l   = N / 2 + 1;
-      r   = N - 1;
-      l   = l - 1;
-      RR  = list[l - 1];
-      K   = list[l - 1];
+        while (flag == 1) {
+          i = j;
+          j = j + j;
 
-      if ((list2 != NULL) && (list3 != NULL)) {
-        RR2 = list2[l - 1];
-        RR3 = list3[l - 1];
-        while (r != 0) {
-          j = l;
-          flag = 1;
-
-          while (flag == 1) {
-            i = j;
-            j = j + j;
-
-            if (j > r + 1)
-              flag = 0;
-            else {
-              if (j < r + 1)
-                if (list[j] > list[j - 1]) j = j + 1;
-
-              if (list[j - 1] > K) {
-                list[ i - 1] = list[ j - 1];
-                list2[i - 1] = list2[j - 1];
-                list3[i - 1] = list3[j - 1];
-              }
-              else {
-                flag = 0;
-              }
-            }
-          }
-
-          list[ i - 1] = RR;
-          list2[i - 1] = RR2;
-          list3[i - 1] = RR3;
-
-          if (l == 1) {
-            RR  = list [r];
-            RR2 = list2[r];
-            RR3 = list3[r];
-
-            K = list[r];
-            list[r ] = list[0];
-            list2[r] = list2[0];
-            list3[r] = list3[0];
-            r = r - 1;
-          }
+          if (j > r + 1)
+            flag = 0;
           else {
-            l   = l - 1;
-            RR  = list[ l - 1];
-            RR2 = list2[l - 1];
-            RR3 = list3[l - 1];
-            K   = list[l - 1];
+            if (j < r + 1)
+              if (list[j] > list[j - 1]) j = j + 1;
+
+            if (list[j - 1] > K) {
+              list[i - 1]  = list[j - 1];
+              list2[i - 1] = list2[j - 1];
+              list3[i - 1] = list3[j - 1];
+            } else {
+              flag = 0;
+            }
           }
         }
 
-        list[ 0] = RR;
-        list2[0] = RR2;
-        list3[0] = RR3;
+        list[i - 1]  = RR;
+        list2[i - 1] = RR2;
+        list3[i - 1] = RR3;
+
+        if (l == 1) {
+          RR  = list[r];
+          RR2 = list2[r];
+          RR3 = list3[r];
+
+          K        = list[r];
+          list[r]  = list[0];
+          list2[r] = list2[0];
+          list3[r] = list3[0];
+          r        = r - 1;
+        } else {
+          l   = l - 1;
+          RR  = list[l - 1];
+          RR2 = list2[l - 1];
+          RR3 = list3[l - 1];
+          K   = list[l - 1];
+        }
       }
-      else if (list2 != NULL) {
-        RR2 = list2[l - 1];
-        while (r != 0) {
-          j = l;
-          flag = 1;
 
-          while (flag == 1) {
-            i = j;
-            j = j + j;
+      list[0]  = RR;
+      list2[0] = RR2;
+      list3[0] = RR3;
+    } else if (list2 != NULL) {
+      RR2 = list2[l - 1];
+      while (r != 0) {
+        j    = l;
+        flag = 1;
 
-            if (j > r + 1)
-              flag = 0;
-            else {
-              if (j < r + 1)
-                if (list[j] > list[j - 1]) j = j + 1;
+        while (flag == 1) {
+          i = j;
+          j = j + j;
 
-              if (list[j - 1] > K) {
-                list[ i - 1] = list[ j - 1];
-                list2[i - 1] = list2[j - 1];
-              }
-              else {
-                flag = 0;
-              }
-            }
-          }
-
-          list[ i - 1] = RR;
-          list2[i - 1] = RR2;
-
-          if (l == 1) {
-            RR  = list [r];
-            RR2 = list2[r];
-
-            K = list[r];
-            list[r ] = list[0];
-            list2[r] = list2[0];
-            r = r - 1;
-          }
+          if (j > r + 1)
+            flag = 0;
           else {
-            l   = l - 1;
-            RR  = list[ l - 1];
-            RR2 = list2[l - 1];
-            K   = list[l - 1];
+            if (j < r + 1)
+              if (list[j] > list[j - 1]) j = j + 1;
+
+            if (list[j - 1] > K) {
+              list[i - 1]  = list[j - 1];
+              list2[i - 1] = list2[j - 1];
+            } else {
+              flag = 0;
+            }
           }
         }
 
-        list[ 0] = RR;
-        list2[0] = RR2;
+        list[i - 1]  = RR;
+        list2[i - 1] = RR2;
+
+        if (l == 1) {
+          RR  = list[r];
+          RR2 = list2[r];
+
+          K        = list[r];
+          list[r]  = list[0];
+          list2[r] = list2[0];
+          r        = r - 1;
+        } else {
+          l   = l - 1;
+          RR  = list[l - 1];
+          RR2 = list2[l - 1];
+          K   = list[l - 1];
+        }
       }
-      else if (list3 != NULL) {
-        RR3 = list3[l - 1];
-        while (r != 0) {
-          j = l;
-          flag = 1;
 
-          while (flag == 1) {
-            i = j;
-            j = j + j;
+      list[0]  = RR;
+      list2[0] = RR2;
+    } else if (list3 != NULL) {
+      RR3 = list3[l - 1];
+      while (r != 0) {
+        j    = l;
+        flag = 1;
 
-            if (j > r + 1)
-              flag = 0;
-            else {
-              if (j < r + 1)
-                if (list[j] > list[j - 1]) j = j + 1;
+        while (flag == 1) {
+          i = j;
+          j = j + j;
 
-              if (list[j - 1] > K) {
-                list[ i - 1] = list[ j - 1];
-                list3[i - 1] = list3[j - 1];
-              }
-              else {
-                flag = 0;
-              }
-            }
-          }
-
-          list[ i - 1] = RR;
-          list3[i - 1] = RR3;
-
-          if (l == 1) {
-            RR  = list [r];
-            RR3 = list3[r];
-
-            K = list[r];
-            list[r ] = list[0];
-            list3[r] = list3[0];
-            r = r - 1;
-          }
+          if (j > r + 1)
+            flag = 0;
           else {
-            l   = l - 1;
-            RR  = list[ l - 1];
-            RR3 = list3[l - 1];
-            K   = list[l - 1];
+            if (j < r + 1)
+              if (list[j] > list[j - 1]) j = j + 1;
+
+            if (list[j - 1] > K) {
+              list[i - 1]  = list[j - 1];
+              list3[i - 1] = list3[j - 1];
+            } else {
+              flag = 0;
+            }
           }
         }
 
-        list[ 0] = RR;
-        list3[0] = RR3;
+        list[i - 1]  = RR;
+        list3[i - 1] = RR3;
 
+        if (l == 1) {
+          RR  = list[r];
+          RR3 = list3[r];
+
+          K        = list[r];
+          list[r]  = list[0];
+          list3[r] = list3[0];
+          r        = r - 1;
+        } else {
+          l   = l - 1;
+          RR  = list[l - 1];
+          RR3 = list3[l - 1];
+          K   = list[l - 1];
+        }
       }
-      else {
-        while (r != 0) {
-          j = l;
-          flag = 1;
 
-          while (flag == 1) {
-            i = j;
-            j = j + j;
+      list[0]  = RR;
+      list3[0] = RR3;
 
-            if (j > r + 1)
-              flag = 0;
-            else {
-              if (j < r + 1)
-                if (list[j] > list[j - 1]) j = j + 1;
+    } else {
+      while (r != 0) {
+        j    = l;
+        flag = 1;
 
-              if (list[j - 1] > K) {
-                list[ i - 1] = list[ j - 1];
-              }
-              else {
-                flag = 0;
-              }
-            }
-          }
+        while (flag == 1) {
+          i = j;
+          j = j + j;
 
-          list[ i - 1] = RR;
-
-          if (l == 1) {
-            RR  = list [r];
-
-            K = list[r];
-            list[r ] = list[0];
-            r = r - 1;
-          }
+          if (j > r + 1)
+            flag = 0;
           else {
-            l   = l - 1;
-            RR  = list[ l - 1];
-            K   = list[l - 1];
+            if (j < r + 1)
+              if (list[j] > list[j - 1]) j = j + 1;
+
+            if (list[j - 1] > K) {
+              list[i - 1] = list[j - 1];
+            } else {
+              flag = 0;
+            }
           }
         }
 
-        list[ 0] = RR;
+        list[i - 1] = RR;
+
+        if (l == 1) {
+          RR = list[r];
+
+          K       = list[r];
+          list[r] = list[0];
+          r       = r - 1;
+        } else {
+          l  = l - 1;
+          RR = list[l - 1];
+          K  = list[l - 1];
+        }
       }
+
+      list[0] = RR;
     }
+  }
 
-  }; //class CoalesceDropFactory
+};  //class CoalesceDropFactory
 
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_VARIABLEDOFLAPLACIANFACTORY_SHORT
-
 
 #endif /* PACKAGES_MUELU_SRC_GRAPH_MUELU_VARIABLEDOFLAPLACIANFACTORY_DECL_HPP_ */

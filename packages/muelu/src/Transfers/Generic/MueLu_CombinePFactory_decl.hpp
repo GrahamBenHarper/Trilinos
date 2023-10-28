@@ -58,10 +58,10 @@
 #include "MueLu_Level_fwd.hpp"
 
 namespace MueLuTests {
-  // Forward declaration of friend tester class used to UnitTest CombinePFactory
-  template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
-  class CombinePFactoryTester;
-}
+// Forward declaration of friend tester class used to UnitTest CombinePFactory
+template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
+class CombinePFactoryTester;
+}  // namespace MueLuTests
 
 namespace MueLu {
 
@@ -123,52 +123,50 @@ namespace MueLu {
   | P                 | CombinePFactory          | Prolongator                                                                                                      |
 
 */
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class CombinePFactory : public PFactory {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class CombinePFactory : public PFactory {
 #undef MUELU_COMBINEPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  friend class MueLuTests::CombinePFactoryTester<Scalar, LocalOrdinal, GlobalOrdinal, Node>;
 
-    friend class MueLuTests::CombinePFactoryTester<Scalar,LocalOrdinal,GlobalOrdinal,Node>;
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! Constructor
+  CombinePFactory() {}
 
-    //! Constructor
-    CombinePFactory() { }
+  //! Destructor.
+  virtual ~CombinePFactory() {}
+  //@}
 
-    //! Destructor.
-    virtual ~CombinePFactory() { }
-    //@}
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
 
-    void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
+  //@}
 
-    //@}
+  //! @name Build methods.
+  //@{
 
-    //! @name Build methods.
-    //@{
+  void Build(Level& fineLevel, Level& coarseLevel) const;
+  void BuildP(Level& fineLevel, Level& coarseLevel) const;
 
-    void Build (Level& fineLevel, Level& coarseLevel) const;
-    void BuildP(Level& fineLevel, Level& coarseLevel) const;
+  //@}
 
-    //@}
+ private:
+  int numPDEs_;
 
-  private:
+};  //class CombinePFactory
 
-    int numPDEs_;
-
-  }; //class CombinePFactory
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_COMBINEPFACTORY_SHORT
-#endif // MUELU_COMBINEPFACTORY_DECL_HPP
+#endif  // MUELU_COMBINEPFACTORY_DECL_HPP

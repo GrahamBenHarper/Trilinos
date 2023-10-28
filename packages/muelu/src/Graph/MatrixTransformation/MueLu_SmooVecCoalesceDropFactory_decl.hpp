@@ -65,7 +65,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class SmooVecCoalesceDropFactory
     @brief Factory for creating a graph base on a given matrix.
 
@@ -114,54 +114,51 @@ namespace MueLu {
 
   */
 
-  template<class Scalar = DefaultScalar,
-           class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class SmooVecCoalesceDropFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class SmooVecCoalesceDropFactory : public SingleLevelFactoryBase {
 #undef MUELU_SMOOVECCOALESCEDROPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! Constructor
+  SmooVecCoalesceDropFactory();
 
-    //! Constructor
-    SmooVecCoalesceDropFactory();
+  //! Destructor
+  virtual ~SmooVecCoalesceDropFactory() {}
 
-    //! Destructor
-    virtual ~SmooVecCoalesceDropFactory() { }
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //@}
 
-    //@}
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level& currentLevel) const;
 
-    void DeclareInput(Level &currentLevel) const;
+  /// set predrop function
+  void SetPreDropFunction(const RCP<MueLu::PreDropFunctionBaseClass<Scalar, LocalOrdinal, GlobalOrdinal, Node> >& predrop) { predrop_ = predrop; }
 
-    /// set predrop function
-    void SetPreDropFunction(const RCP<MueLu::PreDropFunctionBaseClass<Scalar,LocalOrdinal,GlobalOrdinal,Node> > &predrop) { predrop_ = predrop; }
+  //@}
 
-    //@}
+  void Build(Level& currentLevel) const;  // Build
 
-    void Build(Level &currentLevel) const; // Build
+ private:
+  // pre-drop function
+  mutable RCP<PreDropFunctionBaseClass> predrop_;
 
-  private:
+  //! Methods to support compatible-relaxation style dropping
+  void badGuysCoalesceDrop(const Matrix& Amat, Teuchos::ArrayRCP<Scalar>& dropParams, LO nPDEs, const MultiVector& smoothedTVecs, const MultiVector& smoothedNull, RCP<GraphBase>& filteredGraph) const;
+  void badGuysDropfunc(LO row, const Teuchos::ArrayView<const LocalOrdinal>& indices, const Teuchos::ArrayView<const Scalar>& vals, const MultiVector& smoothedTVecs, LO nPDEs, Teuchos::ArrayRCP<Scalar>& penalties, const MultiVector& smoothedNull, Teuchos::ArrayRCP<LO>& Bcols, Teuchos::ArrayRCP<bool>& keepOrNot, LO& Nbcols, LO nLoc) const;
 
-    // pre-drop function
-    mutable
-     RCP<PreDropFunctionBaseClass> predrop_;
+};  //class SmooVecCoalesceDropFactory
 
-    //! Methods to support compatible-relaxation style dropping
-    void badGuysCoalesceDrop(const Matrix& Amat, Teuchos::ArrayRCP<Scalar> & dropParams, LO nPDEs, const MultiVector&  smoothedTVecs, const MultiVector& smoothedNull, RCP<GraphBase>& filteredGraph) const;
-    void badGuysDropfunc(LO row, const Teuchos::ArrayView<const LocalOrdinal>& indices, const Teuchos::ArrayView<const Scalar>& vals, const MultiVector&  smoothedTVecs, LO nPDEs, Teuchos::ArrayRCP<Scalar> & penalties, const MultiVector& smoothedNull, Teuchos::ArrayRCP<LO>& Bcols, Teuchos::ArrayRCP<bool>& keepOrNot, LO &Nbcols, LO nLoc) const;
-
-  }; //class SmooVecCoalesceDropFactory
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_SMOOVECCOALESCEDROPFACTORY_SHORT
-#endif // MUELU_SMOOVECCOALESCEDROPFACTORY_DECL_HPP
+#endif  // MUELU_SMOOVECCOALESCEDROPFACTORY_DECL_HPP

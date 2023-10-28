@@ -58,7 +58,7 @@
 #include "MueLu_LWGraph_kokkos.hpp"
 
 namespace MueLu {
-  /*!
+/*!
     @class IsolatedNodeAggregationAlgorithm class.
     @brief Ignores isolated nodes during aggregation. Marks the node to be "aggregated" without adding real aggregates for them.
 
@@ -77,46 +77,44 @@ namespace MueLu {
 
   */
 
-  template<class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class IsolatedNodeAggregationAlgorithm_kokkos :
-    public MueLu::AggregationAlgorithmBase_kokkos<LocalOrdinal,GlobalOrdinal,Node> {
+template <class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class IsolatedNodeAggregationAlgorithm_kokkos : public MueLu::AggregationAlgorithmBase_kokkos<LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_ISOLATEDNODEAGGREGATIONALGORITHM_KOKKOS_SHORT
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
-  public:
-    using device_type  = typename LWGraph_kokkos::device_type;
-    using memory_space = typename LWGraph_kokkos::memory_space;
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  using device_type  = typename LWGraph_kokkos::device_type;
+  using memory_space = typename LWGraph_kokkos::memory_space;
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    IsolatedNodeAggregationAlgorithm_kokkos(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) { }
+  //! Constructor.
+  IsolatedNodeAggregationAlgorithm_kokkos(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) {}
 
-    //! Destructor.
-    virtual ~IsolatedNodeAggregationAlgorithm_kokkos() { }
+  //! Destructor.
+  virtual ~IsolatedNodeAggregationAlgorithm_kokkos() {}
 
-    //@}
+  //@}
 
+  //! @name Aggregation methods.
+  //@{
 
-    //! @name Aggregation methods.
-    //@{
+  /*! @brief Local aggregation. */
 
-    /*! @brief Local aggregation. */
+  void BuildAggregates(const ParameterList& params,
+                       const LWGraph_kokkos& graph,
+                       Aggregates& aggregates,
+                       Kokkos::View<unsigned*, device_type>& aggStat,
+                       LO& numNonAggregatedNodes) const;
+  //@}
 
-    void BuildAggregates(const ParameterList& params,
-                         const LWGraph_kokkos& graph,
-                         Aggregates& aggregates,
-                         Kokkos::View<unsigned*, device_type>& aggStat,
-                         LO& numNonAggregatedNodes) const;
-    //@}
+  std::string description() const { return "Phase - (isolated)"; }
 
-    std::string description() const { return "Phase - (isolated)"; }
+};  //class MaxLinkAggregationAlgorithm
 
-  }; //class MaxLinkAggregationAlgorithm
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_ISOLATEDNODEAGGREGATIONALGORITHM_KOKKOS_SHORT
-#endif // MUELU_ISOLATEDNODEAGGREGATIONALGORITHM_DECL_HPP
+#endif  // MUELU_ISOLATEDNODEAGGREGATIONALGORITHM_DECL_HPP

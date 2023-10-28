@@ -57,7 +57,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class SmootherFactory
     @ingroup MueLuSmootherClasses
     @brief Generic Smoother Factory for generating the smoothers of the MG hierarchy
@@ -83,26 +83,26 @@ namespace MueLu {
     factory doesn't have any knowledge about that.
   */
 
-  template <class Scalar = double,
-            class LocalOrdinal = int,
-            class GlobalOrdinal = LocalOrdinal,
-            class Node = Tpetra::KokkosClassic::DefaultNode::DefaultNodeType>
-  class SmootherFactory : public SmootherFactoryBase {
-  public:
-    typedef Scalar scalar_type;
-    typedef LocalOrdinal local_ordinal_type;
-    typedef GlobalOrdinal global_ordinal_type;
-    typedef Node node_type;
+template <class Scalar        = double,
+          class LocalOrdinal  = int,
+          class GlobalOrdinal = LocalOrdinal,
+          class Node          = Tpetra::KokkosClassic::DefaultNode::DefaultNodeType>
+class SmootherFactory : public SmootherFactoryBase {
+ public:
+  typedef Scalar scalar_type;
+  typedef LocalOrdinal local_ordinal_type;
+  typedef GlobalOrdinal global_ordinal_type;
+  typedef Node node_type;
 
-  private:
+ private:
 #undef MUELU_SMOOTHERFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    /*!
+  /*!
       @brief Constructor
 
       TODO update the documentation from Matlab syntax
@@ -140,40 +140,40 @@ namespace MueLu {
       PostSmoother    = ChebySmoother(10,1/30)
       SmootherFactory = SmootherFactory([], PostSmoother);
     */
-    //Note: Teuchos::null as parameter allowed (= no smoother)
-    //Note: precondition: input smoother must not be Setup()
-    SmootherFactory(RCP<SmootherPrototype> preAndPostSmootherPrototype = Teuchos::null);
+  //Note: Teuchos::null as parameter allowed (= no smoother)
+  //Note: precondition: input smoother must not be Setup()
+  SmootherFactory(RCP<SmootherPrototype> preAndPostSmootherPrototype = Teuchos::null);
 
-    SmootherFactory(RCP<SmootherPrototype> preSmootherPrototype, RCP<SmootherPrototype> postSmootherPrototype);
+  SmootherFactory(RCP<SmootherPrototype> preSmootherPrototype, RCP<SmootherPrototype> postSmootherPrototype);
 
-    virtual ~SmootherFactory() { }
-    //@}
+  virtual ~SmootherFactory() {}
+  //@}
 
-    //! @name Set/Get methods.
-    //@{
+  //! @name Set/Get methods.
+  //@{
 
-    //! Set smoother prototypes.
-    void SetSmootherPrototypes(RCP<SmootherPrototype> preAndPostSmootherPrototype);
+  //! Set smoother prototypes.
+  void SetSmootherPrototypes(RCP<SmootherPrototype> preAndPostSmootherPrototype);
 
-    //! Set smoother prototypes.
-    void SetSmootherPrototypes(RCP<SmootherPrototype> preSmootherPrototype, RCP<SmootherPrototype> postSmootherPrototype);
+  //! Set smoother prototypes.
+  void SetSmootherPrototypes(RCP<SmootherPrototype> preSmootherPrototype, RCP<SmootherPrototype> postSmootherPrototype);
 
-    //! Get smoother prototypes.
-    void GetSmootherPrototypes(RCP<SmootherPrototype>& preSmootherPrototype, RCP<SmootherPrototype>& postSmootherPrototype) const;
+  //! Get smoother prototypes.
+  void GetSmootherPrototypes(RCP<SmootherPrototype>& preSmootherPrototype, RCP<SmootherPrototype>& postSmootherPrototype) const;
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    void DeclareInput(Level& currentLevel) const;
+  void DeclareInput(Level& currentLevel) const;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    /*! @brief Creates pre and post smoothers.
+  /*! @brief Creates pre and post smoothers.
 
     Factory.Build() clones its prototypes and calls Setup() on the
     new objects to create fully functional smoothers for the current
@@ -189,37 +189,36 @@ namespace MueLu {
     the Setup() phase is also done only once when parameters
     don't change the result of the setup computation.
     */
-    void Build(Level& currentLevel) const;
+  void Build(Level& currentLevel) const;
 
-    void BuildSmoother(Level& currentLevel, const PreOrPost preOrPost = BOTH) const; // Build()
+  void BuildSmoother(Level& currentLevel, const PreOrPost preOrPost = BOTH) const;  // Build()
 
-    //@}
+  //@}
 
+  //! @name Overridden from Teuchos::Describable
+  //@{
 
-    //! @name Overridden from Teuchos::Describable
-    //@{
+  //! Return a simple one-line description of this object.
+  std::string description() const;
 
-    //! Return a simple one-line description of this object.
-    std::string description() const;
+  //! Print the object with some verbosity level to an FancyOStream object.
+  using MueLu::Describable::describe;  // overloading, not hiding
+  void describe(Teuchos::FancyOStream& out, const VerbLevel verbLevel = Default) const;
 
-    //! Print the object with some verbosity level to an FancyOStream object.
-    using MueLu::Describable::describe; // overloading, not hiding
-    void describe(Teuchos::FancyOStream& out, const VerbLevel verbLevel = Default) const;
+  //@}
 
-    //@}
+ private:
+  RCP<SmootherPrototype> preSmootherPrototype_;
+  RCP<SmootherPrototype> postSmootherPrototype_;
 
-  private:
-    RCP<SmootherPrototype> preSmootherPrototype_;
-    RCP<SmootherPrototype> postSmootherPrototype_;
+  void CheckPrototypes() const;
 
-    void CheckPrototypes() const;
+  //@}
 
-    //@}
+};  // class SmootherFactory
 
-  }; // class SmootherFactory
-
-} // namespace MueLu
+}  // namespace MueLu
 
 //TODO: doc: setup done twice if PostSmoother object != PreSmoother object and no adv. reused capability
 #define MUELU_SMOOTHERFACTORY_SHORT
-#endif // MUELU_SMOOTHERFACTORY_DECL_HPP
+#endif  // MUELU_SMOOTHERFACTORY_DECL_HPP

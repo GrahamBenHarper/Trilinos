@@ -64,7 +64,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class ClassicalMapFactory class.
     @brief Factory for generating F/C-splitting and a coarse level map. Used by ClassicalPFactory.
 
@@ -92,54 +92,56 @@ namespace MueLu {
 
   */
 
-  template <class Scalar = DefaultScalar,
-          class LocalOrdinal = DefaultLocalOrdinal,
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
-          class Node = DefaultNode>
-  class ClassicalMapFactory : public SingleLevelFactoryBase {
+          class Node          = DefaultNode>
+class ClassicalMapFactory : public SingleLevelFactoryBase {
 #undef MUELU_CLASSICALMAPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! F/C/Dirichlet point type
-    typedef enum {F_PT=-1, UNASSIGNED=0, C_PT=1, DIRICHLET_PT=2} point_type;
+ public:
+  //! F/C/Dirichlet point type
+  typedef enum { F_PT         = -1,
+                 UNASSIGNED   = 0,
+                 C_PT         = 1,
+                 DIRICHLET_PT = 2 } point_type;
 
-    //! @name Input
-    //@{
+  //! @name Input
+  //@{
 
-    RCP<const ParameterList> GetValidParameterList() const override;
+  RCP<const ParameterList> GetValidParameterList() const override;
 
-    /*!
+  /*!
       @brief Specifies the data that this class needs, and the factories that generate that data.
 
       If the Build method of this class requires some data, but the generating factory is not specified in DeclareInput,
       then this class will fall back to the settings in FactoryManager.
     */
-    void DeclareInput(Level &currentLevel) const override;
+  void DeclareInput(Level &currentLevel) const override;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    //! Build an object with this factory.
-    void Build(Level &currentLevel) const override;
+  //! Build an object with this factory.
+  void Build(Level &currentLevel) const override;
 
-    //@}
+  //@}
 
+ protected:
+  virtual void GenerateCoarseMap(const Map &fineMap, LO num_c_points, Teuchos::RCP<const Map> &coarseMap) const;
 
-  protected:
-    virtual void GenerateCoarseMap(const Map & fineMap, LO num_c_points, Teuchos::RCP<const Map> & coarseMap) const;
+  virtual void DoGraphColoring(const GraphBase &graph, Teuchos::ArrayRCP<LO> &myColors, LO &numColors) const;
 
-    virtual void DoGraphColoring(const GraphBase & graph, Teuchos::ArrayRCP<LO> & myColors, LO & numColors) const;
+  virtual void DoMISNaive(const GraphBase &graph, Teuchos::ArrayRCP<LO> &myColors, LO &numColors) const;
 
-    virtual void DoMISNaive(const GraphBase & graph, Teuchos::ArrayRCP<LO> & myColors, LO & numColors) const;
+  virtual void DoDistributedGraphColoring(RCP<const GraphBase> &graph, Teuchos::ArrayRCP<LO> &myColors, LO &numColors) const;
 
-    virtual void DoDistributedGraphColoring(RCP<const GraphBase> & graph, Teuchos::ArrayRCP<LO> & myColors, LO & numColors) const;
+};  //class ClassicalMapFactory
 
-  }; //class ClassicalMapFactory
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_CLASSICALMAPFACTORY_SHORT
 #endif /* MUELU_CLASSICALMAPFACTORY_DECL_HPP_ */

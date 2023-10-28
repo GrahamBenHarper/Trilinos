@@ -66,7 +66,7 @@
 #include "MueLu_Types.hpp"
 
 namespace MueLu {
-  /*!
+/*!
     @class RebalanceAcFactory
     @brief Factory to perform rebalancing of coarse matrices.
 
@@ -94,53 +94,53 @@ namespace MueLu {
     ----------|--------------|------------
     | A | RebalanceBlockAcFactory | Rebalanced coarse matrix
   */
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class RebalanceBlockAcFactory : public TwoLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class RebalanceBlockAcFactory : public TwoLevelFactoryBase {
 #undef MUELU_REBALANCEBLOCKACFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
-  public:
-    //! @name Input
-    //@{
+ public:
+  //! @name Input
+  //@{
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
+  void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
 
-    //! Add a factory manager
-    void AddFactoryManager(RCP<const FactoryManagerBase> FactManager);
-    //@}
+  //! Add a factory manager
+  void AddFactoryManager(RCP<const FactoryManagerBase> FactManager);
+  //@}
 
-    //! @name Build methods.
-    //@{
-    void Build(Level &fineLevel, Level &coarseLevel) const;
-    //@}
+  //! @name Build methods.
+  //@{
+  void Build(Level &fineLevel, Level &coarseLevel) const;
+  //@}
 
-    //@{
-    /*! @brief Add rebalancing factory in the end of list of rebalancing factories in RebalanceAcFactory.
+  //@{
+  /*! @brief Add rebalancing factory in the end of list of rebalancing factories in RebalanceAcFactory.
 
     Rebalancing factories are derived from SingleLevelFactoryBase and rebalance the underlaying object
     (e.g. map, vector,...) to fit to the rebalanced maps.
     */
-    void AddRebalanceFactory(const RCP<const FactoryBase>& factory);
+  void AddRebalanceFactory(const RCP<const FactoryBase> &factory);
 
-    //! Returns number of transfer factories.
-    size_t NumRebalanceFactories() const { return rebalanceFacts_.size(); }
+  //! Returns number of transfer factories.
+  size_t NumRebalanceFactories() const { return rebalanceFacts_.size(); }
 
-    //@}
+  //@}
 
-  private:
-    //! list of user-defined rebalancing Factories
-    std::vector<RCP<const FactoryBase> > rebalanceFacts_;
+ private:
+  //! list of user-defined rebalancing Factories
+  std::vector<RCP<const FactoryBase> > rebalanceFacts_;
 
-    //! Input factories
-    std::vector<Teuchos::RCP<const FactoryManagerBase> > FactManager_;
+  //! Input factories
+  std::vector<Teuchos::RCP<const FactoryManagerBase> > FactManager_;
 
-  }; //class RebalanceAcFactory
+};  //class RebalanceAcFactory
 
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_REBALANCEBLOCKACFACTORY_SHORT
 

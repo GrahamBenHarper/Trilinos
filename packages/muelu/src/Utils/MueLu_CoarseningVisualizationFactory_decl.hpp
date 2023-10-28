@@ -54,12 +54,11 @@
 #include "MueLu_VisualizationHelpers.hpp"
 #include "MueLu_CoarseningVisualizationFactory_fwd.hpp"
 
-
 namespace MueLu {
 
-  class Level;
+class Level;
 
-  /*!
+/*!
     @class CoarseningVisualizationFactory class.
     @brief Factory to visualize coarsening information using prolongation operators
 
@@ -86,44 +85,44 @@ namespace MueLu {
     The * in the @c requested column states that the data is requested as input with all dependencies (see CoarseningVisualizationFactory::DeclareInput).
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class CoarseningVisualizationFactory : public TwoLevelFactoryBase, public VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node> {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class CoarseningVisualizationFactory : public TwoLevelFactoryBase, public VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_COARSENINGVISUALIZATIONFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    CoarseningVisualizationFactory() { }
+  //! Constructor.
+  CoarseningVisualizationFactory() {}
 
-    //! Destructor.
-    virtual ~CoarseningVisualizationFactory() { }
-    //@}
+  //! Destructor.
+  virtual ~CoarseningVisualizationFactory() {}
+  //@}
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
+  void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
 
-    //@}
+  //@}
 
-    //@{
-    //! @name Build methods.
+  //@{
+  //! @name Build methods.
 
-    //! Build an object with this factory.
-    void Build(Level &fineLevel, Level &coarseLevel) const;
+  //! Build an object with this factory.
+  void Build(Level &fineLevel, Level &coarseLevel) const;
 
-    //@}
+  //@}
 
-   }; // class CoarseningVisualizationFactory
-} // namespace MueLu
+};  // class CoarseningVisualizationFactory
+}  // namespace MueLu
 
 #define MUELU_COARSENINGVISUALIZATIONFACTORY_SHORT
 

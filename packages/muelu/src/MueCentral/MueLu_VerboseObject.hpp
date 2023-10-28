@@ -46,15 +46,15 @@
 #ifndef MUELU_VERBOSEOBJECT_HPP
 #define MUELU_VERBOSEOBJECT_HPP
 
-#include "Teuchos_FancyOStream.hpp"     // for FancyOStream
-#include "Teuchos_RCPDecl.hpp"          // for RCP
+#include "Teuchos_FancyOStream.hpp"  // for FancyOStream
+#include "Teuchos_RCPDecl.hpp"       // for RCP
 #include "Teuchos_VerboseObject.hpp"
 
 #include "MueLu_VerbosityLevel.hpp"
 
 namespace MueLu {
 
-  /*!
+/*!
     @class VerboseObject class.
     @brief Verbose class for MueLu classes
 
@@ -76,75 +76,73 @@ namespace MueLu {
     @ingroup MueLuBaseClasses
 
   */
-  class VerboseObject : public Teuchos::VerboseObject<VerboseObject> {
-  public:
+class VerboseObject : public Teuchos::VerboseObject<VerboseObject> {
+ public:
+  //! @name Constructors/Destructors.
+  //@{
+  VerboseObject();
 
-    //! @name Constructors/Destructors.
-    //@{
-    VerboseObject();
+  //! Destructor.
+  virtual ~VerboseObject();
+  //@}
 
-    //! Destructor.
-    virtual ~VerboseObject();
-    //@}
-
-    /*! @brief Get the verbosity level
+  /*! @brief Get the verbosity level
 
        If a verbosity level has not been specified for this object (using SetVerbLevel), this method returns the default/global verbose level.
     */
-    VerbLevel GetVerbLevel() const;
+  VerbLevel GetVerbLevel() const;
 
-    //! Set the verbosity level of this object
-    void SetVerbLevel(const VerbLevel verbLevel);
+  //! Set the verbosity level of this object
+  void SetVerbLevel(const VerbLevel verbLevel);
 
-    //! Get proc rank used for printing. <b>Do not use this information for any other purpose.</b>
-    int GetProcRankVerbose() const;
+  //! Get proc rank used for printing. <b>Do not use this information for any other purpose.</b>
+  int GetProcRankVerbose() const;
 
-    //! Set proc rank used for printing.
-    int SetProcRankVerbose(int procRank) const;
+  //! Set proc rank used for printing.
+  int SetProcRankVerbose(int procRank) const;
 
-    /*! @brief Find out whether we need to print out information for a specific message type.
+  /*! @brief Find out whether we need to print out information for a specific message type.
 
         This method is used to determine whether computations are necessary for this message type.
     */
-    bool IsPrint(MsgType type, int thisProcRankOnly = -1) const;
+  bool IsPrint(MsgType type, int thisProcRankOnly = -1) const;
 
-    //! Get an output stream for outputting the input message type.
-    Teuchos::FancyOStream & GetOStream(MsgType type, int thisProcRankOnly = 0) const;
+  //! Get an output stream for outputting the input message type.
+  Teuchos::FancyOStream& GetOStream(MsgType type, int thisProcRankOnly = 0) const;
 
-    Teuchos::FancyOStream & GetBlackHole() const;
+  Teuchos::FancyOStream& GetBlackHole() const;
 
-    static void SetMueLuOStream(const Teuchos::RCP<Teuchos::FancyOStream> &mueluOStream);
+  static void SetMueLuOStream(const Teuchos::RCP<Teuchos::FancyOStream>& mueluOStream);
 
-    static void SetMueLuOFileStream(const std::string& filename);
+  static void SetMueLuOFileStream(const std::string& filename);
 
-    static Teuchos::RCP<Teuchos::FancyOStream> GetMueLuOStream();
+  static Teuchos::RCP<Teuchos::FancyOStream> GetMueLuOStream();
 
-    //! @name Public static member functions
-    //@{
+  //! @name Public static member functions
+  //@{
 
-    //! Set the default (global) verbosity level.
-    static void SetDefaultVerbLevel(const VerbLevel defaultVerbLevel);
+  //! Set the default (global) verbosity level.
+  static void SetDefaultVerbLevel(const VerbLevel defaultVerbLevel);
 
-    //! Get the default (global) verbosity level.
-    static VerbLevel GetDefaultVerbLevel();
+  //! Get the default (global) verbosity level.
+  static VerbLevel GetDefaultVerbLevel();
 
-    //@}
+  //@}
 
-  private:
-    //! Verbose level specific to 'this'
-    VerbLevel verbLevel_;
-    mutable
-      int procRank_;
-    int numProcs_;
+ private:
+  //! Verbose level specific to 'this'
+  VerbLevel verbLevel_;
+  mutable int procRank_;
+  int numProcs_;
 
-    static Teuchos::RCP<Teuchos::FancyOStream> mueluOutputStream_;
-    static Teuchos::RCP<Teuchos::FancyOStream> blackHole_;
+  static Teuchos::RCP<Teuchos::FancyOStream> mueluOutputStream_;
+  static Teuchos::RCP<Teuchos::FancyOStream> blackHole_;
 
-    //! Global verbose level. This verbose level is used when the verbose level of the object is not specified (verbLevel_ == NotSpecified)
-    static VerbLevel globalVerbLevel_;
-  }; // class VerboseObject
+  //! Global verbose level. This verbose level is used when the verbose level of the object is not specified (verbLevel_ == NotSpecified)
+  static VerbLevel globalVerbLevel_;
+};  // class VerboseObject
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_VERBOSECLASS_SHORT
-#endif // MUELU_VERBOSEOBJECT_HPP
+#endif  // MUELU_VERBOSEOBJECT_HPP
