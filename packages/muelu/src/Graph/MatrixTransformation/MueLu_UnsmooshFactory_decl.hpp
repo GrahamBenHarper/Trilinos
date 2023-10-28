@@ -54,7 +54,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class UnsmooshFactory class.
     @brief Factory for building "unsmooshed" transfer operators from transfer operators associated with a scalar helper problem (built by the VariableDofLaplacianFactory)
 
@@ -90,49 +90,43 @@ namespace MueLu {
     ----------|--------------|------------
     | P       | UnsmooshFactory   | Unsmooshed prolongation operator
   */
-  template<class Scalar = DefaultScalar,
-           class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class UnsmooshFactory : public PFactory {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class UnsmooshFactory : public PFactory {
 #undef MUELU_UNSMOOSHFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! Constructor
+  UnsmooshFactory();
 
-    //! Constructor
-    UnsmooshFactory();
+  //! Destructor
+  virtual ~UnsmooshFactory() {}
 
-    //! Destructor
-    virtual ~UnsmooshFactory() { }
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //@}
 
-    //@}
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
 
-    void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
+  //@}
 
-    //@}
+  void Build(Level &fineLevel, Level &coarseLevel) const;                    // Build
+  void BuildP(Level & /* fineLevel */, Level & /* coarseLevel */) const {};  // TAW no real need for an extra BuildP routine. Just use Build
 
-    void Build (Level &fineLevel, Level &coarseLevel) const; // Build
-    void BuildP(Level &/* fineLevel */, Level &/* coarseLevel */) const {}; // TAW no real need for an extra BuildP routine. Just use Build
+ private:
+};  //class UnsmooshFactory
 
-  private:
-
-
-
-
-  }; //class UnsmooshFactory
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_UNSMOOSHFACTORY_SHORT
-
 
 #endif /* PACKAGES_MUELU_SRC_GRAPH_MUELU_UNSMOOSHFACTORY_DECL_HPP_ */

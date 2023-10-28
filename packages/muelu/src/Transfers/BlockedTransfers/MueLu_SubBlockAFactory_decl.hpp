@@ -56,10 +56,9 @@
 #include "MueLu_SingleLevelFactoryBase.hpp"
 #include "MueLu_SubBlockAFactory_fwd.hpp"
 
-
 namespace MueLu {
 
-  /*!
+/*!
     @class SubBlockAFactory class.
     @brief Factory for building a thresholded operator.
 
@@ -88,38 +87,38 @@ namespace MueLu {
     \endcode
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class SubBlockAFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class SubBlockAFactory : public SingleLevelFactoryBase {
 #undef MUELU_SUBBLOCKAFACTORY_SHORT
-    #include "MueLu_UseShortNames.hpp"
+#include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    SubBlockAFactory() = default;
+  //! Constructor.
+  SubBlockAFactory() = default;
 
-    //! Destructor.
-    virtual ~SubBlockAFactory() = default;
-    //@}
+  //! Destructor.
+  virtual ~SubBlockAFactory() = default;
+  //@}
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    RCP<const ParameterList> GetValidParameterList() const override;
+  RCP<const ParameterList> GetValidParameterList() const override;
 
-    void DeclareInput(Level &currentLevel) const override;
+  void DeclareInput(Level& currentLevel) const override;
 
-    //@}
+  //@}
 
-    //@{
-    //! @name Build methods.
+  //@{
+  //! @name Build methods.
 
-    /*! @brief Build an object with this factory.
+  /*! @brief Build an object with this factory.
      *
      * Extract sub block matrix from a given blocked crs operator.
      * Strided or block information is extracted in the following way:
@@ -135,16 +134,16 @@ namespace MueLu {
      * information from the sub maps. For strided operators, the striding
      * information of the full map is the best choice.
      */
-    void Build(Level & currentLevel) const override;
+  void Build(Level& currentLevel) const override;
 
-    //@}
+  //@}
 
-  private:
-    bool CheckForUserSpecifiedBlockInfo(bool bRange, std::vector<size_t>& stridingInfo, LocalOrdinal& stridedBlockId) const;
+ private:
+  bool CheckForUserSpecifiedBlockInfo(bool bRange, std::vector<size_t>& stridingInfo, LocalOrdinal& stridedBlockId) const;
 
-  }; // class SubBlockAFactory
+};  // class SubBlockAFactory
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SUBBLOCKAFACTORY_SHORT
 #endif /* MUELU_SUBBLOCKAFACTORY_DECL_HPP_ */

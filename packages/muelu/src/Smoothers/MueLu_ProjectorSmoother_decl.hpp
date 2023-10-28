@@ -56,7 +56,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class ProjectorSmoother
     @ingroup MueLuSmootherClasses
     @brief This class enables the elimination of the nullspace component of the solution through the use of projection
@@ -72,74 +72,71 @@ namespace MueLu {
     in the Setup stage we orthonormalize the selected nullspace components.
   */
 
-  template <class Scalar = SmootherPrototype<>::scalar_type,
-            class LocalOrdinal = typename SmootherPrototype<Scalar>::local_ordinal_type,
-            class GlobalOrdinal = typename SmootherPrototype<Scalar, LocalOrdinal>::global_ordinal_type,
-            class Node = typename SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdinal>::node_type>
-  class ProjectorSmoother : public SmootherPrototype<Scalar,LocalOrdinal,GlobalOrdinal,Node>
-  {
+template <class Scalar        = SmootherPrototype<>::scalar_type,
+          class LocalOrdinal  = typename SmootherPrototype<Scalar>::local_ordinal_type,
+          class GlobalOrdinal = typename SmootherPrototype<Scalar, LocalOrdinal>::global_ordinal_type,
+          class Node          = typename SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdinal>::node_type>
+class ProjectorSmoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_PROJECTORSMOOTHER_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors / destructors
+  //@{
 
-    //! @name Constructors / destructors
-    //@{
+  //! @brief Constructor
+  ProjectorSmoother(RCP<SmootherPrototype> coarseSolver);
 
-    //! @brief Constructor
-    ProjectorSmoother(RCP<SmootherPrototype> coarseSolver);
+  //! Destructor
+  virtual ~ProjectorSmoother();
+  //@}
 
-    //! Destructor
-    virtual ~ProjectorSmoother();
-    //@}
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level &currentLevel) const;
 
-    void DeclareInput(Level &currentLevel) const;
+  //@}
 
-    //@}
+  //! @name Setup and Apply methods.
+  //@{
 
-    //! @name Setup and Apply methods.
-    //@{
+  //! @brief Set up the direct solver.
+  void Setup(Level &currentLevel);
 
-    //! @brief Set up the direct solver.
-    void Setup(Level &currentLevel);
-
-    /*! @brief Apply the direct solver.
+  /*! @brief Apply the direct solver.
     Solves the linear system <tt>AX=B</tt> using the constructed solver.
     @param X initial guess
     @param B right-hand side
     @param InitialGuessIsZero This option has no effect.
     */
-    void Apply(MultiVector& X, const MultiVector& B, bool InitialGuessIsZero = false) const;
-    //@}
+  void Apply(MultiVector &X, const MultiVector &B, bool InitialGuessIsZero = false) const;
+  //@}
 
-    RCP<SmootherPrototype> Copy() const;
+  RCP<SmootherPrototype> Copy() const;
 
-    //! @name Overridden from Teuchos::Describable
-    //@{
+  //! @name Overridden from Teuchos::Describable
+  //@{
 
-    //! Return a simple one-line description of this object.
-    std::string description() const;
+  //! Return a simple one-line description of this object.
+  std::string description() const;
 
-    //! Print the object with some verbosity level to an FancyOStream object.
-    //using MueLu::Describable::describe; // overloading, not hiding
-    void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
+  //! Print the object with some verbosity level to an FancyOStream object.
+  //using MueLu::Describable::describe; // overloading, not hiding
+  void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
 
-    //! Get a rough estimate of cost per iteration
-    size_t getNodeSmootherComplexity() const {return coarseSolver_->getNodeSmootherComplexity();}
+  //! Get a rough estimate of cost per iteration
+  size_t getNodeSmootherComplexity() const { return coarseSolver_->getNodeSmootherComplexity(); }
 
+  //@}
 
-    //@}
+ private:
+  RCP<MultiVector> Borth_;
+  RCP<SmootherPrototype> coarseSolver_;
 
-  private:
-    RCP<MultiVector>             Borth_;
-    RCP<SmootherPrototype>       coarseSolver_;
+};  // class ProjectorSmoother
 
-  }; // class ProjectorSmoother
-
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_PROJECTORSMOOTHER_SHORT
-#endif // MUELU_PROJECTORSMOOTHER_DECL_HPP
+#endif  // MUELU_PROJECTORSMOOTHER_DECL_HPP

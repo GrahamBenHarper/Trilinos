@@ -66,7 +66,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class ReitzingerPFactory class.
     @brief Factory for building tentative prolongator.
 
@@ -98,54 +98,51 @@ namespace MueLu {
     | D0      | ReitzingerPFactory   | Discrete gradient operator
   */
 
-template <class Scalar = DefaultScalar,
-          class LocalOrdinal = DefaultLocalOrdinal,
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
-          class Node = DefaultNode>
-  class ReitzingerPFactory : public PFactory {
+          class Node          = DefaultNode>
+class ReitzingerPFactory : public PFactory {
 #undef MUELU_REITZINGERPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor
-    ReitzingerPFactory() { }
+  //! Constructor
+  ReitzingerPFactory() {}
 
-    //! Destructor.
-    virtual ~ReitzingerPFactory() { }
-    //@}
+  //! Destructor.
+  virtual ~ReitzingerPFactory() {}
+  //@}
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
+  void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    void Build (Level& fineLevel, Level& coarseLevel) const;
-    void BuildP(Level& fineLevel, Level& coarseLevel) const;
+  void Build(Level& fineLevel, Level& coarseLevel) const;
+  void BuildP(Level& fineLevel, Level& coarseLevel) const;
 
-    //@}
+  //@}
 
-    //! Utility method
-    //@{
-    void CheckCommutingProperty(const Matrix & Pe, const Matrix & D0_c, const Matrix& D0_f, const Matrix & Pn) const;
-    //@}
+  //! Utility method
+  //@{
+  void CheckCommutingProperty(const Matrix& Pe, const Matrix& D0_c, const Matrix& D0_f, const Matrix& Pn) const;
+  //@}
 
-  private:
+ private:
+};  //class ReitzingerPFactory
 
-  }; //class ReitzingerPFactory
-
-} //namespace MueLu
-
-
+}  //namespace MueLu
 
 #define MUELU_REITZINGERPFACTORY_SHORT
-#endif // MUELU_REITZINGERPFACTORY_DECL_HPP
+#endif  // MUELU_REITZINGERPFACTORY_DECL_HPP

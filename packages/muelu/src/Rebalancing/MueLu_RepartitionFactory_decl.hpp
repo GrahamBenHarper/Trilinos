@@ -68,7 +68,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class RepartitionFactory class.
     @brief Factory for building permutation matrix that can be be used to shuffle data (matrices, vectors) among processes
 
@@ -108,52 +108,52 @@ namespace MueLu {
 
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class RepartitionFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class RepartitionFactory : public SingleLevelFactoryBase {
 #undef MUELU_REPARTITIONFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    RepartitionFactory() { }
+  //! Constructor.
+  RepartitionFactory() {}
 
-    //! Destructor.
-    virtual ~RepartitionFactory() { }
+  //! Destructor.
+  virtual ~RepartitionFactory() {}
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //@}
+  //@}
 
-    //! @name Input
-    //@{
+  //! @name Input
+  //@{
 
-    /*! @brief Determines the data that RepartitionFactory needs, and the factories that generate that data.
+  /*! @brief Determines the data that RepartitionFactory needs, and the factories that generate that data.
 
         If this class requires some data, but the generating factory is not specified in DeclareInput, then this class
         will fall back to the settings in FactoryManager.
     */
-    void DeclareInput(Level& currentLevel) const;
+  void DeclareInput(Level& currentLevel) const;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    //! Build an object with this factory.
-    void Build(Level& currentLevel) const;
+  //! Build an object with this factory.
+  void Build(Level& currentLevel) const;
 
-    //@}
+  //@}
 
-    //! @name Helper methods.
-    //@{
+  //! @name Helper methods.
+  //@{
 
-    /*!
+  /*!
       @brief Determine which process should own each partition.
 
       Partitions are assigned to processes in order to minimize data movement.  The basic idea is that a good choice for partition
@@ -161,13 +161,13 @@ namespace MueLu {
       is set on a rank, no partition will be placed there.
 
     */
-    void DeterminePartitionPlacement(const Matrix& A, GOVector& decomposition, GO numPartitions, bool willAcceptPartition=true, bool allSubdomainsAcceptPartitions=true) const;
+  void DeterminePartitionPlacement(const Matrix& A, GOVector& decomposition, GO numPartitions, bool willAcceptPartition = true, bool allSubdomainsAcceptPartitions = true) const;
 
-  }; // class RepartitionFactory
+};  // class RepartitionFactory
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REPARTITIONFACTORY_SHORT
 
-#endif //ifdef HAVE_MPI
-#endif // MUELU_REPARTITIONFACTORY_DECL_HPP
+#endif  //ifdef HAVE_MPI
+#endif  // MUELU_REPARTITIONFACTORY_DECL_HPP

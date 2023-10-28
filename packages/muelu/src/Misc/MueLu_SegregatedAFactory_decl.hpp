@@ -55,7 +55,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class SegregatedAFactory class.
     @brief Factory for building a new "segregated" A operator. Here, "segregated" means that the user
            provides a map (containing a subset of the row gids of the input matrix A) and the factory
@@ -69,48 +69,46 @@ namespace MueLu {
                  does not distinguish between matrix entries which are zero and nonzero.
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class SegregatedAFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class SegregatedAFactory : public SingleLevelFactoryBase {
 #undef MUELU_SEGREGATEDAFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! Constructor.
+  SegregatedAFactory() = default;
 
-    //! Constructor.
-    SegregatedAFactory() = default;
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level& currentLevel) const;
 
-    void DeclareInput(Level& currentLevel) const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //@}
 
-    //@}
+  //! @name Build methods.
+  //@{
 
-    //! @name Build methods.
-    //@{
-
-    /*!
+  /*!
       @brief Build method.
 
       Builds filtered matrix and returns it in <tt>currentLevel</tt>.
       */
-    void Build(Level& currentLevel) const;
+  void Build(Level& currentLevel) const;
 
-    //@}
+  //@}
 
-  private:
+ private:
+  //! Generating factory of input variable
+  mutable RCP<const FactoryBase> mapFact_;
 
-    //! Generating factory of input variable
-    mutable RCP<const FactoryBase> mapFact_;
+};  //class SegregatedAFactory
 
-  }; //class SegregatedAFactory
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_SEGREGATEDAFACTORY_SHORT
-#endif // MUELU_SEGREGATEDAFACTORY_DECL_HPP
+#endif  // MUELU_SEGREGATEDAFACTORY_DECL_HPP

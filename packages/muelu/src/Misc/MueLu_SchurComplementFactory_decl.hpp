@@ -60,14 +60,12 @@
 #include <Xpetra_CrsMatrix_fwd.hpp>
 #include <Xpetra_Map_fwd.hpp>
 
-
 #include "MueLu_FactoryBase_fwd.hpp"
 #include "MueLu_SingleLevelFactoryBase.hpp"
 
-
 namespace MueLu {
 
-  /*!
+/*!
     @class SchurComplementFactory class.
     @brief Factory for building the Schur Complement for a 2x2 block matrix.
 
@@ -101,46 +99,45 @@ namespace MueLu {
     | A | SchurComplementFactory | The schur complement of the given block matrix.
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class SchurComplementFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class SchurComplementFactory : public SingleLevelFactoryBase {
 #undef MUELU_SCHURCOMPLEMENTFACTORY_SHORT
-    #include "MueLu_UseShortNames.hpp"
+#include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    SchurComplementFactory() = default;
+  //! Constructor.
+  SchurComplementFactory() = default;
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    void DeclareInput(Level& currentLevel) const;
+  void DeclareInput(Level& currentLevel) const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //@}
+  //@}
 
-    //@{
-    //! @name Build methods.
+  //@{
+  //! @name Build methods.
 
-    //! Build an object with this factory.
-    void Build(Level& currentLevel) const;
+  //! Build an object with this factory.
+  void Build(Level& currentLevel) const;
 
-    //@}
+  //@}
 
+ private:
+  //! Schur complement calculation method.
+  RCP<Matrix> ComputeSchurComplement(RCP<BlockedCrsMatrix>& bA, RCP<Matrix>& Ainv) const;
 
-  private:
-    //! Schur complement calculation method.
-    RCP<Matrix> ComputeSchurComplement(RCP<BlockedCrsMatrix>& bA, RCP<Matrix>& Ainv) const;
+};  // class SchurComplementFactory
 
-  }; // class SchurComplementFactory
-
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SCHURCOMPLEMENTFACTORY_SHORT
 #endif /* MUELU_SCHURCOMPLEMENTFACTORY_DECL_HPP_ */

@@ -57,11 +57,9 @@
 #include "MueLu_ConfigDefs.hpp"
 #include "MueLu_SingleLevelFactoryBase.hpp"
 
-
 namespace MueLu {
 
-
-  /*!
+/*!
     @class ReorderBlockAFactory class.
     @brief Factory for building a reordered (nested) block operator
 
@@ -74,32 +72,32 @@ namespace MueLu {
     \endcode
   */
 
-  template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
-  class ReorderBlockAFactory : public SingleLevelFactoryBase {
+template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
+class ReorderBlockAFactory : public SingleLevelFactoryBase {
 #undef MUELU_REORDERBLOCKAFACTORY_SHORT
-    #include "MueLu_UseShortNames.hpp"
+#include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! Input
-    //@{
+ public:
+  //! Input
+  //@{
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    void DeclareInput(Level &currentLevel) const;
+  void DeclareInput(Level &currentLevel) const;
 
-    //@}
+  //@}
 
-    //@{
-    //! @name Build methods.
+  //@{
+  //! @name Build methods.
 
-    /*! @brief Build an object with this factory.
+  /*! @brief Build an object with this factory.
      */
-    void Build(Level & currentLevel) const;
+  void Build(Level &currentLevel) const;
 
-    //@}
-  }; // class ReorderBlockAFactory
+  //@}
+};  // class ReorderBlockAFactory
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REORDERBLOCKAFACTORY_SHORT
 #endif /* MUELU_REORDERBLOCKAFACTORY_DECL_HPP_ */

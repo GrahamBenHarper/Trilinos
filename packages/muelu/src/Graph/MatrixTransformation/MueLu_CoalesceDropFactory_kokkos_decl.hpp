@@ -62,7 +62,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class CoalesceDropFactory_kokkos
     @brief Factory for creating a graph based on a given matrix.
 
@@ -127,51 +127,49 @@ namespace MueLu {
     on HyperGraph partitioning without coordinate information) where one has
     not access to a "Graph" or "Coordinates" variable.
   */
-  template<class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
-  class CoalesceDropFactory_kokkos;
+template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
+class CoalesceDropFactory_kokkos;
 
-  template<class Scalar, class LocalOrdinal, class GlobalOrdinal, class DeviceType>
-  class CoalesceDropFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType> > : public SingleLevelFactoryBase {
-  public:
-    using local_ordinal_type  = LocalOrdinal;
-    using global_ordinal_type = GlobalOrdinal;
-    using execution_space     = typename DeviceType::execution_space;
-    using range_type          = Kokkos::RangePolicy<local_ordinal_type, execution_space>;
-    using node_type           = Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType>;
+template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class DeviceType>
+class CoalesceDropFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType> > : public SingleLevelFactoryBase {
+ public:
+  using local_ordinal_type  = LocalOrdinal;
+  using global_ordinal_type = GlobalOrdinal;
+  using execution_space     = typename DeviceType::execution_space;
+  using range_type          = Kokkos::RangePolicy<local_ordinal_type, execution_space>;
+  using node_type           = Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType>;
 
-  private:
-    // For compatibility
-    using Node                = node_type;
+ private:
+  // For compatibility
+  using Node = node_type;
 #undef MUELU_COALESCEDROPFACTORY_KOKKOS_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! Constructor
+  CoalesceDropFactory_kokkos() {}
 
-    //! Constructor
-    CoalesceDropFactory_kokkos() { }
+  //! Destructor
+  virtual ~CoalesceDropFactory_kokkos() {}
 
-    //! Destructor
-    virtual ~CoalesceDropFactory_kokkos() { }
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //@}
 
-    //@}
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level& currentLevel) const;
 
-    void DeclareInput(Level& currentLevel) const;
+  //@}
 
-    //@}
+  void Build(Level& currentLevel) const;
+};
 
-    void Build(Level& currentLevel) const;
-
-  };
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_COALESCEDROPFACTORY_KOKKOS_SHORT
-#endif // MUELU_COALESCEDROPFACTORY_KOKKOS_DECL_HPP
+#endif  // MUELU_COALESCEDROPFACTORY_KOKKOS_DECL_HPP

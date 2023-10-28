@@ -60,7 +60,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class InverseApproximationFactory class.
     @brief Factory for building the approximate inverse of a matrix.
 
@@ -93,45 +93,45 @@ namespace MueLu {
     | Ainv | InverseApproximationFactory | The approximate inverse of a given matrix.
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class InverseApproximationFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class InverseApproximationFactory : public SingleLevelFactoryBase {
 #undef MUELU_INVERSEAPPROXIMATIONFACTORY_SHORT
-    #include "MueLu_UseShortNames.hpp"
+#include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    InverseApproximationFactory() = default;
+  //! Constructor.
+  InverseApproximationFactory() = default;
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    void DeclareInput(Level& currentLevel) const;
+  void DeclareInput(Level& currentLevel) const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //@}
+  //@}
 
-    //@{
-    //! @name Build methods.
+  //@{
+  //! @name Build methods.
 
-    //! Build an object with this factory.
-    void Build(Level& currentLevel) const;
+  //! Build an object with this factory.
+  void Build(Level& currentLevel) const;
 
-    //@}
+  //@}
 
-  private:
-    //! Sparse inverse calculation method.
-    RCP<Matrix> GetSparseInverse(const RCP<Matrix>& A, const RCP<const CrsGraph>& sparsityPattern) const;
+ private:
+  //! Sparse inverse calculation method.
+  RCP<Matrix> GetSparseInverse(const RCP<Matrix>& A, const RCP<const CrsGraph>& sparsityPattern) const;
 
-  }; // class InverseApproximationFactory
+};  // class InverseApproximationFactory
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_INVERSEAPPROXIMATIONFACTORY_SHORT
 #endif /* MUELU_INVERSEAPPROXIMATIONFACTORY_DECL_HPP_ */

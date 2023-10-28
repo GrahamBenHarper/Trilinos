@@ -46,10 +46,9 @@
 #ifndef MUELU_IFPACKSMOOTHER_FWD_HPP
 #define MUELU_IFPACKSMOOTHER_FWD_HPP
 
-
 namespace MueLu {
-  template <class Node>
-  class IfpackSmoother;
+template <class Node>
+class IfpackSmoother;
 }
 
 //namespace MueLu {
@@ -60,6 +59,4 @@ namespace MueLu {
 #define MUELU_IFPACKSMOOTHER_SHORT
 #endif
 
-
-
-#endif // MUELU_IFPACKSMOOTHER_FWD_HPP
+#endif  // MUELU_IFPACKSMOOTHER_FWD_HPP

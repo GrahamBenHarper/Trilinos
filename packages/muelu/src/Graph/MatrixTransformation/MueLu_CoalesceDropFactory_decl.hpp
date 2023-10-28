@@ -52,7 +52,7 @@
 #include <Xpetra_Vector_fwd.hpp>
 #include <Xpetra_ImportFactory_fwd.hpp>
 #include <Xpetra_CrsGraph_fwd.hpp>
-#include <Xpetra_CrsGraphFactory_fwd.hpp> //TODO
+#include <Xpetra_CrsGraphFactory_fwd.hpp>  //TODO
 #include <Xpetra_StridedMap_fwd.hpp>
 #include <Xpetra_Map_fwd.hpp>
 
@@ -72,7 +72,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class CoalesceDropFactory
     @brief Factory for creating a graph based on a given matrix.
 
@@ -127,61 +127,57 @@ namespace MueLu {
     However, there are also some situations (e.g. when doing rebalancing based on HyperGraph partitioning without coordinate information) where one has not access to a "Graph" or "Coordinates" variable.
   */
 
-  template<class Scalar = DefaultScalar,
-           class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class CoalesceDropFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class CoalesceDropFactory : public SingleLevelFactoryBase {
 #undef MUELU_COALESCEDROPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! Constructor
+  CoalesceDropFactory();
 
-    //! Constructor
-    CoalesceDropFactory();
+  //! Destructor
+  virtual ~CoalesceDropFactory() {}
 
-    //! Destructor
-    virtual ~CoalesceDropFactory() { }
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //@}
 
-    //@}
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level& currentLevel) const;
 
-    void DeclareInput(Level &currentLevel) const;
+  /// set predrop function
+  void SetPreDropFunction(const RCP<MueLu::PreDropFunctionBaseClass<Scalar, LocalOrdinal, GlobalOrdinal, Node> >& predrop) { predrop_ = predrop; }
 
-    /// set predrop function
-    void SetPreDropFunction(const RCP<MueLu::PreDropFunctionBaseClass<Scalar,LocalOrdinal,GlobalOrdinal,Node> > &predrop) { predrop_ = predrop; }
+  //@}
 
-    //@}
+  void Build(Level& currentLevel) const;  // Build
 
-    void Build(Level &currentLevel) const; // Build
+ private:
+  // pre-drop function
+  mutable RCP<PreDropFunctionBaseClass> predrop_;
 
-  private:
+  //! Method to merge rows of matrix for systems of PDEs.
+  void MergeRows(const Matrix& A, const LO row, Array<LO>& cols, const Array<LO>& translation) const;
+  void MergeRowsWithDropping(const Matrix& A, const LO row, const ArrayRCP<const SC>& ghostedDiagVals, SC threshold, Array<LO>& cols, const Array<LO>& translation) const;
 
-    // pre-drop function
-    mutable
-     RCP<PreDropFunctionBaseClass> predrop_;
+  // When we want to decouple a block diagonal system (returns Teuchos::null if generate_matrix is false)
+  Teuchos::RCP<Xpetra::Matrix<Scalar, LocalOrdinal, GlobalOrdinal, Node> > BlockDiagonalize(Level& currentLevel, const RCP<Matrix>& A, bool generate_matrix) const;
 
-    //! Method to merge rows of matrix for systems of PDEs.
-    void MergeRows(const Matrix& A, const LO row, Array<LO>& cols, const Array<LO>& translation) const;
-    void MergeRowsWithDropping(const Matrix& A, const LO row, const ArrayRCP<const SC>& ghostedDiagVals, SC threshold, Array<LO>& cols, const Array<LO>& translation) const;
+  // When we want to decouple a block diagonal system via a *graph*
+  void BlockDiagonalizeGraph(const RCP<GraphBase>& inputGraph, const RCP<LocalOrdinalVector>& ghostedBlockNumber, RCP<GraphBase>& outputGraph, RCP<const Import>& importer) const;
 
+};  //class CoalesceDropFactory
 
-    // When we want to decouple a block diagonal system (returns Teuchos::null if generate_matrix is false)
-    Teuchos::RCP<Xpetra::Matrix<Scalar,LocalOrdinal,GlobalOrdinal,Node> > BlockDiagonalize(Level & currentLevel,const RCP<Matrix> & A, bool generate_matrix) const;
-
-    // When we want to decouple a block diagonal system via a *graph*
-    void BlockDiagonalizeGraph(const RCP<GraphBase> & inputGraph, const RCP<LocalOrdinalVector> & ghostedBlockNumber, RCP<GraphBase> & outputGraph, RCP<const Import> & importer) const;
-
-  }; //class CoalesceDropFactory
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_COALESCEDROPFACTORY_SHORT
-#endif // MUELU_COALESCEDROPFACTORY_DECL_HPP
+#endif  // MUELU_COALESCEDROPFACTORY_DECL_HPP

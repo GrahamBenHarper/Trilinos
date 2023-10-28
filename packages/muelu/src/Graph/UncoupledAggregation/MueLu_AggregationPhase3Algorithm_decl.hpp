@@ -55,7 +55,7 @@
 #include "MueLu_GraphBase.hpp"
 
 namespace MueLu {
-  /*!
+/*!
     @class AggregationPhase3Algorithm class.
     @brief Handle leftover nodes. Try to avoid singleton nodes
     @ingroup Aggregation
@@ -72,41 +72,38 @@ namespace MueLu {
 
   */
 
-  template<class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class AggregationPhase3Algorithm :
-    public MueLu::AggregationAlgorithmBase<LocalOrdinal,GlobalOrdinal,Node> {
+template <class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class AggregationPhase3Algorithm : public MueLu::AggregationAlgorithmBase<LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_AGGREGATIONPHASE3ALGORITHM_SHORT
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    AggregationPhase3Algorithm(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) { }
+  //! Constructor.
+  AggregationPhase3Algorithm(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) {}
 
-    //! Destructor.
-    virtual ~AggregationPhase3Algorithm() { }
+  //! Destructor.
+  virtual ~AggregationPhase3Algorithm() {}
 
-    //@}
+  //@}
 
+  //! @name Aggregation methods.
+  //@{
 
-    //! @name Aggregation methods.
-    //@{
+  /*! @brief Local aggregation. */
 
-    /*! @brief Local aggregation. */
+  void BuildAggregates(const ParameterList& params, const GraphBase& graph, Aggregates& aggregates, std::vector<unsigned>& aggStat, LO& numNonAggregatedNodes) const;
+  //@}
 
-    void BuildAggregates(const ParameterList& params, const GraphBase& graph, Aggregates& aggregates, std::vector<unsigned>& aggStat, LO& numNonAggregatedNodes) const;
-    //@}
+  std::string description() const { return "Phase 3 (cleanup)"; }
+};
 
-    std::string description() const { return "Phase 3 (cleanup)"; }
-  };
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_AGGREGATIONPHASE3ALGORITHM_SHORT
-
 
 #endif /* MUELU_AGGREGATIONPHASE3ALGORITHM_DECL_HPP_ */

@@ -57,10 +57,10 @@
 #include "MueLu_Level_fwd.hpp"
 
 namespace MueLuTests {
-  // Forward declaration of friend tester class used to UnitTest ReplicatePFactory
-  template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
-  class ReplicatePFactoryTester;
-}
+// Forward declaration of friend tester class used to UnitTest ReplicatePFactory
+template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
+class ReplicatePFactoryTester;
+}  // namespace MueLuTests
 
 namespace MueLu {
 
@@ -104,52 +104,50 @@ namespace MueLu {
   | P                 | ReplicatePFactory | Prolongator                                                                                                      |
 
 */
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class ReplicatePFactory : public PFactory {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class ReplicatePFactory : public PFactory {
 #undef MUELU_REPLICATEPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  friend class MueLuTests::ReplicatePFactoryTester<Scalar, LocalOrdinal, GlobalOrdinal, Node>;
 
-    friend class MueLuTests::ReplicatePFactoryTester<Scalar,LocalOrdinal,GlobalOrdinal,Node>;
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! Constructor
+  ReplicatePFactory() {}
 
-    //! Constructor
-    ReplicatePFactory() { }
+  //! Destructor.
+  virtual ~ReplicatePFactory() {}
+  //@}
 
-    //! Destructor.
-    virtual ~ReplicatePFactory() { }
-    //@}
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
 
-    void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
+  //@}
 
-    //@}
+  //! @name Build methods.
+  //@{
 
-    //! @name Build methods.
-    //@{
+  void Build(Level& fineLevel, Level& coarseLevel) const;
+  void BuildP(Level& fineLevel, Level& coarseLevel) const;
 
-    void Build (Level& fineLevel, Level& coarseLevel) const;
-    void BuildP(Level& fineLevel, Level& coarseLevel) const;
+  //@}
 
-    //@}
+ private:
+  int numPDEs_;
 
-  private:
+};  //class ReplicatePFactory
 
-    int numPDEs_;
-
-  }; //class ReplicatePFactory
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_REPLICATEPFACTORY_SHORT
-#endif // MUELU_REPLICATEPFACTORY_DECL_HPP
+#endif  // MUELU_REPLICATEPFACTORY_DECL_HPP

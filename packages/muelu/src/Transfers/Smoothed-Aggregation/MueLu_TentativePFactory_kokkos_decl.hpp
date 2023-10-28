@@ -64,7 +64,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class TentativePFactory class.
     @brief Factory for building tentative prolongator.
 
@@ -102,80 +102,75 @@ namespace MueLu {
     | P       | TentativePFactory   | Non-smoothed "tentative" prolongation operator (with piece-wise constant transfer operator basis functions)
     | Nullspace | TentativePFactory | Coarse near null space vectors. Please also check the documentation of the NullspaceFactory for the special dependency tree of the "Nullspace" variable throughout all multigrid levels.
   */
-  template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
-  class TentativePFactory_kokkos;
+template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
+class TentativePFactory_kokkos;
 
-  template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class DeviceType>
-  class TentativePFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType> > : public PFactory {
-  public:
-    typedef LocalOrdinal                                             local_ordinal_type;
-    typedef GlobalOrdinal                                            global_ordinal_type;
-    typedef typename DeviceType::execution_space                     execution_space;
-    typedef Kokkos::RangePolicy<local_ordinal_type, execution_space> range_type;
-    typedef Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType>      node_type;
-    typedef typename Teuchos::ScalarTraits<Scalar>::coordinateType   real_type;
-    typedef Xpetra::MultiVector<real_type, LocalOrdinal, GlobalOrdinal, node_type> RealValuedMultiVector;
+template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class DeviceType>
+class TentativePFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType> > : public PFactory {
+ public:
+  typedef LocalOrdinal local_ordinal_type;
+  typedef GlobalOrdinal global_ordinal_type;
+  typedef typename DeviceType::execution_space execution_space;
+  typedef Kokkos::RangePolicy<local_ordinal_type, execution_space> range_type;
+  typedef Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType> node_type;
+  typedef typename Teuchos::ScalarTraits<Scalar>::coordinateType real_type;
+  typedef Xpetra::MultiVector<real_type, LocalOrdinal, GlobalOrdinal, node_type> RealValuedMultiVector;
 
-  private:
-    // For compatibility
-    typedef node_type                                           Node;
+ private:
+  // For compatibility
+  typedef node_type Node;
 #undef MUELU_TENTATIVEPFACTORY_KOKKOS_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor
-    TentativePFactory_kokkos() { }
+  //! Constructor
+  TentativePFactory_kokkos() {}
 
-    //! Destructor.
-    virtual ~TentativePFactory_kokkos() { }
-    //@}
+  //! Destructor.
+  virtual ~TentativePFactory_kokkos() {}
+  //@}
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
+  void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    void Build (Level& fineLevel, Level& coarseLevel) const;
-    void BuildP(Level& fineLevel, Level& coarseLevel) const;
+  void Build(Level& fineLevel, Level& coarseLevel) const;
+  void BuildP(Level& fineLevel, Level& coarseLevel) const;
 
-    //@}
+  //@}
 
+  // NOTE: All of thess should really be private, but CUDA doesn't like that
 
-    // NOTE: All of thess should really be private, but CUDA doesn't like that
-    
-    void BuildPuncoupledBlockCrs(Level& coarseLevel, RCP<Matrix> A, RCP<Aggregates> aggregates, RCP<AmalgamationInfo> amalgInfo,
-                                 RCP<MultiVector> fineNullspace, RCP<const Map> coarseMap, RCP<Matrix>& Ptentative, RCP<MultiVector>& coarseNullspace, const int levelID) const;
+  void BuildPuncoupledBlockCrs(Level& coarseLevel, RCP<Matrix> A, RCP<Aggregates> aggregates, RCP<AmalgamationInfo> amalgInfo,
+                               RCP<MultiVector> fineNullspace, RCP<const Map> coarseMap, RCP<Matrix>& Ptentative, RCP<MultiVector>& coarseNullspace, const int levelID) const;
 
+  bool isGoodMap(const Map& rowMap, const Map& colMap) const;
 
-    bool isGoodMap(const Map& rowMap, const Map& colMap) const;
+  void BuildPcoupled(RCP<Matrix> A, RCP<Aggregates> aggregates,
+                     RCP<AmalgamationInfo> amalgInfo, RCP<MultiVector> fineNullspace,
+                     RCP<const Map> coarseMap, RCP<Matrix>& Ptentative,
+                     RCP<MultiVector>& coarseNullspace) const;
 
+  void BuildPuncoupled(Level& coarseLevel, RCP<Matrix> A, RCP<Aggregates> aggregates,
+                       RCP<AmalgamationInfo> amalgInfo, RCP<MultiVector> fineNullspace,
+                       RCP<const Map> coarseMap, RCP<Matrix>& Ptentative,
+                       RCP<MultiVector>& coarseNullspace, const int levelID) const;
 
+  mutable bool bTransferCoordinates_ = false;
+};
 
-    void BuildPcoupled  (RCP<Matrix> A, RCP<Aggregates> aggregates,
-                         RCP<AmalgamationInfo> amalgInfo, RCP<MultiVector> fineNullspace,
-                         RCP<const Map> coarseMap, RCP<Matrix>& Ptentative,
-                         RCP<MultiVector>& coarseNullspace) const;
-
-    void BuildPuncoupled(Level& coarseLevel, RCP<Matrix> A, RCP<Aggregates> aggregates,
-                         RCP<AmalgamationInfo> amalgInfo, RCP<MultiVector> fineNullspace,
-                         RCP<const Map> coarseMap, RCP<Matrix>& Ptentative,
-                         RCP<MultiVector>& coarseNullspace, const int levelID) const;
-
-    mutable bool bTransferCoordinates_ = false;
-
-  };
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_TENTATIVEPFACTORY_KOKKOS_SHORT
-#endif // MUELU_TENTATIVEPFACTORY_KOKKOS_DECL_HPP
+#endif  // MUELU_TENTATIVEPFACTORY_KOKKOS_DECL_HPP

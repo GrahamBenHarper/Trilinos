@@ -67,9 +67,9 @@
 
 namespace MueLu {
 
-  class Level;
+class Level;
 
-  /*!
+/*!
     @class AggregationExportFactory class.
     @brief Factory to export aggregation info or visualize aggregates using VTK
 
@@ -102,85 +102,84 @@ namespace MueLu {
     The * in the @c validated column means that the parameter is declared in the list of valid input parameters (see AggregationExportFactory::GetValidParameters).<br>
     The * in the @c requested column states that the data is requested as input with all dependencies (see AggregationExportFactory::DeclareInput).
   */
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class AggregationExportFactory : public TwoLevelFactoryBase, public VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node> {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class AggregationExportFactory : public TwoLevelFactoryBase, public VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_AGGREGATIONEXPORTFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    AggregationExportFactory() :
-      doFineGraphEdges_(false),
-      doCoarseGraphEdges_(false),
-      numNodes_(0),
-      numAggs_(0),
-      dims_(0),
-      myRank_(-1),
-      aggsOffset_(0)
-    { }
+  //! Constructor.
+  AggregationExportFactory()
+    : doFineGraphEdges_(false)
+    , doCoarseGraphEdges_(false)
+    , numNodes_(0)
+    , numAggs_(0)
+    , dims_(0)
+    , myRank_(-1)
+    , aggsOffset_(0) {}
 
-    //! Destructor.
-    virtual ~AggregationExportFactory() { }
-    //@}
+  //! Destructor.
+  virtual ~AggregationExportFactory() {}
+  //@}
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
+  void DeclareInput(Level& fineLevel, Level& coarseLevel) const;
 
-    //@}
+  //@}
 
-    //@{
-    //! @name Build methods.
+  //@{
+  //! @name Build methods.
 
-    //! Build an object with this factory.
-    void Build(Level &fineLevel, Level &coarseLevel) const;
+  //! Build an object with this factory.
+  void Build(Level& fineLevel, Level& coarseLevel) const;
 
-    using coordinate_type       = typename Teuchos::ScalarTraits<SC>::coordinateType;
-    using CoordinateMultiVector = typename Xpetra::MultiVector<coordinate_type, LO, GO, NO>;
+  using coordinate_type       = typename Teuchos::ScalarTraits<SC>::coordinateType;
+  using CoordinateMultiVector = typename Xpetra::MultiVector<coordinate_type, LO, GO, NO>;
 
-    //@}
+  //@}
 
-  private:
-    //Break different viz styles into separate functions for organization:
-    void doJacksPlus_(std::vector<int>& vertices, std::vector<int>& geomSizes) const;
-    void doConvexHulls(std::vector<int>& vertices, std::vector<int>& geomSizes) const;
-    void doGraphEdges_(std::ofstream& fout, Teuchos::RCP<Matrix>& A, Teuchos::RCP<GraphBase>& G, bool fine, int dofs) const; //add geometry to display node connections from a matrix. Connections in graph but not matrix have different color.
+ private:
+  //Break different viz styles into separate functions for organization:
+  void doJacksPlus_(std::vector<int>& vertices, std::vector<int>& geomSizes) const;
+  void doConvexHulls(std::vector<int>& vertices, std::vector<int>& geomSizes) const;
+  void doGraphEdges_(std::ofstream& fout, Teuchos::RCP<Matrix>& A, Teuchos::RCP<GraphBase>& G, bool fine, int dofs) const;  //add geometry to display node connections from a matrix. Connections in graph but not matrix have different color.
 
-    // write VTK data
-    void writeFile_(std::ofstream& fout, std::string styleName, std::vector<int>& vertices, std::vector<int>& geomSizes) const;
-    void buildColormap_() const;
-    void writePVTU_(std::ofstream& pvtu, std::string baseFname, int numProcs) const;
+  // write VTK data
+  void writeFile_(std::ofstream& fout, std::string styleName, std::vector<int>& vertices, std::vector<int>& geomSizes) const;
+  void buildColormap_() const;
+  void writePVTU_(std::ofstream& pvtu, std::string baseFname, int numProcs) const;
 
-    static const int CONTRAST_1_ = -1;
-    static const int CONTRAST_2_ = -2;
-    static const int CONTRAST_3_ = -3;
+  static const int CONTRAST_1_ = -1;
+  static const int CONTRAST_2_ = -2;
+  static const int CONTRAST_3_ = -3;
 
-    // Data that the different styles need to have available when building geometry
-    mutable Teuchos::RCP<CoordinateMultiVector> coords_; // fine local coordinates
-    mutable Teuchos::RCP<CoordinateMultiVector> coordsCoarse_; // coarse local coordinates
-    mutable Teuchos::ArrayRCP<LocalOrdinal> vertex2AggId_;
-    mutable Teuchos::ArrayRCP<LocalOrdinal> aggSizes_;
-    mutable std::vector<bool> isRoot_;
-    mutable bool doFineGraphEdges_;
-    mutable bool doCoarseGraphEdges_;
-    mutable int numNodes_;
-    mutable int numAggs_;
-    mutable int dims_;
-    mutable int myRank_;
-    mutable Teuchos::RCP<const Map> nodeMap_; //map used in A and Coordinates to map local ordinals to global ordinals. Need the whole map especially if it's not contiguous.
-    mutable Teuchos::RCP<const Map> nodeMapCoarse_; //Map for Ac
-    mutable int aggsOffset_;            //in a global list of aggregates, the offset of local aggregate indices
-  }; // class AggregationExportFactory
-} // namespace MueLu
+  // Data that the different styles need to have available when building geometry
+  mutable Teuchos::RCP<CoordinateMultiVector> coords_;        // fine local coordinates
+  mutable Teuchos::RCP<CoordinateMultiVector> coordsCoarse_;  // coarse local coordinates
+  mutable Teuchos::ArrayRCP<LocalOrdinal> vertex2AggId_;
+  mutable Teuchos::ArrayRCP<LocalOrdinal> aggSizes_;
+  mutable std::vector<bool> isRoot_;
+  mutable bool doFineGraphEdges_;
+  mutable bool doCoarseGraphEdges_;
+  mutable int numNodes_;
+  mutable int numAggs_;
+  mutable int dims_;
+  mutable int myRank_;
+  mutable Teuchos::RCP<const Map> nodeMap_;        //map used in A and Coordinates to map local ordinals to global ordinals. Need the whole map especially if it's not contiguous.
+  mutable Teuchos::RCP<const Map> nodeMapCoarse_;  //Map for Ac
+  mutable int aggsOffset_;                         //in a global list of aggregates, the offset of local aggregate indices
+};                                                 // class AggregationExportFactory
+}  // namespace MueLu
 
 #define MUELU_AGGREGATIONEXPORTFACTORY_SHORT
 

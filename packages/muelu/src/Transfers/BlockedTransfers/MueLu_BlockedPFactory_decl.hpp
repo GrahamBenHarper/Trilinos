@@ -58,8 +58,7 @@
 
 namespace MueLu {
 
-
-  /*!
+/*!
     @class BlockedPFactory class.
     @brief Factory for building blocked, segregated prolongation operators.
 
@@ -117,85 +116,84 @@ namespace MueLu {
 
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class BlockedPFactory : public PFactory {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class BlockedPFactory : public PFactory {
 #undef MUELU_BLOCKEDPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
-
-    /*! @brief Constructor.
+  /*! @brief Constructor.
       User can supply a factory for generating the tentative prolongator.
     */
-    BlockedPFactory(/*RCP<FactoryBase> AFact = Teuchos::null*/): diagonalView_("current") { }
+  BlockedPFactory(/*RCP<FactoryBase> AFact = Teuchos::null*/)
+    : diagonalView_("current") {}
 
-    //! Destructor.
-    virtual ~BlockedPFactory() { }
+  //! Destructor.
+  virtual ~BlockedPFactory() {}
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //@}
+  //@}
 
-    //! @name Set methods.
-    //@{
+  //! @name Set methods.
+  //@{
 
-    //! Change view of diagonal.
-    void SetDiagonalView(std::string const& diagView) { diagonalView_ = diagView; }
+  //! Change view of diagonal.
+  void SetDiagonalView(std::string const &diagView) { diagonalView_ = diagView; }
 
-    //! Add a factory manager
-    void AddFactoryManager(RCP<const FactoryManagerBase> FactManager) { FactManager_.push_back(FactManager); }
+  //! Add a factory manager
+  void AddFactoryManager(RCP<const FactoryManagerBase> FactManager) { FactManager_.push_back(FactManager); }
 
-    //@}
+  //@}
 
-    //! @name Get methods.
-    //@{
+  //! @name Get methods.
+  //@{
 
-    //! Returns current view of diagonal.
-    std::string GetDiagonalView() { return diagonalView_; }
+  //! Returns current view of diagonal.
+  std::string GetDiagonalView() { return diagonalView_; }
 
-    //@}
+  //@}
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
-    //@}
+  void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    /*!
+  /*!
       @brief Build method.
 
       Build segregated blocked prolongator by assembly from prolongators of each subblock in A
       and return it in \c coarseLevel .
     */
-    void Build(Level& fineLevel, Level &coarseLevel) const;
+  void Build(Level &fineLevel, Level &coarseLevel) const;
 
-    void BuildP(Level &fineLevel, Level &coarseLevel) const;
+  void BuildP(Level &fineLevel, Level &coarseLevel) const;
 
-    //@}
+  //@}
 
-  private:
-    bool areGidsUnique(const std::vector<GO>& X) const {
-      std::set<GO> Y(X.begin(), X.end());
-      return X.size() == Y.size();
-    }
+ private:
+  bool areGidsUnique(const std::vector<GO> &X) const {
+    std::set<GO> Y(X.begin(), X.end());
+    return X.size() == Y.size();
+  }
 
-    //! Input factories
-    std::vector<Teuchos::RCP<const FactoryManagerBase> > FactManager_;
+  //! Input factories
+  std::vector<Teuchos::RCP<const FactoryManagerBase> > FactManager_;
 
-    //! Factory parameters
-    std::string diagonalView_;
+  //! Factory parameters
+  std::string diagonalView_;
+};
 
-  };
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_BLOCKEDPFACTORY_SHORT
 #endif /* MUELU_BLOCKEDPFACTORY_DECL_HPP_ */

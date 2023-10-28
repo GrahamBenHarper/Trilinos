@@ -1,0 +1,18 @@
+name: MueLu clang-format check
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: DoozyX/clang-format-lint-action@v0.16.2
+      with:
+        source: './packages/muelu'
+        exclude: './lib'
+        extensions: 'cpp,hpp'
+	# the action uses clang-format 8.0.1 when clang-format 8 is specified
+        clangFormatVersion: 8
+        inplace: False

@@ -47,7 +47,6 @@
 #ifndef MUELU_UZAWASMOOTHER_DECL_HPP_
 #define MUELU_UZAWASMOOTHER_DECL_HPP_
 
-
 #include "MueLu_ConfigDefs.hpp"
 
 #include <Teuchos_ParameterList.hpp>
@@ -69,118 +68,115 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class UzawaSmoother
     @brief Block triangle Uzawa smoother for 2x2 block matrices
 
   */
 
-  template <class Scalar = SmootherPrototype<>::scalar_type,
-            class LocalOrdinal = typename SmootherPrototype<Scalar>::local_ordinal_type,
-            class GlobalOrdinal = typename SmootherPrototype<Scalar, LocalOrdinal>::global_ordinal_type,
-            class Node = typename SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdinal>::node_type>
-  class UzawaSmoother : public SmootherPrototype<Scalar,LocalOrdinal,GlobalOrdinal,Node>
-  {
-    typedef Xpetra::MapExtractor<Scalar, LocalOrdinal, GlobalOrdinal, Node> MapExtractorClass;
+template <class Scalar        = SmootherPrototype<>::scalar_type,
+          class LocalOrdinal  = typename SmootherPrototype<Scalar>::local_ordinal_type,
+          class GlobalOrdinal = typename SmootherPrototype<Scalar, LocalOrdinal>::global_ordinal_type,
+          class Node          = typename SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdinal>::node_type>
+class UzawaSmoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdinal, Node> {
+  typedef Xpetra::MapExtractor<Scalar, LocalOrdinal, GlobalOrdinal, Node> MapExtractorClass;
 
 #undef MUELU_UZAWASMOOTHER_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  void DeclareInput(Level &currentLevel) const;
 
-    void DeclareInput(Level &currentLevel) const;
-
-    /*! @brief Set factory manager for internal velocity prediction
-
-    \note This routine is outdated. Use AddFactoryManager instead
-    */
-    void SetVelocityPredictionFactoryManager(RCP<FactoryManager> FactManager);
-
-    /*! @brief Set factory manager for internal SchurComplement handling
+  /*! @brief Set factory manager for internal velocity prediction
 
     \note This routine is outdated. Use AddFactoryManager instead
     */
-    void SetSchurCompFactoryManager(RCP<FactoryManager> FactManager);
+  void SetVelocityPredictionFactoryManager(RCP<FactoryManager> FactManager);
 
-    /*! @brief Add a factory manager at a specific position
+  /*! @brief Set factory manager for internal SchurComplement handling
+
+    \note This routine is outdated. Use AddFactoryManager instead
+    */
+  void SetSchurCompFactoryManager(RCP<FactoryManager> FactManager);
+
+  /*! @brief Add a factory manager at a specific position
 
     See #FactManager_ to explanation of positions.
     */
-    void AddFactoryManager(RCP<const FactoryManagerBase> FactManager, int pos);
+  void AddFactoryManager(RCP<const FactoryManagerBase> FactManager, int pos);
 
-    //@}
+  //@}
 
-    //! @name Setup and Apply methods.
-    //@{
+  //! @name Setup and Apply methods.
+  //@{
 
-    /*! @brief Setup routine
+  /*! @brief Setup routine
      */
-    void Setup(Level &currentLevel);
+  void Setup(Level &currentLevel);
 
-    /*! @brief Apply the Braess Sarazin smoother.
+  /*! @brief Apply the Braess Sarazin smoother.
     @param X initial guess
     @param B right-hand side
     @param InitialGuessIsZero TODO This option has no effect.
     */
-    void Apply(MultiVector &X, MultiVector const &B, bool InitialGuessIsZero = false) const;
-    //@}
+  void Apply(MultiVector &X, MultiVector const &B, bool InitialGuessIsZero = false) const;
+  //@}
 
-    RCP<SmootherPrototype> Copy() const;
+  RCP<SmootherPrototype> Copy() const;
 
-    //! @name Overridden from Teuchos::Describable
-    //@{
+  //! @name Overridden from Teuchos::Describable
+  //@{
 
-    //! Return a simple one-line description of this object.
-    std::string description() const;
+  //! Return a simple one-line description of this object.
+  std::string description() const;
 
-    //! Print the object with some verbosity level to an FancyOStream object.
-    //using MueLu::Describable::describe; // overloading, not hiding
-    void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
+  //! Print the object with some verbosity level to an FancyOStream object.
+  //using MueLu::Describable::describe; // overloading, not hiding
+  void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
 
-    //! Get a rough estimate of cost per iteration
-    size_t getNodeSmootherComplexity() const;
+  //! Get a rough estimate of cost per iteration
+  size_t getNodeSmootherComplexity() const;
 
-    //@}
+  //@}
 
-  private:
+ private:
+  //! smoother type
+  std::string type_ = "Uzawa";
 
-    //! smoother type
-    std::string type_ = "Uzawa";
+  RCP<const FactoryBase> AFact_;  //!< A Factory
 
-    RCP<const FactoryBase>                AFact_;              //!< A Factory
+  //! block operator
+  RCP<Matrix> A_ = Teuchos::null;  //<! internal blocked operator "A" generated by AFact_
 
-    //! block operator
-    RCP<Matrix>                           A_ = Teuchos::null;  //<! internal blocked operator "A" generated by AFact_
+  RCP<const MapExtractorClass> rangeMapExtractor_;   //!< range  map extractor (from A_ generated by AFact)
+  RCP<const MapExtractorClass> domainMapExtractor_;  //!< domain map extractor (from A_ generated by AFact)
 
-    RCP<const MapExtractorClass>          rangeMapExtractor_;  //!< range  map extractor (from A_ generated by AFact)
-    RCP<const MapExtractorClass>          domainMapExtractor_; //!< domain map extractor (from A_ generated by AFact)
+  //! matrices
+  Teuchos::RCP<Vector> diagFinv_;  //!< inverse diagonal of fluid operator (vector).
+  Teuchos::RCP<Matrix> F_;         //!< fluid operator
+  Teuchos::RCP<Matrix> G_;         //!< pressure gradient operator
+  Teuchos::RCP<Matrix> D_;         //!< divergence operator
+  Teuchos::RCP<Matrix> Z_;         //!< pressure stabilization term or null block
 
-    //! matrices
-    Teuchos::RCP<Vector>                  diagFinv_;           //!< inverse diagonal of fluid operator (vector).
-    Teuchos::RCP<Matrix>                  F_;                  //!< fluid operator
-    Teuchos::RCP<Matrix>                  G_;                  //!< pressure gradient operator
-    Teuchos::RCP<Matrix>                  D_;                  //!< divergence operator
-    Teuchos::RCP<Matrix>                  Z_;                  //!< pressure stabilization term or null block
+  Teuchos::RCP<SmootherBase> velPredictSmoo_;  //!< smoother for velocity prediction
+  Teuchos::RCP<SmootherBase> schurCompSmoo_;   //!< smoother for SchurComplement equation
 
-    Teuchos::RCP<SmootherBase>            velPredictSmoo_;     //!< smoother for velocity prediction
-    Teuchos::RCP<SmootherBase>            schurCompSmoo_;      //!< smoother for SchurComplement equation
-
-    /*!
+  /*!
     @brief Vector of internal factory managers
 
     - FactManager_[0] holds the factory manager for the predicting the primary variable
     - FactManager_[1] stores the factory manager used for the SchurComplement correction step.
     */
-    std::vector<Teuchos::RCP<const FactoryManagerBase> > FactManager_;
+  std::vector<Teuchos::RCP<const FactoryManagerBase> > FactManager_;
 
-  }; // class UzawaSmoother
+};  // class UzawaSmoother
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_UZAWASMOOTHER_SHORT
 

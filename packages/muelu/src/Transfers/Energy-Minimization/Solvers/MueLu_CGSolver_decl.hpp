@@ -57,7 +57,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class CGSolver class.
     @brief Implements conjugate gradient algorithm for energy-minimization
 
@@ -72,38 +72,38 @@ namespace MueLu {
         For now we assume, that matrices have real values. The case of complex values is not explored.
     */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class CGSolver : public SolverBase<Scalar, LocalOrdinal, GlobalOrdinal, Node> {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class CGSolver : public SolverBase<Scalar, LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_CGSOLVER_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors / destructors
-    //@{
+ public:
+  //! @name Constructors / destructors
+  //@{
 
-    /*! Constructor
+  /*! Constructor
       \param Its -- Number of performed iterations
       */
-    CGSolver(size_t Its);
+  CGSolver(size_t Its);
 
-    //@}
+  //@}
 
-    //! @name Iterate methods.
-    //@{
+  //! @name Iterate methods.
+  //@{
 
-    //! Iterate
-    void Iterate(const Matrix& A, const Constraint& C, const Matrix& P0, RCP<Matrix>& P) const;
+  //! Iterate
+  void Iterate(const Matrix& A, const Constraint& C, const Matrix& P0, RCP<Matrix>& P) const;
 
-    //@}
+  //@}
 
-  private:
-    size_t nIts_;           //!< Number of performed iterations
-  };
+ private:
+  size_t nIts_;  //!< Number of performed iterations
+};
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_CGSOLVER_SHORT
-#endif // MUELU_CGSOLVER_DECL_HPP
+#endif  // MUELU_CGSOLVER_DECL_HPP

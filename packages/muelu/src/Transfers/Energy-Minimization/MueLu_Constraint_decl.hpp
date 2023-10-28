@@ -57,8 +57,8 @@
 
 namespace MueLu {
 
-  //! @brief Constraint space information for the potential prolongator
-  /*!
+//! @brief Constraint space information for the potential prolongator
+/*!
     This class implements an idea of the constrained space.  In energy
     minimization, constrained space is used simultaneously with the iterative
     method to construct the final prolongator. The space has two different
@@ -98,51 +98,50 @@ namespace MueLu {
     array. These matrices are dense, but have small size (NSDim x NSDim).
     */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class Constraint : public BaseClass {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class Constraint : public BaseClass {
 #undef MUELU_CONSTRAINT_SHORT
 #include "MueLu_UseShortNames.hpp"
-  public:
-
+ public:
   /*!
     @class Constraint class.
     @brief Class which contains the constraint space details
     */
 
-    //! @name Setup methods.
-    //@{
+  //! @name Setup methods.
+  //@{
 
-    /*! Setup constraint.
+  /*! Setup constraint.
         \param B -- Fine nullspace vectors
         \param Bc -- Coarse nullspace vectors
         \param Ppattern -- Nonzero sparsity pattern for the prolongator
      */
-    void Setup(const MultiVector& B, const MultiVector& Bc, RCP<const CrsGraph> Ppattern);
+  void Setup(const MultiVector& B, const MultiVector& Bc, RCP<const CrsGraph> Ppattern);
 
-    //@}
+  //@}
 
-    //! @name Apply methods.
-    //@{
+  //! @name Apply methods.
+  //@{
 
-    //! Apply constraint.
-    void Apply(const Matrix& P, Matrix& Projected) const;
+  //! Apply constraint.
+  void Apply(const Matrix& P, Matrix& Projected) const;
 
-    //@}
+  //@}
 
-    RCP<const CrsGraph> GetPattern() const {
-      return Ppattern_;
-    }
+  RCP<const CrsGraph> GetPattern() const {
+    return Ppattern_;
+  }
 
-  private:
-    RCP<MultiVector>    X_;                                     //!< Overlapped coarse nullspace
-    RCP<const CrsGraph> Ppattern_;                              //!< Nonzero sparsity pattern
-    ArrayRCP<Teuchos::SerialDenseMatrix<LO,SC> > XXtInv_;       //!< Array storing \f$(Q_i Q_i^H)^{-1}\f$
-  };
+ private:
+  RCP<MultiVector> X_;                                    //!< Overlapped coarse nullspace
+  RCP<const CrsGraph> Ppattern_;                          //!< Nonzero sparsity pattern
+  ArrayRCP<Teuchos::SerialDenseMatrix<LO, SC> > XXtInv_;  //!< Array storing \f$(Q_i Q_i^H)^{-1}\f$
+};
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_CONSTRAINT_SHORT
-#endif // MUELU_CONSTRAINT_DECL_HPP
+#endif  // MUELU_CONSTRAINT_DECL_HPP

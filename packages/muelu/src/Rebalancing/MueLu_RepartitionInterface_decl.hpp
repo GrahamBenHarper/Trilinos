@@ -17,10 +17,9 @@
 #include "MueLu_Level_fwd.hpp"
 #include "MueLu_FactoryBase_fwd.hpp"
 
-
 namespace MueLu {
 
-  /*!
+/*!
     @class RepartitionInterface
     @brief Helper class which transforms an "AmalgamatedPartition" array to an unamalgamated "Partition".
     @ingroup Rebalancing
@@ -65,50 +64,43 @@ namespace MueLu {
     If "number of partitions" > 1, the algorithm tries to find the requested number of partitions.
   */
 
-  //FIXME: this class should not be templated
-  template <class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class RepartitionInterface : public SingleLevelFactoryBase {
-
-    typedef double Scalar; // FIXME
+//FIXME: this class should not be templated
+template <class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class RepartitionInterface : public SingleLevelFactoryBase {
+  typedef double Scalar;  // FIXME
 #undef MUELU_REPARTITIONINTERFACE_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors
+  //@{
 
-    //! @name Constructors/Destructors
-    //@{
+  //! Constructor
+  RepartitionInterface() {}
 
-    //! Constructor
-    RepartitionInterface() { }
+  //! Destructor
+  virtual ~RepartitionInterface() {}
+  //@}
 
-    //! Destructor
-    virtual ~RepartitionInterface() { }
-    //@}
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //! @name Input
+  //@{
+  void DeclareInput(Level &level) const;
+  //@}
 
-    //! @name Input
-    //@{
-    void DeclareInput(Level & level) const;
-    //@}
+  //! @name Build methods.
+  //@{
+  void Build(Level &level) const;
 
-    //! @name Build methods.
-    //@{
-    void Build(Level &level) const;
+  //@}
 
-    //@}
+ private:
+};  //class RepartitionInterface
 
-
-
-  private:
-
-
-
-  };  //class RepartitionInterface
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_REPARTITIONINTERFACE_SHORT
 #endif /* MUELU_REPARTITIONINTERFACE_DECL_HPP_ */

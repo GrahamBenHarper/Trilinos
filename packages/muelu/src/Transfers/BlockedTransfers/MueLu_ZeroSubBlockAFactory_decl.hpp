@@ -53,10 +53,9 @@
 #include "MueLu_SingleLevelFactoryBase.hpp"
 #include "MueLu_ZeroSubBlockAFactory_fwd.hpp"
 
-
 namespace MueLu {
 
-  /*!
+/*!
     @class ZeroSubBlockAFactory class.
     @brief Factory for extracting a zero block from a BlockedCrsMatrix.
 
@@ -65,29 +64,28 @@ namespace MueLu {
 
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class ZeroSubBlockAFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class ZeroSubBlockAFactory : public SingleLevelFactoryBase {
 #undef MUELU_ZEROSUBBLOCKAFACTORY_SHORT
-    #include "MueLu_UseShortNames.hpp"
+#include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  RCP<const ParameterList> GetValidParameterList() const override;
 
-    RCP<const ParameterList> GetValidParameterList() const override;
+  void DeclareInput(Level &currentLevel) const override;
 
-    void DeclareInput(Level &currentLevel) const override;
+  //@}
 
-    //@}
+  //@{
+  //! @name Build methods
 
-    //@{
-    //! @name Build methods
-
-    /*!
+  /*!
       @brief Build a zero sub-block object with this factory
 
       Create a zero sub block matrix, that fits into a given blocked crs operator.
@@ -105,13 +103,13 @@ namespace MueLu {
       information from the sub maps. For strided operators, the striding
       information of the full map is the best choice.
     */
-    void Build(Level & currentLevel) const override;
+  void Build(Level &currentLevel) const override;
 
-    //@}
+  //@}
 
-  }; // class ZeroSubBlockAFactory
+};  // class ZeroSubBlockAFactory
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_ZEROSUBBLOCKAFACTORY_SHORT
 #endif /* MUELU_ZEROSUBBLOCKAFACTORY_DECL_HPP_ */

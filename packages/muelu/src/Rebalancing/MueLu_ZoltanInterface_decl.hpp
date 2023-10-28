@@ -63,7 +63,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class ZoltanInterface
     @brief Interface to Zoltan library.
     @ingroup Rebalancing
@@ -105,53 +105,52 @@ namespace MueLu {
     @note: The ZoltanInterface class does not have all the features availabe in the Zoltan2Interface class
   */
 
-  //FIXME: this class should not be templated
-  template <class Scalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class ZoltanInterface : public SingleLevelFactoryBase {
+//FIXME: this class should not be templated
+template <class Scalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class ZoltanInterface : public SingleLevelFactoryBase {
 #undef MUELU_ZOLTANINTERFACE_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors
+  //@{
 
-    //! @name Constructors/Destructors
-    //@{
+  //! Constructor
+  ZoltanInterface() {}
 
-    //! Constructor
-    ZoltanInterface() {}
+  //! Destructor
+  virtual ~ZoltanInterface() {}
+  //@}
 
-    //! Destructor
-    virtual ~ZoltanInterface() { }
-    //@}
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //! @name Input
+  //@{
+  void DeclareInput(Level &level) const;
+  //@}
 
-    //! @name Input
-    //@{
-    void DeclareInput(Level& level) const;
-    //@}
+  //! @name Build methods.
+  //@{
+  void Build(Level &level) const;
 
-    //! @name Build methods.
-    //@{
-    void Build(Level& level) const;
+  //@}
 
-    //@}
+  //! @name Query methods (really functions) required by Zoltan.
+  //@{
 
-    //! @name Query methods (really functions) required by Zoltan.
-    //@{
-
-    /*! Callback function that returns the local number of objects. Required by Zoltan.
+  /*! Callback function that returns the local number of objects. Required by Zoltan.
 
     In this case, the number of objects is the number of local rows.
 
     @param data (in) void pointer to an Xpetra::Matrix.
     @param ierr (out) error code.
     */
-    static int GetLocalNumberOfRows(void *data, int *ierr);
+  static int GetLocalNumberOfRows(void *data, int *ierr);
 
-    /*! Callback function that returns the local number of nonzeros in the matrix. Required by Zoltan.
+  /*! Callback function that returns the local number of nonzeros in the matrix. Required by Zoltan.
 
     FIXME: Note that this will not work properly for non-point matrices.
 
@@ -159,18 +158,17 @@ namespace MueLu {
     @param weights (out) array whose <tt>i</tt><sup>th</sup> entry is the number of nonzeros in local row \c i.
     @param ierr (out) error code
     */
-    static void GetLocalNumberOfNonzeros(void *data, int NumGidEntries, int NumLidEntries, ZOLTAN_ID_PTR gids,
-                                         ZOLTAN_ID_PTR lids, int wgtDim, float *weights, int *ierr);
+  static void GetLocalNumberOfNonzeros(void *data, int NumGidEntries, int NumLidEntries, ZOLTAN_ID_PTR gids,
+                                       ZOLTAN_ID_PTR lids, int wgtDim, float *weights, int *ierr);
 
-    /*! Callback function that returns the problem dimension. Required by Zoltan.
+  /*! Callback function that returns the problem dimension. Required by Zoltan.
 
     @param data (in) void pointer to integer dimension
     @param ierr (out) error code
     */
-    static int GetProblemDimension(void *data, int *ierr);
+  static int GetProblemDimension(void *data, int *ierr);
 
-
-    /*! Callback function that returns the problem dimension. Required by Zoltan.
+  /*! Callback function that returns the problem dimension. Required by Zoltan.
 
     @param data (in) void pointer to Xpetra::MultiVector.
     @param coordinates (out) array of double coordinates, arranged like so: [x1 y1 z1 x2 y2 z2 ...].
@@ -178,20 +176,19 @@ namespace MueLu {
 
     TODO -- should I return a view of the coordinates instead of copying them?
     */
-    static void GetProblemGeometry(void *data, int numGIDEntries, int numLIDEntries, int numObjectIDs,
-                                   ZOLTAN_ID_PTR gids, ZOLTAN_ID_PTR lids, int dim, double *coordinates, int *ierr);
+  static void GetProblemGeometry(void *data, int numGIDEntries, int numLIDEntries, int numObjectIDs,
+                                 ZOLTAN_ID_PTR gids, ZOLTAN_ID_PTR lids, int dim, double *coordinates, int *ierr);
 
-    //@}
+  //@}
 
-  private:
+ private:
+  static ArrayRCP<typename Teuchos::ScalarTraits<Scalar>::magnitudeType> coalesceCoordinates(ArrayRCP<typename Teuchos::ScalarTraits<Scalar>::magnitudeType> coord, LocalOrdinal blksize);
 
-    static ArrayRCP<typename Teuchos::ScalarTraits<Scalar>::magnitudeType> coalesceCoordinates(ArrayRCP<typename Teuchos::ScalarTraits<Scalar>::magnitudeType> coord, LocalOrdinal blksize);
+};  //class ZoltanInterface
 
-  };  //class ZoltanInterface
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_ZOLTANINTERFACE_SHORT
-#endif //if defined(HAVE_MUELU_ZOLTAN) && defined(HAVE_MPI)
+#endif  //if defined(HAVE_MUELU_ZOLTAN) && defined(HAVE_MPI)
 
-#endif // MUELU_ZOLTANINTERFACE_DECL_HPP
+#endif  // MUELU_ZOLTANINTERFACE_DECL_HPP
