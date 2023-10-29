@@ -52,7 +52,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class MapTransferFactory class.
     @brief Factory to transfer a map from a fine to a coarse level
 
@@ -87,36 +87,34 @@ namespace MueLu {
 
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class MapTransferFactory : public TwoLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class MapTransferFactory : public TwoLevelFactoryBase {
 #undef MUELU_MAPTRANSFERFACTORY_SHORT
-    #include "MueLu_UseShortNames.hpp"
+#include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  RCP<const ParameterList> GetValidParameterList() const override;
 
-    RCP<const ParameterList> GetValidParameterList() const override;
+  void DeclareInput(Level& fineLevel, Level& coarseLevel) const override;
 
-    void DeclareInput(Level& fineLevel, Level& coarseLevel) const override;
+  //@}
 
-    //@}
+  //@{
+  //! @name Build methods.
 
-    //@{
-    //! @name Build methods.
+  //! Build an object with this factory.
+  void Build(Level& fineLevel, Level& coarseLevel) const override;
 
-    //! Build an object with this factory.
-    void Build(Level& fineLevel, Level& coarseLevel) const override;
+  //@}
 
-    //@}
-
-  private:
-
-    /*!
+ private:
+  /*!
       @brief Get the max number of entries per row of P to be considered for map transfer
 
       To exclude some nullspace vectors (e.g. rotations in 2D or 3D elasticity), when doing the map transfer,
@@ -127,14 +125,14 @@ namespace MueLu {
       @param[in] pL Parameter list with user-given configuration
       @return Number of entries per row of the prolongator to be used for the map transfer
     */
-    int GetLimitOfProlongatorColumns(const ParameterList& pL) const;
+  int GetLimitOfProlongatorColumns(const ParameterList& pL) const;
 
-    //! Generating factory of input variable
-    mutable RCP<const FactoryBase> mapFact_;
+  //! Generating factory of input variable
+  mutable RCP<const FactoryBase> mapFact_;
 
-  }; // class MapTransferFactory
+};  // class MapTransferFactory
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_MAPTRANSFERFACTORY_SHORT
 #endif /* MUELU_MAPTRANSFERFACTORY_DECL_HPP_ */

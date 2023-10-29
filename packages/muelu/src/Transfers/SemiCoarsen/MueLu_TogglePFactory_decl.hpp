@@ -55,7 +55,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class TogglePFactory
     @ingroup MueLuTransferClasses
     @brief Prolongator factory which allows switching between two different prolongator strategies.
@@ -87,81 +87,81 @@ namespace MueLu {
 
   */
 
-template <class Scalar = DefaultScalar,
-        class LocalOrdinal = DefaultLocalOrdinal,
-        class GlobalOrdinal = DefaultGlobalOrdinal,
-        class Node = DefaultNode>
-  class TogglePFactory : public PFactory {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class TogglePFactory : public PFactory {
 #undef MUELU_TOGGLEPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
+  /*! @brief Constructor. */
+  TogglePFactory()
+    : hasDeclaredInput_(false) {}
 
-    /*! @brief Constructor. */
-    TogglePFactory() : hasDeclaredInput_(false) { }
+  //! Destructor.
+  virtual ~TogglePFactory() {}
 
-    //! Destructor.
-    virtual ~TogglePFactory() { }
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //@}
 
-    //@}
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
 
-    void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
+  //@}
 
-    //@}
+  //! @name Build methods.
+  //@{
 
-    //! @name Build methods.
-    //@{
+  /*!  @brief Build method.   */
+  void Build(Level &fineLevel, Level &coarseLevel) const;
 
-    /*!  @brief Build method.   */
-    void Build(Level& fineLevel, Level &coarseLevel) const;
+  void BuildP(Level & /* fineLevel */, Level & /* coarseLevel */) const {/* empty */};
+  //@}
 
-    void BuildP(Level &/* fineLevel */, Level &/* coarseLevel */) const { /* empty */ };
-    //@}
+  //@{
 
-    //@{
+  /*! @brief Add a prolongator factory in the end of list of prolongator factories.    */
+  void AddProlongatorFactory(const RCP<const FactoryBase> &factory);
 
-    /*! @brief Add a prolongator factory in the end of list of prolongator factories.    */
-    void AddProlongatorFactory(const RCP<const FactoryBase>& factory);
+  //! Returns number of prolongator factories.
+  size_t NumProlongatorFactories() const { return prolongatorFacts_.size(); }
 
-    //! Returns number of prolongator factories.
-    size_t NumProlongatorFactories() const { return prolongatorFacts_.size(); }
+  /*! @brief Add a tentative prolongator factory in the end of list of prolongator factories.    */
+  void AddPtentFactory(const RCP<const FactoryBase> &factory);
 
-    /*! @brief Add a tentative prolongator factory in the end of list of prolongator factories.    */
-    void AddPtentFactory(const RCP<const FactoryBase>& factory);
+  //! Returns number of tentative prolongator factories.
+  size_t NumPtentFactories() const { return ptentFacts_.size(); }
 
-    //! Returns number of tentative prolongator factories.
-    size_t NumPtentFactories() const { return ptentFacts_.size(); }
+  /*! @brief Add a coarse nullspace factory in the end of list of coarse nullspace factories.    */
+  void AddCoarseNullspaceFactory(const RCP<const FactoryBase> &factory);
 
-    /*! @brief Add a coarse nullspace factory in the end of list of coarse nullspace factories.    */
-    void AddCoarseNullspaceFactory(const RCP<const FactoryBase>& factory);
+  //! Returns number of coarse null space factories.
+  size_t NumCoarseNullspaceFactories() const { return prolongatorFacts_.size(); }
 
-    //! Returns number of coarse null space factories.
-    size_t NumCoarseNullspaceFactories() const { return prolongatorFacts_.size(); }
+  RCP<const FactoryBase> getProlongatorFactory(size_t t) const { return prolongatorFacts_[t]; }
+  //@}
+ private:
+  //! list of user-defined prolongation operator factories
+  mutable std::vector<RCP<const FactoryBase> > prolongatorFacts_;
 
-    RCP<const FactoryBase>  getProlongatorFactory(size_t t) const {return prolongatorFacts_[t]; }
-    //@}
-  private:
-    //! list of user-defined prolongation operator factories
-    mutable std::vector<RCP<const FactoryBase> > prolongatorFacts_;
+  //! list of user-defined tentative prolongation operator factories
+  mutable std::vector<RCP<const FactoryBase> > ptentFacts_;
 
-    //! list of user-defined tentative prolongation operator factories
-    mutable std::vector<RCP<const FactoryBase> > ptentFacts_;
+  //! list of user-defined nullspace factories (i.e. the prolongator factories which also generate the coarse level nullspace)
+  mutable std::vector<RCP<const FactoryBase> > nspFacts_;
 
-    //! list of user-defined nullspace factories (i.e. the prolongator factories which also generate the coarse level nullspace)
-    mutable std::vector<RCP<const FactoryBase> > nspFacts_;
+  mutable bool hasDeclaredInput_;
+};  //class TogglePFactory
 
-    mutable bool hasDeclaredInput_;
-  }; //class TogglePFactory
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_TOGGLEPFACTORY_SHORT
-#endif // MUELU_TOGGLEPFACTORY_DECL_HPP
+#endif  // MUELU_TOGGLEPFACTORY_DECL_HPP

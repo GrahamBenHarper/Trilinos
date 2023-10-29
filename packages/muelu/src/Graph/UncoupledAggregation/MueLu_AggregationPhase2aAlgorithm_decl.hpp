@@ -56,7 +56,7 @@
 #include "MueLu_GraphBase.hpp"
 
 namespace MueLu {
-  /*!
+/*!
     @class AggregationPhase2aAlgorithm class.
     @brief Among unaggregated points, see if we can make a reasonable size aggregate out of it.
     @ingroup Aggregation
@@ -78,41 +78,38 @@ namespace MueLu {
 
   */
 
-  template<class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class AggregationPhase2aAlgorithm :
-    public MueLu::AggregationAlgorithmBase<LocalOrdinal,GlobalOrdinal,Node> {
+template <class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class AggregationPhase2aAlgorithm : public MueLu::AggregationAlgorithmBase<LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_AGGREGATIONPHASE2AALGORITHM_SHORT
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    AggregationPhase2aAlgorithm(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) { }
+  //! Constructor.
+  AggregationPhase2aAlgorithm(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) {}
 
-    //! Destructor.
-    virtual ~AggregationPhase2aAlgorithm() { }
+  //! Destructor.
+  virtual ~AggregationPhase2aAlgorithm() {}
 
-    //@}
+  //@}
 
+  //! @name Aggregation methods.
+  //@{
 
-    //! @name Aggregation methods.
-    //@{
+  /*! @brief Local aggregation. */
 
-    /*! @brief Local aggregation. */
+  void BuildAggregates(const ParameterList& params, const GraphBase& graph, Aggregates& aggregates, std::vector<unsigned>& aggStat, LO& numNonAggregatedNodes) const;
+  //@}
 
-    void BuildAggregates(const ParameterList& params, const GraphBase& graph, Aggregates& aggregates, std::vector<unsigned>& aggStat, LO& numNonAggregatedNodes) const;
-    //@}
+  std::string description() const { return "Phase 2a (secondary)"; }
+};
 
-    std::string description() const { return "Phase 2a (secondary)"; }
-  };
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_AGGREGATIONPHASE2AALGORITHM_SHORT
-
 
 #endif /* MUELU_AGGREGATIONPHASE2AALGORITHM_DECL_HPP_ */

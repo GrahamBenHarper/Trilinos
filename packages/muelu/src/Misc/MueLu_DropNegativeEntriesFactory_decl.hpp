@@ -55,7 +55,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class DropNegativeEntriesFactory class.
     @brief Application-specific filtering for A. Can be used in context of graph coarsening and aggregation.
 
@@ -63,50 +63,49 @@ namespace MueLu {
     Do not use this kind of filtering for regular PDEs unless you have very good reasons.
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class DropNegativeEntriesFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class DropNegativeEntriesFactory : public SingleLevelFactoryBase {
 #undef MUELU_DROPNEGATIVEENTRIESFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! @name Constructors/Destructors.
-    //@{
+  DropNegativeEntriesFactory() {}
 
-    DropNegativeEntriesFactory() { }
+  //! Destructor.
+  virtual ~DropNegativeEntriesFactory() {}
 
-    //! Destructor.
-    virtual ~DropNegativeEntriesFactory() { }
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //@}
 
-    //@}
+  //! Input
+  //@{
 
-    //! Input
-    //@{
+  void DeclareInput(Level& currentLevel) const;
 
-    void DeclareInput(Level& currentLevel) const;
+  //@}
 
-    //@}
+  //! @name Build methods.
+  //@{
 
-    //! @name Build methods.
-    //@{
-
-    /*!
+  /*!
       @brief Build method.
 
       Builds filtered matrix and returns it in <tt>currentLevel</tt>.
       */
-    void Build(Level& currentLevel) const;
+  void Build(Level& currentLevel) const;
 
-    //@}
+  //@}
 
-  }; //class DropNegativeEntriesFactory
+};  //class DropNegativeEntriesFactory
 
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_DROPNEGATIVEENTRIESFACTORY_SHORT
-#endif // MUELU_DROPNEGATIVEENTRIESFACTORY_DECL_HPP
+#endif  // MUELU_DROPNEGATIVEENTRIESFACTORY_DECL_HPP

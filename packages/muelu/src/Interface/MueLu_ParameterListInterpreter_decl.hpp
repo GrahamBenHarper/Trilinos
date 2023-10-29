@@ -99,7 +99,6 @@
 #include "MueLu_SingleLevelMatlabFactory_fwd.hpp"
 #endif
 
-
 #include "MueLu_CoalesceDropFactory_kokkos_fwd.hpp"
 #include "MueLu_NullspaceFactory_kokkos_fwd.hpp"
 #include "MueLu_SaPFactory_kokkos_fwd.hpp"
@@ -113,32 +112,31 @@
 
 namespace MueLu {
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class ParameterListInterpreter :
-    public HierarchyManager<Scalar, LocalOrdinal, GlobalOrdinal, Node> {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class ParameterListInterpreter : public HierarchyManager<Scalar, LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_PARAMETERLISTINTERPRETER_SHORT
 #include "MueLu_UseShortNames.hpp"
-    typedef std::pair<std::string, const FactoryBase*> keep_pair;
+  typedef std::pair<std::string, const FactoryBase*> keep_pair;
 
-  public:
-    //! @name Constructors/Destructors
-    //@{
+ public:
+  //! @name Constructors/Destructors
+  //@{
 
-  protected:
-    /*! @brief Empty constructor
+ protected:
+  /*! @brief Empty constructor
      *
      *  Constructor for derived classes
      */
-    ParameterListInterpreter() {
-      factFact_ = Teuchos::null;
-      facadeFact_ = Teuchos::rcp(new FacadeClassFactory());
-    }
+  ParameterListInterpreter() {
+    factFact_   = Teuchos::null;
+    facadeFact_ = Teuchos::rcp(new FacadeClassFactory());
+  }
 
-  public:
-    /*! @brief Constructor that accepts a user-provided ParameterList.
+ public:
+  /*! @brief Constructor that accepts a user-provided ParameterList.
 
         Constructor for parameter list interpreter which directly interprets Teuchos::ParameterLists
 
@@ -150,9 +148,9 @@ namespace MueLu {
         @param[in] facadeFact (RCP<FacadeFactory>): Optional parameter containing a FacadeFactory class. The user can register its own facade classes in the FacadeFactory and provide it to the ParameterListInterpreter. (default: Teuchos::null, means, only standard FacadeClass that come with MueLu are available)
 
      */
-    ParameterListInterpreter(Teuchos::ParameterList& paramList, Teuchos::RCP<const Teuchos::Comm<int> > comm = Teuchos::null, Teuchos::RCP<FactoryFactory> factFact = Teuchos::null, Teuchos::RCP<FacadeClassFactory> facadeFact = Teuchos::null);
+  ParameterListInterpreter(Teuchos::ParameterList& paramList, Teuchos::RCP<const Teuchos::Comm<int> > comm = Teuchos::null, Teuchos::RCP<FactoryFactory> factFact = Teuchos::null, Teuchos::RCP<FacadeClassFactory> facadeFact = Teuchos::null);
 
-    /*! @brief Constructor that reads parameters from an XML file.
+  /*! @brief Constructor that reads parameters from an XML file.
 
         XML options are converted to ParameterList entries by Teuchos.
 
@@ -162,14 +160,14 @@ namespace MueLu {
         @param[in] facadeFact (RCP<FacadeFactory>): Optional parameter containing a FacadeFactory class. The user can register its own facade classes in the FacadeFactory and provide it to the ParameterListInterpreter. (default: Teuchos::null, means, only standard FacadeClass that come with MueLu are available)
 
     */
-    ParameterListInterpreter(const std::string& xmlFileName, const Teuchos::Comm<int>& comm, Teuchos::RCP<FactoryFactory> factFact = Teuchos::null, Teuchos::RCP<FacadeClassFactory> facadeFact = Teuchos::null);
+  ParameterListInterpreter(const std::string& xmlFileName, const Teuchos::Comm<int>& comm, Teuchos::RCP<FactoryFactory> factFact = Teuchos::null, Teuchos::RCP<FacadeClassFactory> facadeFact = Teuchos::null);
 
-    //! Destructor.
-    virtual ~ParameterListInterpreter() { }
+  //! Destructor.
+  virtual ~ParameterListInterpreter() {}
 
-    //@}
+  //@}
 
-    /*! @brief Set parameter list for Parameter list interpreter.
+  /*! @brief Set parameter list for Parameter list interpreter.
 
        The routine checks whether it is a parameter list in the easy parameter format or the more advanced factory-based parameter format and calls the corresponding interpreter routine.
 
@@ -185,112 +183,109 @@ namespace MueLu {
 
        @param[in] paramList: ParameterList containing the MueLu parameters.
     */
-    void SetParameterList(const Teuchos::ParameterList& paramList);
+  void SetParameterList(const Teuchos::ParameterList& paramList);
 
-    //! Call the SetupHierarchy routine from the HiearchyManager object.
-    void SetupHierarchy(Hierarchy& H) const;
+  //! Call the SetupHierarchy routine from the HiearchyManager object.
+  void SetupHierarchy(Hierarchy& H) const;
 
-  private:
-    //! Setup Operator object
-    virtual void SetupOperator(Operator& A) const;
+ private:
+  //! Setup Operator object
+  virtual void SetupOperator(Operator& A) const;
 
-    int       blockSize_;     ///< block size of matrix (fixed block size)
-    CycleType Cycle_;         ///< multigrid cycle type (V-cycle or W-cycle)
-    int       WCycleStartLevel_; ///< in case of W-cycle, level on which cycle should start
-    double    scalingFactor_; ///< prolongator scaling factor
-    GlobalOrdinal dofOffset_; ///< global offset variable describing offset of DOFs in operator
+  int blockSize_;            ///< block size of matrix (fixed block size)
+  CycleType Cycle_;          ///< multigrid cycle type (V-cycle or W-cycle)
+  int WCycleStartLevel_;     ///< in case of W-cycle, level on which cycle should start
+  double scalingFactor_;     ///< prolongator scaling factor
+  GlobalOrdinal dofOffset_;  ///< global offset variable describing offset of DOFs in operator
 
-    //! Easy interpreter stuff
-    //@{
-    // These three variables are only needed to print out proper [default]
-    bool changedPRrebalance_;
-    bool changedPRViaCopyrebalance_;
-    bool changedImplicitTranspose_;
+  //! Easy interpreter stuff
+  //@{
+  // These three variables are only needed to print out proper [default]
+  bool changedPRrebalance_;
+  bool changedPRViaCopyrebalance_;
+  bool changedImplicitTranspose_;
 
-    void SetEasyParameterList(const Teuchos::ParameterList& paramList);
-    void Validate(const Teuchos::ParameterList& paramList) const;
+  void SetEasyParameterList(const Teuchos::ParameterList& paramList);
+  void Validate(const Teuchos::ParameterList& paramList) const;
 
-    void UpdateFactoryManager(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                              int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                            int levelID, std::vector<keep_pair>& keeps) const;
 
-    // "Generic components" for UpdateFactoryManager
-    void UpdateFactoryManager_Smoothers(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+  // "Generic components" for UpdateFactoryManager
+  void UpdateFactoryManager_Smoothers(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                      int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_CoarseSolvers(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                          int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_Aggregation_TentativeP(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                                   int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_Restriction(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
                                         int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_CoarseSolvers(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                            int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_Aggregation_TentativeP(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                                     int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_Restriction(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                          int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_RAP(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                  int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_Coordinates(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                          int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_Repartition(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                          int levelID, std::vector<keep_pair>& keeps, RCP<Factory> & nullSpaceFactory) const;
-    void UpdateFactoryManager_LowPrecision(ParameterList& paramList, const ParameterList& defaultList, FactoryManager& manager,
-                                           int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_Nullspace(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                        int levelID, std::vector<keep_pair>& keeps, RCP<Factory> & nullSpaceFactory) const;
-    void UpdateFactoryManager_BlockNumber(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList,
-                                          FactoryManager& manager,int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_LocalOrdinalTransfer(const std::string& VarName, const std::string& multigridAlgo, Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList,
-                                           FactoryManager& manager,int levelID, std::vector<keep_pair>& keeps) const;
-
-    // Algorithm-specific components for UpdateFactoryManager
-    void UpdateFactoryManager_SemiCoarsen(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                          int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_PCoarsen(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                       int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_SA(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                 int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_Reitzinger(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+  void UpdateFactoryManager_RAP(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_Coordinates(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                        int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_Repartition(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                        int levelID, std::vector<keep_pair>& keeps, RCP<Factory>& nullSpaceFactory) const;
+  void UpdateFactoryManager_LowPrecision(ParameterList& paramList, const ParameterList& defaultList, FactoryManager& manager,
                                          int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_Emin(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                   int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_PG(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                 int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_Replicate(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                 int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_Combine(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
-                                 int levelID, std::vector<keep_pair>& keeps) const;
-    void UpdateFactoryManager_Matlab(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+  void UpdateFactoryManager_Nullspace(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                      int levelID, std::vector<keep_pair>& keeps, RCP<Factory>& nullSpaceFactory) const;
+  void UpdateFactoryManager_BlockNumber(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList,
+                                        FactoryManager& manager, int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_LocalOrdinalTransfer(const std::string& VarName, const std::string& multigridAlgo, Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList,
+                                                 FactoryManager& manager, int levelID, std::vector<keep_pair>& keeps) const;
+
+  // Algorithm-specific components for UpdateFactoryManager
+  void UpdateFactoryManager_SemiCoarsen(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                        int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_PCoarsen(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
                                      int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_SA(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                               int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_Reitzinger(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                       int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_Emin(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                 int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_PG(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                               int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_Replicate(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                      int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_Combine(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                    int levelID, std::vector<keep_pair>& keeps) const;
+  void UpdateFactoryManager_Matlab(Teuchos::ParameterList& paramList, const Teuchos::ParameterList& defaultList, FactoryManager& manager,
+                                   int levelID, std::vector<keep_pair>& keeps) const;
 
+  bool useCoordinates_;
+  bool useBlockNumber_;
+  bool useKokkos_;
+  //@}
 
+  //! Factory interpreter stuff
+  // TODO:
+  // - parameter list validator
+  // - SetParameterList
+  // - Set/Get directly Level manager
+  // - build per level
+  // - comments/docs
+  // - use FactoryManager instead of FactoryMap
+  //@{
+  void SetFactoryParameterList(const Teuchos::ParameterList& paramList);
 
+  typedef std::map<std::string, RCP<const FactoryBase> > FactoryMap;  //TODO: remove this line
+  typedef std::map<std::string, RCP<FactoryManagerBase> > FactoryManagerMap;
 
-    bool useCoordinates_;
-    bool useBlockNumber_;
-    bool useKokkos_;
-    //@}
+  void BuildFactoryMap(const Teuchos::ParameterList& paramList, const FactoryMap& factoryMapIn, FactoryMap& factoryMapOut, FactoryManagerMap& factoryManagers) const;
 
-    //! Factory interpreter stuff
-    // TODO:
-    // - parameter list validator
-    // - SetParameterList
-    // - Set/Get directly Level manager
-    // - build per level
-    // - comments/docs
-    // - use FactoryManager instead of FactoryMap
-    //@{
-    void SetFactoryParameterList(const Teuchos::ParameterList& paramList);
+  //! Internal factory for factories
+  Teuchos::RCP<FactoryFactory> factFact_;
 
-    typedef std::map<std::string, RCP<const FactoryBase>  > FactoryMap; //TODO: remove this line
-    typedef std::map<std::string, RCP<FactoryManagerBase> > FactoryManagerMap;
+  //! FacadeClass factory
+  Teuchos::RCP<MueLu::FacadeClassFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node> > facadeFact_;
 
-    void BuildFactoryMap(const Teuchos::ParameterList& paramList, const FactoryMap& factoryMapIn, FactoryMap& factoryMapOut, FactoryManagerMap& factoryManagers) const;
+  //@}
+};
 
-    //! Internal factory for factories
-    Teuchos::RCP<FactoryFactory> factFact_;
-
-    //! FacadeClass factory
-    Teuchos::RCP<MueLu::FacadeClassFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node> > facadeFact_;
-
-    //@}
-  };
-
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_PARAMETERLISTINTERPRETER_SHORT
 #endif /* MUELU_PARAMETERLISTINTERPRETER_DECL_HPP */

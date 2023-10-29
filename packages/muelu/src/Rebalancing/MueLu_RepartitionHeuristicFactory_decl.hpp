@@ -63,7 +63,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class RepartitionHeuristicFactory class.
     @brief Factory for determing the number of partitions for rebalancing
 
@@ -107,52 +107,52 @@ namespace MueLu {
     If "number of partitions" is -1 we don't perform rebalancing (just keep the partition unchanged).
 
   */
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class RepartitionHeuristicFactory : public SingleLevelFactoryBase {
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class RepartitionHeuristicFactory : public SingleLevelFactoryBase {
 #undef MUELU_REPARTITIONHEURISTICFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    RepartitionHeuristicFactory() { }
+  //! Constructor.
+  RepartitionHeuristicFactory() {}
 
-    //! Destructor.
-    virtual ~RepartitionHeuristicFactory() { }
+  //! Destructor.
+  virtual ~RepartitionHeuristicFactory() {}
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //@}
+  //@}
 
-    //! @name Input
-    //@{
+  //! @name Input
+  //@{
 
-    /*! @brief Determines the data that RepartitionHeuristicFactory needs, and the factories that generate that data.
+  /*! @brief Determines the data that RepartitionHeuristicFactory needs, and the factories that generate that data.
 
         If this class requires some data, but the generating factory is not specified in DeclareInput, then this class
         will fall back to the settings in FactoryManager.
     */
-    void DeclareInput(Level& currentLevel) const;
+  void DeclareInput(Level& currentLevel) const;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    //! Build an object with this factory.
-    void Build(Level& currentLevel) const;
+  //! Build an object with this factory.
+  void Build(Level& currentLevel) const;
 
-    //@}
-  }; // class RepartitionHeuristicFactory
+  //@}
+};  // class RepartitionHeuristicFactory
 
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REPARTITIONHEURISTICFACTORY_SHORT
 
-#endif //ifdef HAVE_MPI
-#endif /* PACKAGES_MUELU_SRC_REBALANCING_MUELU_REPARTITIONHEURISTICFACTORY_DECL_HPP_ */
+#endif  //ifdef HAVE_MPI
+#endif  /* PACKAGES_MUELU_SRC_REBALANCING_MUELU_REPARTITIONHEURISTICFACTORY_DECL_HPP_ */

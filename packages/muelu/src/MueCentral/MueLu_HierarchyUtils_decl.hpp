@@ -61,51 +61,46 @@
 
 namespace MueLu {
 
-  //! An exception safe way to call the method 'Level::SetFactoryManager()'
-  class SetFactoryManager {
+//! An exception safe way to call the method 'Level::SetFactoryManager()'
+class SetFactoryManager {
+ public:
+  //@{
 
-  public:
-
-    //@{
-
-    /*!
+  /*!
       @brief Constructor
 
       Set a given factory manager on a specific level
     */
-    SetFactoryManager(const RCP<Level> & level, const RCP<const FactoryManagerBase> & factoryManager)
-      : level_(level), prevFactoryManager_(level->GetFactoryManager())
-    {
-      // set new factory manager
-      level->SetFactoryManager(factoryManager);
-    }
+  SetFactoryManager(const RCP<Level>& level, const RCP<const FactoryManagerBase>& factoryManager)
+    : level_(level)
+    , prevFactoryManager_(level->GetFactoryManager()) {
+    // set new factory manager
+    level->SetFactoryManager(factoryManager);
+  }
 
-    //! Destructor.
-    virtual ~SetFactoryManager() {
-      // restore previous factory manager
-      level_->SetFactoryManager(prevFactoryManager_);
-    }
+  //! Destructor.
+  virtual ~SetFactoryManager() {
+    // restore previous factory manager
+    level_->SetFactoryManager(prevFactoryManager_);
+  }
 
-    //@}
+  //@}
 
-  private:
-    //! needed to save & restore previous factoryManager
-    const RCP<Level> level_;
-    const RCP<const FactoryManagerBase> prevFactoryManager_;
-  };
+ private:
+  //! needed to save & restore previous factoryManager
+  const RCP<Level> level_;
+  const RCP<const FactoryManagerBase> prevFactoryManager_;
+};
 
-
-
-
-  template<class Scalar,
-           class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class HierarchyUtils {
+template <class Scalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class HierarchyUtils {
 #undef MUELU_HIERARCHYUTILS_SHORT
 #include "MueLu_UseShortNames.hpp"
-  public:
-    /*!
+ public:
+  /*!
     \brief Add non-serializable data to Hierarchy
 
     Add non-serializable data given level-specific sublist \c nonSerialList to the Hierarchy \c H.
@@ -131,14 +126,11 @@ namespace MueLu {
     @param H Hierarchy, where non-serializable data needs to be added
     @param nonSerialList Parameter list containing non-serializable data
     */
-    static void AddNonSerializableDataToHierarchy(HierarchyManager& HM, Hierarchy& H, const ParameterList& nonSerialList);
-    static void CopyBetweenHierarchies(Hierarchy& fromHierarchy, Hierarchy& toHierarchy, const std::string fromLabel, const std::string toLabel, const std::string dataType);
-  };
+  static void AddNonSerializableDataToHierarchy(HierarchyManager& HM, Hierarchy& H, const ParameterList& nonSerialList);
+  static void CopyBetweenHierarchies(Hierarchy& fromHierarchy, Hierarchy& toHierarchy, const std::string fromLabel, const std::string toLabel, const std::string dataType);
+};
 
-
-
-
-} // namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_HIERARCHYUTILS_SHORT
-#endif // MUELU_HIERARCHYUTILS_DECL_HPP
+#endif  // MUELU_HIERARCHYUTILS_DECL_HPP

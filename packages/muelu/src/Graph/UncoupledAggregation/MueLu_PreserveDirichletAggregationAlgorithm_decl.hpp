@@ -55,7 +55,7 @@
 #include "MueLu_GraphBase.hpp"
 
 namespace MueLu {
-  /*!
+/*!
     @class PreserveDirichletAggregationAlgorithm class.
     @brief Builds one-to-one aggregates for all Dirichlet boundary nodes. For some applications this might
            be necessary. (default = off)
@@ -79,43 +79,39 @@ namespace MueLu {
     Only nodes with state BOUNDARY are changed to IGNORED. No other nodes are touched.
   */
 
-  template<class LocalOrdinal = DefaultLocalOrdinal,
-           class GlobalOrdinal = DefaultGlobalOrdinal,
-           class Node = DefaultNode>
-  class PreserveDirichletAggregationAlgorithm :
-    public MueLu::AggregationAlgorithmBase<LocalOrdinal,GlobalOrdinal,Node> {
+template <class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class PreserveDirichletAggregationAlgorithm : public MueLu::AggregationAlgorithmBase<LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_PRESERVEDIRICHLETAGGREGATIONALGORITHM_SHORT
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    PreserveDirichletAggregationAlgorithm(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) { }
+  //! Constructor.
+  PreserveDirichletAggregationAlgorithm(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) {}
 
-    //! Destructor.
-    virtual ~PreserveDirichletAggregationAlgorithm() { }
+  //! Destructor.
+  virtual ~PreserveDirichletAggregationAlgorithm() {}
 
-    //@}
+  //@}
 
+  //! @name Aggregation methods.
+  //@{
 
-    //! @name Aggregation methods.
-    //@{
+  /*! @brief Local aggregation. */
 
-    /*! @brief Local aggregation. */
+  void BuildAggregates(const Teuchos::ParameterList& params, const GraphBase& graph, Aggregates& aggregates, std::vector<unsigned>& aggStat, LO& numNonAggregatedNodes) const;
+  //@}
 
-    void BuildAggregates(const Teuchos::ParameterList& params, const GraphBase& graph, Aggregates& aggregates, std::vector<unsigned>& aggStat, LO& numNonAggregatedNodes) const;
-    //@}
+  std::string description() const { return "Phase - (Dirichlet)"; }
 
-    std::string description() const { return "Phase - (Dirichlet)"; }
+};  //class PreserveDirichletAggregationAlgorithm
 
-  }; //class PreserveDirichletAggregationAlgorithm
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_PRESERVEDIRICHLETAGGREGATIONALGORITHM_SHORT
-
-
 
 #endif /* MUELU_PRESERVEDIRICHLETAGGREGATIONALGORITHM_DECL_HPP_ */

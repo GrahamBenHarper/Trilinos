@@ -55,7 +55,7 @@
 #include "MueLu_GraphBase.hpp"
 
 namespace MueLu {
-  /*!
+/*!
     @class AggregationPhase1Algorithm class.
     @brief Algorithm for coarsening a graph with uncoupled aggregation.
 
@@ -79,51 +79,47 @@ namespace MueLu {
     Only nodes with state READY are changed to AGGREGATED. Nodes with other states are not touched.
   */
 
-  template <class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class AggregationPhase1Algorithm :
-    public MueLu::AggregationAlgorithmBase<LocalOrdinal,GlobalOrdinal,Node> {
+template <class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class AggregationPhase1Algorithm : public MueLu::AggregationAlgorithmBase<LocalOrdinal, GlobalOrdinal, Node> {
 #undef MUELU_AGGREGATIONPHASE1ALGORITHM_SHORT
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
-  public:
-    //! @name Constructors/Destructors.
-    //@{
+ public:
+  //! @name Constructors/Destructors.
+  //@{
 
-    //! Constructor.
-    AggregationPhase1Algorithm(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) { }
+  //! Constructor.
+  AggregationPhase1Algorithm(const RCP<const FactoryBase>& /* graphFact */ = Teuchos::null) {}
 
-    //! Destructor.
-    virtual ~AggregationPhase1Algorithm() { }
+  //! Destructor.
+  virtual ~AggregationPhase1Algorithm() {}
 
-    //@}
+  //@}
 
+  //! @name Aggregation methods.
+  //@{
 
-    //! @name Aggregation methods.
-    //@{
+  /*! @brief Local aggregation. */
 
-    /*! @brief Local aggregation. */
+  void BuildAggregates(const ParameterList& params, const GraphBase& graph, Aggregates& aggregates, std::vector<unsigned>& aggStat, LO& numNonAggregatedNodes) const;
+  //@}
 
-    void BuildAggregates(const ParameterList& params, const GraphBase& graph, Aggregates& aggregates, std::vector<unsigned>& aggStat, LO& numNonAggregatedNodes) const;
-    //@}
+  std::string description() const { return "Phase 1 (main)"; }
 
-    std::string description() const { return "Phase 1 (main)"; }
-
-  private:
-
-    /*! @brief Utility to take a list of integers and reorder them randomly (by using a local permutation).
+ private:
+  /*! @brief Utility to take a list of integers and reorder them randomly (by using a local permutation).
       @param list On input, a bunch of integers. On output, the same integers in a different order
       that is determined randomly.
     */
-    void RandomReorder(ArrayRCP<LO> list) const;
+  void RandomReorder(ArrayRCP<LO> list) const;
 
-    /*! @brief Generate a random number in the range [min, max] */
-    int RandomOrdinal(int min, int max) const;
+  /*! @brief Generate a random number in the range [min, max] */
+  int RandomOrdinal(int min, int max) const;
+};
 
-  };
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_AGGREGATIONPHASE1ALGORITHM_SHORT
 #endif /* MUELU_AGGREGATIONPHASE1ALGORITHM_DECL_HPP_ */

@@ -46,7 +46,6 @@
 #ifndef PACKAGES_MUELU_SRC_REBALANCING_MUELU_CLONEREPARTITIONINTERFACE_DECL_HPP_
 #define PACKAGES_MUELU_SRC_REBALANCING_MUELU_CLONEREPARTITIONINTERFACE_DECL_HPP_
 
-
 #include <Xpetra_Map_fwd.hpp>
 #include <Xpetra_Matrix_fwd.hpp>
 #include <Xpetra_VectorFactory_fwd.hpp>
@@ -58,7 +57,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class CloneRepartitionInterface
     @brief Helper class which transforms an "Partition" array generated from a block in a blocked operator to a new "Partition" vector for another compatible block in the blocked operator.
 
@@ -90,51 +89,43 @@ namespace MueLu {
 
   */
 
-  template <class Scalar = DefaultScalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class CloneRepartitionInterface : public SingleLevelFactoryBase {
-
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class CloneRepartitionInterface : public SingleLevelFactoryBase {
 #undef MUELU_CLONEREPARTITIONINTERFACE_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors
+  //@{
 
-    //! @name Constructors/Destructors
-    //@{
+  //! Constructor
+  CloneRepartitionInterface() {}
 
-    //! Constructor
-    CloneRepartitionInterface() { }
+  //! Destructor
+  virtual ~CloneRepartitionInterface() {}
+  //@}
 
-    //! Destructor
-    virtual ~CloneRepartitionInterface() { }
-    //@}
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //! @name Input
+  //@{
+  void DeclareInput(Level &level) const;
+  //@}
 
-    //! @name Input
-    //@{
-    void DeclareInput(Level & level) const;
-    //@}
+  //! @name Build methods.
+  //@{
+  void Build(Level &level) const;
 
-    //! @name Build methods.
-    //@{
-    void Build(Level &level) const;
+  //@}
 
-    //@}
+ private:
+};  //class CloneRepartitionInterface
 
-
-
-  private:
-
-
-
-  };  //class CloneRepartitionInterface
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_CLONEREPARTITIONINTERFACE_SHORT
-
 
 #endif /* PACKAGES_MUELU_SRC_REBALANCING_MUELU_CLONEREPARTITIONINTERFACE_DECL_HPP_ */

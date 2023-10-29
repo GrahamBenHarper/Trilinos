@@ -66,7 +66,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class IntrepidPCoarsenFactory class.
     @ingroup MueLuTransferClasses
     @brief Factory for building transfer operators based on coarsening in polynomial degree, following the Intrepid basis functions
@@ -106,142 +106,138 @@ namespace MueLu {
 
   */
 
-template <class Scalar = DefaultScalar,
-          class LocalOrdinal = DefaultLocalOrdinal,
+template <class Scalar        = DefaultScalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
-          class Node = DefaultNode>
-  class IntrepidPCoarsenFactory : public PFactory {
+          class Node          = DefaultNode>
+class IntrepidPCoarsenFactory : public PFactory {
 #undef MUELU_INTREPIDPCOARSENFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
-    typedef Kokkos::DynRankView<LocalOrdinal,typename Node::device_type> LOFieldContainer;
-    typedef Kokkos::DynRankView<double,typename Node::device_type> SCFieldContainer;
-    typedef Intrepid2::Basis<typename Node::device_type::execution_space,double,double> Basis; // Hardwired on purpose
+ public:
+  typedef Kokkos::DynRankView<LocalOrdinal, typename Node::device_type> LOFieldContainer;
+  typedef Kokkos::DynRankView<double, typename Node::device_type> SCFieldContainer;
+  typedef Intrepid2::Basis<typename Node::device_type::execution_space, double, double> Basis;  // Hardwired on purpose
 
-    //! @name Constructors/Destructors.
-    //@{
+  //! @name Constructors/Destructors.
+  //@{
 
-    /*! @brief Constructor.
+  /*! @brief Constructor.
       User can supply a factory for generating the tentative prolongator.
     */
-    IntrepidPCoarsenFactory() { }
+  IntrepidPCoarsenFactory() {}
 
-    //! Destructor.
-    virtual ~IntrepidPCoarsenFactory() { }
+  //! Destructor.
+  virtual ~IntrepidPCoarsenFactory() {}
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    //@}
+  //@}
 
-    //! Input
-    //@{
+  //! Input
+  //@{
 
-    void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
+  void DeclareInput(Level &fineLevel, Level &coarseLevel) const;
 
-    //@}
+  //@}
 
-    //! @name Build methods.
-    //@{
+  //! @name Build methods.
+  //@{
 
-    /*!
+  /*!
       @brief Build method.
 
       Builds IPC prolongator and returns it in <tt>coarseLevel</tt>.
       */
-    void Build(Level& fineLevel, Level &coarseLevel) const;
+  void Build(Level &fineLevel, Level &coarseLevel) const;
 
-    void BuildP(Level &fineLevel, Level &coarseLevel) const; //Build()
+  void BuildP(Level &fineLevel, Level &coarseLevel) const;  //Build()
 
-    //@}
-  private:
-    //! @name Internal Utilities
-    //@{
-    // NOTE: This is hardwired to double on purpose.
-    void GenerateLinearCoarsening_pn_kirby_to_p1(const LOFieldContainer & hi_elemToNode,
-                                                 const std::vector<bool> & hi_nodeIsOwned,
-                                                 const SCFieldContainer & hi_DofCoords,
-                                                 const std::vector<size_t> &lo_node_in_hi,
-                                                 const Basis &lo_Basis,
-                                                 const std::vector<LocalOrdinal> & hi_to_lo_map,
-                                                 const Teuchos::RCP<const Map> & lo_colMap,
-                                                 const Teuchos::RCP<const Map> & lo_domainMap,
-                                                 const Teuchos::RCP<const Map> & hi_map,
-                                                 Teuchos::RCP<Matrix>& P) const;
-    //@}
+  //@}
+ private:
+  //! @name Internal Utilities
+  //@{
+  // NOTE: This is hardwired to double on purpose.
+  void GenerateLinearCoarsening_pn_kirby_to_p1(const LOFieldContainer &hi_elemToNode,
+                                               const std::vector<bool> &hi_nodeIsOwned,
+                                               const SCFieldContainer &hi_DofCoords,
+                                               const std::vector<size_t> &lo_node_in_hi,
+                                               const Basis &lo_Basis,
+                                               const std::vector<LocalOrdinal> &hi_to_lo_map,
+                                               const Teuchos::RCP<const Map> &lo_colMap,
+                                               const Teuchos::RCP<const Map> &lo_domainMap,
+                                               const Teuchos::RCP<const Map> &hi_map,
+                                               Teuchos::RCP<Matrix> &P) const;
+  //@}
 
-    // NOTE: This is hardwired to double on purpose.
-    void GenerateLinearCoarsening_pn_kirby_to_pm(const LOFieldContainer & hi_elemToNode,
-                                                 const std::vector<bool> & hi_nodeIsOwned,
-                                                 const SCFieldContainer & hi_DofCoords,
-                                                 const LOFieldContainer & lo_elemToHiRepresentativeNode,
-                                                 const Basis &lo_basis,
-                                                 const std::vector<LocalOrdinal> & hi_to_lo_map,
-                                                 const Teuchos::RCP<const Map> & lo_colMap,
-                                                 const Teuchos::RCP<const Map> & lo_domainMap,
-                                                 const Teuchos::RCP<const Map> & hi_map,
-                                                 Teuchos::RCP<Matrix>& P) const;
+  // NOTE: This is hardwired to double on purpose.
+  void GenerateLinearCoarsening_pn_kirby_to_pm(const LOFieldContainer &hi_elemToNode,
+                                               const std::vector<bool> &hi_nodeIsOwned,
+                                               const SCFieldContainer &hi_DofCoords,
+                                               const LOFieldContainer &lo_elemToHiRepresentativeNode,
+                                               const Basis &lo_basis,
+                                               const std::vector<LocalOrdinal> &hi_to_lo_map,
+                                               const Teuchos::RCP<const Map> &lo_colMap,
+                                               const Teuchos::RCP<const Map> &lo_domainMap,
+                                               const Teuchos::RCP<const Map> &hi_map,
+                                               Teuchos::RCP<Matrix> &P) const;
 
+};  //class IntrepidPCoarsenFactory
 
-  }; //class IntrepidPCoarsenFactory
+/* Utility functions for use with Intrepid */
+namespace MueLuIntrepid {
 
+template <class Scalar, class KokkosExecutionSpace>
+Teuchos::RCP<Intrepid2::Basis<KokkosExecutionSpace, Scalar, Scalar> > BasisFactory(const std::string &name, int &degree);
 
-  /* Utility functions for use with Intrepid */
-  namespace MueLuIntrepid {
+template <class Scalar, class KokkosDeviceType>
+void IntrepidGetLoNodeInHi(const Teuchos::RCP<Intrepid2::Basis<typename KokkosDeviceType::execution_space, Scalar, Scalar> > &hi_basis,
+                           const Teuchos::RCP<Intrepid2::Basis<typename KokkosDeviceType::execution_space, Scalar, Scalar> > &lo_basis,
+                           std::vector<size_t> &lo_node_in_hi,
+                           Kokkos::DynRankView<Scalar, KokkosDeviceType> &hi_DofCoords);
 
-    template<class Scalar,class KokkosExecutionSpace>
-    Teuchos::RCP<Intrepid2::Basis<KokkosExecutionSpace,Scalar,Scalar> >  BasisFactory(const std::string & name, int & degree);
+template <class LocalOrdinal, class GlobalOrdinal, class Node, class LOFieldContainer>
+void GenerateLoNodeInHiViaGIDs(const std::vector<std::vector<size_t> > &candidates, const LOFieldContainer &hi_elemToNode,
+                               RCP<const Xpetra::Map<LocalOrdinal, GlobalOrdinal, Node> > &hi_columnMap,
+                               LOFieldContainer &lo_elemToHiRepresentativeNode);
 
-    template<class Scalar,class KokkosDeviceType>
-    void IntrepidGetLoNodeInHi(const Teuchos::RCP<Intrepid2::Basis<typename KokkosDeviceType::execution_space,Scalar,Scalar> > &hi_basis,
-                               const Teuchos::RCP<Intrepid2::Basis<typename KokkosDeviceType::execution_space,Scalar,Scalar> > &lo_basis,
-                               std::vector<size_t> & lo_node_in_hi,
-                               Kokkos::DynRankView<Scalar,KokkosDeviceType> & hi_DofCoords);
+template <class LocalOrdinal, class LOFieldContainer>
+void BuildLoElemToNode(const LOFieldContainer &hi_elemToNode,
+                       const std::vector<bool> &hi_nodeIsOwned,
+                       const std::vector<size_t> &lo_node_in_hi,
+                       const Teuchos::ArrayRCP<const int> &hi_isDirichlet,
+                       LOFieldContainer &lo_elemToNode,
+                       std::vector<bool> &lo_nodeIsOwned,
+                       std::vector<LocalOrdinal> &hi_to_lo_map,
+                       int &lo_numOwnedNodes);
 
-    template<class LocalOrdinal, class GlobalOrdinal, class Node, class LOFieldContainer>
-    void GenerateLoNodeInHiViaGIDs(const std::vector<std::vector<size_t> > & candidates,const LOFieldContainer & hi_elemToNode,
-                                   RCP<const Xpetra::Map<LocalOrdinal,GlobalOrdinal,Node> > & hi_columnMap,
-                                   LOFieldContainer & lo_elemToHiRepresentativeNode);
+template <class LocalOrdinal, class LOFieldContainer>
+void BuildLoElemToNodeViaRepresentatives(const LOFieldContainer &hi_elemToNode,
+                                         const std::vector<bool> &hi_nodeIsOwned,
+                                         const LOFieldContainer &lo_elemToHiRepresentativeNode,
+                                         LOFieldContainer &lo_elemToNode,
+                                         std::vector<bool> &lo_nodeIsOwned,
+                                         std::vector<LocalOrdinal> &hi_to_lo_map,
+                                         int &lo_numOwnedNodes);
 
-    template <class LocalOrdinal, class LOFieldContainer>
-    void BuildLoElemToNode(const LOFieldContainer & hi_elemToNode,
-                           const std::vector<bool> & hi_nodeIsOwned,
-                           const std::vector<size_t> & lo_node_in_hi,
-                           const Teuchos::ArrayRCP<const int> & hi_isDirichlet,
-                           LOFieldContainer & lo_elemToNode,
-                           std::vector<bool> & lo_nodeIsOwned,
-                           std::vector<LocalOrdinal> & hi_to_lo_map,
-                           int & lo_numOwnedNodes);
+template <class LocalOrdinal, class GlobalOrdinal, class Node>
+void GenerateColMapFromImport(const Xpetra::Import<LocalOrdinal, GlobalOrdinal, Node> &hi_importer, const std::vector<LocalOrdinal> &hi_to_lo_map, const Xpetra::Map<LocalOrdinal, GlobalOrdinal, Node> &lo_domainMap, const size_t &lo_columnMapLength, RCP<const Xpetra::Map<LocalOrdinal, GlobalOrdinal, Node> > &lo_columnMap);
 
-    template <class LocalOrdinal, class LOFieldContainer>
-    void BuildLoElemToNodeViaRepresentatives(const LOFieldContainer & hi_elemToNode,
-                                             const std::vector<bool> & hi_nodeIsOwned,
-                                             const LOFieldContainer & lo_elemToHiRepresentativeNode,
-                                             LOFieldContainer & lo_elemToNode,
-                                             std::vector<bool> & lo_nodeIsOwned,
-                                             std::vector<LocalOrdinal> & hi_to_lo_map,
-                                             int & lo_numOwnedNodes);
+template <class Basis, class SCFieldContainer>
+void GenerateRepresentativeBasisNodes(const Basis &basis, const SCFieldContainer &ReferenceNodeLocations, const double threshold, std::vector<std::vector<size_t> > &representative_node_candidates);
 
+// ! Given an element to (global) node map and a basis, determine one global ordinal per geometric entity (vertex, edge, face,
+// ! interior).  On exit, seeds container is of dimension (spaceDim+1), and contains a sorted vector of local ordinals
+// ! belonging to entities of that dimension.  Only locally-owned degrees of freedom (as determined by rowMap and columnMap)
+// ! will be stored in seeds.
+template <class Basis, class LOFieldContainer, class LocalOrdinal, class GlobalOrdinal, class Node>
+void FindGeometricSeedOrdinals(Teuchos::RCP<Basis> basis, const LOFieldContainer &elementToNodeMap,
+                               std::vector<std::vector<LocalOrdinal> > &seeds,
+                               const Xpetra::Map<LocalOrdinal, GlobalOrdinal, Node> &rowMap,
+                               const Xpetra::Map<LocalOrdinal, GlobalOrdinal, Node> &columnMap);
 
-    template <class LocalOrdinal, class GlobalOrdinal, class Node>
-    void GenerateColMapFromImport(const Xpetra::Import<LocalOrdinal,GlobalOrdinal,Node> & hi_importer,const std::vector<LocalOrdinal> &hi_to_lo_map,const Xpetra::Map<LocalOrdinal,GlobalOrdinal,Node> & lo_domainMap, const size_t & lo_columnMapLength, RCP<const Xpetra::Map<LocalOrdinal,GlobalOrdinal,Node> > & lo_columnMap);
+}  //namespace MueLuIntrepid
+}  //namespace MueLu
 
-
-    template<class Basis, class SCFieldContainer>
-    void GenerateRepresentativeBasisNodes(const Basis & basis, const SCFieldContainer & ReferenceNodeLocations, const double threshold, std::vector<std::vector<size_t> > & representative_node_candidates);
-
-    // ! Given an element to (global) node map and a basis, determine one global ordinal per geometric entity (vertex, edge, face,
-    // ! interior).  On exit, seeds container is of dimension (spaceDim+1), and contains a sorted vector of local ordinals
-    // ! belonging to entities of that dimension.  Only locally-owned degrees of freedom (as determined by rowMap and columnMap)
-    // ! will be stored in seeds.
-    template<class Basis, class LOFieldContainer, class LocalOrdinal, class GlobalOrdinal, class Node>
-    void FindGeometricSeedOrdinals(Teuchos::RCP<Basis> basis, const LOFieldContainer &elementToNodeMap,
-                                   std::vector<std::vector<LocalOrdinal> > &seeds,
-                                   const Xpetra::Map<LocalOrdinal,GlobalOrdinal,Node> &rowMap,
-                                   const Xpetra::Map<LocalOrdinal,GlobalOrdinal,Node> &columnMap);
-
-  }//namespace MueLuIntrepid
-} //namespace MueLu
-
-#define  MUELU_INTREPIDPCOARSENFACTORY_SHORT
-#endif // MUELU_INTREPIDPCOARSENFACTORY_DECL_HPP
+#define MUELU_INTREPIDPCOARSENFACTORY_SHORT
+#endif  // MUELU_INTREPIDPCOARSENFACTORY_DECL_HPP

@@ -61,7 +61,7 @@
 
 namespace MueLu {
 
-  /*!
+/*!
     @class NodePartitionInterface
     @brief Partitioning within a node only
     @ingroup Rebalancing
@@ -103,48 +103,47 @@ namespace MueLu {
 
   */
 
-  //FIXME: this class should not be templated
-  template <class Scalar,
-            class LocalOrdinal = DefaultLocalOrdinal,
-            class GlobalOrdinal = DefaultGlobalOrdinal,
-            class Node = DefaultNode>
-  class NodePartitionInterface : public SingleLevelFactoryBase {
+//FIXME: this class should not be templated
+template <class Scalar,
+          class LocalOrdinal  = DefaultLocalOrdinal,
+          class GlobalOrdinal = DefaultGlobalOrdinal,
+          class Node          = DefaultNode>
+class NodePartitionInterface : public SingleLevelFactoryBase {
 #undef MUELU_NODEPARTITIONINTERFACE_SHORT
 #include "MueLu_UseShortNames.hpp"
 
-  public:
+ public:
+  //! @name Constructors/Destructors
+  //@{
 
-    //! @name Constructors/Destructors
-    //@{
+  //! Constructor
+  NodePartitionInterface();
 
-    //! Constructor
-    NodePartitionInterface();
+  //! Destructor
+  virtual ~NodePartitionInterface() {}
+  //@}
 
-    //! Destructor
-    virtual ~NodePartitionInterface() { }
-    //@}
+  RCP<const ParameterList> GetValidParameterList() const;
 
-    RCP<const ParameterList> GetValidParameterList() const;
+  //! @name Input
+  //@{
+  void DeclareInput(Level& currentLevel) const;
+  //@}
 
-    //! @name Input
-    //@{
-    void DeclareInput(Level& currentLevel) const;
-    //@}
+  //! @name Build methods.
+  //@{
+  void Build(Level& currentLevel) const;
 
-    //! @name Build methods.
-    //@{
-    void Build(Level& currentLevel) const;
+  //@}
 
-    //@}
+ private:
+  RCP<ParameterList> defaultNodePartitionParams;
 
-  private:
-    RCP<ParameterList> defaultNodePartitionParams;
+};  //class NodePartitionInterface
 
-  };  //class NodePartitionInterface
-
-} //namespace MueLu
+}  //namespace MueLu
 
 #define MUELU_NODEPARTITIONINTERFACE_SHORT
-#endif //if defined(HAVE_MPI)
+#endif  //if defined(HAVE_MPI)
 
-#endif // MUELU_NODEPARTITIONINTERFACE_DECL_HPP
+#endif  // MUELU_NODEPARTITIONINTERFACE_DECL_HPP
