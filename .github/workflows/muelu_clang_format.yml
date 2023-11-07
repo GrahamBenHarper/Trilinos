@@ -21,6 +21,11 @@ jobs:
       with:
         name: Format patch
         path: format_patch.txt
+    - uses: gavv/pull-request-artifacts@v2
+      if: ${{ hashFiles('format_patch.txt') != '' }}
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        artifacts: format_patch.txt
     - uses: actions/github-script@v3
       if: ${{ hashFiles('format_patch.txt') != '' }}
       with:
