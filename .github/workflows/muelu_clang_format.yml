@@ -23,13 +23,13 @@ jobs:
         path: format_patch.txt
     - uses: tonyhallett/artifacts-url-comments@v1.1.0
       if: ${{ hashFiles('format_patch.txt') != '' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          prefix: MueLu clang-format failed!
-          suffix: Please download and apply the patch file
-          format: name
-          addTo: pull
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        prefix: MueLu clang-format failed!
+        suffix: Please download and apply the patch file
+        format: name
+        addTo: pull
     - uses: actions/github-script@v3
       if: ${{ hashFiles('format_patch.txt') != '' }}
       with:
