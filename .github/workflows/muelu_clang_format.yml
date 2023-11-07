@@ -21,8 +21,7 @@ jobs:
       with:
         name: Format patch
         path: format_patch.txt
-    - name: Add comment
-      uses: mshick/add-pr-comment@v2
+    - uses: mshick/add-pr-comment@v2
       if: ${{ hashFiles('format_patch.txt') != '' }}
       with:
         message: |
