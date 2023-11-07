@@ -15,6 +15,7 @@ jobs:
         clangFormatVersion: 14
         inplace: true
     - run: git diff HEAD > format_patch.txt
+    - run: if [ "$(cat format_patch.txt)" == "" ] ; then rm format_patch.txt ; fi
     - uses: actions/upload-artifact@v3
       if: ${{ hashFiles('format_patch.txt') != '' }}
       with:
