@@ -10,9 +10,17 @@ jobs:
     - uses: actions/checkout@v2
     - uses: DoozyX/clang-format-lint-action@v0.16.2
       with:
-        source: './packages/muelu/src'
-        exclude: './lib'
-        extensions: 'cpp,hpp'
-        clangFormatVersion: 8
-        style: file
-        inplace: False
+        source: './packages/muelu'
+        exclude: './packages/muelu/src/MueCentral/MueLu_MasterList.cpp'
+        inplace: true
+    - run: git diff HEAD > format_patch.txt
+    - uses: actions/upload-artifact@v3
+      if: ${{ hashFiles('format_patch.txt') != '' }}
+      with:
+        name: Format patch
+        path: format_patch.txt
+    - uses: actions/github-script@v3
+      if: ${{ hashFiles('format_patch.txt') != '' }}
+      with:
+        script: |
+            core.setFailed('Please download and apply the formatting patch!')
