@@ -93,7 +93,7 @@ RCP<const ParameterList> IndefBlockedDiagonalSmoother<Scalar, LocalOrdinal, Glob
   validParamList->set<RCP<const FactoryBase> >("A", Teuchos::null, "Generating factory of the matrix A (must be a 2x2 block matrix)");
   validParamList->set<Scalar>("Damping factor", 1.0, "Damping/Scaling factor");
   validParamList->set<LocalOrdinal>("Sweeps", 1, "Number of SIMPLE sweeps (default = 1)");
-  //validParamList->set< bool >                  ("UseSIMPLEC",         false, "Use SIMPLEC instead of SIMPLE (default = false)");
+  // validParamList->set< bool >                  ("UseSIMPLEC",         false, "Use SIMPLEC instead of SIMPLE (default = false)");
 
   return validParamList;
 }
@@ -312,13 +312,13 @@ void IndefBlockedDiagonalSmoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Ap
     A_->apply(*rcpX, *residual, Teuchos::NO_TRANS, -one, one);
 
     // split residual vector
-    //Teuchos::RCP<MultiVector> r1 = rangeMapExtractor_->ExtractVector(residual, 0, bRangeThyraMode);
-    //Teuchos::RCP<MultiVector> r2 = rangeMapExtractor_->ExtractVector(residual, 1, bRangeThyraMode);
+    // Teuchos::RCP<MultiVector> r1 = rangeMapExtractor_->ExtractVector(residual, 0, bRangeThyraMode);
+    // Teuchos::RCP<MultiVector> r2 = rangeMapExtractor_->ExtractVector(residual, 1, bRangeThyraMode);
 
     // 2) solve F * \Delta \tilde{x}_1 = r_1
     //    start with zero guess \Delta \tilde{x}_1
-    //RCP<MultiVector> xtilde1 = MultiVectorFactory::Build(r1->getMap(),rcpX->getNumVectors(),true);
-    //RCP<MultiVector> xtilde2 = MultiVectorFactory::Build(r2->getMap(),rcpX->getNumVectors(),true);
+    // RCP<MultiVector> xtilde1 = MultiVectorFactory::Build(r1->getMap(),rcpX->getNumVectors(),true);
+    // RCP<MultiVector> xtilde2 = MultiVectorFactory::Build(r2->getMap(),rcpX->getNumVectors(),true);
     bxtilde->putScalar(zero);
     velPredictSmoo_->Apply(*xtilde1, *r1);
 

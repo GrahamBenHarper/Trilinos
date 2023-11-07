@@ -66,15 +66,15 @@ class PerfModels {
   PerfModels();
 
   /* Single Node tests based upon the STREAM benchmark for measuring memory
-     * bandwith and computation rate. These processes compute either the addition
-     * of two vectors or the multiplication of dense matrices of any given size.
-     * Many iterations occur which then return a vector containing the individual
-     * lengths of time per iteration.
-     *
-     * See further here:
-     *    - https://www.cs.virginia.edu/stream/ref.html
-     *    - https://github.com/UoB-HPC/BabelStream
-     */
+   * bandwith and computation rate. These processes compute either the addition
+   * of two vectors or the multiplication of dense matrices of any given size.
+   * Many iterations occur which then return a vector containing the individual
+   * lengths of time per iteration.
+   *
+   * See further here:
+   *    - https://www.cs.virginia.edu/stream/ref.html
+   *    - https://github.com/UoB-HPC/BabelStream
+   */
 
   /* This version is for table interpolation and works on chars, so the LOG_MAX_SIZE is for bytes */
   void stream_vector_make_table(int KERNEL_REPEATS, int LOG_MAX_SIZE = 20);
@@ -96,12 +96,12 @@ class PerfModels {
   void print_latency_corrected_stream_vector_table(std::ostream &out, const std::string &prefix = "");
 
   /* A latency test between two processes based upon the MVAPICH OSU Micro-Benchmarks.
-     * The sender process sends a message and then waits for confirmation of reception.
-     * Many iterations occur with various message sizes and the average latency values
-     * are returned within a map. Utilizes blocking send and recieve.
-     *
-     * See further: https://mvapich.cse.ohio-state.edu/benchmarks/
-     */
+   * The sender process sends a message and then waits for confirmation of reception.
+   * Many iterations occur with various message sizes and the average latency values
+   * are returned within a map. Utilizes blocking send and recieve.
+   *
+   * See further: https://mvapich.cse.ohio-state.edu/benchmarks/
+   */
   void pingpong_make_table(int KERNEL_REPEATS, int LOG_MAX_SIZE, const RCP<const Teuchos::Comm<int> > &comm);
   bool has_pingpong_table() const { return pingpong_sizes_.size() > 0; }
 
@@ -113,12 +113,12 @@ class PerfModels {
   void print_pingpong_table(std::ostream &out, const std::string &prefix = "");
 
   /* A halo-exchange based ping-pong, inspired by halo-mode in MPPTEST from ANL.
-     * Here we use exactly the communication pattern specified in the import object
-     * and send messages accordingly.  We vary the size in bytes sent per message,
-     * which should capture max-rate effects to some degree.
-     *
-     * See further: https://www.mcs.anl.gov/research/projects/mpi/mpptest/
-     */
+   * Here we use exactly the communication pattern specified in the import object
+   * and send messages accordingly.  We vary the size in bytes sent per message,
+   * which should capture max-rate effects to some degree.
+   *
+   * See further: https://www.mcs.anl.gov/research/projects/mpi/mpptest/
+   */
   void halopong_make_table(int KERNEL_REPEATS, int LOG_MAX_SIZE, const RCP<const Xpetra::Import<LocalOrdinal, GlobalOrdinal, Node> > &import);
   bool has_halopong_table() const { return halopong_sizes_.size() > 0; }
 
@@ -130,9 +130,9 @@ class PerfModels {
   void print_halopong_table(std::ostream &out, const std::string &prefix = "");
 
   /* Estimate launch latency based on the cost of submitting an empty Kokkos::parallel_for.
-     * This necessary to correct the memory bandwidth costs for models on high latency platforms, 
-     * e.g., GPUS.
-     */
+   * This necessary to correct the memory bandwidth costs for models on high latency platforms,
+   * e.g., GPUS.
+   */
   void launch_latency_make_table(int KERNEL_REPEATS);
   bool has_launch_latency_table() const { return launch_and_wait_latency_ > 0; }
 
@@ -161,8 +161,8 @@ class PerfModels {
 
   double launch_and_wait_latency_;
 
-};  //class PerfModels
+};  // class PerfModels
 
-}  //namespace MueLu
+}  // namespace MueLu
 
-#endif  //ifndef MUELU_PERFMODELS_HPP
+#endif  // ifndef MUELU_PERFMODELS_HPP

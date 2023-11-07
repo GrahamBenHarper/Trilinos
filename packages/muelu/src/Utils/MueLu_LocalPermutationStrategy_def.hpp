@@ -34,9 +34,9 @@ void LocalPermutationStrategy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP
   for (size_t t = 0; t < nDofsPerNode; t++)
     ss << t;
   std::string cs = ss.str();
-  //std::vector<std::string> result_perms;
+  // std::vector<std::string> result_perms;
   do {
-    //result_perms.push_back(cs);
+    // result_perms.push_back(cs);
 
     std::vector<int> newPerm(cs.length(), -1);
     for (size_t len = 0; len < cs.length(); len++) {
@@ -245,7 +245,7 @@ void LocalPermutationStrategy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP
     else {
       invDiagVecData[i] = Teuchos::ScalarTraits<Scalar>::one();
       lCntZeroDiagonals++;
-      //GetOStream(Statistics0) << "MueLu::LocalPermutationStrategy: found zero on diagonal in row " << i << std::endl;
+      // GetOStream(Statistics0) << "MueLu::LocalPermutationStrategy: found zero on diagonal in row " << i << std::endl;
     }
   }
 

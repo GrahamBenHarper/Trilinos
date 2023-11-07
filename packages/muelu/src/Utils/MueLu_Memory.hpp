@@ -66,8 +66,8 @@ std::string PrintMemoryUsage();
 std::string PrintMemoryInfo();
 void ReportTimeAndMemory(Teuchos::Time const &timer, Teuchos::Comm<int> const &Comm);
 
-}  //namespace MemUtils
+}  // namespace MemUtils
 
-}  //namespace MueLu
+}  // namespace MueLu
 
-#endif  //ifndef MUELU_MEMORY_HPP
+#endif  // ifndef MUELU_MEMORY_HPP

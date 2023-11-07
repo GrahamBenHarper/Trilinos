@@ -98,7 +98,7 @@ class RebalanceMapFactory : public SingleLevelFactoryBase {
   //@}
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REBALANCEMAPFACTORY_SHORT
 

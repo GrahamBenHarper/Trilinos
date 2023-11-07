@@ -143,9 +143,9 @@ class MergedSmoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdi
   // tmp, for debug
   bool verbose_;
 
-};  //class MergedSmoother
+};  // class MergedSmoother
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_MERGEDSMOOTHER_SHORT
 #endif  // MUELU_MERGEDSMOOTHER_DECL_HPP

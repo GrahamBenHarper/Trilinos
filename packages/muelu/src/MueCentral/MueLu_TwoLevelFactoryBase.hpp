@@ -162,9 +162,9 @@ class TwoLevelFactoryBase : public Factory {
 
   //@}
 
-};  //class TwoLevelFactoryBase
+};  // class TwoLevelFactoryBase
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_TWOLEVELFACTORY_SHORT
-#endif  //ifndef MUELU_TWOLEVELFACTORY_HPP
+#endif  // ifndef MUELU_TWOLEVELFACTORY_HPP

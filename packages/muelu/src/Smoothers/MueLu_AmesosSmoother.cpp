@@ -152,8 +152,8 @@ void AmesosSmoother<Node>::Apply(MultiVector& X, const MultiVector& B, bool Init
 
   Epetra_MultiVector& epX       = Utilities::MV2NonConstEpetraMV(X);
   Epetra_MultiVector const& epB = Utilities::MV2EpetraMV(B);
-  //Epetra_LinearProblem takes the right-hand side as a non-const pointer.
-  //I think this const_cast is safe because Amesos won't modify the rhs.
+  // Epetra_LinearProblem takes the right-hand side as a non-const pointer.
+  // I think this const_cast is safe because Amesos won't modify the rhs.
   Epetra_MultiVector& nonconstB = const_cast<Epetra_MultiVector&>(epB);
 
   linearProblem_->SetLHS(&epX);
@@ -179,7 +179,7 @@ std::string AmesosSmoother<Node>::description() const {
   return out.str();
 }
 
-//using MueLu::Describable::describe; // overloading, not hiding
+// using MueLu::Describable::describe; // overloading, not hiding
 template <class Node>
 void AmesosSmoother<Node>::print(Teuchos::FancyOStream& out, const VerbLevel verbLevel) const {
   MUELU_DESCRIBE;

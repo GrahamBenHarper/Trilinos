@@ -140,9 +140,9 @@ class ReitzingerPFactory : public PFactory {
   //@}
 
  private:
-};  //class ReitzingerPFactory
+};  // class ReitzingerPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REITZINGERPFACTORY_SHORT
 #endif  // MUELU_REITZINGERPFACTORY_DECL_HPP

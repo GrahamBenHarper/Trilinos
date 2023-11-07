@@ -88,4 +88,4 @@ void ParameterListAcceptorImpl::GetDocumentation(std::ostream& os) const {
   os << std::endl;
 }
 
-}  //namespace MueLu
+}  // namespace MueLu

@@ -1003,7 +1003,7 @@ void ParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   // These are all going to be user provided, so NoFactory
   rFactory->SetFactory("Pnodal", NoFactory::getRCP());
   rFactory->SetFactory("NodeAggMatrix", NoFactory::getRCP());
-  //rFactory->SetFactory("NodeMatrix", NoFactory::getRCP());
+  // rFactory->SetFactory("NodeMatrix", NoFactory::getRCP());
 
   if (levelID > 1)
     rFactory->SetFactory("D0", this->GetFactoryManager(levelID - 1)->GetFactory("D0"));
@@ -1115,7 +1115,7 @@ void ParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     MUELU_TEST_AND_SET_PARAM_2LIST(paramList, defaultList, "aggregation: max agg size", int, aggParams);
     MUELU_TEST_AND_SET_PARAM_2LIST(paramList, defaultList, "aggregation: max selected neighbors", int, aggParams);
     if (useKokkos_) {
-      //if not using kokkos refactor Uncoupled, there is no algorithm option (always Serial)
+      // if not using kokkos refactor Uncoupled, there is no algorithm option (always Serial)
       MUELU_TEST_AND_SET_PARAM_2LIST(paramList, defaultList, "aggregation: phase 1 algorithm", std::string, aggParams);
       MUELU_TEST_AND_SET_PARAM_2LIST(paramList, defaultList, "aggregation: deterministic", bool, aggParams);
       MUELU_TEST_AND_SET_PARAM_2LIST(paramList, defaultList, "aggregation: coloring algorithm", std::string, aggParams);
@@ -2354,8 +2354,8 @@ void ParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
       Factory::DisableMultipleCheckGlobally();
 
     if (hieraList.isSublist("DataToWrite")) {
-      //TODO We should be able to specify any data.  If it exists, write it.
-      //TODO This would requires something like std::set<dataName, Array<int> >
+      // TODO We should be able to specify any data.  If it exists, write it.
+      // TODO This would requires something like std::set<dataName, Array<int> >
       ParameterList foo    = hieraList.sublist("DataToWrite");
       std::string dataName = "Matrices";
       if (foo.isParameter(dataName))
@@ -2415,7 +2415,7 @@ void ParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   }
 }
 
-//TODO: static?
+// TODO: static?
 /// \brief Interpret "Factories" sublist
 ///
 /// \param paramList [in]: "Factories" ParameterList
@@ -2545,7 +2545,7 @@ void ParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     const std::string& paramName              = paramList.name(param);   //< paramName contains the user chosen factory name (e.g., "smootherFact1")
     const Teuchos::ParameterEntry& paramValue = paramList.entry(param);  //< for factories, paramValue should be either a list or just a MueLu Factory (e.g., TrilinosSmoother)
 
-    //TODO: do not allow name of existing MueLu classes (can be tested using FactoryFactory)
+    // TODO: do not allow name of existing MueLu classes (can be tested using FactoryFactory)
 
     if (paramValue.isList()) {
       ParameterList paramList1 = Teuchos::getValue<ParameterList>(paramValue);

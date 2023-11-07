@@ -122,7 +122,7 @@ class BlockedGaussSeidelSmoother : public SmootherPrototype<Scalar, LocalOrdinal
   //@{
 
   /*! @brief Constructor
-    */
+   */
   BlockedGaussSeidelSmoother();
 
   //! Destructor
@@ -136,7 +136,7 @@ class BlockedGaussSeidelSmoother : public SmootherPrototype<Scalar, LocalOrdinal
   void DeclareInput(Level &currentLevel) const;
 
   //! Add a factory manager
-  //void AddFactoryManager(RCP<const FactoryManagerBase> FactManager);
+  // void AddFactoryManager(RCP<const FactoryManagerBase> FactManager);
 
   //! Add a factory manager at a specific position
   void AddFactoryManager(RCP<const FactoryManagerBase> FactManager, int pos);
@@ -147,10 +147,10 @@ class BlockedGaussSeidelSmoother : public SmootherPrototype<Scalar, LocalOrdinal
   //@{
 
   /*! @brief Setup routine
-     * In the Setup method the Inverse_ vector is filled with the corresponding
-     * SmootherBase objects. Without the Inverse_ vector being filled we cannot call
-     * BlockedGaussSeidelSmoother::Apply.
-    */
+   * In the Setup method the Inverse_ vector is filled with the corresponding
+   * SmootherBase objects. Without the Inverse_ vector being filled we cannot call
+   * BlockedGaussSeidelSmoother::Apply.
+   */
   void Setup(Level &currentLevel);
 
   /*! @brief Apply the direct solver.
@@ -171,10 +171,10 @@ class BlockedGaussSeidelSmoother : public SmootherPrototype<Scalar, LocalOrdinal
   std::string description() const;
 
   /*! \brief Print the object with some verbosity level \c verbLevel to an FancyOStream object \c out
-     *
-     * - use MueLu::Describable::describe;
-     * - overloading, not hiding
-     */
+   *
+   * - use MueLu::Describable::describe;
+   * - overloading, not hiding
+   */
   void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
 
   //! Get a rough estimate of cost per iteration

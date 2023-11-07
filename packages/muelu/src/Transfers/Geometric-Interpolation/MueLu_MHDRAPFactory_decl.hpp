@@ -111,9 +111,9 @@ class MHDRAPFactory : public TwoLevelFactoryBase {
   //! If true, the action of the restriction operator action is implicitly defined by the transpose of the prolongator.
   bool implicitTranspose_;
 
-};  //class MHDRAPFactory
+};  // class MHDRAPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_MHDRAPFACTORY_SHORT
 #endif  // MUELU_MHDRAPFACTORY_DECL_HPP

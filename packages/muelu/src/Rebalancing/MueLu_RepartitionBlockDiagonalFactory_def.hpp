@@ -69,7 +69,7 @@ RCP<const ParameterList> RepartitionBlockDiagonalFactory<Scalar, LocalOrdinal, G
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void RepartitionBlockDiagonalFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(Level &currentLevel) const {
   Input(currentLevel, "A");
-}  //DeclareInput()
+}  // DeclareInput()
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void RepartitionBlockDiagonalFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &currentLevel) const {
@@ -89,7 +89,7 @@ void RepartitionBlockDiagonalFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>:
 
   Set(currentLevel, "A", Teuchos::rcp_dynamic_cast<Matrix>(DiagonalMatrix));
 
-}  //Build()
+}  // Build()
 
 }  // end namespace MueLu
 

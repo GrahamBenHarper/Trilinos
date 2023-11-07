@@ -787,7 +787,7 @@ void RegionRFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     }
   }
 
-  //TODO: KOKKOS parallel_for used from here. Not sure if it should be used for edges.
+  // TODO: KOKKOS parallel_for used from here. Not sure if it should be used for edges.
   Kokkos::deep_copy(row_map, row_map_h);
   Kokkos::deep_copy(entries, entries_h);
   Kokkos::deep_copy(values, values_h);
@@ -1102,7 +1102,7 @@ void RegionRFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 
 }  // Build3D()
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REGIONRFACTORY_KOKKOS_SHORT
 #endif  // MUELU_REGIONRFACTORY_DEF_HPP

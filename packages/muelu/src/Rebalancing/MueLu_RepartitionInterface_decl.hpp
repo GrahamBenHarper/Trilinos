@@ -64,7 +64,7 @@ namespace MueLu {
     If "number of partitions" > 1, the algorithm tries to find the requested number of partitions.
   */
 
-//FIXME: this class should not be templated
+// FIXME: this class should not be templated
 template <class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
           class Node          = DefaultNode>
@@ -98,9 +98,9 @@ class RepartitionInterface : public SingleLevelFactoryBase {
   //@}
 
  private:
-};  //class RepartitionInterface
+};  // class RepartitionInterface
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REPARTITIONINTERFACE_SHORT
 #endif /* MUELU_REPARTITIONINTERFACE_DECL_HPP_ */

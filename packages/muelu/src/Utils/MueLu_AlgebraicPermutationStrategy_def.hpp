@@ -291,7 +291,7 @@ void AlgebraicPermutationStrategy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   }      // end if globalMultColRequests > 0
 
   // put together all pairs:
-  //size_t sizeRowColPairs = keepDiagonalEntries.size() + permutedDiagCandidatesFiltered.size();
+  // size_t sizeRowColPairs = keepDiagonalEntries.size() + permutedDiagCandidatesFiltered.size();
   std::vector<std::pair<GlobalOrdinal, GlobalOrdinal> > RowColPairs;
   RowColPairs.insert(RowColPairs.end(), keepDiagonalEntries.begin(), keepDiagonalEntries.end());
   RowColPairs.insert(RowColPairs.end(), permutedDiagCandidatesFiltered.begin(), permutedDiagCandidatesFiltered.end());
@@ -303,7 +303,7 @@ void AlgebraicPermutationStrategy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   gDomVec->putScalar(SC_ZERO);
   typename std::vector<std::pair<GlobalOrdinal, GlobalOrdinal> >::iterator pl = RowColPairs.begin();
   while (pl != RowColPairs.end()) {
-    //GlobalOrdinal ik = (*pl).first;
+    // GlobalOrdinal ik = (*pl).first;
     GlobalOrdinal jk = (*pl).second;
 
     gColVec->sumIntoGlobalValue(jk, 1.0);
@@ -480,8 +480,8 @@ void AlgebraicPermutationStrategy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
       }
     }
 
-    //Qperm->doExport(*lQperm,*QpermExporter,Xpetra::ABSMAX); // no export necessary, since changes only locally
-    //ColIdStatus->doExport(*lColIdStatus,*QpermExporter,Xpetra::ABSMAX);
+    // Qperm->doExport(*lQperm,*QpermExporter,Xpetra::ABSMAX); // no export necessary, since changes only locally
+    // ColIdStatus->doExport(*lColIdStatus,*QpermExporter,Xpetra::ABSMAX);
 
     // count, how many unused column idx are needed on current processor
     // to complete Qperm
@@ -594,7 +594,7 @@ void AlgebraicPermutationStrategy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
             lWideRangeColPermutations++;
           }
           array_iter++;
-          //cntUnusedColIdx--; // check me
+          // cntUnusedColIdx--; // check me
         }
       }
     }

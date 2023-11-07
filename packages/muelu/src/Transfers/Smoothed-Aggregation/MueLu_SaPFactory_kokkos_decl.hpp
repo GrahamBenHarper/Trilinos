@@ -151,7 +151,7 @@ class SaPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompa
   //@}
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SAPFACTORY_KOKKOS_SHORT
 #endif  // MUELU_SAPFACTORY_KOKKOS_DECL_HPP

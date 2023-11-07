@@ -79,8 +79,8 @@ size_t LevenshteinDistance(const char* s, size_t len_s, const char* t, size_t le
     for (size_t j = 0; j < len_t; j++) {
       size_t cost = (s[i] == t[j]) ? 0 : 1;
       v1[j + 1]   = std::min(v1[j] + 1,
-                           std::min(v0[j + 1] + 1,
-                                    v0[j] + cost));
+                             std::min(v0[j + 1] + 1,
+                                      v0[j] + cost));
     }
 
     // copy v1 (current row) to v0 (previous row) for next iteration

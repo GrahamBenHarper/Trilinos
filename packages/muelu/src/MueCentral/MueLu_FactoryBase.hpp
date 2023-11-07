@@ -94,9 +94,9 @@ class FactoryBase : public virtual BaseClass {
 
   const int id_;
 
-};  //class FactoryBase
+};  // class FactoryBase
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_FACTORYBASE_SHORT
-#endif  //ifndef MUELU_FACTORYBASE_HPP
+#endif  // ifndef MUELU_FACTORYBASE_HPP

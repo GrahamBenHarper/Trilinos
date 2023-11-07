@@ -174,7 +174,7 @@ void Level::DeclareInput(const std::string& ename, const FactoryBase* factory, c
     TEUCHOS_TEST_FOR_EXCEPTION(true, Exceptions::RuntimeError, "MueLu::Level::DeclareInput(): requestMode_ undefined.");
 }
 
-void Level::DeclareDependencies(const FactoryBase* factory, bool bRequestOnly, bool bReleaseOnly) {  //TODO: replace bReleaseOnly, bReleaseOnly by one RequestMode enum
+void Level::DeclareDependencies(const FactoryBase* factory, bool bRequestOnly, bool bReleaseOnly) {  // TODO: replace bReleaseOnly, bReleaseOnly by one RequestMode enum
   if (bRequestOnly && bReleaseOnly)
     TEUCHOS_TEST_FOR_EXCEPTION(true, Exceptions::RuntimeError, "MueLu::Level::DeclareDependencies(): Both bRequestOnly and bReleaseOnly set to true makes no sense.");
 
@@ -545,6 +545,6 @@ const FactoryBase* Level::GetFactory(const std::string& ename, const FactoryBase
 
 Level::RequestMode Level::requestMode_ = UNDEF;
 
-}  //namespace MueLu
+}  // namespace MueLu
 
-//TODO: Caps should not matter
+// TODO: Caps should not matter

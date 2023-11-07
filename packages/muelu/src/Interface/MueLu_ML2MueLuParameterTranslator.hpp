@@ -143,7 +143,7 @@ class ML2MueLuParameterTranslator {
 
   //! @name Member variables
   //@{
-  //std::string xmlString_;   ///! string containing MueLu XML parameters corresponding to ML parameters
+  // std::string xmlString_;   ///! string containing MueLu XML parameters corresponding to ML parameters
   //@}
 
 };  // class MLParameterListInterpreter

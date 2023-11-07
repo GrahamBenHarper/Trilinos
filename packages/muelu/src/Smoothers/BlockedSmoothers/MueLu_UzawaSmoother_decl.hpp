@@ -51,12 +51,12 @@
 
 #include <Teuchos_ParameterList.hpp>
 
-//Xpetra
+// Xpetra
 #include <Xpetra_MapExtractor_fwd.hpp>
 #include <Xpetra_MultiVectorFactory_fwd.hpp>
 #include <Xpetra_Matrix_fwd.hpp>
 
-//MueLu
+// MueLu
 #include "MueLu_UzawaSmoother_fwd.hpp"
 #include "MueLu_SmootherPrototype.hpp"
 #include "MueLu_FactoryBase_fwd.hpp"
@@ -116,7 +116,7 @@ class UzawaSmoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdin
   //@{
 
   /*! @brief Setup routine
-     */
+   */
   void Setup(Level &currentLevel);
 
   /*! @brief Apply the Braess Sarazin smoother.
@@ -136,7 +136,7 @@ class UzawaSmoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdin
   std::string description() const;
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
+  // using MueLu::Describable::describe; // overloading, not hiding
   void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
 
   //! Get a rough estimate of cost per iteration

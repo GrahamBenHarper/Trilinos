@@ -200,6 +200,6 @@ void CoarseMapFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::CheckForConsis
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_COARSEMAPFACTORY_DEF_HPP_ */

@@ -109,9 +109,9 @@ class OnePtAggregationAlgorithm_kokkos : public MueLu::AggregationAlgorithmBase_
                        LO& numNonAggregatedNodes) const;
   //@}
 
-};  //class OnePtAggregationAlgorithm_kokkos
+};  // class OnePtAggregationAlgorithm_kokkos
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_ONEPTAGGREGATIONALGORITHM_KOKKOS_SHORT
 #endif  // MUELU_ONEPTAGGREGATIONALGORITHM_KOKKOS_DECL_HPP

@@ -119,9 +119,9 @@ class PreserveDirichletAggregationAlgorithm_kokkos : public MueLu::AggregationAl
 
   std::string description() const { return "Phase - (Dirichlet)"; }
 
-};  //class PreserveDirichletAggregationAlgorithm
+};  // class PreserveDirichletAggregationAlgorithm
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_PRESERVEDIRICHLETAGGREGATIONALGORITHM_KOKKOS_SHORT
 #endif  // MUELU_PRESERVEDIRICHLETAGGREGATIONALGORITHM_KOKKOS_DECL_HPP

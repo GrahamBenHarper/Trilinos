@@ -507,7 +507,7 @@ class FactoryFactory : public BaseClass {
   RCP<T> BuildTogglePFactory(const Teuchos::ParameterList& paramList, const FactoryMap& factoryMapIn, const FactoryManagerMap& factoryManagersIn) const {
     RCP<T> factory;
     if (paramList.isSublist("TransferFactories") == false) {
-      //TODO put in an error message: the TogglePFactory needs a TransferFactories sublist!
+      // TODO put in an error message: the TogglePFactory needs a TransferFactories sublist!
       factory = Build2<T>(paramList, factoryMapIn, factoryManagersIn);
 
     } else {
@@ -668,7 +668,7 @@ class FactoryFactory : public BaseClass {
     if (paramList.isParameter("ParameterList")) params = paramList.get<Teuchos::ParameterList>("ParameterList");
 
     // parameters from SmootherFactory
-    //bool bKeepSmootherData = false; if(paramList.isParameter("keep smoother data")) bKeepSmootherData = paramList.get<bool>("keep smoother data");
+    // bool bKeepSmootherData = false; if(paramList.isParameter("keep smoother data")) bKeepSmootherData = paramList.get<bool>("keep smoother data");
 
     // Read in factory information for smoothers (if available...)
     // NOTE: only a selected number of factories can be used with the Trilinos smoother
@@ -691,7 +691,7 @@ class FactoryFactory : public BaseClass {
 
     RCP<SmootherFactory> smooFact = rcp(new SmootherFactory(Teuchos::null));
     Teuchos::ParameterList smooFactParams;
-    //smooFactParams.setEntry("keep smoother data", paramList.getEntry("keep smoother data"));
+    // smooFactParams.setEntry("keep smoother data", paramList.getEntry("keep smoother data"));
     smooFact->SetParameterList(smooFactParams);
     smooFact->SetSmootherPrototypes(trilSmoo);
     return smooFact;
@@ -795,7 +795,7 @@ class FactoryFactory : public BaseClass {
     // TAW: 7/6/2016: We should not need to set/hardcode the blocked operator here.
     //                The user might want to overwrite this in the xml file, so just
     //                use what is declared as "A"
-    //bs->SetFactory("A", MueLu::NoFactory::getRCP());
+    // bs->SetFactory("A", MueLu::NoFactory::getRCP());
 
     for (int i = 0; i < Teuchos::as<int>(facManagers.size()); i++) {
       bs->AddFactoryManager(facManagers[i], i);
@@ -818,7 +818,7 @@ class FactoryFactory : public BaseClass {
     // TAW: 7/6/2016: We should not need to set/hardcode the blocked operator here.
     //                The user might want to overwrite this in the xml file, so just
     //                use what is declared as "A"
-    //bs->SetFactory("A", MueLu::NoFactory::getRCP());
+    // bs->SetFactory("A", MueLu::NoFactory::getRCP());
 
     // Set Teko parameters ("Inverse Factory Library")
     bs->SetTekoParameters(tekoParams);
@@ -842,8 +842,8 @@ class FactoryFactory : public BaseClass {
     return rcp(new SmootherFactory(rcp(new BlockedDirectSolver(type, params))));
   }
 
-  //RCP<FactoryBase> BuildBlockedPFactory(const Teuchos::ParameterList& paramList, const FactoryMap& factoryMapIn, const FactoryManagerMap& factoryManagersIn) const {
-  //  RCP<BlockedPFactory> pfac = rcp(new BlockedPFactory());
+  // RCP<FactoryBase> BuildBlockedPFactory(const Teuchos::ParameterList& paramList, const FactoryMap& factoryMapIn, const FactoryManagerMap& factoryManagersIn) const {
+  //   RCP<BlockedPFactory> pfac = rcp(new BlockedPFactory());
 
   template <class T>  // T must implement the Factory interface
   RCP<T> BuildBlockedFactory(const Teuchos::ParameterList& paramList, const FactoryMap& factoryMapIn, const FactoryManagerMap& factoryManagersIn) const {

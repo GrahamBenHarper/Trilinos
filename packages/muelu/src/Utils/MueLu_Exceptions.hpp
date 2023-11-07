@@ -101,4 +101,4 @@ class InvalidArgument : public Teuchos::ExceptionBase {
 
 #define MUELU_TPETRA_ETI_EXCEPTION(cl, obj, go) TEUCHOS_TEST_FOR_EXCEPTION(1, ::MueLu::Exceptions::BadCast, "Problem in " #cl "! Cannot create new object " #obj " with GO=" #go ". MueLu has been compiled with Tpetra enabled bug GO!=" #go ". Please add TPETRA_INST_INT_INT to your configuration.");
 
-#endif  //ifndef MUELU_EXCEPTIONS_HPP
+#endif  // ifndef MUELU_EXCEPTIONS_HPP

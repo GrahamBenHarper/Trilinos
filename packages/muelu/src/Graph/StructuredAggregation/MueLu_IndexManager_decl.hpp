@@ -242,7 +242,7 @@ class IndexManager : public BaseClass {
   virtual void getGhostedNodeCoarseLID(const LO i, const LO j, const LO k, LO& myLID) const = 0;
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_INDEXMANAGER_SHORT
 #endif  // MUELU_INDEXMANAGER_DECL_HPP

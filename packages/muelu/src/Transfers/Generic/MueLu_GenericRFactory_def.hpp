@@ -107,16 +107,16 @@ void GenericRFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level & /
   bool rmode = PFact->isRestrictionModeSet();
   PFact->setRestrictionMode(true);  // switch prolongator factory to restriction mode
 
-  //PFact->Build(fineLevel, coarseLevel);  // call PFactory::Build explicitely
+  // PFact->Build(fineLevel, coarseLevel);  // call PFactory::Build explicitely
   RCP<Matrix> R = coarseLevel.Get<RCP<Matrix> >("R", PFact.get());
 
   PFact->setRestrictionMode(rmode);  // reset restriction mode flag
 
   Set(coarseLevel, "R", R);
 
-}  //BuildR
+}  // BuildR
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_GENERICRFACTORY_SHORT
 #endif  // MUELU_GENERICRFACTORY_DEF_HPP

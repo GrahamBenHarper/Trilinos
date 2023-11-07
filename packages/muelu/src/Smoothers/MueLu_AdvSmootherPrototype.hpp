@@ -95,7 +95,7 @@ class AdvSmootherPrototype : public SmootherPrototypex<Scalar, LocalOrdinal, Glo
   /*! @brief Set the smoother type.
       This method must be called by constructors of derived classes.
     */
-  //TODO: remove, type_ should be const
+  // TODO: remove, type_ should be const
   void SetType(std::string& type) { type_ = type; }
 
   //@}
@@ -103,10 +103,10 @@ class AdvSmootherPrototype : public SmootherPrototypex<Scalar, LocalOrdinal, Glo
  private:
   std::string type_;
 
-};  //class AdvSmootherPrototype
+};  // class AdvSmootherPrototype
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_ADVSMOOTHERPROTOTYPE_SHORT
 
-#endif  //ifndef MUELU_ADVSMOOTHERPROTOTYPE_HPP
+#endif  // ifndef MUELU_ADVSMOOTHERPROTOTYPE_HPP

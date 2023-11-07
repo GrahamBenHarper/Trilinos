@@ -68,13 +68,13 @@ namespace MueLu {
 /*!
   @class CombinePFactory
   @ingroup MueLuTransferClasses
-  @brief Prolongator factory that replicates 'Psubblock' matrix to create new prolongator suitable for PDE systems 
+  @brief Prolongator factory that replicates 'Psubblock' matrix to create new prolongator suitable for PDE systems
 
 
   Takes a set of previously generated prolongators each for a subsystem multiphysics PDE and effectively makes a block diagonal prolongator
   by combining the "combo: npdes" times so that it can be used with a PDE system. A normal use case
-  would be to run an existing MueLu multigrid algorithm on a set of scalar PDEs to generate a hierarchy.  Then use 
-  something like 
+  would be to run an existing MueLu multigrid algorithm on a set of scalar PDEs to generate a hierarchy.  Then use
+  something like
 
   MueLu::HierarchyUtils<SC,LO,GO,NO>::CopyBetweenHierarchies(*scalarHierarchy0,*systemHierarchy, "P",  "Psubblock0", "RCP<Matrix>");
                                                                              .                                   .
@@ -86,7 +86,7 @@ namespace MueLu {
   in its parameter list to then invoke ComboPFactory. Currently, this is used in src/Operators/MueLu_Multiphysics_def.hpp with an example
   in test/multiphysics.
 
-  The end result is a block diagonal matrix corresponding to 
+  The end result is a block diagonal matrix corresponding to
                    [Psubblock0                                                                  ]
                    [           Psubblock1                                                       ]
                    [                      Psubblock2                                            ]
@@ -164,9 +164,9 @@ class CombinePFactory : public PFactory {
  private:
   int numPDEs_;
 
-};  //class CombinePFactory
+};  // class CombinePFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_COMBINEPFACTORY_SHORT
 #endif  // MUELU_COMBINEPFACTORY_DECL_HPP

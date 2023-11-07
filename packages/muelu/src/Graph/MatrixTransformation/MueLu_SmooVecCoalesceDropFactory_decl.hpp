@@ -156,9 +156,9 @@ class SmooVecCoalesceDropFactory : public SingleLevelFactoryBase {
   void badGuysCoalesceDrop(const Matrix& Amat, Teuchos::ArrayRCP<Scalar>& dropParams, LO nPDEs, const MultiVector& smoothedTVecs, const MultiVector& smoothedNull, RCP<GraphBase>& filteredGraph) const;
   void badGuysDropfunc(LO row, const Teuchos::ArrayView<const LocalOrdinal>& indices, const Teuchos::ArrayView<const Scalar>& vals, const MultiVector& smoothedTVecs, LO nPDEs, Teuchos::ArrayRCP<Scalar>& penalties, const MultiVector& smoothedNull, Teuchos::ArrayRCP<LO>& Bcols, Teuchos::ArrayRCP<bool>& keepOrNot, LO& Nbcols, LO nLoc) const;
 
-};  //class SmooVecCoalesceDropFactory
+};  // class SmooVecCoalesceDropFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SMOOVECCOALESCEDROPFACTORY_SHORT
 #endif  // MUELU_SMOOVECCOALESCEDROPFACTORY_DECL_HPP

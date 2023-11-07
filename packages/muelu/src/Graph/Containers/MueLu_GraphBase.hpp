@@ -99,7 +99,7 @@ class GraphBase
 
   virtual const ArrayRCP<const bool> GetBoundaryNodeMap() const = 0;
 
-  //FIXME is this necessary?
+  // FIXME is this necessary?
   //! Return number of global edges in the graph.
   virtual Xpetra::global_size_t GetGlobalNumEdges() const = 0;
 
@@ -116,8 +116,8 @@ class GraphBase
   virtual std::string description() const = 0;
 
   //! Print the Graph with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
-  //void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;;
+  // using MueLu::Describable::describe; // overloading, not hiding
+  // void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;;
   virtual void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const = 0;
   //@}
 };

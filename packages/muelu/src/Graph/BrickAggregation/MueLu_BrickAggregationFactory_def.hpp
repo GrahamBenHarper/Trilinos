@@ -172,7 +172,7 @@ void BrickAggregationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(L
 
   if (numProcs > 1) {
     // TODO: deal with block size > 1  (see comments above)
-    //TEUCHOS_TEST_FOR_EXCEPTION(bx_ > 3 || by_ > 3 || bz_ > 3, Exceptions::RuntimeError, "Currently cannot deal with brick size > 3");
+    // TEUCHOS_TEST_FOR_EXCEPTION(bx_ > 3 || by_ > 3 || bz_ > 3, Exceptions::RuntimeError, "Currently cannot deal with brick size > 3");
   }
 
   RCP<MultiVector_d> overlappedCoords = coords;
@@ -546,7 +546,7 @@ void BrickAggregationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildGr
         }
       }
       rows[row + 1] = ct;
-    }  //end for
+    }  // end for
 
     RCP<GraphBase> graph = rcp(new LWGraph(rows, columns, A->getRowMap(), A->getColMap(), "thresholded graph of A"));
 
@@ -566,10 +566,10 @@ void BrickAggregationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildGr
     Set(currentLevel, "DofsPerNode", 1);
     Set(currentLevel, "Graph", graph);
     Set(currentLevel, "Filtering", true);
-  }  //end else
+  }  // end else
 
-}  //end BuildGraph
+}  // end BuildGraph
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_BRICKAGGREGATIONFACTORY_DEF_HPP_ */

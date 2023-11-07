@@ -123,6 +123,6 @@ void StructuredLineDetectionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   Set(currentLevel, "LineDetection_VertLineIds", VertLineId);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_STRUCTUREDLINEDETECTIONFACTORY_DEF_HPP

@@ -77,7 +77,7 @@ class RegionRFactory : public TwoLevelFactoryBase {
   //! Default Constructor
   RegionRFactory() = default;
 
-  //!Destructor
+  //! Destructor
   virtual ~RegionRFactory() = default;
   //@}
 

@@ -175,7 +175,7 @@ class IndexManager_kokkos : public BaseClass {
   }  // getCoarseNodeLID
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_INDEXMANAGER_KOKKOS_SHORT
 #endif  // MUELU_INDEXMANAGER_KOKKOS_DECL_HPP

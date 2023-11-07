@@ -187,6 +187,6 @@ void RfromP_Or_TransP<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& f
   ///////////////////////// EXPERIMENTAL
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_RFROMP_OR_TRANSP_DEF_HPP

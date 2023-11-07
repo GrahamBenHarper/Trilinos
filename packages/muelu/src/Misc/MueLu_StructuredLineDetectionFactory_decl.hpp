@@ -100,9 +100,9 @@ class StructuredLineDetectionFactory : public SingleLevelFactoryBase {
   //@}
 
  private:
-};  //class StructuredLineDetectionFactory
+};  // class StructuredLineDetectionFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_STRUCTUREDLINEDETECTIONFACTORY_SHORT
 #endif  // MUELU_STRUCTUREDLINEDETECTIONFACTORY_DECL_HPP

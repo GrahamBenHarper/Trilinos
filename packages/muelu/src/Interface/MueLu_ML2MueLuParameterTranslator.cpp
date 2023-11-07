@@ -143,9 +143,9 @@ std::string ML2MueLuParameterTranslator::GetSmootherFactory(const Teuchos::Param
   // set smoother: pre or post parameter
   // Note that there is no "coarse: pre or post" in MueLu!
   if (paramList.isParameter("smoother: pre or post") && mode == "smoother:") {
-    //std::cout << "paramList" << paramList << std::endl;
-    //std::string smootherPreOrPost = paramList.get<std::string>("smoother: pre or post");
-    //std::cout << "Create pre or post parameter with " << smootherPreOrPost << std::endl;
+    // std::cout << "paramList" << paramList << std::endl;
+    // std::string smootherPreOrPost = paramList.get<std::string>("smoother: pre or post");
+    // std::cout << "Create pre or post parameter with " << smootherPreOrPost << std::endl;
     mueluss << "<Parameter name=\"smoother: pre or post\" type=\"string\" value=\"" << PreOrPost << "\"/>" << std::endl;
     adaptingParamList.remove("smoother: pre or post", false);
   }

@@ -103,7 +103,7 @@ namespace MueLu {
 
   */
 
-//FIXME: this class should not be templated
+// FIXME: this class should not be templated
 template <class Scalar,
           class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
@@ -139,11 +139,11 @@ class NodePartitionInterface : public SingleLevelFactoryBase {
  private:
   RCP<ParameterList> defaultNodePartitionParams;
 
-};  //class NodePartitionInterface
+};  // class NodePartitionInterface
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_NODEPARTITIONINTERFACE_SHORT
-#endif  //if defined(HAVE_MPI)
+#endif  // if defined(HAVE_MPI)
 
 #endif  // MUELU_NODEPARTITIONINTERFACE_DECL_HPP

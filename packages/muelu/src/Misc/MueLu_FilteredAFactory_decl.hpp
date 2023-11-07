@@ -108,9 +108,9 @@ class FilteredAFactory : public SingleLevelFactoryBase {
   void BuildNewUsingRootStencil(const Matrix& A, const GraphBase& G, double dirichletThresh, Level& currentLevel, Matrix& filteredA, bool use_spread_lumping, double DdomAllowGrowthRate, double DdomCap) const;
   void ExperimentalLumping(const Matrix& A, Matrix& filteredA, double rho, double rho2) const;
 
-};  //class FilteredAFactory
+};  // class FilteredAFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_FILTEREDAFACTORY_SHORT
 #endif  // MUELU_FILTEREDAFACTORY_DECL_HPP

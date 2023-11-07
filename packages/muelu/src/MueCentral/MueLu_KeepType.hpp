@@ -60,7 +60,7 @@ enum KeepEnum {
 };
 
 //!
-typedef short KeepType;  //TODO: name it KeepFlag?
+typedef short KeepType;  // TODO: name it KeepFlag?
 
 }  // namespace MueLu
 

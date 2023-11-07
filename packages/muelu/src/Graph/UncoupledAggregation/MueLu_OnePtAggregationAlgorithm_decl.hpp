@@ -108,9 +108,9 @@ class OnePtAggregationAlgorithm : public MueLu::AggregationAlgorithmBase<LocalOr
   void BuildAggregates(Teuchos::ParameterList const& params, GraphBase const& graph, Aggregates& aggregates, std::vector<unsigned>& aggStat, LO& numNonAggregatedNodes) const;
   //@}
 
-};  //class OnePtAggregationAlgorithm
+};  // class OnePtAggregationAlgorithm
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_ONEPTAGGREGATIONALGORITHM_SHORT
 #endif /* MUELU_ONEPTAGGREGATIONALGORITHM_DECL_HPP_ */

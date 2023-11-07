@@ -170,7 +170,7 @@ class TentativePFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Kokk
   mutable bool bTransferCoordinates_ = false;
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_TENTATIVEPFACTORY_KOKKOS_SHORT
 #endif  // MUELU_TENTATIVEPFACTORY_KOKKOS_DECL_HPP

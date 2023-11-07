@@ -88,7 +88,7 @@ class StratimikosSmoother : public SmootherPrototype<Scalar, LocalOrdinal, Globa
  public:
   //! @name Constructors / destructors
   //@{
-  //TODO: update doc for Stratimikos.
+  // TODO: update doc for Stratimikos.
   /*! @brief Constructor
 
     The options passed into StratimikosSmoother are those given in the Stratimikos user's manual.
@@ -157,8 +157,8 @@ class StratimikosSmoother : public SmootherPrototype<Scalar, LocalOrdinal, Globa
   std::string description() const { return std::string(""); };
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
-  //void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const
+  // using MueLu::Describable::describe; // overloading, not hiding
+  // void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const
   void print(Teuchos::FancyOStream& out, const VerbLevel verbLevel = Default) const {};
 
   //@}
@@ -229,8 +229,8 @@ struct StratimikosSmoother<double, LocalOrdinal, GlobalOrdinal, Node> : public S
   std::string description() const;
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
-  //void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const
+  // using MueLu::Describable::describe; // overloading, not hiding
+  // void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const
   void print(Teuchos::FancyOStream& out, const VerbLevel verbLevel = Default) const;
 
   //@}

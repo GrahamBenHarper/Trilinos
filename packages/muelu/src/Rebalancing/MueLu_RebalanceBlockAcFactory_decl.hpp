@@ -138,9 +138,9 @@ class RebalanceBlockAcFactory : public TwoLevelFactoryBase {
   //! Input factories
   std::vector<Teuchos::RCP<const FactoryManagerBase> > FactManager_;
 
-};  //class RebalanceAcFactory
+};  // class RebalanceAcFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REBALANCEBLOCKACFACTORY_SHORT
 

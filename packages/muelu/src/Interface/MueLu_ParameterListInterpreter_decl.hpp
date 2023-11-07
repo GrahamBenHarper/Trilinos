@@ -127,9 +127,9 @@ class ParameterListInterpreter : public HierarchyManager<Scalar, LocalOrdinal, G
 
  protected:
   /*! @brief Empty constructor
-     *
-     *  Constructor for derived classes
-     */
+   *
+   *  Constructor for derived classes
+   */
   ParameterListInterpreter() {
     factFact_   = Teuchos::null;
     facadeFact_ = Teuchos::rcp(new FacadeClassFactory());
@@ -271,7 +271,7 @@ class ParameterListInterpreter : public HierarchyManager<Scalar, LocalOrdinal, G
   //@{
   void SetFactoryParameterList(const Teuchos::ParameterList& paramList);
 
-  typedef std::map<std::string, RCP<const FactoryBase> > FactoryMap;  //TODO: remove this line
+  typedef std::map<std::string, RCP<const FactoryBase> > FactoryMap;  // TODO: remove this line
   typedef std::map<std::string, RCP<FactoryManagerBase> > FactoryManagerMap;
 
   void BuildFactoryMap(const Teuchos::ParameterList& paramList, const FactoryMap& factoryMapIn, FactoryMap& factoryMapOut, FactoryManagerMap& factoryManagers) const;

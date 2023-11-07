@@ -90,7 +90,7 @@ class BlockedDirectSolver : public SmootherPrototype<Scalar, LocalOrdinal, Globa
   //@{
 
   /*! @brief Constructor
-    */
+   */
   BlockedDirectSolver(const std::string& type = "", const Teuchos::ParameterList& paramList = Teuchos::ParameterList());
 
   //! Destructor
@@ -108,8 +108,8 @@ class BlockedDirectSolver : public SmootherPrototype<Scalar, LocalOrdinal, Globa
   //@{
 
   /*! @brief Setup routine
-     * Call the underlaying Setup routine of the nested direct solver once the input block matrix has been merged
-    */
+   * Call the underlaying Setup routine of the nested direct solver once the input block matrix has been merged
+   */
   void Setup(Level& currentLevel);
 
   /*! @brief Apply the direct solver.
@@ -130,7 +130,7 @@ class BlockedDirectSolver : public SmootherPrototype<Scalar, LocalOrdinal, Globa
   std::string description() const;
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
+  // using MueLu::Describable::describe; // overloading, not hiding
   void print(Teuchos::FancyOStream& out, const VerbLevel verbLevel = Default) const;
 
   //! Get a rough estimate of cost per iteration

@@ -71,7 +71,7 @@ RCP<const ParameterList> UnsmooshFactory<Scalar, LocalOrdinal, GlobalOrdinal, No
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void UnsmooshFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(Level &fineLevel, Level &coarseLevel) const {
-  //const ParameterList& pL = GetParameterList();
+  // const ParameterList& pL = GetParameterList();
   Input(fineLevel, "A");
   Input(coarseLevel, "P");
 
@@ -116,7 +116,7 @@ void UnsmooshFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &fi
   }
 
   // TODO: TAW the following check is invalid for SA-AMG based input prolongators
-  //TEUCHOS_TEST_FOR_EXCEPTION(amalgP->getDomainMap()->isSameAs(*amalgP->getColMap()) == false, MueLu::Exceptions::RuntimeError,"MueLu::UnsmooshFactory::Build: only support for non-overlapping aggregates. (column map of Ptent must be the same as domain map of Ptent)");
+  // TEUCHOS_TEST_FOR_EXCEPTION(amalgP->getDomainMap()->isSameAs(*amalgP->getColMap()) == false, MueLu::Exceptions::RuntimeError,"MueLu::UnsmooshFactory::Build: only support for non-overlapping aggregates. (column map of Ptent must be the same as domain map of Ptent)");
 
   // extract CRS information from amalgamated prolongation operator
   Teuchos::ArrayRCP<const size_t> amalgRowPtr(amalgP->getLocalNumRows());
@@ -220,7 +220,7 @@ void UnsmooshFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &fi
   }
   Teuchos::RCP<Map> coarseColMap = MapFactory::Build(amalgP->getDomainMap()->lib(),
                                                      Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-                                                     unsmooshColMapGIDs(),  //View,
+                                                     unsmooshColMapGIDs(),  // View,
                                                      indexBase,
                                                      amalgP->getDomainMap()->getComm());
 

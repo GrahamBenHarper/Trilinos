@@ -72,9 +72,9 @@ class FactoryAcceptor {
 
   //@}
 
-};  //class FactoryAcceptor
+};  // class FactoryAcceptor
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_FACTORYACCEPTOR_SHORT
-#endif  //ifndef MUELU_FACTORYACCEPTOR_HPP
+#endif  // ifndef MUELU_FACTORYACCEPTOR_HPP

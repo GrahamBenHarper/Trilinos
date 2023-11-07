@@ -175,9 +175,9 @@ class CoalesceDropFactory : public SingleLevelFactoryBase {
   // When we want to decouple a block diagonal system via a *graph*
   void BlockDiagonalizeGraph(const RCP<GraphBase>& inputGraph, const RCP<LocalOrdinalVector>& ghostedBlockNumber, RCP<GraphBase>& outputGraph, RCP<const Import>& importer) const;
 
-};  //class CoalesceDropFactory
+};  // class CoalesceDropFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_COALESCEDROPFACTORY_SHORT
 #endif  // MUELU_COALESCEDROPFACTORY_DECL_HPP

@@ -408,7 +408,7 @@ void RAPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddTransferFactory(c
   transferFacts_.push_back(factory);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_RAPFACTORY_SHORT
 #endif  // MUELU_RAPFACTORY_DEF_HPP

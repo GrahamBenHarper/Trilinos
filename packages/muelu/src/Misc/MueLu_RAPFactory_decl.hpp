@@ -128,9 +128,9 @@ class RAPFactory : public TwoLevelFactoryBase {
 
   //@}
 
-};  //class RAPFactory
+};  // class RAPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_RAPFACTORY_SHORT
 #endif  // MUELU_RAPFACTORY_DECL_HPP

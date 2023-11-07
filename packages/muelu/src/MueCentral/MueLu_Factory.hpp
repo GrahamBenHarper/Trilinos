@@ -227,9 +227,9 @@ class Factory : public FactoryBase, public FactoryAcceptor, public ParameterList
   static void EnableMultipleCheckGlobally() {}
   static void DisableMultipleCheckGlobally() {}
 #endif
-};  //class Factory
+};  // class Factory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_FACTORY_SHORT
-#endif  //ifndef MUELU_FACTORY_HPP
+#endif  // ifndef MUELU_FACTORY_HPP

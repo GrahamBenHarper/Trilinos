@@ -84,7 +84,7 @@ class PerfUtils {
   static bool CheckMatrix(const Matrix& A);
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_PERFUTILS_SHORT
 #endif  // MUELU_PERFUTILS_DECL_HPP

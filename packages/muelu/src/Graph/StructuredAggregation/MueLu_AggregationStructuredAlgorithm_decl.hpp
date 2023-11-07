@@ -123,7 +123,7 @@ class AggregationStructuredAlgorithm : public MueLu::AggregationAlgorithmBase<Lo
                               Array<LO>& colIndex) const;
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_AGGREGATIONSTRUCTUREDALGORITHM_SHORT
 #endif /* MUELU_AGGREGATIONSTRUCTUREDALGORITHM_DECL_HPP_ */

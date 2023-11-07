@@ -187,8 +187,8 @@ std::string PerfUtils<Scalar, LocalOrdinal, GlobalOrdinal, Node>::PrintMatrixInf
   }  // Reset numMyNnz to avoid adding it up in reduceAll
 #else
   if (numMyRows == 0) {
-    //FIXME JJH 10-May-2017 Is there any case in serial where numMyRows would be zero?
-    // Reset numMyNnz to avoid adding it up in reduceAll
+    // FIXME JJH 10-May-2017 Is there any case in serial where numMyRows would be zero?
+    //  Reset numMyNnz to avoid adding it up in reduceAll
     numActiveProcs = 0;
     activeProc     = false;
     numMyNnz       = 0;
@@ -448,6 +448,6 @@ bool PerfUtils<Scalar, LocalOrdinal, GlobalOrdinal, Node>::CheckMatrix(const Mat
   return hasCrsGraph;
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_PERFUTILS_DEF_HPP

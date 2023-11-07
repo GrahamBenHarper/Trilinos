@@ -63,31 +63,31 @@
 
 // Intrepid Headers
 
-//Intrepid_HGRAD_HEX_C1_FEM.hpp
-//Intrepid_HGRAD_HEX_C2_FEM.hpp
-//Intrepid_HGRAD_HEX_Cn_FEM.hpp
-//Intrepid_HGRAD_HEX_I2_FEM.hpp
+// Intrepid_HGRAD_HEX_C1_FEM.hpp
+// Intrepid_HGRAD_HEX_C2_FEM.hpp
+// Intrepid_HGRAD_HEX_Cn_FEM.hpp
+// Intrepid_HGRAD_HEX_I2_FEM.hpp
 #include "Intrepid2_HGRAD_LINE_C1_FEM.hpp"
 #include "Intrepid2_HGRAD_LINE_Cn_FEM.hpp"
-//Intrepid_HGRAD_LINE_Cn_FEM_JACOBI.hpp
-//Intrepid_HGRAD_POLY_C1_FEM.hpp
-//Intrepid_HGRAD_PYR_C1_FEM.hpp
-//Intrepid_HGRAD_PYR_I2_FEM.hpp
+// Intrepid_HGRAD_LINE_Cn_FEM_JACOBI.hpp
+// Intrepid_HGRAD_POLY_C1_FEM.hpp
+// Intrepid_HGRAD_PYR_C1_FEM.hpp
+// Intrepid_HGRAD_PYR_I2_FEM.hpp
 #include "Intrepid2_HGRAD_QUAD_C1_FEM.hpp"
 //#include Intrepid_HGRAD_QUAD_C2_FEM.hpp
 #include "Intrepid2_HGRAD_QUAD_Cn_FEM.hpp"
-//Intrepid_HGRAD_TET_C1_FEM.hpp
-//Intrepid_HGRAD_TET_C2_FEM.hpp
-//Intrepid_HGRAD_TET_Cn_FEM.hpp
-//Intrepid_HGRAD_TET_Cn_FEM_ORTH.hpp
-//Intrepid_HGRAD_TET_COMP12_FEM.hpp
-//Intrepid_HGRAD_TRI_C1_FEM.hpp
-//Intrepid_HGRAD_TRI_C2_FEM.hpp
-//Intrepid_HGRAD_TRI_Cn_FEM.hpp
-//Intrepid_HGRAD_TRI_Cn_FEM_ORTH.hpp
-//Intrepid_HGRAD_WEDGE_C1_FEM.hpp
-//Intrepid_HGRAD_WEDGE_C2_FEM.hpp
-//Intrepid_HGRAD_WEDGE_I2_FEM.hpp
+// Intrepid_HGRAD_TET_C1_FEM.hpp
+// Intrepid_HGRAD_TET_C2_FEM.hpp
+// Intrepid_HGRAD_TET_Cn_FEM.hpp
+// Intrepid_HGRAD_TET_Cn_FEM_ORTH.hpp
+// Intrepid_HGRAD_TET_COMP12_FEM.hpp
+// Intrepid_HGRAD_TRI_C1_FEM.hpp
+// Intrepid_HGRAD_TRI_C2_FEM.hpp
+// Intrepid_HGRAD_TRI_Cn_FEM.hpp
+// Intrepid_HGRAD_TRI_Cn_FEM_ORTH.hpp
+// Intrepid_HGRAD_WEDGE_C1_FEM.hpp
+// Intrepid_HGRAD_WEDGE_C2_FEM.hpp
+// Intrepid_HGRAD_WEDGE_I2_FEM.hpp
 
 // Helper Macro to avoid "unrequested" warnings
 #define MUELU_LEVEL_SET_IF_REQUESTED_OR_KEPT(level, ename, entry)                                              \
@@ -605,7 +605,7 @@ void IntrepidPCoarsenFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Generat
   MT effective_zero = Teuchos::ScalarTraits<MT>::eps();
 
   // Allocate P
-  P                   = rcp(new CrsMatrixWrap(hi_map, lo_colMap, numFieldsHi));  //FIXLATER: Need faster fill
+  P                   = rcp(new CrsMatrixWrap(hi_map, lo_colMap, numFieldsHi));  // FIXLATER: Need faster fill
   RCP<CrsMatrix> Pcrs = rcp_dynamic_cast<CrsMatrixWrap>(P)->getCrsMatrix();
 
   // Slow-ish fill
@@ -670,7 +670,7 @@ void IntrepidPCoarsenFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Generat
   MT effective_zero = Teuchos::ScalarTraits<MT>::eps();
 
   // Allocate P
-  P                   = rcp(new CrsMatrixWrap(hi_map, lo_colMap, numFieldsHi));  //FIXLATER: Need faster fill
+  P                   = rcp(new CrsMatrixWrap(hi_map, lo_colMap, numFieldsHi));  // FIXLATER: Need faster fill
   RCP<CrsMatrix> Pcrs = rcp_dynamic_cast<CrsMatrixWrap>(P)->getCrsMatrix();
 
   // Slow-ish fill
@@ -921,8 +921,8 @@ void IntrepidPCoarsenFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(
     }
   }
 
-}  //Build()
+}  // Build()
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_IPCFACTORY_DEF_HPP

@@ -98,7 +98,7 @@ double stream_vector_add(int KERNEL_REPEATS, int VECTOR_SIZE) {
   for (int i = 0; i < KERNEL_REPEATS; i++) {
     start = clock::now();
     Kokkos::parallel_for(
-        "stream/add", range_policy(0, VECTOR_SIZE), KOKKOS_LAMBDA(const size_t j) {  //Vector Addition
+        "stream/add", range_policy(0, VECTOR_SIZE), KOKKOS_LAMBDA(const size_t j) {  // Vector Addition
           c(j) = a(j) + b(j);
         });
 
@@ -138,7 +138,7 @@ double stream_vector_copy(int KERNEL_REPEATS, int VECTOR_SIZE) {
   for (int i = 0; i < KERNEL_REPEATS; i++) {
     start = clock::now();
     Kokkos::parallel_for(
-        "stream/copy", range_policy(0, VECTOR_SIZE), KOKKOS_LAMBDA(const size_t j) {  //Vector Addition
+        "stream/copy", range_policy(0, VECTOR_SIZE), KOKKOS_LAMBDA(const size_t j) {  // Vector Addition
           b(j) = a(j);
         });
 
@@ -165,11 +165,11 @@ double table_lookup(const std::vector<int> &x, const std::vector<double> &y, int
 
   if (hi == 0) {
     // Lower end (return the min time)
-    //printf("Lower end: %d < %d\n",value,x[0]);
+    // printf("Lower end: %d < %d\n",value,x[0]);
     return y[0];
   } else if (hi == N) {
     // Higher end (extrapolate from the last two points)
-    //printf("Upper end: %d > %d\n",value,x[N-1]);
+    // printf("Upper end: %d > %d\n",value,x[N-1]);
     hi           = N - 1;
     int run      = x[hi] - x[hi - 1];
     double rise  = y[hi] - y[hi - 1];
@@ -179,7 +179,7 @@ double table_lookup(const std::vector<int> &x, const std::vector<double> &y, int
     return y[hi - 1] + slope * diff;
   } else {
     // Interpolate
-    //printf("Middle: %d < %d < %d\n",x[hi-1],value,x[hi]);
+    // printf("Middle: %d < %d < %d\n",x[hi-1],value,x[hi]);
     int run      = x[hi] - x[hi - 1];
     double rise  = y[hi] - y[hi - 1];
     double slope = rise / run;
@@ -213,8 +213,8 @@ void pingpong_basic(int KERNEL_REPEATS, int MAX_SIZE, const Teuchos::Comm<int> &
   Kokkos::View<char *, memory_space> r_buf("recv", buff_size), s_buf("send", buff_size);
   Kokkos::deep_copy(s_buf, 1);
 
-  //Send and recieve.
-  // NOTE:  Do consectutive pair buddies here for simplicity.  We should be smart later
+  // Send and recieve.
+  //  NOTE:  Do consectutive pair buddies here for simplicity.  We should be smart later
   int odd   = rank % 2;
   int buddy = odd ? rank - 1 : rank + 1;
 
@@ -608,4 +608,4 @@ void PerfModels<Scalar, LocalOrdinal, GlobalOrdinal, Node>::print_launch_latency
   out.copyfmt(old_format);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu

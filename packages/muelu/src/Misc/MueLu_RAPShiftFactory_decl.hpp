@@ -141,9 +141,9 @@ class RAPShiftFactory : public TwoLevelFactoryBase {
   // vector of shifting terms
   std::vector<Scalar> shifts_;
 
-};  //class RAPShiftFactory
+};  // class RAPShiftFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_RAPSHIFTFACTORY_SHORT
 #endif  // MUELU_RAPSHIFTFACTORY_DECL_HPP

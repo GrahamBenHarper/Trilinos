@@ -158,22 +158,22 @@ class UtilitiesBase {
                                                       const bool useAverageAbsDiagVal          = false);
 
   /*! @brief Return vector containing: max_{i\not=k}(-a_ik), for each for i in the matrix
-     *
-     * @param[in] A: input matrix
-     * @ret: vector containing max_{i\not=k}(-a_ik)
-     */
+   *
+   * @param[in] A: input matrix
+   * @ret: vector containing max_{i\not=k}(-a_ik)
+   */
 
   static Teuchos::ArrayRCP<Magnitude> GetMatrixMaxMinusOffDiagonal(const Xpetra::Matrix<Scalar, LocalOrdinal, GlobalOrdinal, Node>& A);
 
   static Teuchos::ArrayRCP<Magnitude> GetMatrixMaxMinusOffDiagonal(const Xpetra::Matrix<Scalar, LocalOrdinal, GlobalOrdinal, Node>& A, const Xpetra::Vector<LocalOrdinal, LocalOrdinal, GlobalOrdinal, Node>& BlockNumber);
 
   /*! @brief Return vector containing inverse of input vector
-     *
-     * @param[in] v: input vector
-     * @param[in] tol: tolerance. If entries of input vector are smaller than tolerance they are replaced by valReplacement (see below). The default value for tol is 100*eps (machine precision)
-     * @param[in] valReplacement: Value put in for undefined entries in output vector (default: 0.0)
-     * @ret: vector containing inverse values of input vector v
-     */
+   *
+   * @param[in] v: input vector
+   * @param[in] tol: tolerance. If entries of input vector are smaller than tolerance they are replaced by valReplacement (see below). The default value for tol is 100*eps (machine precision)
+   * @param[in] valReplacement: Value put in for undefined entries in output vector (default: 0.0)
+   * @ret: vector containing inverse values of input vector v
+   */
   static Teuchos::RCP<Vector> GetInverse(Teuchos::RCP<const Vector> v, Magnitude tol = Teuchos::ScalarTraits<Scalar>::eps() * 100, Scalar valReplacement = Teuchos::ScalarTraits<Scalar>::zero());
 
   /*! @brief Extract Overlapped Matrix Diagonal
@@ -336,7 +336,7 @@ class UtilitiesBase {
   /*! @brief Apply Rowsum Criterion
 
       Flags a row i as dirichlet if:
-    
+
       \sum_{j\not=i} A_ij > A_ii * tol
 
       @param[in] A matrix
@@ -467,7 +467,7 @@ class UtilitiesBase {
   static RCP<Xpetra::Vector<LocalOrdinal, LocalOrdinal, GlobalOrdinal, Node>> CuthillMcKee(const Matrix& Op);
 
   /*! Perform a Reverse Cuthill-McKee (RCM) ordering of the local component of the matrix.
-     */
+   */
   static RCP<Xpetra::Vector<LocalOrdinal, LocalOrdinal, GlobalOrdinal, Node>> ReverseCuthillMcKee(const Matrix& Op);
 
 };  // class UtilitiesBase
@@ -496,7 +496,7 @@ struct AppendTrait<Kokkos::View<DataType, Pack...>, T> {
 
 ///////////////////////////////////////////
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_UTILITIESBASE_SHORT
 #endif  // MUELU_UTILITIESBASE_DECL_HPP

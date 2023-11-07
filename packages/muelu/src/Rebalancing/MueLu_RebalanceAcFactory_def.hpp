@@ -163,7 +163,7 @@ void RebalanceAcFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level 
       (*it)->CallBuild(coarseLevel);
     }
   }
-}  //Build()
+}  // Build()
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void RebalanceAcFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddRebalanceFactory(const RCP<const FactoryBase> &factory) {
@@ -172,8 +172,8 @@ void RebalanceAcFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddRebalance
                                "This is very strange. (Note: you can remove this exception if there's a good reason for)");
     TEUCHOS_TEST_FOR_EXCEPTION(hasDeclaredInput_, Exceptions::RuntimeError, "MueLu::RAPFactory::AddTransferFactory: Factory is being added after we have already declared input");*/
   rebalanceFacts_.push_back(factory);
-}  //AddRebalanceFactory()
+}  // AddRebalanceFactory()
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_REBALANCEACFACTORY_DEF_HPP

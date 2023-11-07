@@ -228,7 +228,7 @@ Array<LocalOrdinal> IndexManager_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
   return coarseNodesPerDirArray;
 }  // getCoarseNodesData
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_INDEXMANAGER_KOKKOS_SHORT
 #endif  // MUELU_INDEXMANAGER_DEF_KOKKOS_HPP

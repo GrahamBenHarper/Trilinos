@@ -131,7 +131,7 @@ void UserPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level& fine
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_USERPFACTORY_SHORT
 #endif  // MUELU_USERPFACTORY_DEF_HPP

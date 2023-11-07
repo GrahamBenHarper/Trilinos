@@ -56,7 +56,7 @@ namespace MueLu {
   */
 // This function is a copy of ML_CreateSublists to avoid dependency on ML
 // Throw exception on error instead of exit()
-//void CreateSublists(const ParameterList &List, ParameterList &newList);
+// void CreateSublists(const ParameterList &List, ParameterList &newList);
 
 /*!
     @class AdaptiveSAMLParameterListInterpreter class.

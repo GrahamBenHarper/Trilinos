@@ -111,8 +111,8 @@ void BlockedJacobiSmoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddFactor
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void BlockedJacobiSmoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(Level &currentLevel) const {
-  //this->Input(currentLevel, "A");
-  // TODO: check me: why is this->Input not freeing properly A in release mode?
+  // this->Input(currentLevel, "A");
+  //  TODO: check me: why is this->Input not freeing properly A in release mode?
   currentLevel.DeclareInput("A", this->GetFactory("A").get());
 
   // loop over all factory managers for the subblocks of blocked operator A

@@ -200,7 +200,7 @@ class MLParameterListInterpreter : public HierarchyManager<Scalar, LocalOrdinal,
  private:
   //! nullspace can be embedded in the ML parameter list
   int nullspaceDim_;
-  double* nullspace_;  //TODO: replace by Teuchos::ArrayRCP<>
+  double* nullspace_;  // TODO: replace by Teuchos::ArrayRCP<>
 
   //! coordinates can be embedded in the ML parameter list
   double* xcoord_;

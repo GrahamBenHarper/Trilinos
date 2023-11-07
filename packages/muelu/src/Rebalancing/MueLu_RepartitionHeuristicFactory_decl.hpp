@@ -154,5 +154,5 @@ class RepartitionHeuristicFactory : public SingleLevelFactoryBase {
 
 #define MUELU_REPARTITIONHEURISTICFACTORY_SHORT
 
-#endif  //ifdef HAVE_MPI
+#endif  // ifdef HAVE_MPI
 #endif  /* PACKAGES_MUELU_SRC_REBALANCING_MUELU_REPARTITIONHEURISTICFACTORY_DECL_HPP_ */

@@ -197,10 +197,10 @@ void SaPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &fineLe
         if (useAbsValueRowSum) {
           const bool returnReciprocal = true;
           invDiag                     = Utilities::GetLumpedMatrixDiagonal(*A, returnReciprocal,
-                                                       diagonalReplacementTolerance,
-                                                       diagonalReplacementValue,
-                                                       replaceSingleEntryRowWithZero,
-                                                       useAutomaticDiagTol);
+                                                                           diagonalReplacementTolerance,
+                                                                           diagonalReplacementValue,
+                                                                           replaceSingleEntryRowWithZero,
+                                                                           useAutomaticDiagTol);
           TEUCHOS_TEST_FOR_EXCEPTION(invDiag.is_null(), Exceptions::RuntimeError,
                                      "SaPFactory: eigenvalue estimate: diagonal reciprocal is null.");
           lambdaMax = Utilities::PowerMethod(*A, invDiag, maxEigenIterations, stopTol);
@@ -219,15 +219,15 @@ void SaPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &fineLe
     {
       SubFactoryMonitor m2(*this, "Fused (I-omega*D^{-1} A)*Ptent", coarseLevel);
       if (!useAbsValueRowSum)
-        invDiag = Utilities::GetMatrixDiagonalInverse(*A);  //default
+        invDiag = Utilities::GetMatrixDiagonalInverse(*A);  // default
       else if (invDiag == Teuchos::null) {
         GetOStream(Runtime0) << "Using rowsumabs diagonal" << std::endl;
         const bool returnReciprocal = true;
         invDiag                     = Utilities::GetLumpedMatrixDiagonal(*A, returnReciprocal,
-                                                     diagonalReplacementTolerance,
-                                                     diagonalReplacementValue,
-                                                     replaceSingleEntryRowWithZero,
-                                                     useAutomaticDiagTol);
+                                                                         diagonalReplacementTolerance,
+                                                                         diagonalReplacementValue,
+                                                                         replaceSingleEntryRowWithZero,
+                                                                         useAutomaticDiagTol);
         TEUCHOS_TEST_FOR_EXCEPTION(invDiag.is_null(), Exceptions::RuntimeError, "SaPFactory: diagonal reciprocal is null.");
       }
 
@@ -300,7 +300,7 @@ void SaPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &fineLe
     }
   }
 
-}  //Build()
+}  // Build()
 
 // Analyze the grid transfer produced by smoothed aggregation and make
 // modifications if it does not look right. In particular, if there are
@@ -391,7 +391,7 @@ void SaPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::SatisfyPConstraints(
       for (size_t k = 0; k < (size_t)nPDEs; k++) nPositive[k] = 0;
     }  // while (checkRow) ...
   }    // for (size_t i = 0; i < as<size_t>(P->getRowMap()->getNumNodeElements()); i++) ...
-}  //SatsifyPConstraints()
+}  // SatsifyPConstraints()
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void SaPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::optimalSatisfyPConstraintsForScalarPDEs(RCP<Matrix> &P) const {
@@ -425,7 +425,7 @@ void SaPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::optimalSatisfyPConst
     }
 
   }  // for (size_t i = 0; i < as<size_t>(P->getRowMap()->getNumNodeElements()); i++) ...
-}  //SatsifyPConstraints()
+}  // SatsifyPConstraints()
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 bool SaPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::constrainRow(Scalar *orig, LocalOrdinal nEntries, Scalar leftBound, Scalar rghtBound, Scalar rsumTarget, Scalar *fixedUnsorted, Scalar *scalarData) const {
@@ -443,90 +443,90 @@ bool SaPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::constrainRow(Scalar 
 
      fixedUnsorted  on output, if a feasible solutuion exists then
                     || orig - fixedUnsorted || = min  when also
-                    leftBound <= fixedUnsorted[i] <= rghtBound for all i 
+                    leftBound <= fixedUnsorted[i] <= rghtBound for all i
                     and  sum(fixedUnsorted) = rsumTarget.
 
-                    Note: it is possible to use the same pointer for 
+                    Note: it is possible to use the same pointer for
                     fixedUnsorted and orig. In this case, orig gets
                     overwritten with the new constraint satisfying values.
- 
+
       scalarData    a work array that should be 3x nEntries.
 
    On return constrain() indicates whether or not a feasible solution exists.
 */
 
   /*
-  Given a sequence of numbers    o1  ... on, fix these so that they are as 
-  close as possible to the original but satisfy bound constraints and also 
-  have the same row sum as the oi's. If we know who is going to lie on a  
-  bound, then the "best" answer (i.e., || o - f ||_2 = min)  perturbs 
-  each element that doesn't lie on a bound by the same amount. 
-   
+  Given a sequence of numbers    o1  ... on, fix these so that they are as
+  close as possible to the original but satisfy bound constraints and also
+  have the same row sum as the oi's. If we know who is going to lie on a
+  bound, then the "best" answer (i.e., || o - f ||_2 = min)  perturbs
+  each element that doesn't lie on a bound by the same amount.
+
   We can represent the oi's by considering scattered points on a number line
 
                  |                                                   |
                  |                                                   |
-   o      o    o |  o        o     o           o       o     o       |o       o 
+   o      o    o |  o        o     o           o       o     o       |o       o
                  |                                                   |
-                                                                      
+
                  \____/                                              \____/
                  <----                                               <----
                  delta                                               delta
 
-  Bounds are shown by vertical lines. The fi's must lie within the bounds, so 
+  Bounds are shown by vertical lines. The fi's must lie within the bounds, so
   the 3 leftmost points must be shifted to the right and the 2 rightmost must
   be shifted to the left. If these fi points are all shifted to the bounds
-  while the others remain in the same location, the row sum constraint is 
+  while the others remain in the same location, the row sum constraint is
   likely not satisfied and so more shifting is necessary.  In the figure, the f
-  rowsum is too large and so there must be more shifting to the left. 
+  rowsum is too large and so there must be more shifting to the left.
 
-  To minimize || o - f ||_2, we basically shift all "interiors" by the same 
+  To minimize || o - f ||_2, we basically shift all "interiors" by the same
   amount, denoted delta. The only trick is that some points near bounds are
   still affected by the bounds and so these points might be shifted more or less
   than delta. In the example,t he 3 rightmost points are shifted in the opposite
-  direction as delta to the bound. The 4th point is shifted by something less 
-  than delta so it does not violate the lower bound. The rightmost point is 
+  direction as delta to the bound. The 4th point is shifted by something less
+  than delta so it does not violate the lower bound. The rightmost point is
   shifted to the bound by some amount larger than delta. However, the 2nd point
-  is shifted by delta (i.e., it lies inside the two bounds). 
+  is shifted by delta (i.e., it lies inside the two bounds).
 
   If we know delta, we can figure out everything. If we know which points
   are special (not shifted by delta), we can also figure out everything.
-  The problem is these two things (delta and the special points) are 
+  The problem is these two things (delta and the special points) are
   inter-connected. An algorithm for computing follows.
 
   1) move exterior points to the bounds and compute how much the row sum is off
      (rowSumDeviation). We assume now that the new row sum is high, so interior
-     points must be shifted left. 
+     points must be shifted left.
 
   2) Mark closest point just left of the leftmost bound, closestToLeftBound,
      and compute its distance to the leftmost bound.  Mark closest point to the
      left of the rightmost bound, closestToRghtBound, and compute its distance to
-     right bound. There are two cases to consider. 
+     right bound. There are two cases to consider.
 
   3) Case 1: closestToLeftBound is closer than closestToRghtBound.
-     Assume that shifting by delta does not move closestToLeftBound past the 
-     left bound. This means that it will be shifted by delta. However, 
+     Assume that shifting by delta does not move closestToLeftBound past the
+     left bound. This means that it will be shifted by delta. However,
      closestToRghtBound will be shifted by more than delta.  So the total
-     number of points shifted by delta (|interiorToBounds|) includes 
-     closestToLeftBound up to and including the point just to the left of 
-     closestToRghtBound. So 
+     number of points shifted by delta (|interiorToBounds|) includes
+     closestToLeftBound up to and including the point just to the left of
+     closestToRghtBound. So
 
                   delta = rowSumDeviation/ |interiorToBounds| .
 
-     Recall that rowSumDeviation already accounts for the non-delta shift of 
+     Recall that rowSumDeviation already accounts for the non-delta shift of
      of closestToRightBound.  Now check whether our assumption is valid.
 
-     If delta <= closestToLeftBoundDist, assumption is true so delta can be 
+     If delta <= closestToLeftBoundDist, assumption is true so delta can be
      applied to interiorToBounds ... and we are done.
-     Else assumption is false. Shift closestToLeftBound to the left bound. 
-     Update rowSumDeviation, interiorToBounds, and identify new 
+     Else assumption is false. Shift closestToLeftBound to the left bound.
+     Update rowSumDeviation, interiorToBounds, and identify new
      closestToLeftBound. Repeat step 3).
 
      Case 2: closestToRghtBound is closer than closestToLeftBound.
-     Assume that shifting by delta does not move closestToRghtBound past right 
+     Assume that shifting by delta does not move closestToRghtBound past right
      bound. This means that it must be shifted by more than delta to right
      bound.  So the total number of points shifted by delta again includes
-     closestToLeftBound up to and including the point just to the left of 
+     closestToLeftBound up to and including the point just to the left of
      closestToRghtBound. So again compute
 
                   delta = rowSumDeviation/ |interiorToBounds| .
@@ -539,8 +539,8 @@ bool SaPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::constrainRow(Scalar 
 
 
   To implement, sort the oi's so things like closestToLeftBound is just index
-  into sorted array.  Updaing closestToLeftBound or closestToRghtBound requires 
-  increment by 1.  |interiorToBounds|= closestToRghtBound -  closestToLeftBound 
+  into sorted array.  Updaing closestToLeftBound or closestToRghtBound requires
+  increment by 1.  |interiorToBounds|= closestToRghtBound -  closestToLeftBound
   To handle the case when the rowsum is low (requiring right interior shifts),
   just flip the signs on data and use the left-shift code (and then flip back
   before exiting function.
@@ -717,8 +717,8 @@ bool SaPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::constrainRow(Scalar 
   return hasFeasibleSol;
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_SAPFACTORY_DEF_HPP
 
-//TODO: restrictionMode_ should use the parameter list.
+// TODO: restrictionMode_ should use the parameter list.

@@ -78,21 +78,21 @@ size_t Graph<LocalOrdinal, GlobalOrdinal, Node>::GetNodeNumGhost() const {
 #endif
 
 //! Print the object with some verbosity level to an FancyOStream object.
-//using MueLu::Describable::describe; // overloading, not hiding
-//void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const {
+// using MueLu::Describable::describe; // overloading, not hiding
+// void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const {
 template <class LocalOrdinal, class GlobalOrdinal, class Node>
 void Graph<LocalOrdinal, GlobalOrdinal, Node>::print(Teuchos::FancyOStream &out, const VerbLevel verbLevel) const {
   MUELU_DESCRIBE;
 
   if (verbLevel & Parameters0) {
-    //out0 << "Prec. type: " << type_ << std::endl;
+    // out0 << "Prec. type: " << type_ << std::endl;
   }
 
   if (verbLevel & Parameters1) {
-    //out0 << "Linear Algebra: " << toString(lib_) << std::endl;
-    //out0 << "PrecType: " << type_ << std::endl;
-    //out0 << "Parameter list: " << std::endl; { Teuchos::OSTab tab2(out); out << paramList_; }
-    //out0 << "Overlap: " << overlap_ << std::endl;
+    // out0 << "Linear Algebra: " << toString(lib_) << std::endl;
+    // out0 << "PrecType: " << type_ << std::endl;
+    // out0 << "Parameter list: " << std::endl; { Teuchos::OSTab tab2(out); out << paramList_; }
+    // out0 << "Overlap: " << overlap_ << std::endl;
   }
 
   if (verbLevel & Debug) {

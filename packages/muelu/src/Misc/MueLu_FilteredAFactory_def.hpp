@@ -196,7 +196,7 @@ void FilteredAFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& c
   if (MUELU_FILTEREDAFACTORY_LOTS_OF_PRINTING) {
     Xpetra::IO<SC, LO, GO, NO>::Write("filteredA.dat", *filteredA);
 
-    //original filtered A  and actual A
+    // original filtered A  and actual A
     Xpetra::IO<SC, LO, GO, NO>::Write("A.dat", *A);
     RCP<Matrix> origFilteredA = MatrixFactory::Build(A->getRowMap(), A->getColMap(), A->getLocalMaxNumRowEntries());
     BuildNew(*A, *G, lumping, dirichlet_threshold, *origFilteredA);
@@ -314,9 +314,9 @@ void FilteredAFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
         // NOTE
         //  * Does it make sense to lump for elasticity?
         //  * Is it different for diffusion and elasticity?
-        //SC diagA = ZERO;
+        // SC diagA = ZERO;
         if (diagIndex != -1) {
-          //diagA = vals[diagIndex];
+          // diagA = vals[diagIndex];
           vals[diagIndex] += diagExtra;
           if (dirichletThresh >= 0.0 && TST::real(vals[diagIndex]) <= dirichletThresh) {
             //            printf("WARNING: row %d diag(Afiltered) = %8.2e diag(A)=%8.2e\n",row,vals[diagIndex],diagA);
@@ -513,7 +513,7 @@ void FilteredAFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
           vals[index_start + k] = ZERO;
       }
     }
-  }  //end nodesInAgg.unaggregated.extent(0);
+  }  // end nodesInAgg.unaggregated.extent(0);
 
   std::vector<LO> badCount(numAggs, 0);
 
@@ -676,16 +676,16 @@ void FilteredAFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
             vals[index_start + l]                   = ZERO;
             vals_dropped_indicator[index_start + l] = true;
           }
-        }  //end for l "indsA.size()" loop
+        }  // end for l "indsA.size()" loop
 
-      }  //end m "blkSize" loop
+      }  // end m "blkSize" loop
 
       // Clear filtering array
       for (size_t j = 0; j < as<size_t>(indsG.size()); j++)
         filter[indsG[j]] = false;
 
     }  // end k loop over number of nodes in this agg
-  }    //end i loop over numAggs
+  }    // end i loop over numAggs
 
   if (!use_spread_lumping) {
     // Now do the diagonal modifications in one, final pass
@@ -802,8 +802,8 @@ void FilteredAFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     A.getLocalRowView(row, inds, vals);
     size_t nnz = inds.size();
     if (nnz == 0) continue;
-    filteredA.getLocalRowView(row, finds, tvals);  //assume 2 getLocalRowView()s
-                                                   // have things in same order
+    filteredA.getLocalRowView(row, finds, tvals);  // assume 2 getLocalRowView()s
+                                                   //  have things in same order
     fvals = ArrayView<SC>(const_cast<SC*>(tvals.getRawPtr()), nnz);
 
     LO diagIndex = -1, fdiagIndex = -1;
@@ -1011,9 +1011,9 @@ void FilteredAFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
       }
     }  // positive gamma else
 
-  }  //loop over all rows
+  }  // loop over all rows
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_FILTEREDAFACTORY_DEF_HPP

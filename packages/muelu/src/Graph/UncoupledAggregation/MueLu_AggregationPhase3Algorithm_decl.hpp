@@ -102,7 +102,7 @@ class AggregationPhase3Algorithm : public MueLu::AggregationAlgorithmBase<LocalO
   std::string description() const { return "Phase 3 (cleanup)"; }
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_AGGREGATIONPHASE3ALGORITHM_SHORT
 

@@ -119,14 +119,14 @@ void LineDetectionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Leve
       TEUCHOS_TEST_FOR_EXCEPTION(false, Exceptions::RuntimeError, "LineDetectionFactory: The parameter 'semicoarsen: line orientation' must be either 'vertical', 'horizontal' or 'coordinates'.");
   }
 
-  //TEUCHOS_TEST_FOR_EXCEPTION(Zorientation_!=VERTICAL, Exceptions::RuntimeError, "LineDetectionFactory: The 'horizontal' or 'coordinates' have not been tested!!!. Please remove this exception check and carefully test these modes!");
+  // TEUCHOS_TEST_FOR_EXCEPTION(Zorientation_!=VERTICAL, Exceptions::RuntimeError, "LineDetectionFactory: The 'horizontal' or 'coordinates' have not been tested!!!. Please remove this exception check and carefully test these modes!");
 
   // obtain number of z layers (variable over levels)
   // This information is user-provided on the finest level and transferred to the coarser
   // levels by the SemiCoarsenPFactor using the internal "NumZLayers" variable.
   if (currentLevel.GetLevelID() == 0) {
     if (currentLevel.IsAvailable("NumZLayers", NoFactory::get())) {
-      NumZDir = currentLevel.Get<LO>("NumZLayers", NoFactory::get());  //obtain info
+      NumZDir = currentLevel.Get<LO>("NumZLayers", NoFactory::get());  // obtain info
       GetOStream(Runtime1) << "Number of layers for line detection: " << NumZDir << " (information from Level(0))" << std::endl;
     } else {
       // check whether user provides information or it can be reconstructed from coordinates
@@ -179,7 +179,7 @@ void LineDetectionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Leve
             }
             // the number of vertical lines must be the same on all processors
             // TAW: Sep 14 2015: or zero as we allow "empty" processors
-            //TEUCHOS_TEST_FOR_EXCEPTION(next-index != NumNodesPerVertLine,Exceptions::RuntimeError, "Error code only works for constant block size now!!!\n");
+            // TEUCHOS_TEST_FOR_EXCEPTION(next-index != NumNodesPerVertLine,Exceptions::RuntimeError, "Error code only works for constant block size now!!!\n");
             NumBlocks++;
             index = next;
           }
@@ -197,7 +197,7 @@ void LineDetectionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Leve
     // coarse level information
     // TODO get rid of NoFactory here and use SemiCoarsenPFactory as source of NumZLayers instead.
     if (currentLevel.IsAvailable("NumZLayers", NoFactory::get())) {
-      NumZDir = currentLevel.Get<LO>("NumZLayers", NoFactory::get());  //obtain info
+      NumZDir = currentLevel.Get<LO>("NumZLayers", NoFactory::get());  // obtain info
       GetOStream(Runtime1) << "Number of layers for line detection: " << NumZDir << std::endl;
     } else {
       TEUCHOS_TEST_FOR_EXCEPTION(false, Exceptions::RuntimeError, "LineDetectionFactory: BuildP: No NumZLayers variable found. This cannot be.");
@@ -234,7 +234,7 @@ void LineDetectionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Leve
 
     NumZDir = ML_compute_line_info(LayerId, VertLineId, Ndofs, BlkSize,
                                    Zorientation_, NumZDir, xptr, yptr, zptr, *(rowMap->getComm()));
-    //it is NumZDir=NCLayers*NVertLines*DofsPerNode;
+    // it is NumZDir=NCLayers*NVertLines*DofsPerNode;
 
     // store output data on current level
     // The line detection data is used by the SemiCoarsenPFactory and the line smoothers in Ifpack/Ifpack2
@@ -332,7 +332,7 @@ LocalOrdinal LineDetectionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::ML
       }
       // The number of vertical lines must be the same on all processors
       // TAW: Sep 14, 2015: or zero as we allow for empty processors.
-      //TEUCHOS_TEST_FOR_EXCEPTION(next-index != NumNodesPerVertLine,Exceptions::RuntimeError, "Error code only works for constant block size now!!!\n");
+      // TEUCHOS_TEST_FOR_EXCEPTION(next-index != NumNodesPerVertLine,Exceptions::RuntimeError, "Error code only works for constant block size now!!!\n");
       count = 0;
       for (j = index; j < next; j++) {
         VertLineId[OrigLoc[j]] = NumBlocks;
@@ -357,9 +357,9 @@ LocalOrdinal LineDetectionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::ML
   }
 
   // TAW: Sep 14 2015: relax plausibility checks as we allow for empty processors
-  //MueLu_maxAll(&comm, NumNodesPerVertLine, i);
-  //if (NumNodesPerVertLine == -1)  NumNodesPerVertLine = i;
-  //TEUCHOS_TEST_FOR_EXCEPTION(NumNodesPerVertLine != i,Exceptions::RuntimeError, "Different processors have different z direction line lengths?\n");
+  // MueLu_maxAll(&comm, NumNodesPerVertLine, i);
+  // if (NumNodesPerVertLine == -1)  NumNodesPerVertLine = i;
+  // TEUCHOS_TEST_FOR_EXCEPTION(NumNodesPerVertLine != i,Exceptions::RuntimeError, "Different processors have different z direction line lengths?\n");
 
   return NumNodesPerVertLine;
 }
@@ -505,6 +505,6 @@ void LineDetectionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::ML_az_dsor
     dlist[0] = dRR;
   }
 }
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_LINEDETECTIONFACTORY_DEF_HPP

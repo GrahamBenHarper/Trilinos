@@ -67,19 +67,19 @@ namespace MueLu {
 /*!
   @class ReplicatePFactory
   @ingroup MueLuTransferClasses
-  @brief Prolongator factory that replicates 'Psubblock' matrix to create new prolongator suitable for PDE systems 
+  @brief Prolongator factory that replicates 'Psubblock' matrix to create new prolongator suitable for PDE systems
 
 
   Takes a previously generated prolongator for a scalar PDE and effectively makes a block diagonal prolongator
   by replicating it "replicate: npdes" times so that it can be used with a PDE system. A normal use case
-  would be to run an existing MueLu multigrid algorithm on a scalar PDE to generate a hierarchy.  Then use 
-  something like 
+  would be to run an existing MueLu multigrid algorithm on a scalar PDE to generate a hierarchy.  Then use
+  something like
 
   MueLu::HierarchyUtils<SC,LO,GO,NO>::CopyBetweenHierarchies(*scalarHierarchy,*systemHierarchy, "P",  "Psubblock", "RCP<Matrix>");
 
   to copy it to the new hierarchy. This new hierarchy would then have <Parameter name="multigrid algorithm" type="string"  value="replicate"/>
   in its parameter list to then invoke RepliatePFactory. Currently, this is used in src/Operators/MueLu_Maxwell1_def.hpp with an example
-  in test/maxwell. 
+  in test/maxwell.
 
   ## Input/output of ReplicatePFactory ##
 
@@ -145,9 +145,9 @@ class ReplicatePFactory : public PFactory {
  private:
   int numPDEs_;
 
-};  //class ReplicatePFactory
+};  // class ReplicatePFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REPLICATEPFACTORY_SHORT
 #endif  // MUELU_REPLICATEPFACTORY_DECL_HPP

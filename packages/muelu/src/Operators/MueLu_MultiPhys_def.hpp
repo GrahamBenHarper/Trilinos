@@ -135,9 +135,9 @@ void MultiPhys<Scalar, LocalOrdinal, GlobalOrdinal, Node>::setParameters(Teuchos
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void MultiPhys<Scalar, LocalOrdinal, GlobalOrdinal, Node>::compute(bool reuse) {
-  /* 
+  /*
 
-       Create a set of AMG hierarchies whose interpolation matrices are used to build on combined 
+       Create a set of AMG hierarchies whose interpolation matrices are used to build on combined
        AMG hierarchy for a multiphysics problem
 
      */
@@ -336,4 +336,4 @@ void MultiPhys<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 }  // namespace MueLu
 
 #define MUELU_MULTIPHYS_SHORT
-#endif  //ifdef MUELU_MULTIPHYS_DEF_HPP
+#endif  // ifdef MUELU_MULTIPHYS_DEF_HPP

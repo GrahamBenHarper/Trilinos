@@ -103,9 +103,9 @@ class DropNegativeEntriesFactory : public SingleLevelFactoryBase {
 
   //@}
 
-};  //class DropNegativeEntriesFactory
+};  // class DropNegativeEntriesFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_DROPNEGATIVEENTRIESFACTORY_SHORT
 #endif  // MUELU_DROPNEGATIVEENTRIESFACTORY_DECL_HPP

@@ -143,7 +143,7 @@ class PgPFactory : public PFactory {
   std::string diagonalView_;  // TODO do we need this?
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_PGPFACTORY_SHORT
 #endif /* MUELU_PGPFACTORY_DECL_HPP_ */

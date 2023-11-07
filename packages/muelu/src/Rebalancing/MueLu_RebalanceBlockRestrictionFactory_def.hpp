@@ -80,7 +80,7 @@ RCP<const ParameterList> RebalanceBlockRestrictionFactory<Scalar, LocalOrdinal, 
   SET_VALID_ENTRY("repartition: use subcommunicators");
 #undef SET_VALID_ENTRY
 
-  //validParamList->set< RCP<const FactoryBase> >("repartition: use subcommunicators", Teuchos::null, "test");
+  // validParamList->set< RCP<const FactoryBase> >("repartition: use subcommunicators", Teuchos::null, "test");
 
   validParamList->set<RCP<const FactoryBase> >("R", Teuchos::null, "Factory of the restriction operator that need to be rebalanced (only used if type=Restriction)");
   validParamList->set<RCP<const FactoryBase> >("Importer", Teuchos::null, "Generating factory of the matrix Importer for rebalancing");
@@ -220,14 +220,14 @@ void RebalanceBlockRestrictionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>
       std::vector<size_t> stridingData                       = orig_stridedRgMap->getStridingData();
       Teuchos::ArrayView<const GlobalOrdinal> nodeRangeMapii = rebRii->getRangeMap()->getLocalElementList();
       stridedRgMap                                           = StridedMapFactory::Build(
-          originalTransferOp->getRangeMap()->lib(),
-          Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-          nodeRangeMapii,
-          rebRii->getRangeMap()->getIndexBase(),
-          stridingData,
-          originalTransferOp->getRangeMap()->getComm(),
-          orig_stridedRgMap->getStridedBlockId(),
-          orig_stridedRgMap->getOffset());
+                                                    originalTransferOp->getRangeMap()->lib(),
+                                                    Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                    nodeRangeMapii,
+                                                    rebRii->getRangeMap()->getIndexBase(),
+                                                    stridingData,
+                                                    originalTransferOp->getRangeMap()->getComm(),
+                                                    orig_stridedRgMap->getStridedBlockId(),
+                                                    orig_stridedRgMap->getOffset());
     } else
       stridedRgMap = Rii->getRangeMap();
 
@@ -237,14 +237,14 @@ void RebalanceBlockRestrictionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>
       std::vector<size_t> stridingData                        = orig_stridedDoMap->getStridingData();
       Teuchos::ArrayView<const GlobalOrdinal> nodeDomainMapii = rebRii->getDomainMap()->getLocalElementList();
       stridedDoMap                                            = StridedMapFactory::Build(
-          originalTransferOp->getDomainMap()->lib(),
-          Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-          nodeDomainMapii,
-          rebRii->getDomainMap()->getIndexBase(),
-          stridingData,
-          originalTransferOp->getDomainMap()->getComm(),
-          orig_stridedDoMap->getStridedBlockId(),
-          orig_stridedDoMap->getOffset());
+                                                     originalTransferOp->getDomainMap()->lib(),
+                                                     Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                     nodeDomainMapii,
+                                                     rebRii->getDomainMap()->getIndexBase(),
+                                                     stridingData,
+                                                     originalTransferOp->getDomainMap()->getComm(),
+                                                     orig_stridedDoMap->getStridedBlockId(),
+                                                     orig_stridedDoMap->getOffset());
     } else
       stridedDoMap = Rii->getDomainMap();
 

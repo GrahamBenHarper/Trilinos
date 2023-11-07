@@ -123,8 +123,8 @@ void ReorderBlockAFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Leve
 
     // split null space vectors
     // TODO: if he matrix blocks have different striding, this could be quite complicated
-    //RCP<MultiVector> nullspace1 = map_extractor->ExtractVector(nullspace,0);
-    //RCP<MultiVector> nullspace2 = map_extractor->ExtractVector(nullspace,1);
+    // RCP<MultiVector> nullspace1 = map_extractor->ExtractVector(nullspace,0);
+    // RCP<MultiVector> nullspace2 = map_extractor->ExtractVector(nullspace,1);
 
     Teuchos::RCP<Xpetra::BlockedCrsMatrix<Scalar, LocalOrdinal, GlobalOrdinal, Node> > bOp =
         Xpetra::MatrixUtils<Scalar, LocalOrdinal, GlobalOrdinal, Node>::SplitMatrix(*Ain, map_extractor, map_extractor, Teuchos::null, bThyraMode);

@@ -312,5 +312,5 @@ void RepartitionHeuristicFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Bui
 }  // Build
 }  // namespace MueLu
 
-#endif  //ifdef HAVE_MPI
+#endif  // ifdef HAVE_MPI
 #endif  /* PACKAGES_MUELU_SRC_REBALANCING_MUELU_REPARTITIONHEURISTICFACTORY_DEF_HPP_ */

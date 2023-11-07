@@ -121,7 +121,7 @@ void NullspaceFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &c
 
   RCP<MultiVector> nullspace;
 
-  //TEUCHOS_TEST_FOR_EXCEPTION(currentLevel.GetLevelID() != 0, Exceptions::RuntimeError, "MueLu::NullspaceFactory::Build(): NullspaceFactory can be used for finest level (LevelID == 0) only.");
+  // TEUCHOS_TEST_FOR_EXCEPTION(currentLevel.GetLevelID() != 0, Exceptions::RuntimeError, "MueLu::NullspaceFactory::Build(): NullspaceFactory can be used for finest level (LevelID == 0) only.");
   const ParameterList &pL = GetParameterList();
   std::string nspName     = pL.get<std::string>("Fine level nullspace");
 
@@ -307,6 +307,6 @@ void NullspaceFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::fillNullspaceV
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_NULLSPACEFACTORY_DEF_HPP

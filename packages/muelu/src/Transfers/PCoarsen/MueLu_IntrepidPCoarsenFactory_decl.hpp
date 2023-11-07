@@ -151,7 +151,7 @@ class IntrepidPCoarsenFactory : public PFactory {
       */
   void Build(Level &fineLevel, Level &coarseLevel) const;
 
-  void BuildP(Level &fineLevel, Level &coarseLevel) const;  //Build()
+  void BuildP(Level &fineLevel, Level &coarseLevel) const;  // Build()
 
   //@}
  private:
@@ -182,7 +182,7 @@ class IntrepidPCoarsenFactory : public PFactory {
                                                const Teuchos::RCP<const Map> &hi_map,
                                                Teuchos::RCP<Matrix> &P) const;
 
-};  //class IntrepidPCoarsenFactory
+};  // class IntrepidPCoarsenFactory
 
 /* Utility functions for use with Intrepid */
 namespace MueLuIntrepid {
@@ -236,8 +236,8 @@ void FindGeometricSeedOrdinals(Teuchos::RCP<Basis> basis, const LOFieldContainer
                                const Xpetra::Map<LocalOrdinal, GlobalOrdinal, Node> &rowMap,
                                const Xpetra::Map<LocalOrdinal, GlobalOrdinal, Node> &columnMap);
 
-}  //namespace MueLuIntrepid
-}  //namespace MueLu
+}  // namespace MueLuIntrepid
+}  // namespace MueLu
 
 #define MUELU_INTREPIDPCOARSENFACTORY_SHORT
 #endif  // MUELU_INTREPIDPCOARSENFACTORY_DECL_HPP

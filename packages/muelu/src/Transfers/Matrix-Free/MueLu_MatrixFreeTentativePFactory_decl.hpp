@@ -146,7 +146,7 @@ class MatrixFreeTentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::K
   //@}
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_MATRIXFREETENTATIVEPFACTORY_SHORT
 #endif  // MUELU_MATRIXFREETENTATIVEPFACTORY_DECL_HPP

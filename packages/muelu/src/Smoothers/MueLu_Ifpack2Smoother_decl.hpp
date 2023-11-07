@@ -95,7 +95,7 @@ class Ifpack2Smoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrd
  public:
   //! @name Constructors / destructors
   //@{
-  //TODO: update doc for Ifpack2. Right now, it's a copy of the doc of IfpackSmoother
+  // TODO: update doc for Ifpack2. Right now, it's a copy of the doc of IfpackSmoother
   /*! @brief Constructor
 
     The options passed into Ifpack2Smoother are those given in the Ifpack2 user's manual.
@@ -137,7 +137,7 @@ class Ifpack2Smoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrd
   friend class Ifpack2Smoother;
 #endif
 
-  Ifpack2Smoother(const std::string& type, const Teuchos::ParameterList& paramList = Teuchos::ParameterList(), const LO& overlap = 0);  //TODO: empty paramList valid for Ifpack??
+  Ifpack2Smoother(const std::string& type, const Teuchos::ParameterList& paramList = Teuchos::ParameterList(), const LO& overlap = 0);  // TODO: empty paramList valid for Ifpack??
 
   //! Destructor
   virtual ~Ifpack2Smoother() {}
@@ -191,8 +191,8 @@ class Ifpack2Smoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrd
   std::string description() const;
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
-  //void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const
+  // using MueLu::Describable::describe; // overloading, not hiding
+  // void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const
   void print(Teuchos::FancyOStream& out, const VerbLevel verbLevel = Default) const;
 
   //@}

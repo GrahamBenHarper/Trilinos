@@ -184,13 +184,13 @@ class Level : public BaseClass {
 
   //@{
   /*! @brief Get data without decrementing associated storage counter (i.e., read-only access).
-     *   Usage: Level->Get< RCP<Matrix> >("A", factory)
-     *   if factory == NULL => use default factory
-     *
-     *  @param[in] const std::string& ename
-     *  @param[in] const FactoryBase* factory
-     *  @return data (templated)
-     * */
+   *   Usage: Level->Get< RCP<Matrix> >("A", factory)
+   *   if factory == NULL => use default factory
+   *
+   *  @param[in] const std::string& ename
+   *  @param[in] const FactoryBase* factory
+   *  @return data (templated)
+   * */
   template <class T>
   T& Get(const std::string& ename, const FactoryBase* factory = NoFactory::get()) {
     const FactoryBase* fac = GetFactory(ename, factory);
@@ -246,11 +246,11 @@ class Level : public BaseClass {
   }
 
   /*! @brief GetTypeName returns type string of variable stored using ename and factory
-     *
-     *  @param[in] const std::string& ename
-     *  @param[in] const FactoryBase* factory
-     *  @return std::string with type information (e.g., "int")
-     * */
+   *
+   *  @param[in] const std::string& ename
+   *  @param[in] const FactoryBase* factory
+   *  @return std::string with type information (e.g., "int")
+   * */
   std::string GetTypeName(const std::string& ename, const FactoryBase* factory = NoFactory::get()) {
     const FactoryBase* fac = GetFactory(ename, factory);
     TEUCHOS_TEST_FOR_EXCEPTION(!IsKey(fac, ename), Exceptions::RuntimeError, "\"" + ename + "\" not found");
@@ -533,10 +533,10 @@ class Level : public BaseClass {
 
   //@}
 
-};  //class Level
+};  // class Level
 
-}  //namespace MueLu
+}  // namespace MueLu
 
-//TODO: Caps should not matter
+// TODO: Caps should not matter
 
 #endif  // MUELU_LEVEL_HPP

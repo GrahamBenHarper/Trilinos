@@ -80,7 +80,7 @@ MutuallyExclusiveTime<TagName>::~MutuallyExclusiveTime() {
   if (isPaused()) {
     // error message because cannot throw an exception in destructor
     GetOStream(Errors) << "MutuallyExclusiveTime::~MutuallyExclusiveTime(): Error: destructor called on a paused timer." << std::endl;
-    //TODO: Even if timing results will be wrong, the timer can be removed from the stack to avoid a segmentation fault.
+    // TODO: Even if timing results will be wrong, the timer can be removed from the stack to avoid a segmentation fault.
   }
 
   stop();  // if isRunning(), remove from the stack, resume previous timer
@@ -184,7 +184,7 @@ void MutuallyExclusiveTime<TagName>::incrementNumCalls() { timer_->incrementNumC
 
 template <class TagName>
 void MutuallyExclusiveTime<TagName>::PrintParentChildPairs() {
-  //key is child, value is parent
+  // key is child, value is parent
   RCP<Teuchos::FancyOStream> fos = Teuchos::fancyOStream(Teuchos::rcpFromRef(std::cout));
   fos->setOutputToRootOnly(0);
   *fos << "Parent Child Map" << std::endl;
@@ -209,7 +209,7 @@ void MutuallyExclusiveTime<TagName>::TopOfTheStack() {
 template <class TagName>
 std::stack<MutuallyExclusiveTime<TagName>*> MutuallyExclusiveTime<TagName>::timerStack_;
 
-//FIXME: move this:
+// FIXME: move this:
 template class MutuallyExclusiveTime<FactoryBase>;
 template class MutuallyExclusiveTime<Level>;
 template class MutuallyExclusiveTime<BaseClass>;

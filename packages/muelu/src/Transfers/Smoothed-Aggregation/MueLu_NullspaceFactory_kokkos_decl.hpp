@@ -156,7 +156,7 @@ class NullspaceFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Kokko
   //@}
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_NULLSPACEFACTORY_KOKKOS_SHORT
 #endif  // MUELU_NULLSPACEFACTORY_KOKKOS_DECL_HPP

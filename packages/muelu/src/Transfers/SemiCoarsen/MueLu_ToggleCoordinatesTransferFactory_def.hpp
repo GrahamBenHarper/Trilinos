@@ -106,7 +106,7 @@ void ToggleCoordinatesTransferFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>
     coarseLevel.Release(*(coordFacts_[t]));
   }
 
-  //TODO: exception if coarseCoords == Teuchos::null
+  // TODO: exception if coarseCoords == Teuchos::null
 }
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>

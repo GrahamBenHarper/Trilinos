@@ -108,4 +108,4 @@ class FactoryManagerBase : public BaseClass {
 }  // namespace MueLu
 
 #define MUELU_FACTORYMANAGERBASE_SHORT
-#endif  //ifndef MUELU_FACTORYMANAGERBASE_HPP
+#endif  // ifndef MUELU_FACTORYMANAGERBASE_HPP

@@ -349,9 +349,9 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level&
   RCP<const CrsGraph> pg = P->getCrsGraph();
   Set(coarseLevel, "P Graph", pg);
 
-  //RCP<MultiVector> coarseNullspace = MultiVectorFactory::Build(coarseMap, fineNullspace->getNumVectors());
-  //    P->apply(*fineNullspace, *coarseNullspace, Teuchos::TRANS, Teuchos::ScalarTraits<SC>::one(), Teuchos::ScalarTraits<SC>::zero());
-  //    Set(coarseLevel, "Nullspace", coarseNullspace);
+  // RCP<MultiVector> coarseNullspace = MultiVectorFactory::Build(coarseMap, fineNullspace->getNumVectors());
+  //     P->apply(*fineNullspace, *coarseNullspace, Teuchos::TRANS, Teuchos::ScalarTraits<SC>::one(), Teuchos::ScalarTraits<SC>::zero());
+  //     Set(coarseLevel, "Nullspace", coarseNullspace);
 
   if (IsPrint(Statistics1)) {
     RCP<ParameterList> params = rcp(new ParameterList());
@@ -513,7 +513,7 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     Pghostcol_to_Pcol.resize(Pghost->getColMap()->getLocalNumElements(), LO_INVALID);
     for (LO i = 0; i < (LO)Pghost->getColMap()->getLocalNumElements(); i++)
       Pghostcol_to_Pcol[i] = Pgraph->getColMap()->getLocalElement(Pghost->getColMap()->getGlobalElement(i));
-  }  //end Pghost
+  }  // end Pghost
 
   // Get a quick reindexing array from Aghost LCIDs to A LCIDs
   ArrayRCP<LO> Aghostcol_to_Acol;
@@ -521,7 +521,7 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     Aghostcol_to_Acol.resize(Aghost->getColMap()->getLocalNumElements(), LO_INVALID);
     for (LO i = 0; i < (LO)Aghost->getColMap()->getLocalNumElements(); i++)
       Aghostcol_to_Acol[i] = A.getColMap()->getLocalElement(Aghost->getColMap()->getGlobalElement(i));
-  }  //end Aghost
+  }  // end Aghost
 
   // Algorithm (numeric)
   for (LO i = 0; i < (LO)Nrows; i++) {
@@ -606,9 +606,9 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 #endif
           }
 
-        } else {  //Case E
-                  // Case E: Strong F-Point (adds to the first denominator if we don't share a
-                  // a strong C-Point with i; adds to the second denominator otherwise)
+        } else {  // Case E
+                  //  Case E: Strong F-Point (adds to the first denominator if we don't share a
+                  //  a strong C-Point with i; adds to the second denominator otherwise)
 #ifdef CMS_DEBUG
           printf("- A(%d,%d) is a strong F-Point\n", i, k);
 #endif
@@ -626,7 +626,7 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
                 a_kk = A_vals_k[m0];
                 break;
               }
-            }  //end for A_indices_k
+            }  // end for A_indices_k
 
             // Compute the second denominator term
             sign_akk = Sign(a_kk);
@@ -636,7 +636,7 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
                 SC a_km = A_vals_k[m0];
                 second_denominator += (Sign(a_km) == sign_akk ? SC_ZERO : a_km);
               }
-            }  //end for A_indices_k
+            }  // end for A_indices_k
 
             // Now we have the second denominator, for this particular strong F point.
             // So we can now add the sum to the w_ij components for the P values
@@ -653,15 +653,15 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
                   printf("- - Unscaled P(%d,A-%d) += %6.4e = %5.4e\n", i, j, a_ik * sign_akj_val / second_denominator, P_values[Acol_to_Pcol[j]]);
 #endif
                 }
-              }  //end for A_indices_k
-            }    //end if second_denominator != 0
+              }  // end for A_indices_k
+            }    // end if second_denominator != 0
             else {
 #ifdef CMS_DEBUG
               printf("- - A(%d,%d) second denominator is zero\n", i, k);
 #endif
               if (block_id.size() == 0 || block_id[i] == block_id[k])
                 first_denominator += a_ik;
-            }  //end else second_denominator != 0
+            }  // end else second_denominator != 0
           }    // end if k < Nrows
           else {
             // Ghost row
@@ -677,26 +677,26 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
                 a_kk = A_vals_k[m0];
                 break;
               }
-            }  //end for A_indices_k
+            }  // end for A_indices_k
 
             // Compute the second denominator term
             sign_akk = Sign(a_kk);
             for (LO m0 = 0; m0 < (LO)A_indices_k.size(); m0++) {
               GO m_g    = Aghost->getColMap()->getGlobalElement(A_indices_k[m0]);
-              LO mghost = A_indices_k[m0];            //Aghost LCID
-              LO m      = Aghostcol_to_Acol[mghost];  //A's LID (could be LO_INVALID)
+              LO mghost = A_indices_k[m0];            // Aghost LCID
+              LO m      = Aghostcol_to_Acol[mghost];  // A's LID (could be LO_INVALID)
               if (m_g != k_g && m != LO_INVALID && Acol_to_Pcol[m] >= (LO)P_rowptr[i]) {
                 SC a_km = A_vals_k[m0];
                 second_denominator += (Sign(a_km) == sign_akk ? SC_ZERO : a_km);
               }
-            }  //end for A_indices_k
+            }  // end for A_indices_k
 
             // Now we have the second denominator, for this particular strong F point.
             // So we can now add the sum to the w_ij components for the P values
             if (second_denominator != SC_ZERO) {
               for (LO j0 = 0; j0 < (LO)A_indices_k.size(); j0++) {
-                LO jghost = A_indices_k[j0];            //Aghost LCID
-                LO j      = Aghostcol_to_Acol[jghost];  //A's LID (could be LO_INVALID)
+                LO jghost = A_indices_k[j0];            // Aghost LCID
+                LO j      = Aghostcol_to_Acol[jghost];  // A's LID (could be LO_INVALID)
                 // NOTE: Row k should be in fis_star, so I should have to check for diagonals here
                 if ((j != LO_INVALID) && (Acol_to_Pcol[j] >= (LO)P_rowptr[i])) {
                   SC a_kj         = A_vals_k[j0];
@@ -707,19 +707,19 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 #endif
                 }
 
-              }  //end for A_indices_k
-            }    //end if second_denominator != 0
+              }  // end for A_indices_k
+            }    // end if second_denominator != 0
             else {
 #ifdef CMS_DEBUG
               printf("- - A(%d,%d) second denominator is zero\n", i, k);
 #endif
               if (block_id.size() == 0 || block_id[i] == block_id[k])
                 first_denominator += a_ik;
-            }  //end else second_denominator != 0
-          }    //end else k < Nrows
-        }      //end else Case A,...,E
+            }  // end else second_denominator != 0
+          }    // end else k < Nrows
+        }      // end else Case A,...,E
 
-      }  //end for A_indices_i
+      }  // end for A_indices_i
 
       // Now, downscale by the first_denominator
       if (first_denominator != SC_ZERO) {
@@ -731,10 +731,10 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 #else
           P_vals_i[j0] /= -first_denominator;
 #endif
-        }  //end for P_indices_i
-      }    //end if first_denominator != 0
+        }  // end for P_indices_i
+      }    // end if first_denominator != 0
 
-    }  //end else C-Point
+    }  // end else C-Point
 
   }  // end if i < Nrows
 
@@ -744,7 +744,7 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   // Wrap from CrsMatrix to Matrix
   P = rcp(new CrsMatrixWrap(Pcrs));
 
-}  //end Coarsen_ClassicalModified
+}  // end Coarsen_ClassicalModified
 
 /* ************************************************************************* */
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
@@ -960,9 +960,9 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
         printf("P(%d,%d/%d) =  - %6.4e  * %6.4e  = %6.4e\n", i, P_indices_i[p_j], pcol2cpoint[P_indices_i[p_j]], alpha_or_beta, a_ij, w_ij);
 #endif
         P_vals_i[p_j] = w_ij;
-      }  //end for A_indices_i
-    }    //end else C_PT
-  }      //end for Numrows
+      }  // end for A_indices_i
+    }    // end else C_PT
+  }      // end for Numrows
 
   // Finish up
   PCrs->setAllValues(P_rowptr, P_colind, P_values);
@@ -1118,7 +1118,7 @@ void ClassicalPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
                                           domainGIDOffset);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_CLASSICALPFACTORY_SHORT
 #endif  // MUELU_CLASSICALPFACTORY_DEF_HPP

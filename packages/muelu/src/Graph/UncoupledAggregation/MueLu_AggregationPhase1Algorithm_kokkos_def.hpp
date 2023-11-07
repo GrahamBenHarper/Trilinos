@@ -174,7 +174,7 @@ void AggregationPhase1Algorithm_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
               const LO aggSize = Kokkos::atomic_fetch_add(&aggSizesView(agg),
                                                           1);
               if (aggSize < maxAggSize) {
-                //assign vertex i to aggregate with root j
+                // assign vertex i to aggregate with root j
                 vertex2AggId(nodeIdx, 0) = agg;
                 procWinner(nodeIdx, 0)   = myRank;
                 aggStat(nodeIdx)         = AGGREGATED;
@@ -230,18 +230,18 @@ void AggregationPhase1Algorithm_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
   Kokkos::View<LO, device_type> numNewRoots("Number of new aggregates of current color");
   auto h_numNewRoots = Kokkos::create_mirror_view(numNewRoots);
 
-  //first loop build the set of new roots
+  // first loop build the set of new roots
   Kokkos::parallel_for(
       "Aggregation Phase 1: building list of new roots",
       Kokkos::RangePolicy<execution_space>(0, numRows),
       KOKKOS_LAMBDA(const LO i) {
         if (colors(i) == 1 && aggStat(i) == READY) {
-          //i will become a root
+          // i will become a root
           newRoots(Kokkos::atomic_fetch_add(&numNewRoots(), 1)) = i;
         }
       });
   Kokkos::deep_copy(h_numNewRoots, numNewRoots);
-  //sort new roots by LID to guarantee determinism in agg IDs
+  // sort new roots by LID to guarantee determinism in agg IDs
   Kokkos::sort(newRoots, 0, h_numNewRoots());
   LO numAggregated = 0;
   Kokkos::parallel_reduce(
@@ -258,13 +258,13 @@ void AggregationPhase1Algorithm_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
         for (LO n = 0; n < neighOfRoot.length; n++) {
           LO neigh = neighOfRoot(n);
           if (lclLWGraph.isLocalNeighborVertex(neigh) && aggStat(neigh) == READY) {
-            //add neigh to aggregate
+            // add neigh to aggregate
             vertex2AggId(neigh, 0) = aggID;
             procWinner(neigh, 0)   = myRank;
             aggStat(neigh)         = AGGREGATED;
             aggSize++;
             if (aggSize == maxAggSize) {
-              //can't add any more nodes
+              // can't add any more nodes
               break;
             }
           }

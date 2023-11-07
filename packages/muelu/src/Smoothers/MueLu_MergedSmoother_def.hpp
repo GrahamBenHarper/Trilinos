@@ -160,13 +160,13 @@ void MergedSmoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::CopyParameters(R
         TEUCHOS_TEST_FOR_EXCEPTION((thisSmootherList[i] == srcSmootherList[i]) && (thisSmootherList[i] != Teuchos::null), MueLu::Exceptions::RuntimeError,
                                    "MueLu::MergedSmoother<>:CopyParameters(): internal logic error");
 
-        //TODO
-        // reuse = reuse && ((thisSmootherList[i] == Teuchos::null && srcSmootherList[i] == Teuchos::null) ||
-        //                   thisSmootherList[i]->GetType() == srcSmootherList[i]->GetType());
+        // TODO
+        //  reuse = reuse && ((thisSmootherList[i] == Teuchos::null && srcSmootherList[i] == Teuchos::null) ||
+        //                    thisSmootherList[i]->GetType() == srcSmootherList[i]->GetType());
       }
     }
 
-    reuse = false;  //TODO: temporary disactivated.
+    reuse = false;  // TODO: temporary disactivated.
 
     if (reuse) {
       bool isSetup = true;
@@ -176,7 +176,7 @@ void MergedSmoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::CopyParameters(R
         if (srcSmootherList[i] != Teuchos::null) {
           TEUCHOS_TEST_FOR_EXCEPTION(srcSmootherList[i] == Teuchos::null, MueLu::Exceptions::RuntimeError, "MueLu::MergedSmoother<>:CopyParameters(): internal logic error");
 
-          //TODO              thisSmootherList[i]->CopyParameters(srcSmootherList[i]);
+          // TODO              thisSmootherList[i]->CopyParameters(srcSmootherList[i]);
           isSetup = isSetup && thisSmootherList[i]->IsSetup();
         }
         SmootherPrototype::IsSetup(isSetup);
@@ -217,6 +217,6 @@ size_t MergedSmoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   return Teuchos::OrdinalTraits<size_t>::invalid();
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_MERGEDSMOOTHER_DEF_HPP

@@ -116,9 +116,9 @@ class ClassicalPFactory : public PFactory {
 
   //@}
 
-};  //class ClassicalPFactory
+};  // class ClassicalPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_CLASSICALPFACTORY_SHORT
 #endif  // MUELU_CLASSICALPFACTORY_DECL_HPP

@@ -155,9 +155,9 @@ class NullspaceFactory : public SingleLevelFactoryBase {
 
   mutable bool calculateRotations_ = false;
 
-};  //class NullspaceFactory
+};  // class NullspaceFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_NULLSPACEFACTORY_SHORT
 #endif  // MUELU_NULLSPACEFACTORY_DECL_HPP

@@ -159,7 +159,7 @@ const RCP<const FactoryBase> FactoryManager<Scalar, LocalOrdinal, GlobalOrdinal,
     if (varName == "RfromPfactory") return GetFactory("P");
 #if defined(HAVE_MUELU_ZOLTAN) && defined(HAVE_MPI)
     if (varName == "Partition") return SetAndReturnDefaultFactory(varName, rcp(new ZoltanInterface()));
-#endif  //ifdef HAVE_MPI
+#endif  // ifdef HAVE_MPI
 
     if (varName == "Importer") {
 #ifdef HAVE_MPI
@@ -249,7 +249,7 @@ template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void FactoryManager<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Print() const {
   std::map<std::string, RCP<const FactoryBase> >::const_iterator it;
   Teuchos::FancyOStream& fancy = GetOStream(Debug);
-  //auto & fancy = std::cout;// For debugging
+  // auto & fancy = std::cout;// For debugging
 
   fancy << "Users factory table (factoryTable_):" << std::endl;
   for (it = factoryTable_.begin(); it != factoryTable_.end(); it++) {
@@ -303,9 +303,9 @@ void FactoryManager<Scalar, LocalOrdinal, GlobalOrdinal, Node>::ResetDebugData()
 
 }  // namespace MueLu
 
-//TODO: add operator[]
-//TODO: should we use a parameterList instead of a std::map? It might be useful to tag which factory have been used and report unused factory.
-//TODO: add an option 'NoDefault' to check if we are using any default factory.
-//TODO: use Teuchos::ConstNonConstObjectContainer to allow user to modify factories after a GetFactory()
+// TODO: add operator[]
+// TODO: should we use a parameterList instead of a std::map? It might be useful to tag which factory have been used and report unused factory.
+// TODO: add an option 'NoDefault' to check if we are using any default factory.
+// TODO: use Teuchos::ConstNonConstObjectContainer to allow user to modify factories after a GetFactory()
 
 #endif  // MUELU_FACTORYMANAGER_DEF_HPP

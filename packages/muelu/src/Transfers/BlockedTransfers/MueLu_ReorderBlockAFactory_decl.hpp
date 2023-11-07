@@ -91,7 +91,7 @@ class ReorderBlockAFactory : public SingleLevelFactoryBase {
   //! @name Build methods.
 
   /*! @brief Build an object with this factory.
-     */
+   */
   void Build(Level &currentLevel) const;
 
   //@}

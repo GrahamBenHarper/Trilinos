@@ -76,7 +76,7 @@ namespace MueLu {
 /*!
     @brief Preconditioner (wrapped as a Xpetra::Operator) for solving MultiPhysics PDEs.
 
- 
+
     @ingroup MueLuAdapters
   */
 template <class Scalar,
@@ -100,15 +100,15 @@ class MultiPhys : public VerboseObject, public Xpetra::Operator<Scalar, LocalOrd
   }
 
   /** Constructor
-     *
-     * \param[in] AmatMultiPhysics      Multiphysics discretization matrix
-     * \param[in] arrayOfAuxMatrices    Auxiliary matrices used to generate subblock prolongators for multiphysics system
-     * \param[in] arrayOfNullspaces     Nullspace multivectors used to generate subblock prolongators for multiphysics system
-     * \param[in] arrayOfCoords         Coordinate multivectors used to generate subblock prolongators for multiphysics system
-     * \param[in] nBlks                 nBlks x nBlks gives the block dimensions of the multiphysics operator
-     * \param[in] List Parameter list
-     * \param[in] ComputePrec If true, compute the preconditioner immediately
-     */
+   *
+   * \param[in] AmatMultiPhysics      Multiphysics discretization matrix
+   * \param[in] arrayOfAuxMatrices    Auxiliary matrices used to generate subblock prolongators for multiphysics system
+   * \param[in] arrayOfNullspaces     Nullspace multivectors used to generate subblock prolongators for multiphysics system
+   * \param[in] arrayOfCoords         Coordinate multivectors used to generate subblock prolongators for multiphysics system
+   * \param[in] nBlks                 nBlks x nBlks gives the block dimensions of the multiphysics operator
+   * \param[in] List Parameter list
+   * \param[in] ComputePrec If true, compute the preconditioner immediately
+   */
   MultiPhys(const Teuchos::RCP<Matrix>& AmatMultiPhysics,
             const Teuchos::ArrayRCP<RCP<Matrix>> arrayOfAuxMatrices,
             const Teuchos::ArrayRCP<Teuchos::RCP<MultiVector>> arrayOfNullspaces,
@@ -167,14 +167,14 @@ class MultiPhys : public VerboseObject, public Xpetra::Operator<Scalar, LocalOrd
 
  private:
   /** Initialize with matrices except the Jacobian (don't compute the preconditioner)
-     *
-     * \param[in] AmatMultiPhysics      Multiphysics discretization matrix
-     * \param[in] arrayOfAuxMatrices    Array of auxiliary matrices used to generate subblock prolongators for multiphysics system
-     * \param[in] arrayOfNullspaces     Array of nullspace  multivectors used to generate subblock prolongators for multiphysics system
-     * \param[in] arrayOfCoords         Array of coordinate multivectors used to generate subblock prolongators for multiphysics system
-     * \param[in] nBlks                 nBlks x nBlks gives the block dimensions of the multiphysics operator
-     * \param[in] List Parameter list
-     */
+   *
+   * \param[in] AmatMultiPhysics      Multiphysics discretization matrix
+   * \param[in] arrayOfAuxMatrices    Array of auxiliary matrices used to generate subblock prolongators for multiphysics system
+   * \param[in] arrayOfNullspaces     Array of nullspace  multivectors used to generate subblock prolongators for multiphysics system
+   * \param[in] arrayOfCoords         Array of coordinate multivectors used to generate subblock prolongators for multiphysics system
+   * \param[in] nBlks                 nBlks x nBlks gives the block dimensions of the multiphysics operator
+   * \param[in] List Parameter list
+   */
   void initialize(const Teuchos::RCP<Matrix>& AmatMultiPhysics,
                   const Teuchos::ArrayRCP<RCP<Matrix>> arrayOfAuxMatrices,
                   const Teuchos::ArrayRCP<Teuchos::RCP<MultiVector>> arrayOfNullspaces,

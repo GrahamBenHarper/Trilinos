@@ -151,11 +151,11 @@ class SingleLevelFactoryBase : public Factory {
   }
   //@}
 
-};  //class SingleLevelFactoryBase
+};  // class SingleLevelFactoryBase
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SINGLELEVELFACTORY_SHORT
-#endif  //ifndef MUELU_SINGLELEVELFACTORY_HPP
+#endif  // ifndef MUELU_SINGLELEVELFACTORY_HPP
 
-//TODO: code factorization between SingleLevelFactoryBase and TwoLevelFactoryBase
+// TODO: code factorization between SingleLevelFactoryBase and TwoLevelFactoryBase

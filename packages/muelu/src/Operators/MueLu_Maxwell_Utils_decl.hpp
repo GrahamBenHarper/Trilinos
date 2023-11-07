@@ -62,7 +62,7 @@ namespace MueLu {
 
 /*!
     @brief Utility functions for Maxwell
-    
+
     @ingroup MueLuAdapters
   */
 template <class Scalar,

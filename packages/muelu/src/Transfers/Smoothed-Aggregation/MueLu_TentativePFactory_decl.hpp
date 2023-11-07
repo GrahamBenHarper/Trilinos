@@ -160,11 +160,11 @@ class TentativePFactory : public PFactory {
 
   mutable bool bTransferCoordinates_ = false;
 
-};  //class TentativePFactory
+};  // class TentativePFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
-//TODO: noQR_
+// TODO: noQR_
 
 #define MUELU_TENTATIVEPFACTORY_SHORT
 #endif  // MUELU_TENTATIVEPFACTORY_DECL_HPP

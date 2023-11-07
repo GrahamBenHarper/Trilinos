@@ -68,7 +68,7 @@ template <class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
           class Node          = DefaultNode>
 class Graph
-  : public MueLu::GraphBase<LocalOrdinal, GlobalOrdinal, Node> {  //FIXME  shortnames isn't working
+  : public MueLu::GraphBase<LocalOrdinal, GlobalOrdinal, Node> {  // FIXME  shortnames isn't working
 #undef MUELU_GRAPH_SHORT
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
@@ -119,8 +119,8 @@ class Graph
   std::string description() const { return "MueLu.description()"; }
 
   //! Print the Graph with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
-  //void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;;
+  // using MueLu::Describable::describe; // overloading, not hiding
+  // void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;;
   void print(Teuchos::FancyOStream& out, const VerbLevel verbLevel = Default) const;
 
  private:

@@ -63,6 +63,6 @@ class DisableMultipleCallCheck {
   const RCP<const TwoLevelFactoryBase> fact_;
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_DISABLEMULTIPLECALLCHECK_HPP

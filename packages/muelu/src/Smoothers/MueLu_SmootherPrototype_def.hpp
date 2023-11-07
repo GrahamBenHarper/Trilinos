@@ -65,6 +65,6 @@ void SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdinal, Node>::IsSetup(bool 
 
 }  // namespace MueLu
 
-//TODO: private copy constructor
-//TODO: update comments
+// TODO: private copy constructor
+// TODO: update comments
 #endif  // MUELU_SMOOTHERPROTOTYPE_DEF_HPP

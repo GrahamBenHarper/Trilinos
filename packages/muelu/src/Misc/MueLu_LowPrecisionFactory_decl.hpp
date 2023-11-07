@@ -98,7 +98,7 @@ class LowPrecisionFactory : public SingleLevelFactoryBase {
 
   //@}
 
-};  //class LowPrecisionFactory
+};  // class LowPrecisionFactory
 
 #if defined(HAVE_TPETRA_INST_DOUBLE) && defined(HAVE_TPETRA_INST_FLOAT)
 template <class LocalOrdinal, class GlobalOrdinal, class Node>
@@ -139,7 +139,7 @@ class LowPrecisionFactory<double, LocalOrdinal, GlobalOrdinal, Node> : public Si
 
   //@}
 
-};  //class LowPrecisionFactory
+};  // class LowPrecisionFactory
 #endif
 
 #if defined(HAVE_TPETRA_INST_COMPLEX_DOUBLE) && defined(HAVE_TPETRA_INST_COMPLEX_FLOAT)
@@ -181,10 +181,10 @@ class LowPrecisionFactory<std::complex<double>, LocalOrdinal, GlobalOrdinal, Nod
 
   //@}
 
-};  //class LowPrecisionFactory
+};  // class LowPrecisionFactory
 #endif
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_LOWPRECISIONFACTORY_SHORT
 #endif  // MUELU_LOWPRECISIONFACTORY_DECL_HPP

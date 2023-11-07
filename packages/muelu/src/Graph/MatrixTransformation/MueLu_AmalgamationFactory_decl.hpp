@@ -103,29 +103,29 @@ class AmalgamationFactory : public SingleLevelFactoryBase {
   void Build(Level& currentLevel) const override;
 
   /*! @brief Translate global (row/column) id to global amalgamation block id
-     *
-     * @note Assume that the node map has the same \c indexBase as the dof map
-     *
-     * @param gid (GlobalOrdinal): input global id (row gid or column gid)
-     * @param blockSize (LocalOrdinal): block size (needed for constant block size)
-     * @param offset (GlobalOrdinal): global offset for dofs (stored in strided map, default = 0)
-     * @param indexBase (GlobalOrdinal): indexBase for DOF map (and node map, default = 0)
-     */
+   *
+   * @note Assume that the node map has the same \c indexBase as the dof map
+   *
+   * @param gid (GlobalOrdinal): input global id (row gid or column gid)
+   * @param blockSize (LocalOrdinal): block size (needed for constant block size)
+   * @param offset (GlobalOrdinal): global offset for dofs (stored in strided map, default = 0)
+   * @param indexBase (GlobalOrdinal): indexBase for DOF map (and node map, default = 0)
+   */
   static const GlobalOrdinal DOFGid2NodeId(GlobalOrdinal gid, LocalOrdinal blockSize, const GlobalOrdinal offset /*= 0*/,
                                            const GlobalOrdinal indexBase /* = 0*/);
 
   /*! @brief Method to create merged  map for systems of PDEs.
-     *
-     * @param sourceMap (const Map&): source map with dofs which shall be amalgamated to a node map
-     * @param A (const Matrix&): operator A (matrix) with striding information (if available)
-     * @param amalgamatedMap (const Map&): amalgamated node based map
-     * @param translation (Array<LO>&): array storing local node ids given local dof ids (needed in CoalesceDropFactory)
-     */
+   *
+   * @param sourceMap (const Map&): source map with dofs which shall be amalgamated to a node map
+   * @param A (const Matrix&): operator A (matrix) with striding information (if available)
+   * @param amalgamatedMap (const Map&): amalgamated node based map
+   * @param translation (Array<LO>&): array storing local node ids given local dof ids (needed in CoalesceDropFactory)
+   */
   static void AmalgamateMap(const Map& sourceMap, const Matrix& A, RCP<const Map>& amalgamatedMap, Array<LO>& translation);
 
-};  //class AmalgamationFactory
+};  // class AmalgamationFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_AMALGAMATIONFACTORY_SHORT
 #endif  // MUELU_AMALGAMATIONFACTORY_DECL_HPP

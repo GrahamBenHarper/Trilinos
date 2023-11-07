@@ -160,6 +160,6 @@ void SegregatedAFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level&
   Set(currentLevel, "A", Aout);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_SEGREGATEDAFACTORY_DEF_HPP

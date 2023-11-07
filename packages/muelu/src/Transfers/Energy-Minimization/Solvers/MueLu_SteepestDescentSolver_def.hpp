@@ -105,4 +105,4 @@ void SteepestDescentSolver<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(c
 }
 }  // namespace MueLu
 
-#endif  //ifndef MUELU_STEEPESTDESCENTSOLVER_DECL_HPP
+#endif  // ifndef MUELU_STEEPESTDESCENTSOLVER_DECL_HPP

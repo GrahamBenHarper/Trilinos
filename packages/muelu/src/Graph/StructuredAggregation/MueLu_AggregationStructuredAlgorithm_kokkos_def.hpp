@@ -186,10 +186,10 @@ void AggregationStructuredAlgorithm_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
   RCP<Map> colMap, domainMap;
   *out << "Compute domain and column maps of the CrsGraph" << std::endl;
   colMap    = MapFactory::Build(graph.GetDomainMap()->lib(),
-                             Teuchos::OrdinalTraits<GO>::invalid(),
-                             numCoarseNodes,
-                             graph.GetDomainMap()->getIndexBase(),
-                             graph.GetDomainMap()->getComm());
+                                Teuchos::OrdinalTraits<GO>::invalid(),
+                                numCoarseNodes,
+                                graph.GetDomainMap()->getIndexBase(),
+                                graph.GetDomainMap()->getComm());
   domainMap = colMap;
 
   myGraph = CrsGraphFactory::Build(myLocalGraph, graph.GetDomainMap(), colMap,

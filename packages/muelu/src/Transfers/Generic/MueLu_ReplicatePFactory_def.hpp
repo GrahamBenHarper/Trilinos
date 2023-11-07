@@ -146,7 +146,7 @@ void ReplicatePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level&
   }
   Teuchos::RCP<Map> coarseColMap = MapFactory::Build(Psubblock->getDomainMap()->lib(),
                                                      Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-                                                     unsmooshColMapGIDs(),  //View,
+                                                     unsmooshColMapGIDs(),  // View,
                                                      indexBase,
                                                      Psubblock->getDomainMap()->getComm());
 
@@ -160,7 +160,7 @@ void ReplicatePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level&
   }
   Teuchos::RCP<Map> fineRowMap = MapFactory::Build(Psubblock->getDomainMap()->lib(),
                                                    Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-                                                   unsmooshRowMapGIDs(),  //View,
+                                                   unsmooshRowMapGIDs(),  // View,
                                                    indexBase,
                                                    Psubblock->getDomainMap()->getComm());
 
@@ -178,7 +178,7 @@ void ReplicatePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level&
   Set(coarseLevel, "P", bigP);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REPLICATEPFACTORY_SHORT
 #endif  // MUELU_REPLICATEPFACTORY_DEF_HPP

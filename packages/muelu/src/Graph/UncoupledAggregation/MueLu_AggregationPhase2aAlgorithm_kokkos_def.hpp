@@ -241,8 +241,8 @@ void AggregationPhase2aAlgorithm_kokkos<LO, GO, Node>::
   // But, the precise values in vertex2AggId need to match exactly, so just sort the new
   // roots of each color before assigning aggregate IDs
 
-  //numNonAggregatedNodes is the best available upper bound for the number of aggregates
-  //which may be created in this phase, so use it for the size of newRoots
+  // numNonAggregatedNodes is the best available upper bound for the number of aggregates
+  // which may be created in this phase, so use it for the size of newRoots
   Kokkos::View<LO*, device_type> newRoots("New root LIDs", numNonAggregatedNodes);
   Kokkos::View<LO, device_type> numNewRoots("Number of new aggregates of current color");
   auto h_numNewRoots = Kokkos::create_mirror_view(numNewRoots);
@@ -282,11 +282,11 @@ void AggregationPhase2aAlgorithm_kokkos<LO, GO, Node>::
     Kokkos::deep_copy(h_numNewRoots, numNewRoots);
 
     if (h_numNewRoots() > 0) {
-      //sort the new root indices
+      // sort the new root indices
       Kokkos::sort(newRoots, 0, h_numNewRoots());
-      //now, loop over all new roots again and actually create the aggregates
+      // now, loop over all new roots again and actually create the aggregates
       LO tmpNumNonAggregatedNodes = 0;
-      //First, just find the set of color vertices which will become aggregate roots
+      // First, just find the set of color vertices which will become aggregate roots
       Kokkos::parallel_reduce(
           "Aggregation Phase 2a: create new aggregates",
           Kokkos::RangePolicy<execution_space>(0, h_numNewRoots()),

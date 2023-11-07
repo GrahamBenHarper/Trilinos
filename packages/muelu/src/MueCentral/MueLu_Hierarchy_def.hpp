@@ -720,9 +720,9 @@ ConvergenceStatus Hierarchy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(
   RCP<Operator> A                                      = Fine->Get<RCP<Operator> >("A");
   Teuchos::RCP<const Teuchos::Comm<int> > communicator = A->getDomainMap()->getComm();
 
-  //Synchronize_beginning->start();
-  //communicator->barrier();
-  //Synchronize_beginning->stop();
+  // Synchronize_beginning->start();
+  // communicator->barrier();
+  // Synchronize_beginning->stop();
 
   CompTime->start();
 
@@ -732,7 +732,7 @@ ConvergenceStatus Hierarchy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(
 
   // =======   UPFRONT DEFINITION OF COARSE VARIABLES ===========
 
-  //RCP<const Map> origMap;
+  // RCP<const Map> origMap;
   RCP<Operator> P;
   RCP<Operator> Pbar;
   RCP<Operator> R;
@@ -752,7 +752,7 @@ ConvergenceStatus Hierarchy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(
     R = Coarse->Get<RCP<Operator> >("R");
     P = Coarse->Get<RCP<Operator> >("P");
 
-    //if(Coarse->IsAvailable("Pbar"))
+    // if(Coarse->IsAvailable("Pbar"))
     Pbar = Coarse->Get<RCP<Operator> >("Pbar");
 
     coarseRhs = MultiVectorFactory::Build(R->getRangeMap(), B.getNumVectors(), true);
@@ -761,7 +761,7 @@ ConvergenceStatus Hierarchy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(
 
     ApplyR->start();
     R->apply(B, *coarseRhs, Teuchos::NO_TRANS, one, zero);
-    //P->apply(B, *coarseRhs, Teuchos::TRANS, one, zero);
+    // P->apply(B, *coarseRhs, Teuchos::TRANS, one, zero);
     ApplyR->stop();
 
     if (doPRrebalance_ || importer.is_null()) {
@@ -811,9 +811,9 @@ ConvergenceStatus Hierarchy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(
   RCP<MultiVector> fineX;
   fineX = MultiVectorFactory::Build(X.getMap(), X.getNumVectors(), true);
 
-  //Synchronize_center->start();
-  //communicator->barrier();
-  //Synchronize_center->stop();
+  // Synchronize_center->start();
+  // communicator->barrier();
+  // Synchronize_center->stop();
 
   Concurrent->start();
 
@@ -859,9 +859,9 @@ ConvergenceStatus Hierarchy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(
       coarseX->update(one, *coarseRhs, zero);
     }
     Concurrent->stop();
-    //Synchronize_end->start();
-    //communicator->barrier();
-    //Synchronize_end->stop();
+    // Synchronize_end->start();
+    // communicator->barrier();
+    // Synchronize_end->stop();
 
     if (!doPRrebalance_ && !importer.is_null()) {
       RCP<TimeMonitor> ITime      = rcp(new TimeMonitor(*this, prefix + "Solve : export (total)", Timings0));
@@ -884,7 +884,7 @@ ConvergenceStatus Hierarchy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(
 
   CompTime->stop();
 
-  //communicator->barrier();
+  // communicator->barrier();
 
   return (tol > 0 ? ConvergenceStatus::Unconverged : ConvergenceStatus::Undefined);
 }
@@ -1687,6 +1687,6 @@ ConvergenceStatus Hierarchy<Scalar, LocalOrdinal, GlobalOrdinal, Node>::ComputeR
   return IsConverged(residualNorm, conv.tol_);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_HIERARCHY_DEF_HPP

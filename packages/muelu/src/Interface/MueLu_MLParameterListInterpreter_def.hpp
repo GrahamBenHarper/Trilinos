@@ -166,9 +166,9 @@ void MLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, Node>::SetP
   MUELU_READ_PARAM(paramList, "coarse: max size", int, 128, maxCoarseSize);
 
   MUELU_READ_PARAM(paramList, "aggregation: type", std::string, "Uncoupled", agg_type);
-  //MUELU_READ_PARAM(paramList, "aggregation: threshold",                double,                 0.0,       agg_threshold);
+  // MUELU_READ_PARAM(paramList, "aggregation: threshold",                double,                 0.0,       agg_threshold);
   MUELU_READ_PARAM(paramList, "aggregation: damping factor", double, (double)4 / (double)3, agg_damping);
-  //MUELU_READ_PARAM(paramList, "aggregation: smoothing sweeps",            int,                   1,       agg_smoothingsweeps);
+  // MUELU_READ_PARAM(paramList, "aggregation: smoothing sweeps",            int,                   1,       agg_smoothingsweeps);
   MUELU_READ_PARAM(paramList, "aggregation: nodes per aggregate", int, 1, minPerAgg);
   MUELU_READ_PARAM(paramList, "aggregation: keep Dirichlet bcs", bool, false, bKeepDirichletBcs);                // This is a MueLu specific extension that does not exist in ML
   MUELU_READ_PARAM(paramList, "aggregation: max neighbours already aggregated", int, 0, maxNbrAlreadySelected);  // This is a MueLu specific extension that does not exist in M
@@ -361,7 +361,7 @@ void MLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, Node>::SetP
     repInterface->SetFactory("A", AcFact);
     repInterface->SetFactory("number of partitions", RepartitionHeuristicFact);
     repInterface->SetFactory("AmalgamatedPartition", isoInterface);
-    //repInterface->SetFactory("UnAmalgamationInfo", rebAmalgFact); // not necessary?
+    // repInterface->SetFactory("UnAmalgamationInfo", rebAmalgFact); // not necessary?
 
     // Repartitioning (creates "Importer" from "Partition")
     RepartitionFact = Teuchos::rcp(new RepartitionFactory());
@@ -672,7 +672,7 @@ MLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 
     if (ifpackType == "ILU") {
       // TODO fix this (type mismatch double vs. int)
-      //MUELU_COPY_PARAM(paramList, "smoother: ifpack level-of-fill", double /*int*/, 0.0 /*2*/,  smootherParamList, "fact: level-of-fill");
+      // MUELU_COPY_PARAM(paramList, "smoother: ifpack level-of-fill", double /*int*/, 0.0 /*2*/,  smootherParamList, "fact: level-of-fill");
       if (paramList.isParameter("smoother: ifpack level-of-fill"))
         smootherParamList.set("fact: level-of-fill", Teuchos::as<int>(paramList.get<double>("smoother: ifpack level-of-fill")));
       else
@@ -771,4 +771,4 @@ void MLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Setu
 #define MUELU_MLPARAMETERLISTINTERPRETER_SHORT
 #endif /* MUELU_MLPARAMETERLISTINTERPRETER_DEF_HPP */
 
-//TODO: see if it can be factorized with ML interpreter (ex: generation of Ifpack param list)
+// TODO: see if it can be factorized with ML interpreter (ex: generation of Ifpack param list)

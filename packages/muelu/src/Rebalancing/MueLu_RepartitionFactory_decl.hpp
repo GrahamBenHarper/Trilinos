@@ -169,5 +169,5 @@ class RepartitionFactory : public SingleLevelFactoryBase {
 
 #define MUELU_REPARTITIONFACTORY_SHORT
 
-#endif  //ifdef HAVE_MPI
+#endif  // ifdef HAVE_MPI
 #endif  // MUELU_REPARTITIONFACTORY_DECL_HPP

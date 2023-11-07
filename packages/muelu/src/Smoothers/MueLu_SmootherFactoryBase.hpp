@@ -80,12 +80,12 @@ class SmootherFactoryBase : public SingleLevelFactoryBase {
   virtual void BuildSmoother(Level& currentLevel, PreOrPost const preOrPost = BOTH) const = 0;
   //@}
 
-};  //class SmootherFactoryBase
+};  // class SmootherFactoryBase
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SMOOTHERFACTORYBASE_SHORT
 
-#endif  //ifndef MUELU_SMOOTHERFACTORYBASE_HPP
+#endif  // ifndef MUELU_SMOOTHERFACTORYBASE_HPP
 
-//TODO: remove this interface?
+// TODO: remove this interface?

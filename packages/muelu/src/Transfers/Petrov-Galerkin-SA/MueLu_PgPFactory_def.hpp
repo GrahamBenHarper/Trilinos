@@ -103,19 +103,19 @@ void PgPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(Level& 
   coarseLevel.DeclareInput("P", initialPFact.get(), this);
 
   /* If PgPFactory is reusing the row based damping parameters omega for
-     * restriction, it has to request the data here.
-     * we have the following scenarios:
-     * 1) Reuse omegas:
-     * PgPFactory.DeclareInput for prolongation mode requests A and P0
-     * PgPFactory.DeclareInput for restriction mode requests A, P0 and RowBasedOmega (call triggered by GenericRFactory)
-     * PgPFactory.Build for prolongation mode calculates RowBasedOmega and stores it (as requested)
-     * PgPFactory.Build for restriction mode reuses RowBasedOmega (and Releases the data with the Get call)
-     * 2) do not reuse omegas
-     * PgPFactory.DeclareInput for prolongation mode requests A and P0
-     * PgPFactory.DeclareInput for restriction mode requests A and P0
-     * PgPFactory.Build for prolongation mode calculates RowBasedOmega for prolongation operator
-     * PgPFactory.Build for restriction mode calculates RowBasedOmega for restriction operator
-     */
+   * restriction, it has to request the data here.
+   * we have the following scenarios:
+   * 1) Reuse omegas:
+   * PgPFactory.DeclareInput for prolongation mode requests A and P0
+   * PgPFactory.DeclareInput for restriction mode requests A, P0 and RowBasedOmega (call triggered by GenericRFactory)
+   * PgPFactory.Build for prolongation mode calculates RowBasedOmega and stores it (as requested)
+   * PgPFactory.Build for restriction mode reuses RowBasedOmega (and Releases the data with the Get call)
+   * 2) do not reuse omegas
+   * PgPFactory.DeclareInput for prolongation mode requests A and P0
+   * PgPFactory.DeclareInput for restriction mode requests A and P0
+   * PgPFactory.Build for prolongation mode calculates RowBasedOmega for prolongation operator
+   * PgPFactory.Build for restriction mode calculates RowBasedOmega for restriction operator
+   */
   const ParameterList& pL   = GetParameterList();
   bool bReUseRowBasedOmegas = pL.get<bool>("ReUseRowBasedOmegas");
   if (bReUseRowBasedOmegas == true && restrictionMode_ == true) {
@@ -153,7 +153,7 @@ void PgPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& fineLev
   doFillComplete                 = true;
   optimizeStorage                = false;
   Teuchos::ArrayRCP<Scalar> diag = Utilities::GetMatrixDiagonal_arcp(*A);
-  Utilities::MyOldScaleMatrix(*DinvAP0, diag, true, doFillComplete, optimizeStorage);  //scale matrix with reciprocal of diag
+  Utilities::MyOldScaleMatrix(*DinvAP0, diag, true, doFillComplete, optimizeStorage);  // scale matrix with reciprocal of diag
 
   /////////////////// calculate local damping factors omega
 
@@ -198,7 +198,7 @@ void PgPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& fineLev
 
   /////////////////// prolongator smoothing using local damping parameters omega
   RCP<Matrix> P_smoothed = Teuchos::null;
-  Utilities::MyOldScaleMatrix(*DinvAP0, RowBasedOmega_local, false, doFillComplete, optimizeStorage);  //scale matrix with reciprocal of diag
+  Utilities::MyOldScaleMatrix(*DinvAP0, RowBasedOmega_local, false, doFillComplete, optimizeStorage);  // scale matrix with reciprocal of diag
 
   Xpetra::MatrixMatrix<Scalar, LocalOrdinal, GlobalOrdinal, Node>::TwoMatrixAdd(*Ptent, false, Teuchos::ScalarTraits<Scalar>::one(),
                                                                                 *DinvAP0, false, -Teuchos::ScalarTraits<Scalar>::one(),
@@ -310,7 +310,7 @@ void PgPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::ComputeRowBasedOmega
       bool optimizeStorage            = true;
       Teuchos::ArrayRCP<Scalar> diagA = Utilities::GetMatrixDiagonal_arcp(*A);
       RCP<Matrix> DinvADinvAP0        = Xpetra::MatrixMatrix<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Multiply(*A, false, *DinvAP0, false, GetOStream(Statistics2), doFillComplete, optimizeStorage);
-      Utilities::MyOldScaleMatrix(*DinvADinvAP0, diagA, true, doFillComplete, optimizeStorage);  //scale matrix with reciprocal of diag
+      Utilities::MyOldScaleMatrix(*DinvADinvAP0, diagA, true, doFillComplete, optimizeStorage);  // scale matrix with reciprocal of diag
       diagA = Teuchos::ArrayRCP<Scalar>();
 
       Numerator   = VectorFactory::Build(DinvADinvAP0->getColMap(), true);
@@ -333,7 +333,7 @@ void PgPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::ComputeRowBasedOmega
   Teuchos::ArrayRCP<Scalar> ColBasedOmega_local     = ColBasedOmega->getDataNonConst(0);
   GlobalOrdinal zero_local                          = 0;          // count negative colbased omegas
   GlobalOrdinal nan_local                           = 0;          // count NaNs -> set them to zero
-  Magnitude min_local                               = 1000000.0;  //Teuchos::ScalarTraits<Scalar>::one() * (Scalar) 1000000;
+  Magnitude min_local                               = 1000000.0;  // Teuchos::ScalarTraits<Scalar>::one() * (Scalar) 1000000;
   Magnitude max_local                               = 0.0;
   for (LocalOrdinal i = 0; i < Teuchos::as<LocalOrdinal>(Numerator->getLocalLength()); i++) {
     if (Teuchos::ScalarTraits<Scalar>::magnitude(Denominator_local[i]) == mZero) {
@@ -685,6 +685,6 @@ void PgPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::ReUseDampingParamete
   SetParameter("ReUseRowBasedOmegas", ParameterEntry(bReuse));
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_PGPFACTORY_DEF_HPP */

@@ -193,7 +193,7 @@ class BlockedPFactory : public PFactory {
   std::string diagonalView_;
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_BLOCKEDPFACTORY_SHORT
 #endif /* MUELU_BLOCKEDPFACTORY_DECL_HPP_ */

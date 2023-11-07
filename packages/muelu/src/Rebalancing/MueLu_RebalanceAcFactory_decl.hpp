@@ -111,9 +111,9 @@ class RebalanceAcFactory : public TwoLevelFactoryBase {
   //! list of user-defined rebalancing Factories
   std::vector<RCP<const FactoryBase> > rebalanceFacts_;
 
-};  //class RebalanceAcFactory
+};  // class RebalanceAcFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REBALANCEACFACTORY_SHORT
 #endif  // MUELU_REBALANCEACFACTORY_DECL_HPP

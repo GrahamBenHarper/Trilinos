@@ -87,7 +87,7 @@ lowerCase(const std::string& s) {
 
 MsgType toVerbLevel(const std::string& verbLevelStr) {
   std::map<std::string, MsgType> verbMap;
-  //for developers
+  // for developers
   verbMap["errors"]         = Errors;
   verbMap["warnings0"]      = Warnings0;
   verbMap["warnings00"]     = Warnings00;
@@ -116,7 +116,7 @@ MsgType toVerbLevel(const std::string& verbLevelStr) {
   verbMap["timings"]       = Timings;
   verbMap["test"]          = Test;
   verbMap["interfacetest"] = InterfaceTest;
-  //for users and developers
+  // for users and developers
   verbMap["none"]    = None;
   verbMap["low"]     = Low;
   verbMap["medium"]  = Medium;

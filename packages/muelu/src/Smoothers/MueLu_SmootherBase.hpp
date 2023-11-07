@@ -108,12 +108,12 @@ class SmootherBase : public virtual BaseClass {
   bool constructionSuccessful_;
   std::string constructionErrorMsg_;
 
-};  //class SmootherBase
-}  //namespace MueLu
+};  // class SmootherBase
+}  // namespace MueLu
 
 #define MUELU_SMOOTHERBASE_SHORT
 
-#endif  //ifndef MUELU_SMOOTHERBASE_HPP
+#endif  // ifndef MUELU_SMOOTHERBASE_HPP
 
 // SmootherBase = Interface used by Hierarchy.Iterate(). Minimal condition to be used as smoother.
 // SmootherPrototype = minimal interface used by the generic SmootherFactory.

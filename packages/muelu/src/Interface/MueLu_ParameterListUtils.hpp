@@ -85,7 +85,7 @@ bool replacePlaceholder(std::string& str, const std::string& placeholder, Type d
 
 template <typename Type>
 bool actionInterpretParameter(Teuchos::ParameterList& mlParams, const std::string& paramName, std::string& str) {
-  //MUELU_READ_PARAM(mlParams, paramName, int, 0, data);
+  // MUELU_READ_PARAM(mlParams, paramName, int, 0, data);
 
   Type varName;  // = defaultValue; // extract from master list
   if (mlParams.isParameter(paramName)) varName = mlParams.get<Type>(paramName);

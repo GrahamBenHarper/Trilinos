@@ -227,7 +227,7 @@ void SmooVecCoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Buil
   Set(currentLevel, "Graph", filteredGraph);
   Set(currentLevel, "DofsPerNode", 1);
 
-}  //Build
+}  // Build
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void SmooVecCoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::badGuysCoalesceDrop(const Matrix& Amat, Teuchos::ArrayRCP<Scalar>& penaltyPolyCoef, LO nPDEs, const MultiVector& testVecs, const MultiVector& nearNull, RCP<GraphBase>& filteredGraph) const {
@@ -309,7 +309,7 @@ void SmooVecCoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::badG
     penalties[i] = penaltyPolyCoef[poly0thOrderCoef] +
                    penaltyPolyCoef[poly1stOrderCoef] * (as<Scalar>(i)) +
                    penaltyPolyCoef[poly2ndOrderCoef] * (as<Scalar>(i * i)) +
-                   (penaltyPolyCoef[poly3rdOrderCoef] * (as<Scalar>(i * i)) * (as<Scalar>(i))) +  //perhaps avoids overflow?
+                   (penaltyPolyCoef[poly3rdOrderCoef] * (as<Scalar>(i * i)) * (as<Scalar>(i))) +  // perhaps avoids overflow?
                    (penaltyPolyCoef[poly4thOrderCoef] * (as<Scalar>(i * i)) * (as<Scalar>(i * i)));
 
   LO nzTotal = 0, numBCols = 0, row = -1, Nbcols, bcol;
@@ -536,6 +536,6 @@ void SmooVecCoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::badG
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_SMOOVECCOALESCEDROPFACTORY_DEF_HPP

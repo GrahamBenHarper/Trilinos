@@ -105,7 +105,7 @@ namespace MueLu {
     @note: The ZoltanInterface class does not have all the features availabe in the Zoltan2Interface class
   */
 
-//FIXME: this class should not be templated
+// FIXME: this class should not be templated
 template <class Scalar,
           class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
@@ -184,11 +184,11 @@ class ZoltanInterface : public SingleLevelFactoryBase {
  private:
   static ArrayRCP<typename Teuchos::ScalarTraits<Scalar>::magnitudeType> coalesceCoordinates(ArrayRCP<typename Teuchos::ScalarTraits<Scalar>::magnitudeType> coord, LocalOrdinal blksize);
 
-};  //class ZoltanInterface
+};  // class ZoltanInterface
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_ZOLTANINTERFACE_SHORT
-#endif  //if defined(HAVE_MUELU_ZOLTAN) && defined(HAVE_MPI)
+#endif  // if defined(HAVE_MUELU_ZOLTAN) && defined(HAVE_MPI)
 
 #endif  // MUELU_ZOLTANINTERFACE_DECL_HPP

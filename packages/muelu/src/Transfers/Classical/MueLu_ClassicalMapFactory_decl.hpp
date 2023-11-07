@@ -139,9 +139,9 @@ class ClassicalMapFactory : public SingleLevelFactoryBase {
 
   virtual void DoDistributedGraphColoring(RCP<const GraphBase> &graph, Teuchos::ArrayRCP<LO> &myColors, LO &numColors) const;
 
-};  //class ClassicalMapFactory
+};  // class ClassicalMapFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_CLASSICALMAPFACTORY_SHORT
 #endif /* MUELU_CLASSICALMAPFACTORY_DECL_HPP_ */

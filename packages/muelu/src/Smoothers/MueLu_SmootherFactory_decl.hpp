@@ -140,8 +140,8 @@ class SmootherFactory : public SmootherFactoryBase {
       PostSmoother    = ChebySmoother(10,1/30)
       SmootherFactory = SmootherFactory([], PostSmoother);
     */
-  //Note: Teuchos::null as parameter allowed (= no smoother)
-  //Note: precondition: input smoother must not be Setup()
+  // Note: Teuchos::null as parameter allowed (= no smoother)
+  // Note: precondition: input smoother must not be Setup()
   SmootherFactory(RCP<SmootherPrototype> preAndPostSmootherPrototype = Teuchos::null);
 
   SmootherFactory(RCP<SmootherPrototype> preSmootherPrototype, RCP<SmootherPrototype> postSmootherPrototype);
@@ -219,6 +219,6 @@ class SmootherFactory : public SmootherFactoryBase {
 
 }  // namespace MueLu
 
-//TODO: doc: setup done twice if PostSmoother object != PreSmoother object and no adv. reused capability
+// TODO: doc: setup done twice if PostSmoother object != PreSmoother object and no adv. reused capability
 #define MUELU_SMOOTHERFACTORY_SHORT
 #endif  // MUELU_SMOOTHERFACTORY_DECL_HPP

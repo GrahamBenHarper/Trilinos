@@ -110,7 +110,7 @@ ArrayRCP<Scalar> MultiVectorTransferFactory<Scalar, LocalOrdinal, GlobalOrdinal,
   if (blksize == 1)
     return coordinates;
 
-  ArrayRCP<SC> expandCoord(coordinates.size() * blksize);  //TODO: how to avoid automatic initialization of the vector? using arcp()?
+  ArrayRCP<SC> expandCoord(coordinates.size() * blksize);  // TODO: how to avoid automatic initialization of the vector? using arcp()?
 
   for (int i = 0; i < coordinates.size(); i++) {
     for (int j = 0; j < blksize; j++) {

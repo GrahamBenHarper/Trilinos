@@ -124,7 +124,7 @@ class BlockedJacobiSmoother : public SmootherPrototype<Scalar, LocalOrdinal, Glo
   //@{
 
   /*! @brief Constructor
-    */
+   */
   BlockedJacobiSmoother();
 
   //! Destructor
@@ -138,7 +138,7 @@ class BlockedJacobiSmoother : public SmootherPrototype<Scalar, LocalOrdinal, Glo
   void DeclareInput(Level &currentLevel) const;
 
   //! Add a factory manager
-  //void AddFactoryManager(RCP<const FactoryManagerBase> FactManager);
+  // void AddFactoryManager(RCP<const FactoryManagerBase> FactManager);
 
   //! Add a factory manager at a specific position
   void AddFactoryManager(RCP<const FactoryManagerBase> FactManager, int pos);
@@ -149,19 +149,19 @@ class BlockedJacobiSmoother : public SmootherPrototype<Scalar, LocalOrdinal, Glo
   //@{
 
   /*! @brief Setup routine
-     * In the Setup method the Inverse_ vector is filled with the corresponding
-     * SmootherBase objects. Without the Inverse_ vector being filled we cannot call
-     * BlockedJacobiSmoother::Apply.
-    */
+   * In the Setup method the Inverse_ vector is filled with the corresponding
+   * SmootherBase objects. Without the Inverse_ vector being filled we cannot call
+   * BlockedJacobiSmoother::Apply.
+   */
   void Setup(Level &currentLevel);
 
   /*! @brief Apply the direct solver.
-     *
-     *  Solves the linear system <tt>AX=B</tt> using the constructed solver.
-     *  @param X initial guess
-     *  @param B right-hand side
-     *  @param InitialGuessIsZero This option has no effect.
-    */
+   *
+   *  Solves the linear system <tt>AX=B</tt> using the constructed solver.
+   *  @param X initial guess
+   *  @param B right-hand side
+   *  @param InitialGuessIsZero This option has no effect.
+   */
   void Apply(MultiVector &X, const MultiVector &B, bool InitialGuessIsZero = false) const;
   //@}
 
@@ -174,9 +174,9 @@ class BlockedJacobiSmoother : public SmootherPrototype<Scalar, LocalOrdinal, Glo
   std::string description() const;
 
   /*! \brief Print the object with some verbosity level to an FancyOStream object.
-     *
-     *  Using MueLu::Describable::describe; // overloading, not hiding
-     */
+   *
+   *  Using MueLu::Describable::describe; // overloading, not hiding
+   */
   void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
 
   //! Get a rough estimate of cost per iteration

@@ -169,7 +169,7 @@ class CoalesceDropFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Ko
   void Build(Level& currentLevel) const;
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_COALESCEDROPFACTORY_KOKKOS_SHORT
 #endif  // MUELU_COALESCEDROPFACTORY_KOKKOS_DECL_HPP

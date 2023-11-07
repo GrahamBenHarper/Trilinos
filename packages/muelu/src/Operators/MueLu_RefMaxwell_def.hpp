@@ -2237,7 +2237,7 @@ void RefMaxwell<Scalar, LocalOrdinal, GlobalOrdinal, Node>::solve22(const MultiV
     }
   }
 
-  {  //update current solution
+  {  // update current solution
     RCP<Teuchos::TimeMonitor> tmUp = getTimer("MueLu RefMaxwell: update");
     D0_Matrix_->apply(*D0x_, *residual_, Teuchos::NO_TRANS);
     X.update(one, *residual_, one);
@@ -2538,4 +2538,4 @@ void RefMaxwell<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 }  // namespace MueLu
 
 #define MUELU_REFMAXWELL_SHORT
-#endif  //ifdef MUELU_REFMAXWELL_DEF_HPP
+#endif  // ifdef MUELU_REFMAXWELL_DEF_HPP

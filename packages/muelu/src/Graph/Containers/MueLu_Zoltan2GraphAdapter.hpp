@@ -78,7 +78,7 @@ struct InputTraits<MueLu::GraphBase<LocalOrdinal, GlobalOrdinal, Node> > {
 
   Z2_STATIC_ASSERT_TYPES  // validate the types
 };
-}  //end namespace Zoltan2
+}  // end namespace Zoltan2
 
 namespace MueLu {
 
@@ -427,7 +427,7 @@ void MueLuGraphBaseAdapter<User, UserCoord>::setEdgeWeights(
   edgeWeights_[idx] = input_t(weightV, stride);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_HAVE_ZOLTAN2
 

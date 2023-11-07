@@ -88,7 +88,7 @@ void GMRESSolver<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(const Matri
   SC one = Teuchos::ScalarTraits<SC>::one(), zero = Teuchos::ScalarTraits<SC>::zero();
 
   RCP<const Matrix> A = rcpFromRef(Aref);
-  //bool               useTpetra = (A->getRowMap()->lib() == Xpetra::UseTpetra);
+  // bool               useTpetra = (A->getRowMap()->lib() == Xpetra::UseTpetra);
 
   // FIXME: Don't know why, but in the MATLAB code we have D = I. Follow that for now.
 #if 0
@@ -218,4 +218,4 @@ void GMRESSolver<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(const Matri
 
 }  // namespace MueLu
 
-#endif  //ifndef MUELU_GMRESSOLVER_DECL_HPP
+#endif  // ifndef MUELU_GMRESSOLVER_DECL_HPP

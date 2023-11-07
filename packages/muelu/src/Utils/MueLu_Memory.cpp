@@ -124,14 +124,14 @@ void ReportTimeAndMemory(Teuchos::Time const &timer, Teuchos::Comm<int> const &C
   avgTime = localTime;
 #endif
   avgTime /= Comm.getSize();
-  //std::cout << "(" << Comm.getRank() << ") " << localTime << std::endl;
+  // std::cout << "(" << Comm.getRank() << ") " << localTime << std::endl;
   if (Comm.getRank() == 0) {
     std::cout << "&&&" << timer.name()
               << " max=" << maxTime << " min=" << minTime << " avg=" << avgTime << std::endl;
     std::cout << "&&&" << timer.name() << " " << MemUtils::PrintMemoryUsage() << std::endl;
   }
-}  //ReportTimeAndMemory
+}  // ReportTimeAndMemory
 
-}  //namespace MemUtils
+}  // namespace MemUtils
 
-}  //namespace MueLu
+}  // namespace MueLu

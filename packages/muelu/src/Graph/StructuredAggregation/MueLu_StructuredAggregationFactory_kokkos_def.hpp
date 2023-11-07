@@ -251,6 +251,6 @@ void StructuredAggregationFactory_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
 
 }  // Build()
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_STRUCTUREDAGGREGATIONFACTORY_KOKKOS_DEF_HPP */

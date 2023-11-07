@@ -110,19 +110,19 @@ class AmalgamationInfo
   std::string description() const { return "AmalgamationInfo"; }
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
-  //void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;;
+  // using MueLu::Describable::describe; // overloading, not hiding
+  // void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;;
   void print(Teuchos::FancyOStream& out, const VerbLevel verbLevel = Default) const;
 
   RCP<const Map> getNodeRowMap() const { return nodeRowMap_; }  //! < returns the node row map for the graph
   RCP<const Map> getNodeColMap() const { return nodeColMap_; }  //! < returns the node column map for the graph
 
   /* @brief Translation arrays
-     *
-     * Returns translation arrays providing local node ids given local dof ids built from either
-     * the non-overlapping (unique) row map or the overlapping (non-unique) column map.
-     * The getColTranslation routine, e.g., is used for the MergeRows routine in CoalesceDropFactory.
-     */
+   *
+   * Returns translation arrays providing local node ids given local dof ids built from either
+   * the non-overlapping (unique) row map or the overlapping (non-unique) column map.
+   * The getColTranslation routine, e.g., is used for the MergeRows routine in CoalesceDropFactory.
+   */
   //@{
   RCP<Array<LO> > getRowTranslation() const { return rowTranslation_; }
   RCP<Array<LO> > getColTranslation() const { return colTranslation_; }
@@ -136,8 +136,8 @@ class AmalgamationInfo
   void UnamalgamateAggregatesLO(const Aggregates& aggregates, Teuchos::ArrayRCP<LocalOrdinal>& aggStart, Teuchos::ArrayRCP<LO>& aggToRowMap) const;
 
   /*! @brief ComputeUnamalgamatedImportDofMap
-     * build overlapping dof row map from aggregates needed for overlapping null space
-     */
+   * build overlapping dof row map from aggregates needed for overlapping null space
+   */
   Teuchos::RCP<Xpetra::Map<LocalOrdinal, GlobalOrdinal, Node> > ComputeUnamalgamatedImportDofMap(const Aggregates& aggregates) const;
 
  private:
@@ -159,24 +159,24 @@ class AmalgamationInfo
 
  public:
   /*! @brief ComputeGlobalDOF
-     *
-     * Return global dof id associated with global node id gNodeID and dof index k
-     *
-     * \note We assume that \c indexBase_ is valid for both the node and the dof map.
-     *
-     * @param (GO): global node id
-     * @param (LO): local dof index within node
-     * @return (GO): global dof id
-     */
+   *
+   * Return global dof id associated with global node id gNodeID and dof index k
+   *
+   * \note We assume that \c indexBase_ is valid for both the node and the dof map.
+   *
+   * @param (GO): global node id
+   * @param (LO): local dof index within node
+   * @return (GO): global dof id
+   */
   GO ComputeGlobalDOF(GO const& gNodeID, LO const& k = 0) const;
 
   /*! @brief ComputeLocalDOF
-     * return locbal dof id associated with local node id lNodeID and dof index k
-     *
-     * @param (LO): local node id
-     * @param (LO): local dof index within node
-     * @return (LO): local dof id
-     */
+   * return locbal dof id associated with local node id lNodeID and dof index k
+   *
+   * @param (LO): local node id
+   * @param (LO): local dof index within node
+   * @return (LO): local dof id
+   */
   LO ComputeLocalDOF(LocalOrdinal const& lNodeID, LocalOrdinal const& k) const;
 
   LO ComputeLocalNode(LocalOrdinal const& ldofID) const;

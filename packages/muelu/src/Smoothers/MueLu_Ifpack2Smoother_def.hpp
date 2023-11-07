@@ -186,7 +186,7 @@ void Ifpack2Smoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(Le
              type_ == "TRIDIAGONAL_RELAXATION" ||
              type_ == "TRIDIAGONAL RELAXATION" ||
              type_ == "TRIDIAGONALRELAXATION") {
-    //We need to check for the "partitioner type" = "line"
+    // We need to check for the "partitioner type" = "line"
     ParameterList precList = this->GetParameterList();
     if (precList.isParameter("partitioner: type") &&
         precList.get<std::string>("partitioner: type") == "line") {
@@ -469,12 +469,12 @@ void Ifpack2Smoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::SetupAggregate(
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void Ifpack2Smoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::SetupTopological(Level& currentLevel) {
   /*
-     
+
      basic notion:
-     
+
      Look for user input indicating topo dimension, something like "topological domain type: {node|edge|face}"
      Call something like what you can find in Poisson example line 1180 to set seeds for a smoother
-     
+
      */
   if (this->IsSetup() == true) {
     this->GetOStream(Warnings0) << "MueLu::Ifpack2Smoother::SetupTopological(): Setup() has already been called" << std::endl;
@@ -568,9 +568,9 @@ void Ifpack2Smoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::SetupLineSmooth
     TEUCHOS_TEST_FOR_EXCEPTION(numLocalRows % TVertLineIdSmoo.size() != 0, Exceptions::RuntimeError,
                                "MueLu::Ifpack2Smoother::Setup(): the number of local nodes is incompatible with the TVertLineIdsSmoo.");
 
-    //actualDofsPerNode is the actual number of matrix rows per mesh element.
-    //It is encoded in either the MueLu Level, or in the Xpetra matrix block size.
-    //This value is needed by Ifpack2 to do decoupled block relaxation.
+    // actualDofsPerNode is the actual number of matrix rows per mesh element.
+    // It is encoded in either the MueLu Level, or in the Xpetra matrix block size.
+    // This value is needed by Ifpack2 to do decoupled block relaxation.
     int actualDofsPerNode = numLocalRows / TVertLineIdSmoo.size();
     LO matrixBlockSize    = matA->GetFixedBlockSize();
     if (matrixBlockSize > 1 && actualDofsPerNode > 1) {
@@ -976,19 +976,19 @@ void Ifpack2Smoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Apply(MultiVect
     supportInitialGuess = true;
   } else if (type_ == "SCHWARZ") {
     paramList.set("schwarz: zero starting solution", InitialGuessIsZero);
-    //Because additive Schwarz has "delta" semantics, it's sufficient to
-    //toggle only the zero initial guess flag, and not pass in already
-    //set parameters.  If we call SetPrecParameters, the subdomain solver
-    //will be destroyed.
+    // Because additive Schwarz has "delta" semantics, it's sufficient to
+    // toggle only the zero initial guess flag, and not pass in already
+    // set parameters.  If we call SetPrecParameters, the subdomain solver
+    // will be destroyed.
     prec_->setParameters(paramList);
     supportInitialGuess = true;
   }
 
-  //TODO JJH 30Apr2014  Calling SetPrecParameters(paramList) when the smoother
-  //is Ifpack2::AdditiveSchwarz::setParameterList() will destroy the subdomain
+  // TODO JJH 30Apr2014  Calling SetPrecParameters(paramList) when the smoother
+  // is Ifpack2::AdditiveSchwarz::setParameterList() will destroy the subdomain
   //(aka inner) solver.  This behavior is documented but a departure from what
-  //it previously did, and what other Ifpack2 solvers currently do.  So I have
-  //moved SetPrecParameters(paramList) into the if-else block above.
+  // it previously did, and what other Ifpack2 solvers currently do.  So I have
+  // moved SetPrecParameters(paramList) into the if-else block above.
 
   // Apply
   if (InitialGuessIsZero || supportInitialGuess) {

@@ -1027,13 +1027,13 @@ void TentativePFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Kokko
   // Need to generate the coarse block map
   // NOTE: We assume NSDim == block size here
   // NOTE: We also assume that coarseMap has contiguous GIDs
-  //const size_t numCoarsePointRows = coarsePointMap->getLocalNumElements();
+  // const size_t numCoarsePointRows = coarsePointMap->getLocalNumElements();
   const size_t numCoarseBlockRows = coarsePointMap->getLocalNumElements() / NSDim;
   RCP<const Map> coarseBlockMap   = MapFactory::Build(coarsePointMap->lib(),
-                                                    Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-                                                    numCoarseBlockRows,
-                                                    coarsePointMap->getIndexBase(),
-                                                    coarsePointMap->getComm());
+                                                      Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                      numCoarseBlockRows,
+                                                      coarsePointMap->getIndexBase(),
+                                                      coarsePointMap->getComm());
   // Sanity checking
   const ParameterList& pL = GetParameterList();
   //    const bool &doQRStep = pL.get<bool>("tentative: calculate qr");
@@ -1058,7 +1058,7 @@ void TentativePFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Kokko
   LO fullBlockSize, blockID, stridingOffset, stridedBlockSize;
   GO indexBase;
   amalgInfo->GetStridingInformation(fullBlockSize, blockID, stridingOffset, stridedBlockSize, indexBase);
-  //GO globalOffset = amalgInfo->GlobalOffset();
+  // GO globalOffset = amalgInfo->GlobalOffset();
 
   // Extract aggregation info (already in Kokkos host views)
   auto procWinner            = aggregates->GetProcWinner()->getDeviceLocalView(Xpetra::Access::ReadOnly);
@@ -1316,7 +1316,7 @@ bool TentativePFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Kokko
   return (numDiff == 0);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_TENTATIVEPFACTORY_KOKKOS_SHORT
 #endif  // MUELU_TENTATIVEPFACTORY_KOKKOS_DEF_HPP

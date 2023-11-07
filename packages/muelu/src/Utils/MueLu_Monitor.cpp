@@ -68,4 +68,4 @@ SubFactoryMonitor::SubFactoryMonitor(const BaseClass& object, const std::string&
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu

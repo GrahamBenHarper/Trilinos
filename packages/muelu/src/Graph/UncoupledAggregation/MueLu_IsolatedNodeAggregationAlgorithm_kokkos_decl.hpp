@@ -112,9 +112,9 @@ class IsolatedNodeAggregationAlgorithm_kokkos : public MueLu::AggregationAlgorit
 
   std::string description() const { return "Phase - (isolated)"; }
 
-};  //class MaxLinkAggregationAlgorithm
+};  // class MaxLinkAggregationAlgorithm
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_ISOLATEDNODEAGGREGATIONALGORITHM_KOKKOS_SHORT
 #endif  // MUELU_ISOLATEDNODEAGGREGATIONALGORITHM_DECL_HPP

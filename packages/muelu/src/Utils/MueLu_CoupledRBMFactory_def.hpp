@@ -63,7 +63,7 @@ template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void CoupledRBMFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(Level& currentLevel) const {
   if (currentLevel.IsAvailable(nspName_, NoFactory::get()) == false && currentLevel.GetLevelID() == 0) {
     Input(currentLevel, "A");
-    //Input(currentLevel,"Coordinates");
+    // Input(currentLevel,"Coordinates");
   }
   if (currentLevel.GetLevelID() != 0) {
     currentLevel.DeclareInput("Nullspace", GetFactory(nspName_).get(), this); /* ! "Nullspace" and nspName_ mismatch possible here */

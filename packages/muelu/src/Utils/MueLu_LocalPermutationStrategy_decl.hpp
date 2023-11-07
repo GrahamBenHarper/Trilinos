@@ -40,18 +40,18 @@ class LocalPermutationStrategy : public BaseClass {
 
   //! build permutation operators
   /*!
-     *  The following variables produced
-     *  "A"     :      permuted and scaled A
-     *  "permA" :      permuted A without scaling
-     *  "permP" :      permutation opertor (should be identity)
-     *  "permQT":      transpose permutation operators
-     *  "permScaling": scaling operator
-     *
-     * \param A: input matrix (input)
-     * \param permRowMap: Dof row map permutation shall be restricted on (input)
-     * \param currentLevel: only for output of variables
-     * \param genFactory: const pointer to generating (calling) PermutationFactory // TODO avoid this, not very elegant. Decide which variables have to be generated, give them back per reference to the PermutationFactory.
-     */
+   *  The following variables produced
+   *  "A"     :      permuted and scaled A
+   *  "permA" :      permuted A without scaling
+   *  "permP" :      permutation opertor (should be identity)
+   *  "permQT":      transpose permutation operators
+   *  "permScaling": scaling operator
+   *
+   * \param A: input matrix (input)
+   * \param permRowMap: Dof row map permutation shall be restricted on (input)
+   * \param currentLevel: only for output of variables
+   * \param genFactory: const pointer to generating (calling) PermutationFactory // TODO avoid this, not very elegant. Decide which variables have to be generated, give them back per reference to the PermutationFactory.
+   */
   void BuildPermutation(const Teuchos::RCP<Matrix>& A, const Teuchos::RCP<const Map> permRowMap, Level& currentLevel, const FactoryBase* genFactory) const;
 
  private:

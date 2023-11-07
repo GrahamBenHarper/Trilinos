@@ -117,6 +117,6 @@ void TransPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& /* f
   ///////////////////////// EXPERIMENTAL
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_TRANSPFACTORY_DEF_HPP

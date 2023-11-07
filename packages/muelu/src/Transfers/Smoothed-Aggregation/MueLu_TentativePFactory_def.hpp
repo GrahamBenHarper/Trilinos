@@ -273,7 +273,7 @@ template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     BuildPuncoupledBlockCrs(RCP<Matrix> A, RCP<Aggregates> aggregates, RCP<AmalgamationInfo> amalgInfo, RCP<MultiVector> fineNullspace,
                             RCP<const Map> coarsePointMap, RCP<Matrix>& Ptentative, RCP<MultiVector>& coarseNullspace, const int levelID) const {
-  /* This routine generates a BlockCrs P for a BlockCrs A.  There are a few assumptions here, which meet the use cases we care about, but could 
+  /* This routine generates a BlockCrs P for a BlockCrs A.  There are a few assumptions here, which meet the use cases we care about, but could
        be generalized later, if we ever need to do so:
        1) Null space dimension === block size of matrix:  So no elasticity right now
        2) QR is not supported:  Under assumption #1, this shouldn't cause problems.
@@ -301,13 +301,13 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   // Need to generate the coarse block map
   // NOTE: We assume NSDim == block size here
   // NOTE: We also assume that coarseMap has contiguous GIDs
-  //const size_t numCoarsePointRows = coarsePointMap->getLocalNumElements();
+  // const size_t numCoarsePointRows = coarsePointMap->getLocalNumElements();
   const size_t numCoarseBlockRows = coarsePointMap->getLocalNumElements() / NSDim;
   RCP<const Map> coarseBlockMap   = MapFactory::Build(coarsePointMap->lib(),
-                                                    Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-                                                    numCoarseBlockRows,
-                                                    coarsePointMap->getIndexBase(),
-                                                    coarsePointMap->getComm());
+                                                      Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                      numCoarseBlockRows,
+                                                      coarsePointMap->getIndexBase(),
+                                                      coarsePointMap->getComm());
   // Sanity checking
   const ParameterList& pL     = GetParameterList();
   const bool& doQRStep        = pL.get<bool>("tentative: calculate qr");
@@ -452,12 +452,12 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
       // NOTE: Assumes columns==aggs and are ordered sequentially
       P_tpetra->replaceLocalValues(localBlockRow, bcol(), block());
 
-    }  //end aggSize
+    }  // end aggSize
 
     for (size_t j = 0; j < NSDim; j++)
       coarseNS[j][offset + j] = one;
 
-  }  //for (GO agg = 0; agg < numAggs; agg++)
+  }  // for (GO agg = 0; agg < numAggs; agg++)
 
   Ptentative = P_wrap;
 }
@@ -506,16 +506,16 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   for (size_t i = 0; i < NSDim; ++i)
     fineNS[i] = fineNullspaceWithOverlap->getData(i);
 
-  //Allocate storage for the coarse nullspace.
+  // Allocate storage for the coarse nullspace.
   coarseNullspace = MultiVectorFactory::Build(coarseMap, NSDim);
 
   ArrayRCP<ArrayRCP<SC> > coarseNS(NSDim);
   for (size_t i = 0; i < NSDim; ++i)
     if (coarseMap->getLocalNumElements() > 0) coarseNS[i] = coarseNullspace->getDataNonConst(i);
 
-  //This makes the rowmap of Ptent the same as that of A->
-  //This requires moving some parts of some local Q's to other processors
-  //because aggregates can span processors.
+  // This makes the rowmap of Ptent the same as that of A->
+  // This requires moving some parts of some local Q's to other processors
+  // because aggregates can span processors.
   RCP<const Map> rowMapForPtent = A->getRowMap();
   const Map& rowMapForPtentRef  = *rowMapForPtent;
 
@@ -542,12 +542,12 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   ghostQMap = MapFactory::Build(A->getRowMap()->lib(),
                                 Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
                                 ghostGIDs,
-                                indexBase, A->getRowMap()->getComm());  //JG:Xpetra::global_size_t>?
-  //Vector to hold bits of Q that go to other processors.
+                                indexBase, A->getRowMap()->getComm());  // JG:Xpetra::global_size_t>?
+  // Vector to hold bits of Q that go to other processors.
   ghostQvalues = MultiVectorFactory::Build(ghostQMap, NSDim);
-  //Note that Epetra does not support MultiVectors templated on Scalar != double.
-  //So to work around this, we allocate an array of Vectors.  This shouldn't be too
-  //expensive, as the number of Vectors is NSDim.
+  // Note that Epetra does not support MultiVectors templated on Scalar != double.
+  // So to work around this, we allocate an array of Vectors.  This shouldn't be too
+  // expensive, as the number of Vectors is NSDim.
   ghostQcolumns.resize(NSDim);
   for (size_t i = 0; i < NSDim; ++i)
     ghostQcolumns[i] = Xpetra::VectorFactory<GO, LO, GO, Node>::Build(ghostQMap);
@@ -562,18 +562,18 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     ghostQrows = ghostQrowNums->getDataNonConst(0);
   }
 
-  //importer to handle moving Q
+  // importer to handle moving Q
   importer = ImportFactory::Build(ghostQMap, A->getRowMap());
 
   // Dense QR solver
   Teuchos::SerialQRDenseSolver<LO, SC> qrSolver;
 
-  //Allocate temporary storage for the tentative prolongator.
+  // Allocate temporary storage for the tentative prolongator.
   Array<GO> globalColPtr(maxAggSize * NSDim, 0);
   Array<LO> localColPtr(maxAggSize * NSDim, 0);
   Array<SC> valPtr(maxAggSize * NSDim, 0.);
 
-  //Create column map for Ptent, estimate local #nonzeros in Ptent,  and create Ptent itself.
+  // Create column map for Ptent, estimate local #nonzeros in Ptent,  and create Ptent itself.
   const Map& coarseMapRef = *coarseMap;
 
   // For the 3-arrays constructor
@@ -598,9 +598,9 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   Ptentative                      = PtentCrsWrap;
 
   //*****************************************************************
-  //Loop over all aggregates and calculate local QR decompositions.
+  // Loop over all aggregates and calculate local QR decompositions.
   //*****************************************************************
-  GO qctr                    = 0;  //for indexing into Ptent data vectors
+  GO qctr                    = 0;  // for indexing into Ptent data vectors
   const Map& nonUniqueMapRef = *nonUniqueMap;
 
   size_t total_nnz_count = 0;
@@ -633,9 +633,9 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
           GetOStream(Runtime1, -1) << "fineNS...=" << fineNS[j][nonUniqueMapRef.getLocalElement(aggToRowMap[aggStart[agg] + k])] << std::endl;
           GetOStream(Errors, -1) << "caught an error!" << std::endl;
         }
-      }  //for (LO k=0 ...
+      }  // for (LO k=0 ...
       TEUCHOS_TEST_FOR_EXCEPTION(bIsZeroNSColumn == true, Exceptions::RuntimeError, "MueLu::TentativePFactory::MakeTentative: fine level NS part has a zero column. Error.");
-    }  //for (LO j=0 ...
+    }  // for (LO j=0 ...
 
     Xpetra::global_size_t offset = agg * NSDim;
 
@@ -668,7 +668,7 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
         for (size_t k = 0; k <= j; ++k) {
           try {
             if (coarseMapRef.isNodeLocalElement(offset + k)) {
-              coarseNS[j][offset + k] = localQR(k, j);  //TODO is offset+k the correct local ID?!
+              coarseNS[j][offset + k] = localQR(k, j);  // TODO is offset+k the correct local ID?!
             }
           } catch (...) {
             GetOStream(Errors, -1) << "caught error in coarseNS insert, j=" << j << ", offset+k = " << offset + k << std::endl;
@@ -719,17 +719,17 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
           localQR(i, j) = (j == i ? one : zero);
     }  // end else (special handling for 1pt aggregates)
 
-    //Process each row in the local Q factor.  If the row is local to the current processor
-    //according to the rowmap, insert it into Ptentative.  Otherwise, save it in ghostQ
-    //to be communicated later to the owning processor.
-    //FIXME -- what happens if maps are blocked?
+    // Process each row in the local Q factor.  If the row is local to the current processor
+    // according to the rowmap, insert it into Ptentative.  Otherwise, save it in ghostQ
+    // to be communicated later to the owning processor.
+    // FIXME -- what happens if maps are blocked?
     for (GO j = 0; j < myAggSize; ++j) {
-      //This loop checks whether row associated with current DOF is local, according to rowMapForPtent.
-      //If it is, the row is inserted.  If not, the row number, columns, and values are saved in
-      //MultiVectors that will be sent to other processors.
+      // This loop checks whether row associated with current DOF is local, according to rowMapForPtent.
+      // If it is, the row is inserted.  If not, the row number, columns, and values are saved in
+      // MultiVectors that will be sent to other processors.
       GO globalRow = aggToRowMap[aggStart[agg] + j];
 
-      //TODO is the use of Xpetra::global_size_t below correct?
+      // TODO is the use of Xpetra::global_size_t below correct?
       if (rowMapForPtentRef.isNodeGlobalElement(globalRow) == false) {
         ghostQrows[qctr] = globalRow;
         for (size_t k = 0; k < NSDim; ++k) {
@@ -751,7 +751,7 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
           } catch (...) {
             GetOStream(Errors, -1) << "caught error in colPtr/valPtr insert, current index=" << nnz << std::endl;
           }
-        }  //for (size_t k=0; k<NSDim; ++k)
+        }  // for (size_t k=0; k<NSDim; ++k)
 
         try {
           Ptentative->insertGlobalValues(globalRow, globalColPtr.view(0, nnz), valPtr.view(0, nnz));
@@ -761,7 +761,7 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
                                  << globalRow << std::endl;
         }
       }
-    }  //for (GO j=0; j<myAggSize; ++j)
+    }  // for (GO j=0; j<myAggSize; ++j)
 
   }  // for (LO agg=0; agg<numAggs; ++agg)
 
@@ -819,7 +819,7 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
         globalColPtr[j] = targetQcols[j][reducedMap->getLocalElement(*r)];
       }
       Ptentative->insertGlobalValues(*r, globalColPtr.view(0, NSDim), valPtr.view(0, NSDim));
-    }  //if (targetQvalues->getLocalLength() > 0)
+    }  // if (targetQvalues->getLocalLength() > 0)
   }
 
   Ptentative->fillComplete(coarseMap, A->getDomainMap());
@@ -968,7 +968,7 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
           // R = upper triangular part of localQR
           for (size_t j = 0; j < NSDim; j++)
             for (size_t k = 0; k <= j; k++)
-              coarseNS[j][offset + k] = localQR(k, j);  //TODO is offset+k the correct local ID?!
+              coarseNS[j][offset + k] = localQR(k, j);  // TODO is offset+k the correct local ID?!
 
           // Calculate Q, the tentative prolongator.
           // The Lapack GEQRF call only works for myAggsize >= NSDim
@@ -1057,8 +1057,8 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
         // Process each row in the local Q factor
         // FIXME: What happens if maps are blocked?
         for (LO j = 0; j < aggSize; j++) {
-          //TODO Here I do not check for a zero nullspace column on the aggregate.
-          //     as is done in the standard QR case.
+          // TODO Here I do not check for a zero nullspace column on the aggregate.
+          //      as is done in the standard QR case.
 
           const LO localRow = aggToRowMapLO[aggStart[agg] + j];
 
@@ -1077,7 +1077,7 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
         }
         for (size_t j = 0; j < NSDim; j++)
           coarseNS[j][offset + j] = one;
-      }  //for (GO agg = 0; agg < numAggs; agg++)
+      }  // for (GO agg = 0; agg < numAggs; agg++)
 
     } else {
       for (GO agg = 0; agg < numAggs; agg++) {
@@ -1101,11 +1101,11 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
         }
         for (size_t j = 0; j < NSDim; j++)
           coarseNS[j][offset + j] = one;
-      }  //for (GO agg = 0; agg < numAggs; agg++)
+      }  // for (GO agg = 0; agg < numAggs; agg++)
 
-    }  //if (goodmap) else ...
+    }  // if (goodmap) else ...
 
-  }  //if doQRStep ... else
+  }  // if doQRStep ... else
 
   // Compress storage (remove all INVALID, which happen when we skip zeros)
   // We do that in-place
@@ -1148,7 +1148,7 @@ void TentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   PtentCrs->expertStaticFillComplete(coarseMap, A->getDomainMap(), dummy_i, dummy_e, FCparams);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 // TODO ReUse: If only P or Nullspace is missing, TentativePFactory can be smart and skip part of the computation.
 

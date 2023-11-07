@@ -268,24 +268,24 @@ void InterfaceAggregationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Bui
                              "InterfaceAggregationFactory could not extract the number of dual DOFs per node from striding information. At least, make sure that StridedMap information has actually been provided.");
 
   /* Determine block information for primal block
-    *
-    * primalDofOffset: global offset of primal DOF GIDs (usually is zero (default))
-    * primalBlockDim: block dim for fixed size blocks
-    * - is 2 or 3 (for 2d or 3d problems) on the finest level (# displacement dofs per node)
-    * - is 3 or 6 (for 2d or 3d problems) on coarser levels (# nullspace vectors)
-    */
+   *
+   * primalDofOffset: global offset of primal DOF GIDs (usually is zero (default))
+   * primalBlockDim: block dim for fixed size blocks
+   * - is 2 or 3 (for 2d or 3d problems) on the finest level (# displacement dofs per node)
+   * - is 3 or 6 (for 2d or 3d problems) on coarser levels (# nullspace vectors)
+   */
   GlobalOrdinal primalDofOffset = GO_ZERO;
   LocalOrdinal primalBlockDim   = numDofsPerPrimalNode;
 
   /* Determine block information for Lagrange multipliers
-  *
-  * dualDofOffset: usually > zero (set by domainOffset for Ptent11Fact)
-  * dualBlockDim:
-  * - is primalBlockDim (for 2d or 3d problems) on the finest level (1 Lagrange multiplier per
-  *   displacement dof)
-  * - is 2 or 3 (for 2d or 3d problems) on coarser levels (same as on finest level, whereas there
-  *   are 3 or 6 displacement dofs per node)
-  */
+   *
+   * dualDofOffset: usually > zero (set by domainOffset for Ptent11Fact)
+   * dualBlockDim:
+   * - is primalBlockDim (for 2d or 3d problems) on the finest level (1 Lagrange multiplier per
+   *   displacement dof)
+   * - is 2 or 3 (for 2d or 3d problems) on coarser levels (same as on finest level, whereas there
+   *   are 3 or 6 displacement dofs per node)
+   */
   GlobalOrdinal dualDofOffset = A01->getColMap()->getMinAllGlobalIndex();
   LocalOrdinal dualBlockDim   = numDofsPerDualNode;
 

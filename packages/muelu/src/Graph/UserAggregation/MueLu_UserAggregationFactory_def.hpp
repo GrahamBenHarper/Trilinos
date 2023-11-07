@@ -75,11 +75,11 @@ template <class LocalOrdinal, class GlobalOrdinal, class Node>
 void UserAggregationFactory<LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(Level& /* currentLevel */) const {}
 
 /**
-   * The function reads aggregate information from a file.
-   * The file structure is the following:
-   *  * line 1 : <number of aggregates>
-   *  * line 2+: <aggregate size> <node 1 (root node) GID> <node 2 GID> ... <node last GID>
-   */
+ * The function reads aggregate information from a file.
+ * The file structure is the following:
+ *  * line 1 : <number of aggregates>
+ *  * line 2+: <aggregate size> <node 1 (root node) GID> <node 2 GID> ... <node last GID>
+ */
 template <class LocalOrdinal, class GlobalOrdinal, class Node>
 void UserAggregationFactory<LocalOrdinal, GlobalOrdinal, Node>::Build(Level& currentLevel) const {
   FactoryMonitor m(*this, "Build", currentLevel);
@@ -141,6 +141,6 @@ void UserAggregationFactory<LocalOrdinal, GlobalOrdinal, Node>::Build(Level& cur
   GetOStream(Statistics0) << aggregates->description() << std::endl;
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_USERAGGREGATIONFACTORY_DEF_HPP_ */

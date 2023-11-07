@@ -202,7 +202,7 @@ void RebalanceBlockAcFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(L
         // TAW: Do we need a copy or can we do in-place rebalancing?
         //      If we do in-place rebalancing the original distribution is lost
         //      We don't really need it any more, though.
-        //RCP<Matrix> cAij = MatrixFactory::BuildCopy(Aij);
+        // RCP<Matrix> cAij = MatrixFactory::BuildCopy(Aij);
         RCP<Matrix> cAij = Aij;  // do not copy the matrix data (just an rcp pointer)
 
         // create a new importer for column map needed for rebalanced Aij
@@ -214,7 +214,7 @@ void RebalanceBlockAcFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(L
         Teuchos::RCP<CrsMatrix> cAmij = cAwij->getCrsMatrix();
 
         // change domain map to rebalanced domain map (in-place). Update the importer to represent the column map
-        //cAmij->replaceDomainMapAndImporter(importers[j]->getTargetMap(),rebAijImport);
+        // cAmij->replaceDomainMapAndImporter(importers[j]->getTargetMap(),rebAijImport);
 
         // rebalance rows of matrix block. Don't change the domain map (-> Teuchos::null)
         // NOTE: If the communicator is restricted away, Build returns Teuchos::null.
@@ -253,14 +253,14 @@ void RebalanceBlockAcFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(L
         std::vector<size_t> stridingData                       = orig_stridedRgMap->getStridingData();
         Teuchos::ArrayView<const GlobalOrdinal> nodeRangeMapii = rebAii->getRangeMap()->getLocalElementList();
         stridedRgMap                                           = StridedMapFactory::Build(
-            bA->getRangeMap()->lib(),
-            Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-            nodeRangeMapii,
-            rebAii->getRangeMap()->getIndexBase(),
-            stridingData,
-            rebalancedComm,
-            orig_stridedRgMap->getStridedBlockId(),
-            orig_stridedRgMap->getOffset());
+                                                      bA->getRangeMap()->lib(),
+                                                      Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                      nodeRangeMapii,
+                                                      rebAii->getRangeMap()->getIndexBase(),
+                                                      stridingData,
+                                                      rebalancedComm,
+                                                      orig_stridedRgMap->getStridedBlockId(),
+                                                      orig_stridedRgMap->getOffset());
       }
       Teuchos::RCP<const StridedMap> orig_stridedDoMap = Teuchos::rcp_dynamic_cast<const StridedMap>(domainMapExtractor->getMap(i, domainMapExtractor->getThyraMode()));
       Teuchos::RCP<const Map> stridedDoMap             = Teuchos::null;
@@ -268,14 +268,14 @@ void RebalanceBlockAcFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(L
         std::vector<size_t> stridingData                        = orig_stridedDoMap->getStridingData();
         Teuchos::ArrayView<const GlobalOrdinal> nodeDomainMapii = rebAii->getDomainMap()->getLocalElementList();
         stridedDoMap                                            = StridedMapFactory::Build(
-            bA->getDomainMap()->lib(),
-            Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-            nodeDomainMapii,
-            rebAii->getDomainMap()->getIndexBase(),
-            stridingData,
-            rebalancedComm,
-            orig_stridedDoMap->getStridedBlockId(),
-            orig_stridedDoMap->getOffset());
+                                                       bA->getDomainMap()->lib(),
+                                                       Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                       nodeDomainMapii,
+                                                       rebAii->getDomainMap()->getIndexBase(),
+                                                       stridingData,
+                                                       rebalancedComm,
+                                                       orig_stridedDoMap->getStridedBlockId(),
+                                                       orig_stridedDoMap->getOffset());
       }
 
       if (bRestrictComm) {
@@ -412,13 +412,13 @@ void RebalanceBlockAcFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(L
       (*it2)->CallBuild(coarseLevel);
     }
   }
-}  //Build()
+}  // Build()
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void RebalanceBlockAcFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddRebalanceFactory(const RCP<const FactoryBase> &factory) {
   rebalanceFacts_.push_back(factory);
-}  //AddRebalanceFactory()
+}  // AddRebalanceFactory()
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_REBALANCEBLOCKACFACTORY_DEF_HPP_ */

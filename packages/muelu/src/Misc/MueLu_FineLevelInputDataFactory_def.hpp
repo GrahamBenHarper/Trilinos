@@ -119,7 +119,7 @@ void FineLevelInputDataFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build
   GetOStream(Debug) << "Use " << variableName << " of type " << variableType << " from " << factoryName << "(" << fact.get() << ")" << std::endl;
 
   // check data type
-  //std::string strType = currentLevel.GetTypeName(variableName, fact.get());
+  // std::string strType = currentLevel.GetTypeName(variableName, fact.get());
   if (variableType == "int") {
     int data = currentLevel.Get<int>(variableName, fact.get());
     Set(currentLevel, variableName, data);
@@ -169,6 +169,6 @@ void FineLevelInputDataFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* PACKAGES_MUELU_SRC_MISC_MUELU_FINELEVELINPUTDATAFACTORY_DEF_HPP_ */

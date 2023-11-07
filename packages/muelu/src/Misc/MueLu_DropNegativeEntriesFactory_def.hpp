@@ -130,6 +130,6 @@ void DropNegativeEntriesFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Buil
   Set(currentLevel, "A", Aout);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_DROPNEGATIVEENTRIESFACTORY_DEF_HPP

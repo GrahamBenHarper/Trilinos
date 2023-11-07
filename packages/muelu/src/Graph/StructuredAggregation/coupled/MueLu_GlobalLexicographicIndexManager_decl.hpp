@@ -137,7 +137,7 @@ class GlobalLexicographicIndexManager : public IndexManager<LocalOrdinal, Global
  private:
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_GLOBALLEXICOGRPHICINDEXMANAGER_SHORT
 #endif  // MUELU_GLOBALLEXICOGRPHICINDEXMANAGER_DECL_HPP

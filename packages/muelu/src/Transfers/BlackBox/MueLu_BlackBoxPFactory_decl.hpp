@@ -212,9 +212,9 @@ class BlackBoxPFactory : public PFactory {
       const typename Teuchos::Array<LocalOrdinal>::iterator& first2,
       const typename Teuchos::Array<LocalOrdinal>::iterator& last2) const;
 
-};  //class BlackBoxPFactory
+};  // class BlackBoxPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_BLACKBOXPFACTORY_SHORT
 #endif  // MUELU_BLACKBOXPFACTORY_DECL_HPP

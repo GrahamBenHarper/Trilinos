@@ -93,7 +93,7 @@ template <class Scalar        = DefaultScalar,
           class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
           class Node          = DefaultNode>
-class BlockedCoarseMapFactory : public MueLu::CoarseMapFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node> {  //SingleLevelFactoryBase {
+class BlockedCoarseMapFactory : public MueLu::CoarseMapFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node> {  // SingleLevelFactoryBase {
 #undef MUELU_BLOCKEDCOARSEMAPFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 
@@ -124,9 +124,9 @@ class BlockedCoarseMapFactory : public MueLu::CoarseMapFactory<Scalar, LocalOrdi
   //! Compute domain GID offset from another CoarseMap
   virtual GlobalOrdinal GetDomainGIDOffset(Level &currentLevel) const final;
 
-};  //class BlockedCoarseMapFactory
+};  // class BlockedCoarseMapFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_BLOCKEDCOARSEMAPFACTORY_SHORT
 #endif /* MUELU_BLOCKEDCOARSEMAPFACTORY_DECL_HPP_ */

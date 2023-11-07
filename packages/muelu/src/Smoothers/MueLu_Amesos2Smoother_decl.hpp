@@ -147,7 +147,7 @@ class Amesos2Smoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrd
   std::string description() const;
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
+  // using MueLu::Describable::describe; // overloading, not hiding
   void print(Teuchos::FancyOStream& out, const VerbLevel verbLevel = Default) const;
 
   //! Get a rough estimate of cost per iteration

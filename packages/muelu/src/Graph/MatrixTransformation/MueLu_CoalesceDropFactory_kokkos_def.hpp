@@ -500,7 +500,7 @@ void CoalesceDropFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Kok
        Both of these quantities may be different than numPDEs (from GetFixedBlockSize()), but the following must always hold:
 
        numPDEs = blkSize * storageblocksize.
-       
+
        If numPDEs==1
          Matrix is point storage (classical CRS storage).  storageblocksize=1 and  blkSize=1
          No other values makes sense.
@@ -777,7 +777,7 @@ void CoalesceDropFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Kok
 
       local_matrix_type localFA = local_matrix_type("A", numRows, A->getLocalMatrixDevice().numCols(), nnzFA, vals, rows, cols);
       auto filteredACrs         = CrsMatrixFactory::Build(localFA, A->getRowMap(), A->getColMap(), A->getDomainMap(), A->getRangeMap(),
-                                                  A->getCrsGraph()->getImporter(), A->getCrsGraph()->getExporter());
+                                                          A->getCrsGraph()->getImporter(), A->getCrsGraph()->getExporter());
       filteredA                 = rcp(new CrsMatrixWrap(filteredACrs));
     }
 
@@ -846,7 +846,7 @@ void CoalesceDropFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Kok
     //
     typedef typename LWGraph_kokkos::local_graph_type kokkos_graph_type;
     typedef typename kokkos_graph_type::row_map_type row_map_type;
-    //typedef typename row_map_type::HostMirror           row_map_type_h;
+    // typedef typename row_map_type::HostMirror           row_map_type_h;
     typedef typename kokkos_graph_type::entries_type entries_type;
 
     // Stage 1c: get number of dof-nonzeros per blkSize node rows

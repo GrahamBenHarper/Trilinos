@@ -144,7 +144,7 @@ void SaPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat
     A = Utilities::Transpose(*A, true);  // build transpose of A explicitly
   }
 
-  //Build final prolongator
+  // Build final prolongator
 
   // Reuse pattern if available
   RCP<ParameterList> APparams;
@@ -260,7 +260,7 @@ void SaPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat
     GetOStream(Statistics2) << PerfUtils::PrintMatrixInfo(*finalP, (!restrictionMode_ ? "P" : "R"), params);
   }
 
-}  //Build()
+}  // Build()
 
 // Analyze the grid transfer produced by smoothed aggregation and make
 // modifications if it does not look right. In particular, if there are
@@ -444,7 +444,7 @@ struct optimalSatisfyConstraintsForScalarPDEsKernel {
             }
           }
 
-          for (LO i = 0; i < static_cast<LO>(nnz); i++) origSorted(rowIdx, i) = values(rowPtr(rowIdx) + inds(rowIdx, i));  //values is no longer used
+          for (LO i = 0; i < static_cast<LO>(nnz); i++) origSorted(rowIdx, i) = values(rowPtr(rowIdx) + inds(rowIdx, i));  // values is no longer used
           // find entry in origSorted just to the right of the leftBound
           closestToLeftBound = 0;
           while ((closestToLeftBound < static_cast<LO>(nnz)) && (KAT::real(origSorted(rowIdx, closestToLeftBound)) <= KAT::real(leftBound))) closestToLeftBound++;
@@ -479,7 +479,7 @@ struct optimalSatisfyConstraintsForScalarPDEsKernel {
 
             /* flip sign of origSorted and reverse ordering so that the negative version is sorted */
 
-            //TODO: the following is bad for GPU performance. Switch to bit shifting if brave.
+            // TODO: the following is bad for GPU performance. Switch to bit shifting if brave.
             if ((nnz % 2) == 1) origSorted(rowIdx, (nnz / 2)) = -origSorted(rowIdx, (nnz / 2));
             for (LO i = 0; i < static_cast<LO>(nnz / 2); i++) {
               temp                            = origSorted(rowIdx, i);
@@ -577,22 +577,22 @@ void SaPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat
   Kokkos::parallel_for("enforce constraint", Kokkos::RangePolicy<typename Device::execution_space>(0, P->getRowMap()->getLocalNumElements()),
                        myKernel);
 
-}  //SatsifyPConstraints()
+}  // SatsifyPConstraints()
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class DeviceType>
 void SaPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType>>::optimalSatisfyPConstraintsForScalarPDEs(RCP<Matrix>& P) const {
   using Device = typename Matrix::local_matrix_type::device_type;
-  LO nPDEs     = 1;  //A->GetFixedBlockSize();
+  LO nPDEs     = 1;  // A->GetFixedBlockSize();
 
   using local_mat_type = typename Matrix::local_matrix_type;
   optimalSatisfyConstraintsForScalarPDEsKernel<local_mat_type> myKernel(nPDEs, P->getLocalMaxNumRowEntries(), P->getLocalMatrixDevice());
   Kokkos::parallel_for("enforce constraint", Kokkos::RangePolicy<typename Device::execution_space>(0, P->getLocalNumRows()),
                        myKernel);
 
-}  //SatsifyPConstraints()
+}  // SatsifyPConstraints()
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_SAPFACTORY_KOKKOS_DEF_HPP
 
-//TODO: restrictionMode_ should use the parameter list.
+// TODO: restrictionMode_ should use the parameter list.

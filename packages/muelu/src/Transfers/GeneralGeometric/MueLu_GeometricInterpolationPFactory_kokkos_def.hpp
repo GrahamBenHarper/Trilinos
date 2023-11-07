@@ -184,7 +184,7 @@ void GeometricInterpolationPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, 
     RCP<realvaluedmultivector_type> ghostCoordinates = Xpetra::MultiVectorFactory<real_type, LO, GO, NO>::Build(prolongatorGraph->getColMap(),
                                                                                                                 fineCoordinates->getNumVectors());
     RCP<const Import> ghostImporter                  = ImportFactory::Build(coarseCoordinates->getMap(),
-                                                           prolongatorGraph->getColMap());
+                                                                            prolongatorGraph->getColMap());
     ghostCoordinates->doImport(*coarseCoordinates, *ghostImporter, Xpetra::INSERT);
 
     SubFactoryMonitor sfm(*this, "BuildLinearP", coarseLevel);
@@ -252,10 +252,10 @@ void GeometricInterpolationPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, 
     }
 
     RCP<const Map> PointMap               = MapFactory::Build(BlockMap->lib(),
-                                                BlockMap->getGlobalNumElements() * NSDim,
-                                                point_dofs(),
-                                                BlockMap->getIndexBase(),
-                                                BlockMap->getComm());
+                                                              BlockMap->getGlobalNumElements() * NSDim,
+                                                              point_dofs(),
+                                                              BlockMap->getIndexBase(),
+                                                              BlockMap->getComm());
     strideInfo[0]                         = A->GetFixedBlockSize();
     RCP<const StridedMap> stridedPointMap = StridedMapFactory::Build(PointMap, strideInfo);
 
@@ -464,7 +464,7 @@ void GeometricInterpolationPFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, 
     for (LO i = 0; i < numDimensions; ++i) {
       residual(i) = coord[0][i];  // Add coordinates from point of interest
       for (LO k = 0; k < numInterpolationPoints; ++k) {
-        residual(i) -= functions[0][k] * coord[k + 1][i];  //Remove contribution from all coarse points
+        residual(i) -= functions[0][k] * coord[k + 1][i];  // Remove contribution from all coarse points
       }
       if (iter == 1) {
         norm_ref += residual(i) * residual(i);

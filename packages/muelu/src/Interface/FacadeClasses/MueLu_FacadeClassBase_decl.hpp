@@ -80,7 +80,7 @@ class FacadeClassBase
 
  protected:
   /*! @brief Replace all occurrences of search string "search" by the string in "replace" given the string "subject"
-     */
+   */
   std::string ReplaceString(std::string& subject, const std::string& search, const std::string& replace) {
     size_t pos = 0;
     while ((pos = subject.find(search, pos)) != std::string::npos) {

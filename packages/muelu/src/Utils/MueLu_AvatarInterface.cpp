@@ -254,7 +254,7 @@ void AvatarInterface::UnpackMueLuMapping() {
       avatarParameterName_[idx] = sublist.get<std::string>("avatar parameter");
 
       // Get the values
-      //FIXME: For now we assume that all of these guys are doubles and their Avatar analogues are doubles
+      // FIXME: For now we assume that all of these guys are doubles and their Avatar analogues are doubles
       mueluParameterValues_[idx]  = sublist.get<Teuchos::Array<double>>("muelu values");
       avatarParameterValues_[idx] = sublist.get<Teuchos::Array<double>>("avatar values");
 
@@ -350,14 +350,14 @@ void AvatarInterface::SetMueLuParameters(const Teuchos::ParameterList& problemFe
     }
 
     std::cout << "** Avatar TestString ***\n"
-              << testString << std::endl;  //DEBUG
+              << testString << std::endl;  // DEBUG
 
     int bound_check = true;
     if (params_.isParameter("avatar: bounds file"))
       bound_check = checkBounds(testString, boundsString_);
 
     // FIXME: Only send in first tree's string
-    //int* avatar_test(Avatar_handle* a, char* test_data_file, int test_data_is_a_string);
+    // int* avatar_test(Avatar_handle* a, char* test_data_file, int test_data_is_a_string);
     const int test_data_is_a_string = 1;
     avatar_test(avatarHandle_, const_cast<char*>(testString.c_str()), test_data_is_a_string, predictions.data(), probabilities.data());
 

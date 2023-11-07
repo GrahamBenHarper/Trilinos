@@ -26,7 +26,7 @@ template <class Scalar        = DefaultScalar,
           class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
           class Node          = DefaultNode>
-class TopSmootherFactory : public SingleLevelFactoryBase {  //TODO: inherit from SmootherFactoryBase ?
+class TopSmootherFactory : public SingleLevelFactoryBase {  // TODO: inherit from SmootherFactoryBase ?
 #undef MUELU_TOPSMOOTHERFACTORY_SHORT
 #include "MueLu_UseShortNames.hpp"
 

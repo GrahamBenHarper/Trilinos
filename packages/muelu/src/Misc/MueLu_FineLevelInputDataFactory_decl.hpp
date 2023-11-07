@@ -113,9 +113,9 @@ class FineLevelInputDataFactory : public SingleLevelFactoryBase {
  private:
   void test() const { std::cout << "TEST" << std::endl; }
 
-};  //class FineLevelInputDataFactory
+};  // class FineLevelInputDataFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_FINELEVELINPUTDATAFACTORY_SHORT
 

@@ -84,7 +84,7 @@ void Q2Q1Q2CoarseGridFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Declare
   Input(coarseLevel, "PElementList");
   Input(coarseLevel, "MElementList");
 
-  //currentLevel.DeclareInput(varName_,factory_,this);
+  // currentLevel.DeclareInput(varName_,factory_,this);
 }
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
@@ -94,7 +94,7 @@ void Q2Q1Q2CoarseGridFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(L
   // This will create a list of elements on the coarse grid with a
   // predictable structure, as well as modify the fine grid list of
   // elements, if necessary (i.e. if fineLevel.GetLevelID()==0);
-  //BuildCoarseGrid(fineLevel,coarseLevel);
+  // BuildCoarseGrid(fineLevel,coarseLevel);
 
   // This will actually build our prolongator P
   return BuildCoarseGrid(fineLevel, coarseLevel);
@@ -129,48 +129,48 @@ void Q2Q1Q2CoarseGridFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildCo
     // and the pressure follows by copying the magnetics nodes.
     // ***************************************************************
 
-    //if (coarseElement is on the Bottom Edge)
+    // if (coarseElement is on the Bottom Edge)
     if (coarseElement < nCoarseElements) {
-      //Bottom nodes
+      // Bottom nodes
       (*coarseElementMDOFs)(coarseElement, 0) = coarseElement;
       (*coarseElementMDOFs)(coarseElement, 1) = coarseElement + 1;
 
-      //Bottom edge
+      // Bottom edge
       (*coarseElementMDOFs)(coarseElement, 4) = EdgeCount++;
 
     } else {
-      //Bottom Nodes
+      // Bottom Nodes
       (*coarseElementMDOFs)(coarseElement, 0) = (*coarseElementMDOFs)(coarseElement - nCoarseElements, 3);
       (*coarseElementMDOFs)(coarseElement, 1) = (*coarseElementMDOFs)(coarseElement - nCoarseElements, 2);
 
-      //Bottom Edge
+      // Bottom Edge
       (*coarseElementMDOFs)(coarseElement, 4) = (*coarseElementMDOFs)(coarseElement - nCoarseElements, 6);
     }
 
-    //Right and Top Edges -- must be determined before left edge
+    // Right and Top Edges -- must be determined before left edge
     (*coarseElementMDOFs)(coarseElement, 5) = EdgeCount++;
     (*coarseElementMDOFs)(coarseElement, 6) = EdgeCount++;
 
-    //if (coarseElement is on the Left Edge)
+    // if (coarseElement is on the Left Edge)
     if (coarseElement % nCoarseElements == 0) {
-      //Top left node
+      // Top left node
       (*coarseElementMDOFs)(coarseElement, 3) = (*coarseElementMDOFs)(coarseElement, 0) + nCoarseElements + 1;
 
-      //Left Edge
+      // Left Edge
       (*coarseElementMDOFs)(coarseElement, 7) = EdgeCount++;
 
     } else {
-      //Top left node
+      // Top left node
       (*coarseElementMDOFs)(coarseElement, 3) = (*coarseElementMDOFs)(coarseElement - 1, 2);
 
-      //Left Edge
+      // Left Edge
       (*coarseElementMDOFs)(coarseElement, 7) = (*coarseElementMDOFs)(coarseElement - 1, 5);
     }
 
-    //Top right node -- Must be the last node to be determined!
+    // Top right node -- Must be the last node to be determined!
     (*coarseElementMDOFs)(coarseElement, 2) = (*coarseElementMDOFs)(coarseElement, 3) + 1;
 
-    //Center Node
+    // Center Node
     (*coarseElementMDOFs)(coarseElement, 8) = CenterCount++;
 
     // With Magnetics built, Pressure and Velocity follow without effort.
@@ -206,11 +206,11 @@ void Q2Q1Q2CoarseGridFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildCo
   Set(coarseLevel, "PElementList", coarseElementPDOFs);
   Set(coarseLevel, "MElementList", coarseElementMDOFs);
 
-  //coarseLevel.Keep("VElementList",coarseLevel.GetFactoryManager()->GetFactory("VElementList").get());
-  //coarseLevel.Keep("PElementList",coarseLevel.GetFactoryManager()->GetFactory("PElementList").get());
-  //coarseLevel.Keep("MElementList",coarseLevel.GetFactoryManager()->GetFactory("MElementList").get());
+  // coarseLevel.Keep("VElementList",coarseLevel.GetFactoryManager()->GetFactory("VElementList").get());
+  // coarseLevel.Keep("PElementList",coarseLevel.GetFactoryManager()->GetFactory("PElementList").get());
+  // coarseLevel.Keep("MElementList",coarseLevel.GetFactoryManager()->GetFactory("MElementList").get());
 
-}  //BuildCoarseGrid
+}  // BuildCoarseGrid
 
 }  // namespace MueLu
 

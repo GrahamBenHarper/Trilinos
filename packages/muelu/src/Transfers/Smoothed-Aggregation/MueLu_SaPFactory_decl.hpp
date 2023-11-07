@@ -133,7 +133,7 @@ class SaPFactory : public PFactory {
       */
   void Build(Level &fineLevel, Level &coarseLevel) const;
 
-  void BuildP(Level &fineLevel, Level &coarseLevel) const;  //Build()
+  void BuildP(Level &fineLevel, Level &coarseLevel) const;  // Build()
 
   /*!
       @brief Enforce constraints on prolongator
@@ -150,9 +150,9 @@ class SaPFactory : public PFactory {
 
   //@}
 
-};  //class SaPFactory
+};  // class SaPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SAPFACTORY_SHORT
 #endif  // MUELU_SAPFACTORY_DECL_HPP

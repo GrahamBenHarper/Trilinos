@@ -86,6 +86,6 @@ void LWGraph_kokkos<LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDev
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_LWGRAPH_KOKKOS_DEF_HPP

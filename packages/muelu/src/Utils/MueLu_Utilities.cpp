@@ -115,8 +115,8 @@ long ExtractNonSerializableData(const Teuchos::ParameterList& inList, Teuchos::P
 }
 
 void TokenizeStringAndStripWhiteSpace(const std::string& stream, std::vector<std::string>& tokenList, const char* delimChars) {
-  //note: default delimiter string is ","
-  // Take a comma-separated list and tokenize it, stripping out leading & trailing whitespace.  Then add to tokenList
+  // note: default delimiter string is ","
+  //  Take a comma-separated list and tokenize it, stripping out leading & trailing whitespace.  Then add to tokenList
   char* buf = (char*)malloc(stream.size() + 1);
   strcpy(buf, stream.c_str());
   char* token = strtok(buf, delimChars);
@@ -125,8 +125,8 @@ void TokenizeStringAndStripWhiteSpace(const std::string& stream, std::vector<std
     return;
   }
   while (token) {
-    //token points to start of string to add to tokenList
-    //remove front whitespace...
+    // token points to start of string to add to tokenList
+    // remove front whitespace...
     char* tokStart = token;
     char* tokEnd   = token + strlen(token) - 1;
     while (*tokStart == ' ' && tokStart < tokEnd)
@@ -135,7 +135,7 @@ void TokenizeStringAndStripWhiteSpace(const std::string& stream, std::vector<std
       tokEnd--;
     tokEnd++;
     if (tokStart < tokEnd) {
-      std::string finishedToken(tokStart, tokEnd - tokStart);  //use the constructor that takes a certain # of chars
+      std::string finishedToken(tokStart, tokEnd - tokStart);  // use the constructor that takes a certain # of chars
       tokenList.push_back(finishedToken);
     }
     token = strtok(NULL, delimChars);
@@ -144,10 +144,10 @@ void TokenizeStringAndStripWhiteSpace(const std::string& stream, std::vector<std
 }
 
 bool IsParamMuemexVariable(const std::string& name) {
-  //see if paramName is exactly two "words" - like "OrdinalVector myNullspace" or something
+  // see if paramName is exactly two "words" - like "OrdinalVector myNullspace" or something
   char* str = (char*)malloc(name.length() + 1);
   strcpy(str, name.c_str());
-  //Strip leading and trailing whitespace
+  // Strip leading and trailing whitespace
   char* firstWord = strtok(str, " ");
   if (!firstWord) {
     free(str);
@@ -163,13 +163,13 @@ bool IsParamMuemexVariable(const std::string& name) {
     free(str);
     return false;
   }
-  //convert first word to all lowercase for case insensitive compare
+  // convert first word to all lowercase for case insensitive compare
   char* tolowerIt = firstWord;
   while (*tolowerIt) {
     *tolowerIt = (char)tolower(*tolowerIt);
     tolowerIt++;
   }
-  //See if the first word is one of the custom variable names
+  // See if the first word is one of the custom variable names
   if (strstr(firstWord, "matrix") ||
       strstr(firstWord, "multivector") ||
       strstr(firstWord, "map") ||
@@ -179,7 +179,7 @@ bool IsParamMuemexVariable(const std::string& name) {
       strstr(firstWord, "double") ||
       strstr(firstWord, "complex") ||
       strstr(firstWord, "string"))
-  //Add name to list of keys to remove
+  // Add name to list of keys to remove
   {
     free(str);
     return true;
@@ -190,10 +190,10 @@ bool IsParamMuemexVariable(const std::string& name) {
 }
 
 bool IsParamValidVariable(const std::string& name) {
-  //see if paramName is exactly two "words" - like "OrdinalVector myNullspace" or something
+  // see if paramName is exactly two "words" - like "OrdinalVector myNullspace" or something
   char* str = (char*)malloc(name.length() + 1);
   strcpy(str, name.c_str());
-  //Strip leading and trailing whitespace
+  // Strip leading and trailing whitespace
   char* firstWord = strtok(str, " ");
   if (!firstWord) {
     free(str);
@@ -209,13 +209,13 @@ bool IsParamValidVariable(const std::string& name) {
     free(str);
     return false;
   }
-  //convert first word to all lowercase for case insensitive compare
+  // convert first word to all lowercase for case insensitive compare
   char* tolowerIt = firstWord;
   while (*tolowerIt) {
     *tolowerIt = (char)tolower(*tolowerIt);
     tolowerIt++;
   }
-  //See if the first word is one of the custom variable names
+  // See if the first word is one of the custom variable names
   if (strstr(firstWord, "matrix") ||
       strstr(firstWord, "multivector") ||
       strstr(firstWord, "map") ||
@@ -229,7 +229,7 @@ bool IsParamValidVariable(const std::string& name) {
       strstr(firstWord, "array<lo>") ||
       strstr(firstWord, "arrayrcp<lo>") ||
       strstr(firstWord, "arrayrcp<go>"))
-  //Add name to list of keys to remove
+  // Add name to list of keys to remove
   {
     free(str);
     return true;

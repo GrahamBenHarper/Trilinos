@@ -105,9 +105,9 @@ class InterfaceAggregationAlgorithm : public MueLu::AggregationAlgorithmBase<Loc
   void BuildAggregates(Teuchos::ParameterList const& params, GraphBase const& graph, Aggregates& aggregates, std::vector<unsigned>& aggStat, LO& numNonAggregatedNodes) const;
   //@}
 
-};  //class InterfaceAggregationAlgorithm
+};  // class InterfaceAggregationAlgorithm
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_INTERFACEAGGREGATIONALGORITHM_SHORT
 #endif /* MUELU_INTERFACEAGGREGATIONALGORITHM_DECL_HPP_ */

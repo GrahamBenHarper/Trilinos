@@ -70,7 +70,7 @@
 /*!
   @class BrickAggregationFactory
   @brief Aggregation method for generating "brick" aggregates.  It also does "hotdogs" and "pancakes."
-  
+
   This factory can generate aggregates of size 1, 2 or 3 in each dimension, in any combination.
 
 */

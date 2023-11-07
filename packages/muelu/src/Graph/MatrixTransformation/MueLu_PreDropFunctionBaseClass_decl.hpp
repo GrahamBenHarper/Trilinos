@@ -53,9 +53,9 @@
 namespace MueLu {
 
 /*!
-   * Base class you can derive from to allow user defined dropping
-   *
-   */
+ * Base class you can derive from to allow user defined dropping
+ *
+ */
 template <class Scalar        = DefaultScalar,
           class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,

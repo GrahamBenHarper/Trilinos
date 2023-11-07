@@ -245,13 +245,13 @@ void CombinePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level& f
   RCP<const Map> coarseColMap    = Xpetra::MapFactory<LO, GO, NO>::Build(A->getDomainMap()->lib(), Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(), comboColMapGIDs, 0, A->getRowMap()->getComm());
 
   Teuchos::RCP<CrsMatrix> comboPCrs = CrsMatrixFactory::Build(A->getRowMap(), coarseColMap, maxNzPerRow);
-  //comboPCrs->getCrsGraph(); //.getRowInfo(6122);
-  //comboPCrs->getRowInfo(6122);
+  // comboPCrs->getCrsGraph(); //.getRowInfo(6122);
+  // comboPCrs->getRowInfo(6122);
 
   //    Teuchos::RCP<CrsMatrix> comboPCrs = CrsMatrixFactory::Build(A->getRowMap(), coarseColMap,nnzCombo+1000);
 
   //    for (size_t i = 0; i < nComboRowMap; i++) {
-  //printf("FIXME\n"); if (nComboRowMap > 6142)  nComboRowMap = 6142;
+  // printf("FIXME\n"); if (nComboRowMap > 6142)  nComboRowMap = 6142;
   for (size_t i = 0; i < nComboRowMap; i++) {
     comboPCrs->insertLocalValues(i, comboPCols.view(comboPRowPtr[i], comboPRowPtr[i + 1] - comboPRowPtr[i]),
                                  comboPVals.view(comboPRowPtr[i], comboPRowPtr[i + 1] - comboPRowPtr[i]));
@@ -263,7 +263,7 @@ void CombinePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level& f
   Set(coarseLevel, "P", comboP);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_COMBINEPFACTORY_SHORT
 #endif  // MUELU_COMBINEPFACTORY_DEF_HPP

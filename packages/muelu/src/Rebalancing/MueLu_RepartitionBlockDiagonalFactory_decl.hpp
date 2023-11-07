@@ -94,7 +94,7 @@ class RepartitionBlockDiagonalFactory : public SingleLevelFactoryBase {
   //@}
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REPARTITIONBLOCKDIAGONALFACTORY_SHORT
 

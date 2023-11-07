@@ -51,12 +51,12 @@
 
 #include <Teuchos_ParameterList.hpp>
 
-//Xpetra
+// Xpetra
 #include <Xpetra_MapExtractor_fwd.hpp>
 #include <Xpetra_MultiVectorFactory_fwd.hpp>
 #include <Xpetra_Matrix_fwd.hpp>
 
-//MueLu
+// MueLu
 #include "MueLu_SimpleSmoother_fwd.hpp"
 #include "MueLu_SmootherPrototype.hpp"
 #include "MueLu_FactoryBase_fwd.hpp"
@@ -148,7 +148,7 @@ class SimpleSmoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdi
   std::string description() const;
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
+  // using MueLu::Describable::describe; // overloading, not hiding
   void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
 
   //! Get a rough estimate of cost per iteration
@@ -199,10 +199,10 @@ class SimpleSmoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdi
   Teuchos::RCP<SmootherBase> schurCompSmoo_;
 
   /*! @brief Vector of internal factory managers
-     *
-     * - FactManager_[0] holds the factory manager for the prediction of the primary variable
-     * - FactManager_[1] stores the factory manager used for the SchurComplement correction step.
-     */
+   *
+   * - FactManager_[0] holds the factory manager for the prediction of the primary variable
+   * - FactManager_[1] stores the factory manager used for the SchurComplement correction step.
+   */
   std::vector<Teuchos::RCP<const FactoryManagerBase> > FactManager_;
 };
 

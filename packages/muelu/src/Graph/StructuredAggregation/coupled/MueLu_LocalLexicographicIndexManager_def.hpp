@@ -300,7 +300,7 @@ void LocalLexicographicIndexManager<LocalOrdinal, GlobalOrdinal, Node>::
                                     return (vec[2] < val) ? true : false;
                                   });
   myBlockEnd   = std::upper_bound(meshData.begin(), meshData.end(), myBlock,
-                                [](const GO val, const std::vector<GO>& vec) -> bool {
+                                  [](const GO val, const std::vector<GO>& vec) -> bool {
                                   return (val < vec[2]) ? true : false;
                                 });
   // Assuming that i,j,k and ranges are split in pi, pj and pk processors
@@ -321,8 +321,8 @@ void LocalLexicographicIndexManager<LocalOrdinal, GlobalOrdinal, Node>::
   // We also look for the index of the local rank in the current block.
   const int MyRank = myRank;
   myRankIndex      = std::distance(meshData.begin(),
-                              std::find_if(myBlockStart, myBlockEnd,
-                                           [MyRank](const std::vector<GO>& vec) -> bool {
+                                   std::find_if(myBlockStart, myBlockEnd,
+                                                [MyRank](const std::vector<GO>& vec) -> bool {
                                              return (vec[0] == MyRank) ? true : false;
                                            }));
   // We also construct a mapping of rank to rankIndex in the meshData vector,
@@ -349,7 +349,7 @@ void LocalLexicographicIndexManager<LocalOrdinal, GlobalOrdinal, Node>::
       coarseMeshData[rank][3 + 2 * dim + 1] = meshData[rank][3 + 2 * dim + 1] / this->coarseRate[dim];
       if (meshData[rank][3 + 2 * dim + 1] == this->gFineNodesPerDir[dim] - 1 &&
           meshData[rank][3 + 2 * dim + 1] % this->coarseRate[dim] > 0) {
-        //this->endRate[dim] < this->coarseRate[dim]) {
+        // this->endRate[dim] < this->coarseRate[dim]) {
         ++coarseMeshData[rank][3 + 2 * dim + 1];
       }
     }
@@ -463,6 +463,6 @@ void LocalLexicographicIndexManager<LocalOrdinal, GlobalOrdinal, Node>::
     getGhostedNodeCoarseLID(const LO /* i */, const LO /* j */, const LO /* k */, LO& /* myLID */) const {
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_LOCALLEXICOGRAPHICINDEXMANAGER_DEF_HPP_ */

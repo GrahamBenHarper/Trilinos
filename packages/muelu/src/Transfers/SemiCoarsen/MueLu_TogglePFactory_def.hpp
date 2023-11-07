@@ -119,7 +119,7 @@ void TogglePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& fin
 
   LO NumZDir = -1;
   if (fineLevel.IsAvailable("NumZLayers", NoFactory::get())) {
-    NumZDir = fineLevel.Get<LO>("NumZLayers", NoFactory::get());  //obtain info
+    NumZDir = fineLevel.Get<LO>("NumZLayers", NoFactory::get());  // obtain info
     GetOStream(Runtime1) << "Number of layers for semicoarsening: " << NumZDir << std::endl;
   }
 
@@ -176,7 +176,7 @@ void TogglePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& fin
   Set(coarseLevel, "Nullspace", coarseNullspace);
   Set(coarseLevel, "Ptent", Ptent);
   Set(coarseLevel, "Chosen P", nProlongatorFactory);
-}  //Build()
+}  // Build()
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void TogglePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddProlongatorFactory(const RCP<const FactoryBase>& factory) {
@@ -208,6 +208,6 @@ void TogglePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddCoarseNullspa
   nspFacts_.push_back(factory);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_TOGGLEPFACTORY_DEF_HPP

@@ -223,9 +223,9 @@ void Constraint<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Apply(const Matrix& 
     Projected.replaceLocalValues(i, pindices, newValues);
   }
 
-  Projected.fillComplete(Projected.getDomainMap(), Projected.getRangeMap());  //FIXME: maps needed?
+  Projected.fillComplete(Projected.getDomainMap(), Projected.getRangeMap());  // FIXME: maps needed?
 }
 
 }  // namespace MueLu
 
-#endif  //ifndef MUELU_CONSTRAINT_DEF_HPP
+#endif  // ifndef MUELU_CONSTRAINT_DEF_HPP

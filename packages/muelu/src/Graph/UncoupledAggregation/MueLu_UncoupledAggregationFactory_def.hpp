@@ -115,10 +115,10 @@ RCP<const ParameterList> UncoupledAggregationFactory<LocalOrdinal, GlobalOrdinal
   // special variables necessary for OnePtAggregationAlgorithm
   validParamList->set<std::string>("OnePt aggregate map name", "", "Name of input map for single node aggregates. (default='')");
   validParamList->set<std::string>("OnePt aggregate map factory", "", "Generating factory of (DOF) map for single node aggregates.");
-  //validParamList->set< RCP<const FactoryBase> >("OnePt aggregate map factory",    NoFactory::getRCP(), "Generating factory of (DOF) map for single node aggregates.");
+  // validParamList->set< RCP<const FactoryBase> >("OnePt aggregate map factory",    NoFactory::getRCP(), "Generating factory of (DOF) map for single node aggregates.");
 
   // InterfaceAggregation parameters
-  //validParamList->set< bool >                  ("aggregation: use interface aggregation", "false", "Flag to trigger aggregation along an interface using specified aggregate seeds.");
+  // validParamList->set< bool >                  ("aggregation: use interface aggregation", "false", "Flag to trigger aggregation along an interface using specified aggregate seeds.");
   validParamList->set<std::string>("Interface aggregate map name", "", "Name of input map for interface aggregates. (default='')");
   validParamList->set<std::string>("Interface aggregate map factory", "", "Generating factory of (DOF) map for interface aggregates.");
   validParamList->set<RCP<const FactoryBase>>("nodeOnInterface", Teuchos::null, "Array specifying whether or not a node is on the interface (1 or 0).");
@@ -189,10 +189,10 @@ void UncoupledAggregationFactory<LocalOrdinal, GlobalOrdinal, Node>::Build(Level
   if (pL.get<bool>("aggregation: enable phase 3") == true) algos_.push_back(rcp(new AggregationPhase3Algorithm(graphFact)));
 
   // TODO: remove old aggregation mode
-  //if (pL.get<bool>("UseOnePtAggregationAlgorithm")             == true)   algos_.push_back(rcp(new OnePtAggregationAlgorithm             (graphFact)));
-  //if (pL.get<bool>("UseUncoupledAggregationAlgorithm")         == true)   algos_.push_back(rcp(new AggregationPhase1Algorithm            (graphFact)));
-  //if (pL.get<bool>("UseMaxLinkAggregationAlgorithm")           == true)   algos_.push_back(rcp(new MaxLinkAggregationAlgorithm           (graphFact)));
-  //if (pL.get<bool>("UseEmergencyAggregationAlgorithm")         == true)   algos_.push_back(rcp(new EmergencyAggregationAlgorithm         (graphFact)));
+  // if (pL.get<bool>("UseOnePtAggregationAlgorithm")             == true)   algos_.push_back(rcp(new OnePtAggregationAlgorithm             (graphFact)));
+  // if (pL.get<bool>("UseUncoupledAggregationAlgorithm")         == true)   algos_.push_back(rcp(new AggregationPhase1Algorithm            (graphFact)));
+  // if (pL.get<bool>("UseMaxLinkAggregationAlgorithm")           == true)   algos_.push_back(rcp(new MaxLinkAggregationAlgorithm           (graphFact)));
+  // if (pL.get<bool>("UseEmergencyAggregationAlgorithm")         == true)   algos_.push_back(rcp(new EmergencyAggregationAlgorithm         (graphFact)));
 
   std::string mapOnePtName = pL.get<std::string>("OnePt aggregate map name");
   RCP<Map> OnePtMap        = Teuchos::null;
@@ -299,6 +299,6 @@ void UncoupledAggregationFactory<LocalOrdinal, GlobalOrdinal, Node>::Build(Level
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_UNCOUPLEDAGGREGATIONFACTORY_DEF_HPP_ */

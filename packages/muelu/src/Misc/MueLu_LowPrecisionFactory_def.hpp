@@ -186,6 +186,6 @@ void LowPrecisionFactory<std::complex<double>, LocalOrdinal, GlobalOrdinal, Node
 }
 #endif
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_LOWPRECISIONFACTORY_DEF_HPP

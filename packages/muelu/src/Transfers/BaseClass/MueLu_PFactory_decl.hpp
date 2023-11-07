@@ -100,9 +100,9 @@ class PFactory : public TwoLevelFactoryBase {
 
   //@}
 
-};  //class PFactory
+};  // class PFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_PFACTORY_SHORT
 #endif  // MUELU_PFACTORY_DEF_HPP

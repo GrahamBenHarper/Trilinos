@@ -34,4 +34,4 @@ MUELU_ETI_GROUP(int, int, EpetraNode)
 TPETRA_INSTANTIATE_LGN(MUELU_ETI_GROUP)
 #endif
 
-#endif  //ifndef MUELU_ETI_3ARGUMENT_HPP
+#endif  // ifndef MUELU_ETI_3ARGUMENT_HPP

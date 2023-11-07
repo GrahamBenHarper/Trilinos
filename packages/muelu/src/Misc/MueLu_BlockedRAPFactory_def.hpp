@@ -94,7 +94,7 @@ void BlockedRAPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(
 }
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
-void BlockedRAPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &fineLevel, Level &coarseLevel) const {  //FIXME make fineLevel const!!
+void BlockedRAPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &fineLevel, Level &coarseLevel) const {  // FIXME make fineLevel const!!
   FactoryMonitor m(*this, "Computing Ac (block)", coarseLevel);
 
   const ParameterList &pL = GetParameterList();
@@ -219,7 +219,7 @@ void BlockedRAPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddTransferFa
   transferFacts_.push_back(factory);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_BLOCKEDRAPFACTORY_SHORT
 #endif  // MUELU_BLOCKEDRAPFACTORY_DEF_HPP

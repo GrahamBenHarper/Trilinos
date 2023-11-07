@@ -122,9 +122,9 @@ class CloneRepartitionInterface : public SingleLevelFactoryBase {
   //@}
 
  private:
-};  //class CloneRepartitionInterface
+};  // class CloneRepartitionInterface
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_CLONEREPARTITIONINTERFACE_SHORT
 

@@ -55,7 +55,7 @@
 #include "MueLu_HierarchyManager.hpp"
 #include "MueLu_FactoryManager.hpp"
 
-//TODO/FIXME: DeclareInput(, **this**) cannot be used here
+// TODO/FIXME: DeclareInput(, **this**) cannot be used here
 #ifdef HAVE_MUELU_INTREPID2
 #include "Kokkos_DynRankView.hpp"
 #endif
@@ -211,9 +211,9 @@ void HierarchyUtils<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddNonSerializab
             vec = Teuchos::getValue<RCP<MultiVector>>(levelListEntry->second);
           level->AddKeepFlag(name, NoFactory::get(), MueLu::UserData);
           level->Set(name, vec, NoFactory::get());
-          //M->SetFactory(name, NoFactory::getRCP()); // TAW: generally it is a bad idea to overwrite the factory manager data here
-          // One should do this only in very special cases
-        } else if (name == "Coordinates")  //Scalar of Coordinates MV is always double
+          // M->SetFactory(name, NoFactory::getRCP()); // TAW: generally it is a bad idea to overwrite the factory manager data here
+          //  One should do this only in very special cases
+        } else if (name == "Coordinates")  // Scalar of Coordinates MV is always double
         {
           RCP<realvaluedmultivector_type> vec;
           if (levelListEntry->second.isType<std::string>()) {
@@ -243,7 +243,7 @@ void HierarchyUtils<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddNonSerializab
             vec = Teuchos::getValue<RCP<realvaluedmultivector_type>>(levelListEntry->second);
           level->AddKeepFlag(name, NoFactory::get(), MueLu::UserData);
           level->Set(name, vec, NoFactory::get());
-          //M->SetFactory(name, NoFactory::getRCP()); // TAW: generally it is a bad idea to overwrite the factory manager data here
+          // M->SetFactory(name, NoFactory::getRCP()); // TAW: generally it is a bad idea to overwrite the factory manager data here
         } else if (name == "Node Comm") {
           level->AddKeepFlag(name, NoFactory::get(), MueLu::UserData);
           level->Set(name, Teuchos::getValue<RCP<const Teuchos::Comm<int>>>(levelListEntry->second), NoFactory::get());
@@ -263,7 +263,7 @@ void HierarchyUtils<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddNonSerializab
         else
 #ifdef HAVE_MUELU_MATLAB
         {
-          //Custom variable for Muemex
+          // Custom variable for Muemex
           size_t typeNameStart = name.find_first_not_of(' ');
           size_t typeNameEnd   = name.find(' ', typeNameStart);
           std::string typeName = name.substr(typeNameStart, typeNameEnd - typeNameStart);
@@ -323,9 +323,9 @@ void HierarchyUtils<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddNonSerializab
         } else if (name == "Nullspace") {
           level->AddKeepFlag(name, NoFactory::get(), MueLu::UserData);
           level->Set(name, Teuchos::getValue<RCP<MultiVector>>(userListEntry->second), NoFactory::get());
-          //M->SetFactory(name, NoFactory::getRCP()); // TAW: generally it is a bad idea to overwrite the factory manager data here
-          // One should do this only in very special cases
-        } else if (name == "Coordinates") {  //Scalar of Coordinates MV is always double
+          // M->SetFactory(name, NoFactory::getRCP()); // TAW: generally it is a bad idea to overwrite the factory manager data here
+          //  One should do this only in very special cases
+        } else if (name == "Coordinates") {  // Scalar of Coordinates MV is always double
           level->AddKeepFlag(name, NoFactory::get(), MueLu::UserData);
           level->Set(name, Teuchos::getValue<RCP<realvaluedmultivector_type>>(userListEntry->second), NoFactory::get());
         } else if (name == "Node Comm") {
@@ -347,7 +347,7 @@ void HierarchyUtils<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddNonSerializab
         else if (name == "output stream") {
           H.SetMueLuOStream(Teuchos::getValue<RCP<Teuchos::FancyOStream>>(userListEntry->second));
         } else {
-          //Custom variable
+          // Custom variable
           size_t typeNameStart = name.find_first_not_of(' ');
           size_t typeNameEnd   = name.find(' ', typeNameStart);
           std::string typeName = name.substr(typeNameStart, typeNameEnd - typeNameStart);

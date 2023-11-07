@@ -95,7 +95,7 @@ void XpetraOperator<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 #endif
     Hierarchy_->Iterate(X, Y, 1, true);
   } catch (std::exception& e) {
-    //FIXME add message and rethrow
+    // FIXME add message and rethrow
     std::cerr << "Caught an exception in MueLu::XpetraOperator::apply():" << std::endl
               << e.what() << std::endl;
   }

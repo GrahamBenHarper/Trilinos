@@ -86,7 +86,7 @@ class RegionRFactory_kokkos : public TwoLevelFactoryBase {
   //! Default Constructor
   RegionRFactory_kokkos() = default;
 
-  //!Destructor
+  //! Destructor
   virtual ~RegionRFactory_kokkos() = default;
   //@}
 

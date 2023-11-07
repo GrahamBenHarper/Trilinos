@@ -132,7 +132,7 @@ class MatrixFreeTentativeP<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCo
   const Teuchos::RCP<const Aggregates> aggregates_;
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_MATRIXFREETENTATIVEP_SHORT
 #endif  // MUELU_MATRIXFREETENTATIVEP_DECL_HPP

@@ -87,7 +87,7 @@ void MatrixAnalysisFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Lev
   Teuchos::RCP<Matrix> A                       = Get<Teuchos::RCP<Matrix> >(fineLevel, "A");
   Teuchos::RCP<const Teuchos::Comm<int> > comm = A->getRangeMap()->getComm();
 
-  //const ParameterList & pL = GetParameterList();
+  // const ParameterList & pL = GetParameterList();
 
   // General information
   {

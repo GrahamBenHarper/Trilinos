@@ -444,9 +444,9 @@ class Hierarchy : public BaseClass {
   int sizeOfAllocatedLevelMultiVectors_;
   Array<RCP<MultiVector> > residual_, coarseRhs_, coarseX_, coarseImport_, coarseExport_, correction_;
 
-};  //class Hierarchy
+};  // class Hierarchy
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_HIERARCHY_SHORT
 #endif  // MUELU_HIERARCHY_DECL_HPP

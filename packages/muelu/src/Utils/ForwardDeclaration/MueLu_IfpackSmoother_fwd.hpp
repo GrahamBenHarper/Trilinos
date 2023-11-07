@@ -51,9 +51,9 @@ template <class Node>
 class IfpackSmoother;
 }
 
-//namespace MueLu {
-//  class IfpackSmoother;
-//}
+// namespace MueLu {
+//   class IfpackSmoother;
+// }
 
 #ifndef MUELU_IFPACKSMOOTHER_SHORT
 #define MUELU_IFPACKSMOOTHER_SHORT

@@ -61,4 +61,4 @@ inline std::string const Version() {
 
 }  // namespace MueLu
 
-#endif  //ifndef MUELU_VERSION_HPP
+#endif  // ifndef MUELU_VERSION_HPP

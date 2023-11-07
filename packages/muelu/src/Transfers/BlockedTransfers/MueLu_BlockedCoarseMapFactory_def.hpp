@@ -104,6 +104,6 @@ GlobalOrdinal BlockedCoarseMapFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>
   return maxGlobalIndex + Teuchos::ScalarTraits<GlobalOrdinal>::one();
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_BLOCKEDCOARSEMAPFACTORY_DEF_HPP_ */

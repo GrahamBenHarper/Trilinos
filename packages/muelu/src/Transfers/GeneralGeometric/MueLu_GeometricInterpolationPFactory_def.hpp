@@ -158,7 +158,7 @@ void GeometricInterpolationPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 
     fineCoordinates                  = Get<RCP<realvaluedmultivector_type> >(fineLevel, "Coordinates");
     coarseCoordinates                = Xpetra::MultiVectorFactory<real_type, LO, GO, Node>::Build(coarseCoordsFineMap,
-                                                                                   fineCoordinates->getNumVectors());
+                                                                                                  fineCoordinates->getNumVectors());
     RCP<const Import> coordsImporter = ImportFactory::Build(fineCoordinates->getMap(),
                                                             coarseCoordsFineMap);
     coarseCoordinates->doImport(*fineCoordinates, *coordsImporter, Xpetra::INSERT);
@@ -205,7 +205,7 @@ void GeometricInterpolationPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     RCP<realvaluedmultivector_type> ghostCoordinates = Xpetra::MultiVectorFactory<real_type, LO, GO, NO>::Build(ghostCoordMap,
                                                                                                                 fineCoordinates->getNumVectors());
     RCP<const Import> ghostImporter                  = ImportFactory::Build(coarseCoordinates->getMap(),
-                                                           ghostCoordMap);
+                                                                            ghostCoordMap);
     ghostCoordinates->doImport(*coarseCoordinates, *ghostImporter, Xpetra::INSERT);
 
     BuildLinearP(coarseLevel, A, prolongatorGraph, fineCoordinates,
@@ -282,10 +282,10 @@ void GeometricInterpolationPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     }
 
     RCP<const Map> PointMap               = MapFactory::Build(BlockMap->lib(),
-                                                BlockMap->getGlobalNumElements() * NSDim,
-                                                point_dofs(),
-                                                BlockMap->getIndexBase(),
-                                                BlockMap->getComm());
+                                                              BlockMap->getGlobalNumElements() * NSDim,
+                                                              point_dofs(),
+                                                              BlockMap->getIndexBase(),
+                                                              BlockMap->getComm());
     strideInfo[0]                         = A->GetFixedBlockSize();
     RCP<const StridedMap> stridedPointMap = StridedMapFactory::Build(PointMap, strideInfo);
 
@@ -480,8 +480,8 @@ void GeometricInterpolationPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     }
 
     P                           = rcp(new CrsMatrixWrap(prolongatorGraph->getRowMap(),
-                              prolongatorGraph->getColMap(),
-                              nnzOnRows));
+                                                        prolongatorGraph->getColMap(),
+                                                        nnzOnRows));
     RCP<CrsMatrix> PCrsSqueezed = rcp_dynamic_cast<CrsMatrixWrap>(P)->getCrsMatrix();
     PCrsSqueezed->resumeFill();  // The Epetra matrix is considered filled at this point.
     PCrsSqueezed->setAllValues(rowPtr, colInd, values);
@@ -546,7 +546,7 @@ void GeometricInterpolationPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     for (LO i = 0; i < numDimensions; ++i) {
       residual(i) = coord[0][i];  // Add coordinates from point of interest
       for (LO k = 0; k < numInterpolationPoints; ++k) {
-        residual(i) -= functions[0][k] * coord[k + 1][i];  //Remove contribution from all coarse points
+        residual(i) -= functions[0][k] * coord[k + 1][i];  // Remove contribution from all coarse points
       }
       if (iter == 1) {
         norm_ref += residual(i) * residual(i);

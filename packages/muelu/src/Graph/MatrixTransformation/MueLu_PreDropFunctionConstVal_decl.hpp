@@ -53,9 +53,9 @@
 namespace MueLu {
 
 /*!
-   * Example implementation for dropping values smaller then a constant threshold
-   *
-   */
+ * Example implementation for dropping values smaller then a constant threshold
+ *
+ */
 template <class Scalar        = DefaultScalar,
           class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
@@ -72,15 +72,15 @@ class PreDropFunctionConstVal : public MueLu::PreDropFunctionBaseClass<Scalar, L
   virtual ~PreDropFunctionConstVal() {}
 
   /*! Drop
-     * @param lrow (size_t): local row index (=lrowid)
-     * @param grow (GlobalOrdinal: global row id
-     * @param k    (size_t): local column iterator
-     * @param lcid (LocalOrdinal): local column id (=indices[k])
-     * @param gcid (GlobalOrdinal): global column id
-     * @param indices (ArrrayView): array of local column ids in current row (lrow)
-     * @param vals (ArrayView): array of corresponding values in current row (lrow)
-     * @return bool: false, if value in (lrow, lcid) shall be kept, true if it should be dropped
-     */
+   * @param lrow (size_t): local row index (=lrowid)
+   * @param grow (GlobalOrdinal: global row id
+   * @param k    (size_t): local column iterator
+   * @param lcid (LocalOrdinal): local column id (=indices[k])
+   * @param gcid (GlobalOrdinal): global column id
+   * @param indices (ArrrayView): array of local column ids in current row (lrow)
+   * @param vals (ArrayView): array of corresponding values in current row (lrow)
+   * @return bool: false, if value in (lrow, lcid) shall be kept, true if it should be dropped
+   */
   bool Drop(size_t lrow, GlobalOrdinal grow, size_t k, LocalOrdinal lcid, GlobalOrdinal gcid, const Teuchos::ArrayView<const LocalOrdinal>& indices, const Teuchos::ArrayView<const Scalar>& vals);
 
   //! Return threshold value.
@@ -93,8 +93,8 @@ class PreDropFunctionConstVal : public MueLu::PreDropFunctionBaseClass<Scalar, L
   std::string description() const;
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
-  //void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
+  // using MueLu::Describable::describe; // overloading, not hiding
+  // void describe(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
 
   //@}
 

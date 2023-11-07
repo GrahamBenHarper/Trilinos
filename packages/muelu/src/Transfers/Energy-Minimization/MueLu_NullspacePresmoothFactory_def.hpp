@@ -110,6 +110,6 @@ void NullspacePresmoothFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build
 
 }  // Build
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_NULLSPACEPRESMOOTHFACTORY_DEF_HPP

@@ -255,9 +255,9 @@ class GeneralGeometricPFactory : public PFactory {
                                 const typename std::vector<std::vector<GO> >::iterator blockEnd,
                                 GO& myGID, LO& myPID, LO& myLID) const;
 
-};  //class GeneralGeometricPFactory
+};  // class GeneralGeometricPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_GENERALGEOMETRICPFACTORY_SHORT
 #endif  // MUELU_GENERALGEOMETRICPFACTORY_DECL_HPP

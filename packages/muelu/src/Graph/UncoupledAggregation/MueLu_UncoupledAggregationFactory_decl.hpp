@@ -217,10 +217,10 @@ class UncoupledAggregationFactory : public SingleLevelFactoryBase {
   //@{
 
   /*! @brief Append a new aggregation algorithm to list of aggregation algorithms */
-  //void Append(const RCP<MueLu::AggregationAlgorithmBase<LocalOrdinal, GlobalOrdinal, Node> > & alg);
+  // void Append(const RCP<MueLu::AggregationAlgorithmBase<LocalOrdinal, GlobalOrdinal, Node> > & alg);
 
   /*! @brief Remove all aggregation algorithms from list */
-  //void ClearAggregationAlgorithms() { algos_.clear(); }
+  // void ClearAggregationAlgorithms() { algos_.clear(); }
   //@}
 
  private:

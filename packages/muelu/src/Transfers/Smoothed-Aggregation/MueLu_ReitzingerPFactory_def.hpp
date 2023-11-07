@@ -287,7 +287,7 @@ void ReitzingerPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level
         if (my_colind != LO_INVALID && ((keep_shared_edge && my_colind != local_column_i) || (own_both_nodes && my_colind > local_column_i))) {
           ce_map.emplace(std::make_pair(my_colind, true));
         }
-      }  //end for k < colind_N.size()
+      }  // end for k < colind_N.size()
     }    // end for j < colind_E.size()
 
     // std::map is sorted, so we'll just iterate through this
@@ -447,7 +447,7 @@ void ReitzingerPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level
   // NOTE: We need to do this *after* checking the commuting property, since
   // that's going to need to fineLevel's communicators, not the repartitioned ones
   if (update_communicators) {
-    //NOTE: We can only do D0 here.  We have to do Ke_coarse=(Re Ke_fine Pe) in RebalanceAcFactory
+    // NOTE: We can only do D0 here.  We have to do Ke_coarse=(Re Ke_fine Pe) in RebalanceAcFactory
     RCP<const Teuchos::Comm<int> > newComm;
     if (!CoarseNodeMatrix.is_null()) newComm = CoarseNodeMatrix->getDomainMap()->getComm();
     RCP<const Map> newMap = Xpetra::MapFactory<LO, GO, NO>::copyMapWithNewComm(D0_coarse_m->getRowMap(), newComm);
@@ -506,9 +506,9 @@ void ReitzingerPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     GetOStream(Statistics0) << "CheckCommutingProperty: ||Pe D0_c - D0_f Pn || = " << norm << std::endl;
   }
 
-}  //end CheckCommutingProperty
+}  // end CheckCommutingProperty
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REITZINGERPFACTORY_SHORT
 #endif  // MUELU_REITZINGERPFACTORY_DEF_HPP

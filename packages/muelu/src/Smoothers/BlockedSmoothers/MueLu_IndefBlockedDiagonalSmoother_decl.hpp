@@ -57,12 +57,12 @@
 
 #include <Teuchos_ParameterList.hpp>
 
-//Xpetra
+// Xpetra
 #include <Xpetra_MapExtractor_fwd.hpp>
 #include <Xpetra_MultiVectorFactory_fwd.hpp>
 #include <Xpetra_Matrix_fwd.hpp>
 
-//MueLu
+// MueLu
 #include "MueLu_IndefBlockedDiagonalSmoother_fwd.hpp"
 #include "MueLu_SmootherPrototype.hpp"
 #include "MueLu_FactoryBase_fwd.hpp"
@@ -99,7 +99,7 @@ class IndefBlockedDiagonalSmoother : public SmootherPrototype<Scalar, LocalOrdin
   //@{
 
   /*! @brief Constructor
-    */
+   */
   IndefBlockedDiagonalSmoother();
 
   //! Destructor
@@ -122,7 +122,7 @@ class IndefBlockedDiagonalSmoother : public SmootherPrototype<Scalar, LocalOrdin
   //@{
 
   /*! @brief Setup routine
-     */
+   */
   void Setup(Level &currentLevel);
 
   /*! @brief Apply the Braess Sarazin smoother.
@@ -142,7 +142,7 @@ class IndefBlockedDiagonalSmoother : public SmootherPrototype<Scalar, LocalOrdin
   std::string description() const;
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
+  // using MueLu::Describable::describe; // overloading, not hiding
   void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const;
 
   //! Get a rough estimate of cost per iteration
@@ -170,10 +170,10 @@ class IndefBlockedDiagonalSmoother : public SmootherPrototype<Scalar, LocalOrdin
 
   //! vector of factory managers
   /*!
-     * vector of internal factory managers
-     * FactManager_[0] holds the factory manager for the predicting the primary variable
-     * FactManager_[1] stores the factory manager used for the SchurComplement correction step.
-     */
+   * vector of internal factory managers
+   * FactManager_[0] holds the factory manager for the predicting the primary variable
+   * FactManager_[1] stores the factory manager used for the SchurComplement correction step.
+   */
   std::vector<Teuchos::RCP<const FactoryManagerBase> > FactManager_;
 };
 

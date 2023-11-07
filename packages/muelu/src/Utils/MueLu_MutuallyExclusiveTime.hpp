@@ -76,10 +76,10 @@ class MutuallyExclusiveTime : public BaseClass {
  public:
   //! @name Constructor/Destructor
   //@{
-  //!Constructor
+  //! Constructor
   MutuallyExclusiveTime(const std::string& name, bool startFlag = false);
 
-  //!Destructor
+  //! Destructor
   ~MutuallyExclusiveTime();
   //@}
 
@@ -150,14 +150,14 @@ class MutuallyExclusiveTime : public BaseClass {
   // - head is the active timer
   // - other timers are timers paused to enforce the mutually exclusive property of the timer set.
   static std::stack<MutuallyExclusiveTime<TagName>*> timerStack_;
-  //static std::map<std::string,std::string> myParent_;
+  // static std::map<std::string,std::string> myParent_;
 
   //! Check if 'this' is the head of the stack.
   void TopOfTheStack();
 
-  //TODO: test integrity of the stack:
-  // Head = running or paused
-  // Other timers of the stack = paused
+  // TODO: test integrity of the stack:
+  //  Head = running or paused
+  //  Other timers of the stack = paused
 };
 
 extern template class MutuallyExclusiveTime<FactoryBase>;

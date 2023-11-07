@@ -118,7 +118,7 @@ void MatrixFreeTentativeP<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCom
   TEUCHOS_TEST_FOR_EXCEPTION(true, Exceptions::RuntimeError, "MatrixFreeTentativeP residual would make no sense as the operator is not square!");
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_MATRIXFREETENTATIVEP_SHORT
 #endif  // MUELU_MATRIXFREETENTATIVEP_DEF_HPP

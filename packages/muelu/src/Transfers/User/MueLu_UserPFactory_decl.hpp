@@ -93,9 +93,9 @@ class UserPFactory : public PFactory {
 
   //@}
 
-};  //class UserPFactory
+};  // class UserPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_USERPFACTORY_SHORT
 #endif  // MUELU_USERPFACTORY_DECL_HPP

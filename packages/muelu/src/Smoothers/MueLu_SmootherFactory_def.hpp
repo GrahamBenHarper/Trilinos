@@ -290,7 +290,7 @@ void SmootherFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::describe(Teucho
 
 }  // namespace MueLu
 
-//TODO: doc: setup done twice if PostSmoother object != PreSmoother object and no adv. reused capability
+// TODO: doc: setup done twice if PostSmoother object != PreSmoother object and no adv. reused capability
 
 // TODO ReUse:   If only one smoother is missing, SmootherFactory can be smart and build only the missing smoother.
 // TODO (optim): we can also reuse if preOrPost = post and preSmoother available in Level

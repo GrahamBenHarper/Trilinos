@@ -145,9 +145,9 @@ class BlockedRAPFactory : public TwoLevelFactoryBase {
 
   //@}
 
-};  //class BlockedRAPFactory
+};  // class BlockedRAPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_BLOCKEDRAPFACTORY_SHORT
 #endif  // MUELU_BLOCKEDRAPFACTORY_DECL_HPP

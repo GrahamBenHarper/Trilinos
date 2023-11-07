@@ -100,4 +100,4 @@ enum IndexingType {
 
 }  // namespace MueLu
 
-#endif  //ifndef MUELU_TYPES_HPP
+#endif  // ifndef MUELU_TYPES_HPP

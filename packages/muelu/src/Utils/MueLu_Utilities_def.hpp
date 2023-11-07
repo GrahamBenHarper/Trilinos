@@ -105,8 +105,8 @@
 namespace MueLu {
 
 #ifdef HAVE_MUELU_EPETRA
-//using Xpetra::EpetraCrsMatrix;   // TODO: mv in Xpetra_UseShortNamesScalar
-//using Xpetra::EpetraMultiVector;
+// using Xpetra::EpetraCrsMatrix;   // TODO: mv in Xpetra_UseShortNamesScalar
+// using Xpetra::EpetraMultiVector;
 #endif
 
 #ifdef HAVE_MUELU_EPETRA
@@ -482,7 +482,7 @@ void Utilities<Scalar, LocalOrdinal, GlobalOrdinal, Node>::MyOldScaleMatrix_Tpet
         if (nnz > 0) {
           tpOp.replaceLocalValues(i, cols, scaledVals);
         }
-      }  //for (size_t i=0; ...
+      }  // for (size_t i=0; ...
 
     } else {
       typename Tpetra::CrsMatrix<Scalar, LocalOrdinal, GlobalOrdinal, Node>::global_inds_host_view_type cols;
@@ -496,12 +496,12 @@ void Utilities<Scalar, LocalOrdinal, GlobalOrdinal, Node>::MyOldScaleMatrix_Tpet
 
         // FIXME FIXME FIXME FIXME FIXME FIXME
         for (size_t j = 0; j < nnz; ++j)
-          scaledVals[j] = scalingVector[i] * vals[j];  //FIXME i or gid?
+          scaledVals[j] = scalingVector[i] * vals[j];  // FIXME i or gid?
 
         if (nnz > 0) {
           tpOp.replaceGlobalValues(gid, cols, scaledVals);
         }
-      }  //for (size_t i=0; ...
+      }  // for (size_t i=0; ...
     }
 
     if (doFillComplete) {
@@ -516,7 +516,7 @@ void Utilities<Scalar, LocalOrdinal, GlobalOrdinal, Node>::MyOldScaleMatrix_Tpet
   } catch (...) {
     throw Exceptions::RuntimeError("Only Tpetra::CrsMatrix types can be scaled (Err.1)");
   }
-}  //MyOldScaleMatrix_Tpetra()
+}  // MyOldScaleMatrix_Tpetra()
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 RCP<Xpetra::Matrix<Scalar, LocalOrdinal, GlobalOrdinal, Node>>
@@ -544,7 +544,7 @@ Utilities<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
       const Tpetra::CrsMatrix<Scalar, LocalOrdinal, GlobalOrdinal, Node>& tpetraOp = Utilities<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Op2TpetraCrs(Op);
 
       RCP<Tpetra::CrsMatrix<Scalar, LocalOrdinal, GlobalOrdinal, Node>> A;
-      Tpetra::RowMatrixTransposer<Scalar, LocalOrdinal, GlobalOrdinal, Node> transposer(rcpFromRef(tpetraOp), label);  //more than meets the eye
+      Tpetra::RowMatrixTransposer<Scalar, LocalOrdinal, GlobalOrdinal, Node> transposer(rcpFromRef(tpetraOp), label);  // more than meets the eye
 
       {
         using Teuchos::ParameterList;
@@ -594,7 +594,7 @@ Utilities<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     } else {
       throw Exceptions::RuntimeError("Utilities::Transpose failed, perhaps because matrix is not a Crs matrix");
     }
-  }  //if
+  }  // if
 
   // Epetra case
   std::cout << "Utilities::Transpose() not implemented for Epetra" << std::endl;
@@ -670,7 +670,7 @@ Utilities<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 #endif
   // We have the coordinates in a Tpetra double vector
   if (doubleCoords != Teuchos::null) {
-    //rcp(new Xpetra::TpetraMultiVector<Scalar, LocalOrdinal, GlobalOrdinal, Node>(Vtpetra));
+    // rcp(new Xpetra::TpetraMultiVector<Scalar, LocalOrdinal, GlobalOrdinal, Node>(Vtpetra));
     coordinates = Teuchos::rcp_dynamic_cast<Xpetra::MultiVector<typename Teuchos::ScalarTraits<Scalar>::magnitudeType, LocalOrdinal, GlobalOrdinal, Node>>(MueLu::TpetraMultiVector_To_XpetraMultiVector<typename Teuchos::ScalarTraits<Scalar>::magnitudeType, LocalOrdinal, GlobalOrdinal, Node>(doubleCoords));
     TEUCHOS_TEST_FOR_EXCEPT(Teuchos::is_null(coordinates));
     TEUCHOS_TEST_FOR_EXCEPT(doubleCoords->getNumVectors() != coordinates->getNumVectors());
@@ -689,7 +689,7 @@ Utilities<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   return coordinates;
 }  // ExtractCoordinatesFromParameterList
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_UTILITIES_SHORT
 #endif  // MUELU_UTILITIES_DEF_HPP

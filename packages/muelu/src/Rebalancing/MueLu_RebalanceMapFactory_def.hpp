@@ -83,13 +83,13 @@ void RebalanceMapFactory<LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(Level 
   currentLevel.DeclareInput(mapName, mapFactory.get(), this);
 
   Input(currentLevel, "Importer");
-}  //DeclareInput()
+}  // DeclareInput()
 
 template <class LocalOrdinal, class GlobalOrdinal, class Node>
 void RebalanceMapFactory<LocalOrdinal, GlobalOrdinal, Node>::Build(Level &level) const {
   FactoryMonitor m(*this, "Build", level);
 
-  //Teuchos::RCP<Teuchos::FancyOStream> fos = Teuchos::getFancyOStream(Teuchos::rcpFromRef(std::cout));
+  // Teuchos::RCP<Teuchos::FancyOStream> fos = Teuchos::getFancyOStream(Teuchos::rcpFromRef(std::cout));
 
   // extract data from Level object
   const Teuchos::ParameterList &pL           = GetParameterList();
@@ -142,7 +142,7 @@ void RebalanceMapFactory<LocalOrdinal, GlobalOrdinal, Node>::Build(Level &level)
     // in the level class
     level.Set(mapName, localGIDsMap, mapFactory.get());
   }
-}  //Build()
+}  // Build()
 
 }  // end namespace MueLu
 

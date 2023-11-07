@@ -108,9 +108,9 @@ class PreserveDirichletAggregationAlgorithm : public MueLu::AggregationAlgorithm
 
   std::string description() const { return "Phase - (Dirichlet)"; }
 
-};  //class PreserveDirichletAggregationAlgorithm
+};  // class PreserveDirichletAggregationAlgorithm
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_PRESERVEDIRICHLETAGGREGATIONALGORITHM_SHORT
 

@@ -315,6 +315,6 @@ Aggregates<LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDeviceWrappe
   return vertex2AggId_->getMap();
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_AGGREGATES_DEF_HPP

@@ -108,7 +108,7 @@ class AggregationPhase2aAlgorithm : public MueLu::AggregationAlgorithmBase<Local
   std::string description() const { return "Phase 2a (secondary)"; }
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_AGGREGATIONPHASE2AALGORITHM_SHORT
 

@@ -131,33 +131,33 @@ class Aggregates<LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDevice
                                         typename local_graph_type::device_type::memory_space>;
 
   /*! @brief Standard constructor for Aggregates structure
-     *
-     * Standard constructor of aggregates takes a Graph object as parameter.
-     * Uses the graph.GetImportMap() to initialize the internal vector for mapping nodes to (local) aggregate ids as well as
-     * the mapping of node to the owning processor id.
-     *
-     */
+   *
+   * Standard constructor of aggregates takes a Graph object as parameter.
+   * Uses the graph.GetImportMap() to initialize the internal vector for mapping nodes to (local) aggregate ids as well as
+   * the mapping of node to the owning processor id.
+   *
+   */
   Aggregates(const GraphBase& graph);
 
   /*! @brief Standard constructor for Aggregates structure
-     *
-     * Standard constructor of aggregates takes a LWGraph object as parameter.
-     * Uses the graph.GetImportMap() to initialize the internal vector for mapping nodes to (local) aggregate ids as well as
-     * the mapping of node to the owning processor id.
-     *
-     */
+   *
+   * Standard constructor of aggregates takes a LWGraph object as parameter.
+   * Uses the graph.GetImportMap() to initialize the internal vector for mapping nodes to (local) aggregate ids as well as
+   * the mapping of node to the owning processor id.
+   *
+   */
   Aggregates(LWGraph_kokkos graph);
 
   /*! @brief Constructor for Aggregates structure
-     *
-     * This constructor takes a RCP pointer to a map which is used for the internal mappings of nodes to the (local) aggregate ids and the owning processor.
-     *
-     */
+   *
+   * This constructor takes a RCP pointer to a map which is used for the internal mappings of nodes to the (local) aggregate ids and the owning processor.
+   *
+   */
   Aggregates(const RCP<const Map>& map);
 
   /*! @brief Destructor
-     *
-     */
+   *
+   */
   virtual ~Aggregates() {}
 
   //! @name Set/Get Methods for specific aggregation data
@@ -194,11 +194,11 @@ class Aggregates<LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDevice
   void SetGraphColors(colors_view_type graphColors) { graphColors_ = graphColors; }
 
   /*! @brief Get the number of colors needed by the distance 2 coloring.
-    */
+   */
   LO GetGraphNumColors() { return graphNumColors_; }
 
   /*! @brief Set the number of colors needed by the distance 2 coloring.
-    */
+   */
   void SetGraphNumColors(const LO graphNumColors) { graphNumColors_ = graphNumColors; }
 
   //@}
@@ -210,7 +210,7 @@ class Aggregates<LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDevice
   void SetNumAggregates(LO nAggregates) { numAggregates_ = nAggregates; }
 
   /*! @brief Set number of global aggregates on current processor.
-  
+
         This has to be done by the aggregation routines.
     */
   void SetNumGlobalAggregates(GO nGlobalAggregates) { numGlobalAggregates_ = nGlobalAggregates; }
@@ -308,7 +308,7 @@ class Aggregates<LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDevice
   std::string description() const;
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
+  // using MueLu::Describable::describe; // overloading, not hiding
   void print(Teuchos::FancyOStream& out, const Teuchos::EVerbosityLevel verbLevel = verbLevel_default) const;
 
  private:
@@ -316,35 +316,35 @@ class Aggregates<LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDevice
   GO numGlobalAggregates_;  ///< Number of global aggregates
 
   /*! vertex2AggId[k] gives a local id corresponding to the aggregate to which
-     * local id k has been assigned. While k is the local id on my processor (MyPID),
-     * vertex2AggId[k] is the local id on the processor which actually owns the aggregate.
-     */
+   * local id k has been assigned. While k is the local id on my processor (MyPID),
+   * vertex2AggId[k] is the local id on the processor which actually owns the aggregate.
+   */
   RCP<LOMultiVector> vertex2AggId_;
 
   /*!
-     * If k is the local id on my processor (MyPID), the owning processor has the
-     * id given by procWinner[k]
-     */
+   * If k is the local id on my processor (MyPID), the owning processor has the
+   * id given by procWinner[k]
+   */
   RCP<LOVector> procWinner_;
 
   /*! geoData stores an index manager object that is used to perform structured aggreation
-     *  on a problem.
-     */
+   *  on a problem.
+   */
   RCP<IndexManager_kokkos> geoDataKokkos_;
 
   /*! geoData stores an index manager object that is used to perform structured aggreation
-     *  on a problem.
-     */
+   *  on a problem.
+   */
   RCP<IndexManager> geoData_;
 
   /*! graphColors_ stores a view that assigns a color to each node in the graph
-     *  These colors are used to parallelize the aggregation process in UncoupledAggregation
-     */
+   *  These colors are used to parallelize the aggregation process in UncoupledAggregation
+   */
   colors_view_type graphColors_;
 
   /*! graphNumColors_ stores the number of colors that are needed to perform a distance 2
-     *  coloring of the underlying graph.
-     */
+   *  coloring of the underlying graph.
+   */
   LO graphNumColors_;
 
   //! An ArrayRCP of booleans specifying if a local entry is an aggregate root.
@@ -357,9 +357,9 @@ class Aggregates<LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDevice
   mutable aggregates_sizes_type aggregateSizes_;
 
   /*! aggragateSizesHost_ is a host copy of aggregate sizes, which
-     * helps slightly reduce the cost of calling ComputeAggregateSizes
-     * from different parts of MueLu that require such data on the host device.
-     */
+   * helps slightly reduce the cost of calling ComputeAggregateSizes
+   * from different parts of MueLu that require such data on the host device.
+   */
   mutable
       typename aggregates_sizes_type::HostMirror aggregateSizesHost_;
 
@@ -367,7 +367,7 @@ class Aggregates<LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDevice
   mutable local_graph_type graph_;
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_AGGREGATES_SHORT
 #endif  // MUELU_AGGREGATES_DECL_HPP

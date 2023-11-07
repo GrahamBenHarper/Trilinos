@@ -191,4 +191,4 @@ void CGSolver<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Iterate(const Matrix& 
 
 }  // namespace MueLu
 
-#endif  //ifndef MUELU_CGSOLVER_DECL_HPP
+#endif  // ifndef MUELU_CGSOLVER_DECL_HPP

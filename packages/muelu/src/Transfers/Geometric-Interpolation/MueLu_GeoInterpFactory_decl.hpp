@@ -127,7 +127,7 @@ class GeoInterpFactory : public PFactory {
 
   void BuildP(Level &fineLevel, Level &coarseLevel) const;
 
-  //void BuildCoarseGrid(Level &fineLevel, Level &coarseLevel) const;
+  // void BuildCoarseGrid(Level &fineLevel, Level &coarseLevel) const;
 
   /* For our geometric multigrid needs, we will explicitly build the
        coarse grid here and store it as level data. There are two

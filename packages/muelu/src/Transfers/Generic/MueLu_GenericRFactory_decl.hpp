@@ -101,9 +101,9 @@ class GenericRFactory : public TwoLevelFactoryBase {
 
   //@}
 
-};  //class GenericRFactory
+};  // class GenericRFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_GENERICRFACTORY_SHORT
 #endif  // MUELU_GENERICRFACTORY_DECL_HPP

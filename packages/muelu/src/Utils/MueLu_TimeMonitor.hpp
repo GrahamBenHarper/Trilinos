@@ -76,9 +76,9 @@ class TimeMonitor : public BaseClass {
 
  private:
   RCP<Teuchos::Time> timer_;
-};  //class TimeMonitor
+};  // class TimeMonitor
 
-//TODO: code duplication MutuallyExclusiveTimeMonitor / TimeMonitor
+// TODO: code duplication MutuallyExclusiveTimeMonitor / TimeMonitor
 
 /*! @class MutuallyExclusiveTimeMonitor
 

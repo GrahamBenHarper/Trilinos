@@ -106,9 +106,9 @@ class SegregatedAFactory : public SingleLevelFactoryBase {
   //! Generating factory of input variable
   mutable RCP<const FactoryBase> mapFact_;
 
-};  //class SegregatedAFactory
+};  // class SegregatedAFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SEGREGATEDAFACTORY_SHORT
 #endif  // MUELU_SEGREGATEDAFACTORY_DECL_HPP

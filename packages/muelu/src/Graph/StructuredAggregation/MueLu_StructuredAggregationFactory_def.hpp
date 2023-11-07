@@ -342,6 +342,6 @@ void StructuredAggregationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   Set(currentLevel, "numDimensions", numDimensions);
 
 }  // Build()
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_STRUCTUREDAGGREGATIONFACTORY_DEF_HPP_ */

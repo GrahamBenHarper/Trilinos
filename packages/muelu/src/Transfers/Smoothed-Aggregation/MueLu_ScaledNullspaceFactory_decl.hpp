@@ -150,9 +150,9 @@ class ScaledNullspaceFactory : public SingleLevelFactoryBase {
   //@}
 
  private:
-};  //class NullspaceFactory
+};  // class NullspaceFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SCALEDNULLSPACEFACTORY_SHORT
 #endif  // MUELU_SCALEDNULLSPACEFACTORY_DECL_HPP

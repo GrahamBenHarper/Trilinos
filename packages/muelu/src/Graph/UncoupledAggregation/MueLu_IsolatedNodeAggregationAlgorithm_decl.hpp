@@ -105,9 +105,9 @@ class IsolatedNodeAggregationAlgorithm : public MueLu::AggregationAlgorithmBase<
 
   std::string description() const { return "Phase - (isolated)"; }
 
-};  //class MaxLinkAggregationAlgorithm
+};  // class MaxLinkAggregationAlgorithm
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_ISOLATEDNODEAGGREGATIONALGORITHM_SHORT
 

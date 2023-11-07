@@ -434,8 +434,8 @@ UtilitiesBase<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 
       std::vector<int> nnzPerRow(rowMap->getLocalNumElements());
 
-      //FIXME 2021-10-22 JHU   If this is called with doReciprocal=false, what should the correct behavior be?  Currently,
-      //FIXME 2021-10-22 JHU   the diagonal entry is set to be the sum of the absolute values of the row entries.
+      // FIXME 2021-10-22 JHU   If this is called with doReciprocal=false, what should the correct behavior be?  Currently,
+      // FIXME 2021-10-22 JHU   the diagonal entry is set to be the sum of the absolute values of the row entries.
 
       const Magnitude zeroMagn = TST::magnitude(zero);
       Magnitude avgAbsDiagVal  = TST::magnitude(zero);
@@ -1192,7 +1192,7 @@ void UtilitiesBase<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     }
     //        printf("A(%d,:) row_sum(point) = %6.4e\n",row,rowsum);
     if (rowSumTol < MTS::one() && STS::magnitude(rowsum) > STS::magnitude(diagval) * rowSumTol) {
-      //printf("Row %d triggers rowsum\n",(int)row);
+      // printf("Row %d triggers rowsum\n",(int)row);
       dirichletRows[row] = true;
     }
   }
@@ -1227,7 +1227,7 @@ void UtilitiesBase<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 
     //        printf("A(%d,:) row_sum(block) = %6.4e\n",row,rowsum);
     if (rowSumTol < MTS::one() && STS::magnitude(rowsum) > STS::magnitude(diagval) * rowSumTol) {
-      //printf("Row %d triggers rowsum\n",(int)row);
+      // printf("Row %d triggers rowsum\n",(int)row);
       dirichletRows[row] = true;
     }
   }
@@ -1909,7 +1909,7 @@ UtilitiesBase<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   return retval;
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_UTILITIESBASE_SHORT
 #endif  // MUELU_UTILITIESBASE_DEF_HPP

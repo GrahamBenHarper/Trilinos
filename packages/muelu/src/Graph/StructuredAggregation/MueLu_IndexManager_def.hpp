@@ -283,7 +283,7 @@ void IndexManager<LocalOrdinal, GlobalOrdinal, Node>::
   *out << "numGhostedNodes=" << numGhostedNodes << std::endl;
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_INDEXMANAGER_SHORT
 #endif  // MUELU_INDEXMANAGER_DEF_HPP

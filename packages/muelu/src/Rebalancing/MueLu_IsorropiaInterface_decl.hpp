@@ -66,7 +66,7 @@ namespace MueLu {
 
 */
 
-//FIXME: this class should not be templated
+// FIXME: this class should not be templated
 template <class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
           class Node          = DefaultNode>
@@ -100,9 +100,9 @@ class IsorropiaInterface : public SingleLevelFactoryBase {
   //@}
 
  private:
-};  //class IsorropiaInterface
+};  // class IsorropiaInterface
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_ISORROPIAINTERFACE_SHORT
 //#endif //if defined(HAVE_MUELU_ISORROPIA) && defined(HAVE_MPI)

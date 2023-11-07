@@ -372,20 +372,20 @@ void BlackBoxPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level& 
   }
 
   RCP<const Map> ghostedRowMap    = Xpetra::MapFactory<LO, GO, NO>::Build(A->getRowMap()->lib(),
-                                                                       Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-                                                                       ghostRowGIDs(),
-                                                                       A->getRowMap()->getIndexBase(),
-                                                                       A->getRowMap()->getComm());
+                                                                          Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                                          ghostRowGIDs(),
+                                                                          A->getRowMap()->getIndexBase(),
+                                                                          A->getRowMap()->getComm());
   RCP<const Map> ghostedColMap    = Xpetra::MapFactory<LO, GO, NO>::Build(A->getRowMap()->lib(),
-                                                                       Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-                                                                       ghostColGIDs(),
-                                                                       A->getRowMap()->getIndexBase(),
-                                                                       A->getRowMap()->getComm());
+                                                                          Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                                          ghostColGIDs(),
+                                                                          A->getRowMap()->getIndexBase(),
+                                                                          A->getRowMap()->getComm());
   RCP<const Import> ghostImporter = Xpetra::ImportFactory<LO, GO, NO>::Build(A->getRowMap(),
                                                                              ghostedRowMap);
   RCP<const Matrix> Aghost        = Xpetra::MatrixFactory<SC, LO, GO, NO>::Build(A, *ghostImporter,
-                                                                          ghostedRowMap,
-                                                                          ghostedRowMap);
+                                                                                 ghostedRowMap,
+                                                                                 ghostedRowMap);
 
   // Create the maps and data structures for the projection matrix
   RCP<const Map> rowMapP = A->getDomainMap();
@@ -435,10 +435,10 @@ void BlackBoxPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level& 
                                                        rowMapP->getIndexBase(),
                                                        rowMapP->getComm());
     colMapP    = Xpetra::MapFactory<LO, GO, NO>::Build(rowMapP->lib(),
-                                                    Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-                                                    colGIDs.view(0, colGIDs.size()),
-                                                    rowMapP->getIndexBase(),
-                                                    rowMapP->getComm());
+                                                       Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                       colGIDs.view(0, colGIDs.size()),
+                                                       rowMapP->getIndexBase(),
+                                                       rowMapP->getComm());
   }  // End of scope for colMapOrdering and colGIDs
 
   std::vector<size_t> strideInfo(1);
@@ -666,13 +666,13 @@ void BlackBoxPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level& 
                               size_t lRowPtr = rowPtr + dof * numCoarseNodesInElement * nnzPerCoarseNode + ind1 * BlkSize + ind2;
                               ja[lRowPtr]    = ghostedCoarseNodes->colInds[glElementCoarseNodeCG[ind1]] * BlkSize + ind2;
                               val[lRowPtr]   = Pe(lDofInd[nodeElementInd * BlkSize + dof],
-                                                ind1 * BlkSize + ind2);
+                                                  ind1 * BlkSize + ind2);
                             }
                           } else if (blockStrategy == "uncoupled") {
                             size_t lRowPtr   = rowPtr + dof * numCoarseNodesInElement * nnzPerCoarseNode + ind1;
                             ja[rowPtr + dof] = ghostedCoarseNodes->colInds[glElementCoarseNodeCG[ind1]] * BlkSize + dof;
                             val[lRowPtr]     = Pe(lDofInd[nodeElementInd * BlkSize + dof],
-                                              ind1 * BlkSize + dof);
+                                                  ind1 * BlkSize + dof);
                           }
                         }
                         break;
@@ -685,7 +685,7 @@ void BlackBoxPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level& 
                               size_t lRowPtr = rowPtr + dof * numCoarseNodesInElement * nnzPerCoarseNode + ind1 * BlkSize + ind2;
                               ja[lRowPtr]    = ghostedCoarseNodes->colInds[glElementCoarseNodeCG[ind1]] * BlkSize + ind2;
                               val[lRowPtr]   = Pf(lDofInd[nodeElementInd * BlkSize + dof],
-                                                ind1 * BlkSize + ind2);
+                                                  ind1 * BlkSize + ind2);
                             }
                           } else if (blockStrategy == "uncoupled") {
                             size_t lRowPtr = rowPtr + dof * numCoarseNodesInElement * nnzPerCoarseNode + ind1;
@@ -705,13 +705,13 @@ void BlackBoxPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level& 
                               size_t lRowPtr = rowPtr + dof * numCoarseNodesInElement * nnzPerCoarseNode + ind1 * BlkSize + ind2;
                               ja[lRowPtr]    = ghostedCoarseNodes->colInds[glElementCoarseNodeCG[ind1]] * BlkSize + ind2;
                               val[lRowPtr]   = Pi(lDofInd[nodeElementInd * BlkSize + dof],
-                                                ind1 * BlkSize + ind2);
+                                                  ind1 * BlkSize + ind2);
                             }
                           } else if (blockStrategy == "uncoupled") {
                             size_t lRowPtr = rowPtr + dof * numCoarseNodesInElement * nnzPerCoarseNode + ind1;
                             ja[lRowPtr]    = ghostedCoarseNodes->colInds[glElementCoarseNodeCG[ind1]] * BlkSize + dof;
                             val[lRowPtr]   = Pi(lDofInd[nodeElementInd * BlkSize + dof],
-                                              ind1 * BlkSize + dof);
+                                                ind1 * BlkSize + dof);
                           }
                         }
                         break;
@@ -1915,7 +1915,7 @@ void BlackBoxPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::sh_sort_permut
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_BLACKBOXPFACTORY_SHORT
 #endif  // MUELU_BLACKBOXPFACTORY_DEF_HPP

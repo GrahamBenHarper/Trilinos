@@ -150,9 +150,9 @@ class SemiCoarsenPFactory : public PFactory {
 
   mutable bool bTransferCoordinates_;  //< boolean which is true if coordinate information is available to be transferred to coarse coordinate information
 
-};  //class SemiCoarsenPFactory
+};  // class SemiCoarsenPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SEMICOARSENPFACTORY_SHORT
 #endif  // MUELU_SEMICOARSENPFACTORY_DECL_HPP

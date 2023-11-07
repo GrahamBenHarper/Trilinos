@@ -147,17 +147,17 @@ class RefMaxwell : public VerboseObject, public Xpetra::Operator<Scalar, LocalOr
   }
 
   /** Constructor with Jacobian (with add on)
-     *
-     * \param[in] SM_Matrix Jacobian
-     * \param[in] D0_Matrix Discrete Gradient
-     * \param[in] Ms_Matrix Edge mass matrix for the nodal aggregates
-     * \param[in] M0inv_Matrix Inverse of lumped nodal mass matrix (add on only)
-     * \param[in] M1_Matrix Edge mass matrix for the add on
-     * \param[in] Nullspace Null space (needed for periodic)
-     * \param[in] Coords Nodal coordinates
-     * \param[in] List Parameter list
-     * \param[in] ComputePrec If true, compute the preconditioner immediately
-     */
+   *
+   * \param[in] SM_Matrix Jacobian
+   * \param[in] D0_Matrix Discrete Gradient
+   * \param[in] Ms_Matrix Edge mass matrix for the nodal aggregates
+   * \param[in] M0inv_Matrix Inverse of lumped nodal mass matrix (add on only)
+   * \param[in] M1_Matrix Edge mass matrix for the add on
+   * \param[in] Nullspace Null space (needed for periodic)
+   * \param[in] Coords Nodal coordinates
+   * \param[in] List Parameter list
+   * \param[in] ComputePrec If true, compute the preconditioner immediately
+   */
   RefMaxwell(const Teuchos::RCP<Matrix>& SM_Matrix,
              const Teuchos::RCP<Matrix>& D0_Matrix,
              const Teuchos::RCP<Matrix>& Ms_Matrix,
@@ -172,16 +172,16 @@ class RefMaxwell : public VerboseObject, public Xpetra::Operator<Scalar, LocalOr
   }
 
   /** Constructor with Jacobian (with add on)
-     *
-     * \param[in] SM_Matrix Jacobian
-     * \param[in] D0_Matrix Discrete Gradient
-     * \param[in] M0inv_Matrix Inverse of lumped nodal mass matrix (add on only)
-     * \param[in] M1_Matrix Edge mass matrix for the
-     * \param[in] Nullspace Null space (needed for periodic)
-     * \param[in] Coords Nodal coordinates
-     * \param[in] List Parameter list
-     * \param[in] ComputePrec If true, compute the preconditioner immediately
-     */
+   *
+   * \param[in] SM_Matrix Jacobian
+   * \param[in] D0_Matrix Discrete Gradient
+   * \param[in] M0inv_Matrix Inverse of lumped nodal mass matrix (add on only)
+   * \param[in] M1_Matrix Edge mass matrix for the
+   * \param[in] Nullspace Null space (needed for periodic)
+   * \param[in] Coords Nodal coordinates
+   * \param[in] List Parameter list
+   * \param[in] ComputePrec If true, compute the preconditioner immediately
+   */
   RefMaxwell(const Teuchos::RCP<Matrix>& SM_Matrix,
              const Teuchos::RCP<Matrix>& D0_Matrix,
              const Teuchos::RCP<Matrix>& M0inv_Matrix,
@@ -195,14 +195,14 @@ class RefMaxwell : public VerboseObject, public Xpetra::Operator<Scalar, LocalOr
   }
 
   /** Constructor without Jacobian (with add on)
-     *
-     * \param[in] D0_Matrix Discrete Gradient
-     * \param[in] M0inv_Matrix Inverse of lumped nodal mass matrix (add on only)
-     * \param[in] M1_Matrix Edge mass matrix for the
-     * \param[in] Nullspace Null space (needed for periodic)
-     * \param[in] Coords Nodal coordinates
-     * \param[in] List Parameter list
-     */
+   *
+   * \param[in] D0_Matrix Discrete Gradient
+   * \param[in] M0inv_Matrix Inverse of lumped nodal mass matrix (add on only)
+   * \param[in] M1_Matrix Edge mass matrix for the
+   * \param[in] Nullspace Null space (needed for periodic)
+   * \param[in] Coords Nodal coordinates
+   * \param[in] List Parameter list
+   */
   RefMaxwell(const Teuchos::RCP<Matrix>& D0_Matrix,
              const Teuchos::RCP<Matrix>& M0inv_Matrix,
              const Teuchos::RCP<Matrix>& M1_Matrix,
@@ -214,15 +214,15 @@ class RefMaxwell : public VerboseObject, public Xpetra::Operator<Scalar, LocalOr
   }
 
   /** Constructor with Jacobian (no add on)
-     *
-     * \param[in] SM_Matrix Jacobian
-     * \param[in] D0_Matrix Discrete Gradient
-     * \param[in] M1_Matrix Edge mass matrix for the
-     * \param[in] Nullspace Null space (needed for periodic)
-     * \param[in] Coords Nodal coordinates
-     * \param[in] List Parameter list
-     * \param[in] ComputePrec If true, compute the preconditioner immediately
-     */
+   *
+   * \param[in] SM_Matrix Jacobian
+   * \param[in] D0_Matrix Discrete Gradient
+   * \param[in] M1_Matrix Edge mass matrix for the
+   * \param[in] Nullspace Null space (needed for periodic)
+   * \param[in] Coords Nodal coordinates
+   * \param[in] List Parameter list
+   * \param[in] ComputePrec If true, compute the preconditioner immediately
+   */
   RefMaxwell(const Teuchos::RCP<Matrix>& SM_Matrix,
              const Teuchos::RCP<Matrix>& D0_Matrix,
              const Teuchos::RCP<Matrix>& M1_Matrix,
@@ -235,13 +235,13 @@ class RefMaxwell : public VerboseObject, public Xpetra::Operator<Scalar, LocalOr
   }
 
   /** Constructor without Jacobian (no add on)
-     *
-     * \param[in] D0_Matrix Discrete Gradient
-     * \param[in] M1_Matrix Edge mass matrix for the
-     * \param[in] Nullspace Null space (needed for periodic)
-     * \param[in] Coords Nodal coordinates
-     * \param[in] List Parameter list
-     */
+   *
+   * \param[in] D0_Matrix Discrete Gradient
+   * \param[in] M1_Matrix Edge mass matrix for the
+   * \param[in] Nullspace Null space (needed for periodic)
+   * \param[in] Coords Nodal coordinates
+   * \param[in] List Parameter list
+   */
   RefMaxwell(const Teuchos::RCP<Matrix>& D0_Matrix,
              const Teuchos::RCP<Matrix>& M1_Matrix,
              const Teuchos::RCP<MultiVector>& Nullspace,
@@ -252,11 +252,11 @@ class RefMaxwell : public VerboseObject, public Xpetra::Operator<Scalar, LocalOr
   }
 
   /** Constructor with parameter list
-     *
-     * \param[in] SM_Matrix Jacobian
-     * \param[in] List Parameter list
-     * \param[in] ComputePrec If true, compute the preconditioner immediately
-     */
+   *
+   * \param[in] SM_Matrix Jacobian
+   * \param[in] List Parameter list
+   * \param[in] ComputePrec If true, compute the preconditioner immediately
+   */
   RefMaxwell(const Teuchos::RCP<Matrix>& SM_Matrix,
              Teuchos::ParameterList& List,
              bool ComputePrec = true) {
@@ -330,15 +330,15 @@ class RefMaxwell : public VerboseObject, public Xpetra::Operator<Scalar, LocalOr
 
  private:
   /** Initialize with matrices except the Jacobian (don't compute the preconditioner)
-     *
-     * \param[in] D0_Matrix Discrete Gradient
-     * \param[in] Ms_Matrix Edge mass matrix for nodal aggregates
-     * \param[in] M0inv_Matrix Inverse of lumped nodal mass matrix (add on only)
-     * \param[in] M1_Matrix Edge mass matrix for add on
-     * \param[in] Nullspace Null space (needed for periodic)
-     * \param[in] Coords Nodal coordinates
-     * \param[in] List Parameter list
-     */
+   *
+   * \param[in] D0_Matrix Discrete Gradient
+   * \param[in] Ms_Matrix Edge mass matrix for nodal aggregates
+   * \param[in] M0inv_Matrix Inverse of lumped nodal mass matrix (add on only)
+   * \param[in] M1_Matrix Edge mass matrix for add on
+   * \param[in] Nullspace Null space (needed for periodic)
+   * \param[in] Coords Nodal coordinates
+   * \param[in] List Parameter list
+   */
   void initialize(const Teuchos::RCP<Matrix>& D0_Matrix,
                   const Teuchos::RCP<Matrix>& Ms_Matrix,
                   const Teuchos::RCP<Matrix>& M0inv_Matrix,

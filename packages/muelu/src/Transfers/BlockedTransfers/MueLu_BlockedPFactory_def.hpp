@@ -163,11 +163,11 @@ void BlockedPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& fi
     RCP<const StridedMap> strPartialMap = Teuchos::rcp_dynamic_cast<const StridedMap>(subBlockP[i]->getRowMap("stridedMaps"));
     std::vector<size_t> stridedRgData   = strPartialMap->getStridingData();
     subBlockPRangeMaps[i]               = StridedMapFactory::Build(
-        subBlockP[i]->getRangeMap(),  // actual global IDs (Thyra or Xpetra)
-        stridedRgData,
-        strPartialMap->getStridedBlockId(),
-        strPartialMap->getOffset());
-    //subBlockPRangeMaps[i] = subBlockP[i]->getRowMap("stridedMaps");
+                      subBlockP[i]->getRangeMap(),  // actual global IDs (Thyra or Xpetra)
+                      stridedRgData,
+                      strPartialMap->getStridedBlockId(),
+                      strPartialMap->getOffset());
+    // subBlockPRangeMaps[i] = subBlockP[i]->getRowMap("stridedMaps");
 
     // Use plain range map to determine the DOF ids
     ArrayView<const GO> nodeRangeMap = subBlockPRangeMaps[i]->getLocalElementList();
@@ -177,11 +177,11 @@ void BlockedPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& fi
     RCP<const StridedMap> strPartialMap2 = Teuchos::rcp_dynamic_cast<const StridedMap>(subBlockP[i]->getColMap("stridedMaps"));
     std::vector<size_t> stridedRgData2   = strPartialMap2->getStridingData();
     subBlockPDomainMaps[i]               = StridedMapFactory::Build(
-        subBlockP[i]->getDomainMap(),  // actual global IDs (Thyra or Xpetra)
-        stridedRgData2,
-        strPartialMap2->getStridedBlockId(),
-        strPartialMap2->getOffset());
-    //subBlockPDomainMaps[i] = subBlockP[i]->getColMap("stridedMaps");
+                      subBlockP[i]->getDomainMap(),  // actual global IDs (Thyra or Xpetra)
+                      stridedRgData2,
+                      strPartialMap2->getStridedBlockId(),
+                      strPartialMap2->getOffset());
+    // subBlockPDomainMaps[i] = subBlockP[i]->getColMap("stridedMaps");
 
     // Use plain domain map to determine the DOF ids
     ArrayView<const GO> nodeDomainMap = subBlockPDomainMaps[i]->getLocalElementList();
@@ -231,14 +231,14 @@ void BlockedPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& fi
   if (stridedRgFullMap != Teuchos::null) {
     std::vector<size_t> stridedData = stridedRgFullMap->getStridingData();
     fullRangeMap                    = StridedMapFactory::Build(
-        A->getRangeMap()->lib(),
-        Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-        fullRangeMapGIDs,
-        rangeIndexBase,
-        stridedData,
-        A->getRangeMap()->getComm(),
-        -1, /* the full map vector should always have strided block id -1! */
-        stridedRgFullMap->getOffset());
+                           A->getRangeMap()->lib(),
+                           Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                           fullRangeMapGIDs,
+                           rangeIndexBase,
+                           stridedData,
+                           A->getRangeMap()->getComm(),
+                           -1, /* the full map vector should always have strided block id -1! */
+                           stridedRgFullMap->getOffset());
   } else {
     fullRangeMap = MapFactory::Build(
         A->getRangeMap()->lib(),
@@ -257,14 +257,14 @@ void BlockedPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& fi
 
     std::vector<size_t> stridedData2 = stridedDoFullMap->getStridingData();
     fullDomainMap                    = StridedMapFactory::Build(
-        A->getDomainMap()->lib(),
-        Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-        fullDomainMapGIDs,
-        domainIndexBase,
-        stridedData2,
-        A->getDomainMap()->getComm(),
-        -1, /* the full map vector should always have strided block id -1! */
-        stridedDoFullMap->getOffset());
+                           A->getDomainMap()->lib(),
+                           Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                           fullDomainMapGIDs,
+                           domainIndexBase,
+                           stridedData2,
+                           A->getDomainMap()->getComm(),
+                           -1, /* the full map vector should always have strided block id -1! */
+                           stridedDoFullMap->getOffset());
   } else {
     fullDomainMap = MapFactory::Build(
         A->getDomainMap()->lib(),

@@ -95,7 +95,7 @@ TimeMonitor::TimeMonitor(const BaseClass& object, const std::string& msg, MsgTyp
       stackedTimer->start(timer_->name());
 #endif
   }
-}  //TimeMonitor::TimeMonitor()
+}  // TimeMonitor::TimeMonitor()
 
 TimeMonitor::TimeMonitor() {}
 
@@ -122,7 +122,7 @@ TimeMonitor::~TimeMonitor() {
     }
 #endif
   }
-}  //TimeMonitor::~TimeMonitor()
+}  // TimeMonitor::~TimeMonitor()
 
 template class MutuallyExclusiveTimeMonitor<FactoryBase>;
 template class MutuallyExclusiveTimeMonitor<Level>;

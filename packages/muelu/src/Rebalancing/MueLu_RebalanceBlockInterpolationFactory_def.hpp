@@ -130,7 +130,7 @@ void RebalanceBlockInterpolationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Nod
   typedef Xpetra::BlockedMultiVector<typename Teuchos::ScalarTraits<Scalar>::magnitudeType, LO, GO, NO> xdBV;
 
   bool UseSingleSource = FactManager_.size() == 0;
-  //RCP<Teuchos::FancyOStream> out = Teuchos::fancyOStream(Teuchos::rcpFromRef(std::cout));
+  // RCP<Teuchos::FancyOStream> out = Teuchos::fancyOStream(Teuchos::rcpFromRef(std::cout));
 
   Teuchos::RCP<Matrix> nonrebCoarseA = Get<RCP<Matrix> >(coarseLevel, "A");
 
@@ -314,25 +314,25 @@ void RebalanceBlockInterpolationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Nod
     }
 
     // fix striding information for rebalanced diagonal block Pii
-    //RCP<const Xpetra::MapExtractor<Scalar, LocalOrdinal, GlobalOrdinal, Node> > rgPMapExtractor = bOriginalTransferOp->getRangeMapExtractor(); // original map extractor
+    // RCP<const Xpetra::MapExtractor<Scalar, LocalOrdinal, GlobalOrdinal, Node> > rgPMapExtractor = bOriginalTransferOp->getRangeMapExtractor(); // original map extractor
     Teuchos::RCP<const StridedMap> orig_stridedRgMap = Teuchos::rcp_dynamic_cast<const StridedMap>(rangeMapExtractor->getMap(Teuchos::as<size_t>(curBlockId), rangeMapExtractor->getThyraMode()));
     Teuchos::RCP<const Map> stridedRgMap             = Teuchos::null;
     if (orig_stridedRgMap != Teuchos::null) {
       std::vector<size_t> stridingData                       = orig_stridedRgMap->getStridingData();
       Teuchos::ArrayView<const GlobalOrdinal> nodeRangeMapii = Pii->getRangeMap()->getLocalElementList();
       stridedRgMap                                           = StridedMapFactory::Build(
-          originalTransferOp->getRangeMap()->lib(),
-          Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-          nodeRangeMapii,
-          Pii->getRangeMap()->getIndexBase(),
-          stridingData,
-          originalTransferOp->getRangeMap()->getComm(),
-          orig_stridedRgMap->getStridedBlockId(),
-          orig_stridedRgMap->getOffset());
+                                                    originalTransferOp->getRangeMap()->lib(),
+                                                    Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                    nodeRangeMapii,
+                                                    Pii->getRangeMap()->getIndexBase(),
+                                                    stridingData,
+                                                    originalTransferOp->getRangeMap()->getComm(),
+                                                    orig_stridedRgMap->getStridedBlockId(),
+                                                    orig_stridedRgMap->getOffset());
     } else
       stridedRgMap = Pii->getRangeMap();
 
-    //RCP<const Xpetra::MapExtractor<Scalar, LocalOrdinal, GlobalOrdinal, Node> > doPMapExtractor = bOriginalTransferOp->getDomainMapExtractor(); // original map extractor
+    // RCP<const Xpetra::MapExtractor<Scalar, LocalOrdinal, GlobalOrdinal, Node> > doPMapExtractor = bOriginalTransferOp->getDomainMapExtractor(); // original map extractor
     Teuchos::RCP<const StridedMap> orig_stridedDoMap = Teuchos::rcp_dynamic_cast<const StridedMap>(domainMapExtractor->getMap(Teuchos::as<size_t>(curBlockId), domainMapExtractor->getThyraMode()));
 
     Teuchos::RCP<const Map> stridedDoMap = Teuchos::null;
@@ -340,13 +340,13 @@ void RebalanceBlockInterpolationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Nod
       std::vector<size_t> stridingData                        = orig_stridedDoMap->getStridingData();
       Teuchos::ArrayView<const GlobalOrdinal> nodeDomainMapii = Pii->getDomainMap()->getLocalElementList();
       stridedDoMap                                            = StridedMapFactory::Build(originalTransferOp->getDomainMap()->lib(),
-                                              Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
-                                              nodeDomainMapii,
-                                              Pii->getDomainMap()->getIndexBase(),
-                                              stridingData,
-                                              originalTransferOp->getDomainMap()->getComm(),
-                                              orig_stridedDoMap->getStridedBlockId(),
-                                              orig_stridedDoMap->getOffset());
+                                                                                         Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid(),
+                                                                                         nodeDomainMapii,
+                                                                                         Pii->getDomainMap()->getIndexBase(),
+                                                                                         stridingData,
+                                                                                         originalTransferOp->getDomainMap()->getComm(),
+                                                                                         orig_stridedDoMap->getStridedBlockId(),
+                                                                                         orig_stridedDoMap->getOffset());
     } else
       stridedDoMap = Pii->getDomainMap();
 

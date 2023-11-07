@@ -396,7 +396,7 @@ void RAPShiftFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::AddTransferFact
   transferFacts_.push_back(factory);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_RAPSHIFTFACTORY_SHORT
 #endif  // MUELU_RAPSHIFTFACTORY_DEF_HPP

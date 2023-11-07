@@ -75,7 +75,7 @@ void AmalgamationInfo<LocalOrdinal, GlobalOrdinal, Node>::
                          aggStart,
                          aggToRowMap);
 
-}  //UnamalgamateAggregates
+}  // UnamalgamateAggregates
 
 template <class LocalOrdinal, class GlobalOrdinal, class Node>
 void AmalgamationInfo<LocalOrdinal, GlobalOrdinal, Node>::
@@ -147,7 +147,7 @@ void AmalgamationInfo<LocalOrdinal, GlobalOrdinal, Node>::
   }
   // todo plausibility check: entry numDofs[k] == aggToRowMap[k].size()
 
-}  //UnamalgamateAggregates
+}  // UnamalgamateAggregates
 
 template <class LocalOrdinal, class GlobalOrdinal, class Node>
 void AmalgamationInfo<LocalOrdinal, GlobalOrdinal, Node>::
@@ -230,7 +230,7 @@ void AmalgamationInfo<LocalOrdinal, GlobalOrdinal, Node>::
   }
   // todo plausibility check: entry numDofs[k] == aggToRowMap[k].size()
 
-}  //UnamalgamateAggregatesLO
+}  // UnamalgamateAggregatesLO
 
 template <class LocalOrdinal, class GlobalOrdinal, class Node>
 void AmalgamationInfo<LocalOrdinal, GlobalOrdinal, Node>::print(Teuchos::FancyOStream &out,

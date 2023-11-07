@@ -89,10 +89,10 @@ class SolverBase : public BaseClass {
 
   //@}
 
-};  //class SolverBase
+};  // class SolverBase
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SOLVERBASE_SHORT
 
-#endif  //ifndef MUELU_SOLVERBASE_HPP
+#endif  // ifndef MUELU_SOLVERBASE_HPP

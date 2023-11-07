@@ -925,6 +925,6 @@ void NotayAggregationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 
 }  // localSpGEMM
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_NOTAYAGGREGATIONFACTORY_DEF_HPP_ */

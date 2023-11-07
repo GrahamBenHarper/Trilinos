@@ -310,13 +310,13 @@ class HierarchyManager : public HierarchyFactory<Scalar, LocalOrdinal, GlobalOrd
     WriteDataFC<FCi>(H, elementToNodeMapsToPrint_, "pcoarsen: element to node map", "el2node");
 #endif
 
-  }  //SetupHierarchy
+  }  // SetupHierarchy
 
   //@}
 
   typedef std::map<std::string, RCP<const FactoryBase>> FactoryMap;
 
- protected:  //TODO: access function
+ protected:  // TODO: access function
   //! Setup Matrix object
   virtual void SetupOperator(Operator& /* Op */) const {}
 
@@ -521,5 +521,5 @@ class HierarchyManager : public HierarchyFactory<Scalar, LocalOrdinal, GlobalOrd
 #define MUELU_HIERARCHYMANAGER_SHORT
 #endif  // MUELU_HIERARCHYMANAGER_HPP
 
-//TODO: split into _decl/_def
-// TODO: default value for first param (FactoryManager()) should not be duplicated (code maintainability)
+// TODO: split into _decl/_def
+//  TODO: default value for first param (FactoryManager()) should not be duplicated (code maintainability)

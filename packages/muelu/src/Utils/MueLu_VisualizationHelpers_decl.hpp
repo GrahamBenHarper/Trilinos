@@ -56,7 +56,7 @@
 namespace MueLu {
 
 class Level;
-//Utility classes used in convex hull algorithm
+// Utility classes used in convex hull algorithm
 
 class myTriangle {
  public:

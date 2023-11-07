@@ -122,8 +122,8 @@ void AggregationPhase2bAlgorithm_kokkos<LO, GO, Node>::
     for (LO color = 1; color <= numColors; ++color) {
       Kokkos::deep_copy(aggWeight, 0);
 
-      //the reduce counts how many nodes are aggregated by this phase,
-      //which will then be subtracted from numNonAggregatedNodes
+      // the reduce counts how many nodes are aggregated by this phase,
+      // which will then be subtracted from numNonAggregatedNodes
       LO numAggregated = 0;
       Kokkos::parallel_reduce(
           "Aggregation Phase 2b: aggregates expansion",
@@ -177,7 +177,7 @@ void AggregationPhase2bAlgorithm_kokkos<LO, GO, Node>::
               tmpNumAggregated++;
             }
           },
-          numAggregated);  //parallel_for
+          numAggregated);  // parallel_for
       numNonAggregatedNodes -= numAggregated;
     }
   }  // loop over maxIters
@@ -227,8 +227,8 @@ void AggregationPhase2bAlgorithm_kokkos<LO, GO, Node>::
     for (LO color = 1; color <= numColors; color++) {
       Kokkos::deep_copy(aggWeight, 0);
 
-      //the reduce counts how many nodes are aggregated by this phase,
-      //which will then be subtracted from numNonAggregatedNodes
+      // the reduce counts how many nodes are aggregated by this phase,
+      // which will then be subtracted from numNonAggregatedNodes
       LO numAggregated = 0;
       Kokkos::parallel_for(
           "Aggregation Phase 2b: updating agg weights",
@@ -288,7 +288,7 @@ void AggregationPhase2bAlgorithm_kokkos<LO, GO, Node>::
               tmpNumAggregated++;
             }
           },
-          numAggregated);  //parallel_reduce
+          numAggregated);  // parallel_reduce
 
       Kokkos::parallel_for(
           "Aggregation Phase 2b: updating agg penalties",

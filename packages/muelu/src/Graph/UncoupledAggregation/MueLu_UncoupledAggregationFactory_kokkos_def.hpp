@@ -116,7 +116,7 @@ RCP<const ParameterList> UncoupledAggregationFactory_kokkos<LocalOrdinal, Global
   // special variables necessary for OnePtAggregationAlgorithm
   validParamList->set<std::string>("OnePt aggregate map name", "", "Name of input map for single node aggregates. (default='')");
   validParamList->set<std::string>("OnePt aggregate map factory", "", "Generating factory of (DOF) map for single node aggregates.");
-  //validParamList->set< RCP<const FactoryBase> >("OnePt aggregate map factory",    NoFactory::getRCP(), "Generating factory of (DOF) map for single node aggregates.");
+  // validParamList->set< RCP<const FactoryBase> >("OnePt aggregate map factory",    NoFactory::getRCP(), "Generating factory of (DOF) map for single node aggregates.");
 
   return validParamList;
 }
@@ -295,7 +295,7 @@ void UncoupledAggregationFactory_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
                               typename graph_t::device_type::memory_space,
                               typename graph_t::device_type::memory_space>;
       KernelHandle kh;
-      //leave gc algorithm choice as the default
+      // leave gc algorithm choice as the default
       kh.create_distance2_graph_coloring_handle();
 
       // get the distance-2 graph coloring handle
@@ -334,14 +334,14 @@ void UncoupledAggregationFactory_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
         TEUCHOS_TEST_FOR_EXCEPTION(true, std::invalid_argument, "Unrecognized distance 2 coloring algorithm, valid options are: serial, default, matrix squared, vertex based, vertex based bit set, edge filtering")
       }
 
-      //Create device views for graph rowptrs/colinds
+      // Create device views for graph rowptrs/colinds
       typename graph_t::row_map_type aRowptrs = graph->getLocalLWGraph().getRowPtrs();
       typename graph_t::entries_type aColinds = graph->getLocalLWGraph().getEntries();
 
-      //run d2 graph coloring
-      //graph is symmetric so row map/entries and col map/entries are the same
+      // run d2 graph coloring
+      // graph is symmetric so row map/entries and col map/entries are the same
       {
-        SubFactoryMonitor sfm2(*this, "Algo \"Graph Coloring\": KokkosGraph Call", currentLevel);  //CMS HACK
+        SubFactoryMonitor sfm2(*this, "Algo \"Graph Coloring\": KokkosGraph Call", currentLevel);  // CMS HACK
         KokkosGraph::Experimental::graph_color_distance2(&kh, numRows, aRowptrs, aColinds);
       }
 
@@ -349,7 +349,7 @@ void UncoupledAggregationFactory_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
       aggregates->SetGraphColors(coloringHandle->get_vertex_colors());
       aggregates->SetGraphNumColors(static_cast<LO>(coloringHandle->get_num_colors()));
 
-      //clean up coloring handle
+      // clean up coloring handle
       kh.destroy_distance2_graph_coloring_handle();
     }
 
@@ -397,6 +397,6 @@ void UncoupledAggregationFactory_kokkos<LocalOrdinal, GlobalOrdinal, Node>::
   Set(currentLevel, "Aggregates", aggregates);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_UNCOUPLEDAGGREGATIONFACTORY_DEF_HPP_ */

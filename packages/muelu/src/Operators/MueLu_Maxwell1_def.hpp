@@ -981,4 +981,4 @@ void Maxwell1<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 }  // namespace MueLu
 
 #define MUELU_MAXWELL1_SHORT
-#endif  //ifdef MUELU_MAXWELL1_DEF_HPP
+#endif  // ifdef MUELU_MAXWELL1_DEF_HPP

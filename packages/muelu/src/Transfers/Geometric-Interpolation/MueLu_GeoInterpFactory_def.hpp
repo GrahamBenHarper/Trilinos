@@ -99,7 +99,7 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(L
     fineLevel.DeclareInput("MElementList",fineLevel.GetFactoryManager()->GetFactory("PElementList").get(),this);
 */
 
-  //currentLevel.DeclareInput(varName_,factory_,this);
+  // currentLevel.DeclareInput(varName_,factory_,this);
 }
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
@@ -109,7 +109,7 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &f
   // This will create a list of elements on the coarse grid with a
   // predictable structure, as well as modify the fine grid list of
   // elements, if necessary (i.e. if fineLevel.GetLevelID()==0);
-  //BuildCoarseGrid(fineLevel,coarseLevel);
+  // BuildCoarseGrid(fineLevel,coarseLevel);
 
   // This will actually build our prolongator P
   return BuildP(fineLevel, coarseLevel);
@@ -121,19 +121,19 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
 
   GetOStream(Runtime1) << "Starting 'BuildP' routine...\n";
 
-  //DEBUG
-  //Teuchos::FancyOStream fout(*GetOStream(Runtime1));
-  //fineLevel.print(fout,Teuchos::VERB_HIGH);
+  // DEBUG
+  // Teuchos::FancyOStream fout(*GetOStream(Runtime1));
+  // fineLevel.print(fout,Teuchos::VERB_HIGH);
 
   // Get finegrid element lists
   RCP<SerialDenseMatrixType> fineElementPDOFs = Get<RCP<SerialDenseMatrixType> >(fineLevel, "PElementList");
   RCP<SerialDenseMatrixType> fineElementVDOFs = Get<RCP<SerialDenseMatrixType> >(fineLevel, "VElementList");
   RCP<SerialDenseMatrixType> fineElementMDOFs = Get<RCP<SerialDenseMatrixType> >(fineLevel, "MElementList");
 
-  //DEBUG
+  // DEBUG
   GetOStream(Runtime1) << "done getting fine level elements...\n";
   GetOStream(Runtime1) << "getting coarse level elements...\n";
-  //coarseLevel.print(fout,Teuchos::VERB_HIGH);
+  // coarseLevel.print(fout,Teuchos::VERB_HIGH);
 
   // Get coarse grid element lists
   RCP<Teuchos::SerialDenseMatrix<GO, GO> > coarseElementVDOFs,
@@ -184,8 +184,8 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
   RCP<const Map> colMapforPM = Xpetra::MapFactory<LO, GO>::createUniformContigMap(Xpetra::UseTpetra, nM, comm);
 
   GetOStream(Runtime1) << "creating coarse grid matrices...\n";
-  //Create our final output Ps for the coarseGrid
-  size_t maxEntriesPerRowV = 9,  //No overlap of VX and VY
+  // Create our final output Ps for the coarseGrid
+  size_t maxEntriesPerRowV = 9,  // No overlap of VX and VY
       maxEntriesPerRowP    = 4,
          maxEntriesPerRowM = 9;
 
@@ -196,16 +196,16 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
 
   //*****************************************************************/
   //
-  //All 25 fine grid dofs are completely determined by the coarse
-  //grid element in which they reside! So I should loop over coarse
-  //grid elements and build 25 rows at a time! If that's not
-  //ridiculous... I just have to be careful about duplicates on
-  //future elements! But duplicates are easy - just the bottom and
-  //left edges.
+  // All 25 fine grid dofs are completely determined by the coarse
+  // grid element in which they reside! So I should loop over coarse
+  // grid elements and build 25 rows at a time! If that's not
+  // ridiculous... I just have to be careful about duplicates on
+  // future elements! But duplicates are easy - just the bottom and
+  // left edges.
   //
   //
-  //Looking at a fine grid patch, define the following Local-Global
-  //relationship (magnetics as an example):
+  // Looking at a fine grid patch, define the following Local-Global
+  // relationship (magnetics as an example):
   //
   // Bottom-Left Corner:
   // 0 -> (*fineElementMDOFs)(fineElement[0],0)
@@ -250,7 +250,7 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
   Teuchos::ArrayRCP<GO> colPtrP(maxEntriesPerRowP, 0);
   Teuchos::ArrayRCP<SC> valPtrP(maxEntriesPerRowP, 0.);
 
-  //About which fine-grid elements do we care?
+  // About which fine-grid elements do we care?
   GO fineElement[4] = {0, 1, nFineElements, nFineElements + 1};
 
   GetOStream(Runtime1) << "start building matrices...\n";
@@ -264,10 +264,10 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
     // only cases we care about, and they should require a
     // superset of the work required for an interior node.
 
-    //if (CoarseElement is on bottom edge)
+    // if (CoarseElement is on bottom edge)
     if (coarseElement < nCoarseElements) {
-      //fill in the bottom edge of the element patch
-      // FP = 1
+      // fill in the bottom edge of the element patch
+      //  FP = 1
       colPtrM[0] = (*coarseElementMDOFs)(coarseElement, 0);
       valPtrM[0] = 0.375;
       colPtrM[1] = (*coarseElementMDOFs)(coarseElement, 1);
@@ -314,7 +314,7 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
 
       PV->insertGlobalValues((*fineElementVDOFs)(fineElement[0], 3), colPtrV.view(0, nnz), valPtrM.view(0, nnz));
 
-      //FPr = 2
+      // FPr = 2
       colPtrP[0] = (*coarseElementPDOFs)(coarseElement, 1);
       valPtrP[0] = 1.0;
 
@@ -359,10 +359,10 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
 
       PV->insertGlobalValues((*fineElementVDOFs)(fineElement[1], 3), colPtrV.view(0, nnz), valPtrM.view(0, nnz));
 
-      //if (CoarseElement is on the bottom left corner)
+      // if (CoarseElement is on the bottom left corner)
       if (coarseElement == 0) {
-        //fill in the bottom left corner
-        // FP = 0
+        // fill in the bottom left corner
+        //  FP = 0
         colPtrM[0] = (*coarseElementMDOFs)(coarseElement, 0);
         valPtrM[0] = 1.0;
 
@@ -384,13 +384,13 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
         nnz = 1;
         PP->insertGlobalValues((*fineElementPDOFs)(fineElement[0], 0), colPtrP.view(0, nnz), valPtrP.view(0, nnz));
 
-      }  //if (coarseElement is on the bottom left corner)
-    }    //if (coarseElement is on the bottom edge)
+      }  // if (coarseElement is on the bottom left corner)
+    }    // if (coarseElement is on the bottom edge)
 
-    //if (CoarseElement is on left edge)
+    // if (CoarseElement is on left edge)
     if (coarseElement % (nCoarseElements) == 0) {
-      //fill in the left edge of the element patch
-      // FP = 5
+      // fill in the left edge of the element patch
+      //  FP = 5
       colPtrM[0] = (*coarseElementMDOFs)(coarseElement, 0);
       valPtrM[0] = 0.375;
       colPtrM[1] = (*coarseElementMDOFs)(coarseElement, 3);
@@ -482,10 +482,10 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
       nnz = 1;
       PP->insertGlobalValues((*fineElementPDOFs)(fineElement[2], 3), colPtrP.view(0, nnz), valPtrP.view(0, nnz));
 
-    }  //endif (coarseElement is on left edge)
+    }  // endif (coarseElement is on left edge)
 
-    //fill in the rest of the patch
-    // FP = 9
+    // fill in the rest of the patch
+    //  FP = 9
     colPtrM[0] = (*coarseElementMDOFs)(coarseElement, 8);
     valPtrM[0] = 1.0;
 
@@ -956,7 +956,7 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
     PP->insertGlobalValues((*fineElementPDOFs)(fineElement[3], 3), colPtrP.view(0, nnz), valPtrP.view(0, nnz));
 
     // Update counters:
-    if ((coarseElement + 1) % (nCoarseElements) == 0)  //if the end of a row of c.g. elements
+    if ((coarseElement + 1) % (nCoarseElements) == 0)  // if the end of a row of c.g. elements
     {
       fineElement[0] = fineElement[3] + 1;
       fineElement[1] = fineElement[0] + 1;
@@ -970,23 +970,23 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
     }
   }  // END OF BUILD LOOP
 
-  //Loop over V rows
+  // Loop over V rows
   for (GO VRow = 0; VRow < fNV; VRow++) {
     Teuchos::ArrayView<const LO> colPtr;
     Teuchos::ArrayView<const SC> valPtr;
 
     PV->getGlobalRowView(VRow, colPtr, valPtr);
 
-    //Can be directly inserted!
+    // Can be directly inserted!
     P->insertGlobalValues(VRow, colPtr, valPtr);
   }
 
-  //Loop over P rows
+  // Loop over P rows
   for (GO PRow = 0; PRow < fNP; PRow++) {
     Teuchos::ArrayView<const LO> colPtr;
     Teuchos::ArrayView<const SC> valPtr;
 
-    //Now do pressure column:
+    // Now do pressure column:
     PP->getGlobalRowView(PRow, colPtr, valPtr);
 
     Teuchos::ArrayRCP<LO> newColPtr(colPtr.size(), nV);
@@ -994,16 +994,16 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
       newColPtr[jj] += colPtr[jj];
     }
 
-    //Insert into A
+    // Insert into A
     P->insertGlobalValues(PRow + fNV, newColPtr.view(0, colPtr.size()), valPtr);
   }
 
-  //Loop over M rows
+  // Loop over M rows
   for (GO MRow = 0; MRow < fNM; MRow++) {
     Teuchos::ArrayView<const LO> colPtr;
     Teuchos::ArrayView<const SC> valPtr;
 
-    //Now do magnetics column:
+    // Now do magnetics column:
     PM->getGlobalRowView(MRow, colPtr, valPtr);
 
     Teuchos::ArrayRCP<LO> newColPtr(colPtr.size(), nV + nP);
@@ -1011,7 +1011,7 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
       newColPtr[jj] += colPtr[jj];
     }
 
-    //Insert into A
+    // Insert into A
     P->insertGlobalValues(MRow + fNV + fNP, newColPtr.view(0, colPtr.size()), valPtr);
   }
 
@@ -1031,7 +1031,7 @@ void GeoInterpFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Level &
   Set(coarseLevel, "NP", nP);
   Set(coarseLevel, "NM", nM);
 
-}  //end buildp
+}  // end buildp
 
 }  // namespace MueLu
 

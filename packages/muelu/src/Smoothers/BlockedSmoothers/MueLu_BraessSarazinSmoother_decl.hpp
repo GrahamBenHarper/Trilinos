@@ -50,12 +50,12 @@
 
 #include <Teuchos_ParameterList.hpp>
 
-//Xpetra
+// Xpetra
 #include <Xpetra_MapExtractor_fwd.hpp>
 #include <Xpetra_MultiVectorFactory_fwd.hpp>
 #include <Xpetra_Matrix_fwd.hpp>
 
-//MueLu
+// MueLu
 #include "MueLu_BraessSarazinSmoother_fwd.hpp"
 #include "MueLu_SmootherPrototype.hpp"
 #include "MueLu_FactoryBase_fwd.hpp"

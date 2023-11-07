@@ -577,6 +577,6 @@ void HybridAggregationFactory<LocalOrdinal, GlobalOrdinal, Node>::
 
 }  // BuildInterfaceAggregates()
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_HYBRIDAGGREGATIONFACTORY_DEF_HPP */

@@ -234,6 +234,6 @@ void UncoupledIndexManager<LocalOrdinal, GlobalOrdinal, Node>::
     getGhostedNodeCoarseLID(const LO /* i */, const LO /* j */, const LO /* k */, LO& /* myLID */) const {
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_UNCOUPLEDINDEXMANAGER_DEF_HPP_ */

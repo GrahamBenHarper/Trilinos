@@ -98,6 +98,6 @@ LocalLWGraph_kokkos<LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDev
   Kokkos::parallel_reduce("MueLu:LocalLWGraph:LWGraph:maxnonzeros", range_type(0, graph_.numRows()), maxNumRowEntriesFunctor, maxNumRowEntries_);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_LWGRAPH_KOKKOS_DEF_HPP

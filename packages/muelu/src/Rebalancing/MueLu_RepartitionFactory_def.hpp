@@ -575,6 +575,6 @@ void RepartitionFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 
 }  // namespace MueLu
 
-#endif  //ifdef HAVE_MPI
+#endif  // ifdef HAVE_MPI
 
 #endif  // MUELU_REPARTITIONFACTORY_DEF_HPP

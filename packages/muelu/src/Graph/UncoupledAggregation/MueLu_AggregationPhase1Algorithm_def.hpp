@@ -233,7 +233,7 @@ void AggregationPhase1Algorithm<LocalOrdinal, GlobalOrdinal, Node>::
 
 template <class LocalOrdinal, class GlobalOrdinal, class Node>
 void AggregationPhase1Algorithm<LocalOrdinal, GlobalOrdinal, Node>::RandomReorder(ArrayRCP<LO> list) const {
-  //TODO: replace int
+  // TODO: replace int
   int n = list.size();
   for (int i = 0; i < n - 1; i++)
     std::swap(list[i], list[RandomOrdinal(i, n - 1)]);

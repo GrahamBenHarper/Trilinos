@@ -31,7 +31,7 @@ void RepartitionInterface<LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(Level
   Input(currentLevel, "A");
   Input(currentLevel, "number of partitions");
   Input(currentLevel, "AmalgamatedPartition");
-}  //DeclareInput()
+}  // DeclareInput()
 
 template <class LocalOrdinal, class GlobalOrdinal, class Node>
 void RepartitionInterface<LocalOrdinal, GlobalOrdinal, Node>::Build(Level &level) const {
@@ -88,7 +88,7 @@ void RepartitionInterface<LocalOrdinal, GlobalOrdinal, Node>::Build(Level &level
       stridedblocksize = blockdim;
     }
     oldView = A->SwitchToView(oldView);
-    //GetOStream(Statistics0, -1) << "RepartitionInterface::Build():" << " found blockdim=" << blockdim << " from strided maps (blockid=" << blockid << ", strided block size=" << stridedblocksize << "). offset=" << offset << std::endl;
+    // GetOStream(Statistics0, -1) << "RepartitionInterface::Build():" << " found blockdim=" << blockdim << " from strided maps (blockid=" << blockid << ", strided block size=" << stridedblocksize << "). offset=" << offset << std::endl;
   } else
     GetOStream(Statistics0, -1) << "RepartitionInterface::Build(): no striding information available. Use blockdim=1 with offset=0" << std::endl;
 
@@ -98,7 +98,7 @@ void RepartitionInterface<LocalOrdinal, GlobalOrdinal, Node>::Build(Level &level
 
   TEUCHOS_TEST_FOR_EXCEPTION(Teuchos::as<int>(nodeMap->getLocalNumElements()) * stridedblocksize != Teuchos::as<int>(rowMap->getLocalNumElements()), Exceptions::RuntimeError, "Inconsistency between nodeMap and dofMap: we are supporting block maps only. No support for general strided maps, yet!");
 
-  //RCP<std::map<GO,std::vector<GO> > > nodegid2dofgids = amalgInfo->GetGlobalAmalgamationParams();
+  // RCP<std::map<GO,std::vector<GO> > > nodegid2dofgids = amalgInfo->GetGlobalAmalgamationParams();
 
   // fill vector with information about partitioning
   // TODO: we assume simple block maps here
@@ -108,7 +108,7 @@ void RepartitionInterface<LocalOrdinal, GlobalOrdinal, Node>::Build(Level &level
     // the results stored in array. The decomposition vector is created using the rowMap of A
 
     // transform local node id to global node id.
-    //GO gNodeId = nodeMap->getGlobalElement(i);
+    // GO gNodeId = nodeMap->getGlobalElement(i);
 
     // extract global DOF ids that belong to gNodeId
     /*std::vector<GlobalOrdinal> DOFs = (*nodegid2dofgids)[gNodeId];
@@ -118,18 +118,18 @@ void RepartitionInterface<LocalOrdinal, GlobalOrdinal, Node>::Build(Level &level
     for (LO j = 0; j < stridedblocksize /*DOFs.size()*/; j++) {
       // transform global DOF ids to local DOF ids using rowMap
       // note: The vector decomposition is based on rowMap
-      //LO lDofId = rowMap->getLocalElement(DOFs[j]);     // -> i doubt that we need this!
+      // LO lDofId = rowMap->getLocalElement(DOFs[j]);     // -> i doubt that we need this!
 
       // put the same domain id to all DOFs of the same node
       decompEntries[i * stridedblocksize + j] = amalgPartitionData[i];
-      //decompEntries[lDofId] = amalgPartitionData[i];
+      // decompEntries[lDofId] = amalgPartitionData[i];
     }
   }
 
   Set(level, "Partition", decomposition);
 
-}  //Build()
+}  // Build()
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_REPARTITIONINTERFACE_DEF_HPP_ */

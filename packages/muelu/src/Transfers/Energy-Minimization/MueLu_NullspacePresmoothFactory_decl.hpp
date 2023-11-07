@@ -95,9 +95,9 @@ class NullspacePresmoothFactory : public SingleLevelFactoryBase {
   //@}
 
  private:
-};  //class NullspacePresmoothFactory
+};  // class NullspacePresmoothFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_NULLSPACEPRESMOOTHFACTORY_SHORT
 #endif  // MUELU_NULLSPACEPRESMOOTHFACTORY_DECL_HPP

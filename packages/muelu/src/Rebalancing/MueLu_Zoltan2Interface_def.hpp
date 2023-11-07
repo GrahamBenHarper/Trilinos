@@ -263,8 +263,8 @@ void Zoltan2Interface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& l
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
-#endif  //if defined(HAVE_MUELU_ZOLTAN2) && defined(HAVE_MPI)
+#endif  // if defined(HAVE_MUELU_ZOLTAN2) && defined(HAVE_MPI)
 
 #endif  // MUELU_ZOLTAN2INTERFACE_DEF_HPP

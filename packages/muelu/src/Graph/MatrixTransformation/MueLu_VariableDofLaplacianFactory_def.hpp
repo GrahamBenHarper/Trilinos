@@ -75,7 +75,7 @@ void VariableDofLaplacianFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Dec
   Input(currentLevel, "A");
   Input(currentLevel, "Coordinates");
 
-  //if (currentLevel.GetLevelID() == 0) // TODO check for finest level (special treatment)
+  // if (currentLevel.GetLevelID() == 0) // TODO check for finest level (special treatment)
   if (currentLevel.IsAvailable("DofPresent", NoFactory::get())) {
     currentLevel.DeclareInput("DofPresent", NoFactory::get(), this);
   }
@@ -128,7 +128,7 @@ void VariableDofLaplacianFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Bui
   size_t nLocalNodes, nLocalPlusGhostNodes;
   this->assignGhostLocalNodeIds(A->getRowMap(), A->getColMap(), myLocalNodeIds, map, maxDofPerNode, nLocalNodes, nLocalPlusGhostNodes, comm);
 
-  //RCP<Teuchos::FancyOStream> fancy = Teuchos::fancyOStream(Teuchos::rcpFromRef(std::cout)," ",0,false,10,false, true);
+  // RCP<Teuchos::FancyOStream> fancy = Teuchos::fancyOStream(Teuchos::rcpFromRef(std::cout)," ",0,false,10,false, true);
 
   TEUCHOS_TEST_FOR_EXCEPTION(Teuchos::as<size_t>(dofPresent.size()) != Teuchos::as<size_t>(nLocalNodes * maxDofPerNode), MueLu::Exceptions::RuntimeError, "VariableDofLaplacianFactory: size of provided DofPresent array is " << dofPresent.size() << " but should be " << nLocalNodes * maxDofPerNode << " on the current processor.");
 
@@ -184,13 +184,13 @@ void VariableDofLaplacianFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Bui
 
   Teuchos::RCP<Map> amalgRowMap = MapFactory::Build(lib,
                                                     Teuchos::OrdinalTraits<GlobalOrdinal>::invalid(),
-                                                    amalgRowMapGIDs(),  //View,
+                                                    amalgRowMapGIDs(),  // View,
                                                     A->getRowMap()->getIndexBase(),
                                                     comm);
 
   Teuchos::RCP<Map> amalgColMap = MapFactory::Build(lib,
                                                     Teuchos::OrdinalTraits<GlobalOrdinal>::invalid(),
-                                                    amalgColMapGIDs(),  //View,
+                                                    amalgColMapGIDs(),  // View,
                                                     A->getRangeMap()->getIndexBase(),
                                                     comm);
 
@@ -200,7 +200,7 @@ void VariableDofLaplacianFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Bui
 
   Teuchos::RCP<CrsMatrixWrap> Awrap = Teuchos::rcp_dynamic_cast<CrsMatrixWrap>(A);
   Teuchos::RCP<CrsMatrix> Acrs      = Awrap->getCrsMatrix();
-  //Acrs->describe(*fancy, Teuchos::VERB_EXTREME);
+  // Acrs->describe(*fancy, Teuchos::VERB_EXTREME);
 
   size_t nNonZeros = 0;
   std::vector<bool> isNonZero(nLocalPlusGhostDofs, false);
@@ -371,7 +371,7 @@ void VariableDofLaplacianFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Bui
   }
   lapCrsMat->fillComplete(amalgRowMap, amalgRowMap);
 
-  //lapCrsMat->describe(*fancy, Teuchos::VERB_EXTREME);
+  // lapCrsMat->describe(*fancy, Teuchos::VERB_EXTREME);
 
   Teuchos::RCP<Matrix> lapMat = Teuchos::rcp(new CrsMatrixWrap(lapCrsMat));
   Set(currentLevel, "A", lapMat);

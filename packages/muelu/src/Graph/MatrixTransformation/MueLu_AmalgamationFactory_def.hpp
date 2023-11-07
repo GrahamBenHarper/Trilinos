@@ -80,7 +80,7 @@ void AmalgamationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
        Both of these quantities may be different than numPDEs (from GetFixedBlockSize()), but the following must always hold:
 
        numPDEs = fullblocksize * storageblocksize.
-       
+
        If numPDEs==1
          Matrix is point storage (classical CRS storage).  storageblocksize=1 and fullblocksize=1
          No other values makes sense.
@@ -232,6 +232,6 @@ const GlobalOrdinal AmalgamationFactory<Scalar, LocalOrdinal, GlobalOrdinal, Nod
   return globalblockid;
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_SUBBLOCKUNAMALGAMATIONFACTORY_DEF_HPP */

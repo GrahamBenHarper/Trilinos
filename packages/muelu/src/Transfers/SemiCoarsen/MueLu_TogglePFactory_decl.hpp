@@ -159,9 +159,9 @@ class TogglePFactory : public PFactory {
   mutable std::vector<RCP<const FactoryBase> > nspFacts_;
 
   mutable bool hasDeclaredInput_;
-};  //class TogglePFactory
+};  // class TogglePFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_TOGGLEPFACTORY_SHORT
 #endif  // MUELU_TOGGLEPFACTORY_DECL_HPP

@@ -306,4 +306,4 @@ Maxwell_Utils<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 }  // namespace MueLu
 
 #define MUELU_MAXWELL_UTILS_SHORT
-#endif  //ifdef MUELU_MAXWELL_UTILS_DEF_HPP
+#endif  // ifdef MUELU_MAXWELL_UTILS_DEF_HPP

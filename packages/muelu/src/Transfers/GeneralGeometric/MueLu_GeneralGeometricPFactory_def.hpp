@@ -369,8 +369,8 @@ void GeneralGeometricPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
                                          return (vec[2] < val) ? true : false;
                                        });
   auto myBlockEnd   = std::upper_bound(myGeo->meshData.begin(), myGeo->meshData.end(),
-                                     myGeo->myBlock,
-                                     [](const GO val, const std::vector<GO>& vec) -> bool {
+                                       myGeo->myBlock,
+                                       [](const GO val, const std::vector<GO>& vec) -> bool {
                                        return (val < vec[2]) ? true : false;
                                      });
   // Assuming that i,j,k and ranges are split in pi, pj and pk processors
@@ -760,22 +760,22 @@ void GeneralGeometricPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
                           RCP<NodesIDs> ghostedCoarseNodes, Array<Array<GO> > coarseNodesGIDs,
                           int interpolationOrder) const {
   /* On termination, return the number of local prolongator columns owned by
-     * this processor.
-     *
-     * Input
-     * =====
-     *    nNodes       Number of fine level Blk Rows owned by this processor
-     *    coarseRate   Rate of coarsening in each spatial direction.
-     *    endRate      Rate of coarsening in each spatial direction for the last
-     *                 nodes in the mesh where an adaptive coarsening rate is
-     *                 required.
-     *    nTerms       Number of nonzero entries in the prolongation matrix.
-     *    dofsPerNode  Number of degrees-of-freedom per mesh node.
-     *
-     * Output
-     * =====
-     *    So far nothing...
-     */
+   * this processor.
+   *
+   * Input
+   * =====
+   *    nNodes       Number of fine level Blk Rows owned by this processor
+   *    coarseRate   Rate of coarsening in each spatial direction.
+   *    endRate      Rate of coarsening in each spatial direction for the last
+   *                 nodes in the mesh where an adaptive coarsening rate is
+   *                 required.
+   *    nTerms       Number of nonzero entries in the prolongation matrix.
+   *    dofsPerNode  Number of degrees-of-freedom per mesh node.
+   *
+   * Output
+   * =====
+   *    So far nothing...
+   */
 
   using xdMV                = Xpetra::MultiVector<typename Teuchos::ScalarTraits<Scalar>::coordinateType, LO, GO, NO>;
   Xpetra::global_size_t OTI = Teuchos::OrdinalTraits<Xpetra::global_size_t>::invalid();
@@ -832,10 +832,10 @@ void GeneralGeometricPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
                                                        rowMapP->getIndexBase(),
                                                        rowMapP->getComm());
     colMapP    = Xpetra::MapFactory<LO, GO, NO>::Build(rowMapP->lib(),
-                                                    OTI,
-                                                    colGIDs.view(0, colGIDs.size()),
-                                                    rowMapP->getIndexBase(),
-                                                    rowMapP->getComm());
+                                                       OTI,
+                                                       colGIDs.view(0, colGIDs.size()),
+                                                       rowMapP->getIndexBase(),
+                                                       rowMapP->getComm());
   }  // End of scope for colMapOrdering and colGIDs
 
   std::vector<size_t> strideInfo(1);
@@ -846,10 +846,10 @@ void GeneralGeometricPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   // with an import from the fine coordinates MultiVector. As data is local this should not create
   // communications during the importer creation.
   RCP<const Map> coarseCoordsMap     = MapFactory::Build(fineCoords->getMap()->lib(),
-                                                     myGeo->gNumCoarseNodes,
-                                                     coarseNodesGIDs[0](),
-                                                     fineCoords->getMap()->getIndexBase(),
-                                                     fineCoords->getMap()->getComm());
+                                                         myGeo->gNumCoarseNodes,
+                                                         coarseNodesGIDs[0](),
+                                                         fineCoords->getMap()->getIndexBase(),
+                                                         fineCoords->getMap()->getComm());
   RCP<const Map> coarseCoordsFineMap = MapFactory::Build(fineCoords->getMap()->lib(),
                                                          myGeo->gNumCoarseNodes,
                                                          coarseNodesGIDs[1](),
@@ -859,19 +859,19 @@ void GeneralGeometricPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   RCP<const Import> coarseImporter = ImportFactory::Build(fineCoords->getMap(),
                                                           coarseCoordsFineMap);
   coarseCoords                     = Xpetra::MultiVectorFactory<typename Teuchos::ScalarTraits<Scalar>::coordinateType, LO, GO, NO>::Build(coarseCoordsFineMap,
-                                                                                                                       myGeo->numDimensions);
+                                                                                                                                           myGeo->numDimensions);
   coarseCoords->doImport(*fineCoords, *coarseImporter, Xpetra::INSERT);
   coarseCoords->replaceMap(coarseCoordsMap);
 
   // Do the actual import using the fineCoords->getMap()
   RCP<const Map> ghostMap         = Xpetra::MapFactory<LO, GO, NO>::Build(fineCoords->getMap()->lib(),
-                                                                  OTI,
-                                                                  ghostedCoarseNodes->GIDs(),
-                                                                  fineCoords->getMap()->getIndexBase(),
-                                                                  fineCoords->getMap()->getComm());
+                                                                          OTI,
+                                                                          ghostedCoarseNodes->GIDs(),
+                                                                          fineCoords->getMap()->getIndexBase(),
+                                                                          fineCoords->getMap()->getComm());
   RCP<const Import> ghostImporter = ImportFactory::Build(fineCoords->getMap(), ghostMap);
   RCP<xdMV> ghostCoords           = Xpetra::MultiVectorFactory<typename Teuchos::ScalarTraits<Scalar>::coordinateType, LO, GO, NO>::Build(ghostMap,
-                                                                                                                                myGeo->numDimensions);
+                                                                                                                                          myGeo->numDimensions);
   ghostCoords->doImport(*fineCoords, *ghostImporter, Xpetra::INSERT);
 
   P                   = rcp(new CrsMatrixWrap(rowMapP, colMapP, 0));
@@ -1645,7 +1645,7 @@ void GeneralGeometricPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     for (LO i = 0; i < numDimensions; ++i) {
       residual(i) = coord[0][i];  // Add coordinates from point of interest
       for (LO k = 0; k < numTerms; ++k) {
-        residual(i) -= functions[0][k] * coord[k + 1][i];  //Remove contribution from all coarse points
+        residual(i) -= functions[0][k] * coord[k + 1][i];  // Remove contribution from all coarse points
       }
       if (iter == 1) {
         norm_ref += residual(i) * residual(i);
@@ -1854,7 +1854,7 @@ void GeneralGeometricPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   }
 }  // End GetGIDLocalLexicographic
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_GENERALGEOMETRICPFACTORY_SHORT
 #endif  // MUELU_GENERALGEOMETRICPFACTORY_DEF_HPP

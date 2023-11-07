@@ -71,7 +71,7 @@ template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void CloneRepartitionInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::DeclareInput(Level &currentLevel) const {
   Input(currentLevel, "A");
   Input(currentLevel, "Partition");
-}  //DeclareInput()
+}  // DeclareInput()
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void CloneRepartitionInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &currentLevel) const {
@@ -140,7 +140,7 @@ void CloneRepartitionInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build
   if (numLocalNodes > 0) {
     TEUCHOS_TEST_FOR_EXCEPTION(Teuchos::as<size_t>(inLocalLength % numLocalNodes) != 0, MueLu::Exceptions::RuntimeError, "CloneRepartitionInterface: inconsistent number of local DOFs (" << inLocalLength << ") and number of local nodes (" << numLocalNodes << ")");
     LocalOrdinal inBlkSize = Teuchos::as<LocalOrdinal>(inLocalLength / numLocalNodes);
-    //TEUCHOS_TEST_FOR_EXCEPTION(blkSize != inBlkSize, MueLu::Exceptions::RuntimeError,"CloneRepartitionInterface: input block size = " << inBlkSize << " outpub block size = " << blkSize << ". They should be the same.");
+    // TEUCHOS_TEST_FOR_EXCEPTION(blkSize != inBlkSize, MueLu::Exceptions::RuntimeError,"CloneRepartitionInterface: input block size = " << inBlkSize << " outpub block size = " << blkSize << ". They should be the same.");
 
     for (LO i = 0; i < Teuchos::as<LO>(numLocalNodes); i++) {
       for (LO j = 0; j < blkSize; j++) {
@@ -149,8 +149,8 @@ void CloneRepartitionInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build
     }
   }  // end if numLocalNodes > 0
   Set(currentLevel, "Partition", ret);
-}  //Build()
+}  // Build()
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* PACKAGES_MUELU_SRC_REBALANCING_MUELU_CLONEREPARTITIONINTERFACE_DEF_HPP_ */

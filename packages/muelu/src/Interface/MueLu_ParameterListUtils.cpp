@@ -135,7 +135,7 @@ void CreateSublists(const Teuchos::ParameterList &List, Teuchos::ParameterList &
 
   }  // for
 
-}  //MueLu::CreateSublist()
+}  // MueLu::CreateSublist()
 
 // Usage: GetMLSubList(paramList, "smoother", 2);
 const Teuchos::ParameterList &GetMLSubList(const Teuchos::ParameterList &paramList, const std::string &type, int levelID) {

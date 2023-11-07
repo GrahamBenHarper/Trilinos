@@ -345,7 +345,7 @@ void AggregateQualityEstimateFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>:
       MT maxEigenVal = MT_ZERO;
       for (int i = LO_ZERO; i < aggSize; ++i) {
         // NOTE: In theory, the eigenvalues should be nearly real
-        //TEUCHOS_ASSERT(fabs(alpha_imag[i]) <= 1e-8*fabs(alpha_real[i])); // Eigenvalues should be nearly real
+        // TEUCHOS_ASSERT(fabs(alpha_imag[i]) <= 1e-8*fabs(alpha_real[i])); // Eigenvalues should be nearly real
         maxEigenVal = std::max(maxEigenVal, alpha_real[i] / beta[i]);
       }
 
@@ -377,7 +377,7 @@ void AggregateQualityEstimateFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>:
       else
         (agg_qualities->getDataNonConst(0))[aggId] = (MT_ONE + MT_ONE) / minEigenVal;
     }
-  }  //end aggId loop
+  }  // end aggId loop
 }
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>

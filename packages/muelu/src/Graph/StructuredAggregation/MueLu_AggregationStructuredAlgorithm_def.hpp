@@ -205,15 +205,15 @@ void AggregationStructuredAlgorithm<LocalOrdinal, GlobalOrdinal, Node>::
       }
     }
     domainMap                = MapFactory::Build(graph.GetDomainMap()->lib(),
-                                  geoData->getNumGlobalCoarseNodes(),
-                                  coarseNodeCoarseGIDs(),
-                                  graph.GetDomainMap()->getIndexBase(),
-                                  graph.GetDomainMap()->getComm());
+                                                 geoData->getNumGlobalCoarseNodes(),
+                                                 coarseNodeCoarseGIDs(),
+                                                 graph.GetDomainMap()->getIndexBase(),
+                                                 graph.GetDomainMap()->getComm());
     coarseCoordinatesMap     = MapFactory::Build(graph.GetDomainMap()->lib(),
-                                             geoData->getNumGlobalCoarseNodes(),
-                                             coarseNodeCoarseGIDs(),
-                                             graph.GetDomainMap()->getIndexBase(),
-                                             graph.GetDomainMap()->getComm());
+                                                 geoData->getNumGlobalCoarseNodes(),
+                                                 coarseNodeCoarseGIDs(),
+                                                 graph.GetDomainMap()->getIndexBase(),
+                                                 graph.GetDomainMap()->getComm());
     coarseCoordinatesFineMap = MapFactory::Build(graph.GetDomainMap()->lib(),
                                                  geoData->getNumGlobalCoarseNodes(),
                                                  coarseNodeFineGIDs(),
@@ -223,20 +223,20 @@ void AggregationStructuredAlgorithm<LocalOrdinal, GlobalOrdinal, Node>::
     // In this case the map will compute the global number of nodes on the coarse mesh
     // and it will assign GIDs to the local coarse nodes.
     colMap    = MapFactory::Build(graph.GetDomainMap()->lib(),
-                               Teuchos::OrdinalTraits<GO>::invalid(),
-                               geoData->getNumLocalCoarseNodes() * dofsPerNode,
-                               graph.GetDomainMap()->getIndexBase(),
-                               graph.GetDomainMap()->getComm());
+                                  Teuchos::OrdinalTraits<GO>::invalid(),
+                                  geoData->getNumLocalCoarseNodes() * dofsPerNode,
+                                  graph.GetDomainMap()->getIndexBase(),
+                                  graph.GetDomainMap()->getComm());
     domainMap = colMap;
 
     Array<GO> coarseNodeCoarseGIDs(geoData->getNumLocalCoarseNodes());
     Array<GO> coarseNodeFineGIDs(geoData->getNumLocalCoarseNodes());
     geoData->getCoarseNodesData(graph.GetDomainMap(), coarseNodeCoarseGIDs, coarseNodeFineGIDs);
     coarseCoordinatesMap     = MapFactory::Build(graph.GetDomainMap()->lib(),
-                                             Teuchos::OrdinalTraits<GO>::invalid(),
-                                             geoData->getNumLocalCoarseNodes(),
-                                             graph.GetDomainMap()->getIndexBase(),
-                                             graph.GetDomainMap()->getComm());
+                                                 Teuchos::OrdinalTraits<GO>::invalid(),
+                                                 geoData->getNumLocalCoarseNodes(),
+                                                 graph.GetDomainMap()->getIndexBase(),
+                                                 graph.GetDomainMap()->getComm());
     coarseCoordinatesFineMap = MapFactory::Build(graph.GetDomainMap()->lib(),
                                                  Teuchos::OrdinalTraits<GO>::invalid(),
                                                  coarseNodeFineGIDs(),

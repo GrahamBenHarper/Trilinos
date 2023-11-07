@@ -59,7 +59,7 @@ namespace MueLu {
 /*!
   @class InitialBlockNumberFactory class.
   @brief Class for generating an initial LocalOrdinal-type BlockNumber vector, based on an input paraemter for interleaved dofs.
-  
+
 
 */
 template <class Scalar        = DefaultScalar,
@@ -74,7 +74,7 @@ class InitialBlockNumberFactory : public SingleLevelFactoryBase {
   //! @name Constructors/Destructors.
 
   /*! @brief Constructor.
-     */
+   */
   InitialBlockNumberFactory() {}
 
   //! Destructor.

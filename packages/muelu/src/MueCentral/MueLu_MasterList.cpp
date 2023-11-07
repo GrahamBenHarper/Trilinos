@@ -64,7 +64,7 @@ Teuchos::RCP<Teuchos::ParameterList> MasterList::GetProblemSpecificList(std::str
       problemType_         = problemType;
       problemSpecificList_ = Teuchos::getParametersFromXmlString(DefaultProblemTypeLists_[problemType]);
     } else {
-      //TODO provide valid problem types
+      // TODO provide valid problem types
       TEUCHOS_TEST_FOR_EXCEPTION(true, MueLu::Exceptions::RuntimeError, "Invalid problem type " << problemType << ".");
     }
   }

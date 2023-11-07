@@ -123,7 +123,7 @@ void MatrixFreeTentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Ko
   Set(coarseLevel, "P", P);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_MATRIXFREETENTATIVEPFACTORY_SHORT
 #endif  // MUELU_MATRIXFREETENTATIVEPFACTORY_DEF_HPP

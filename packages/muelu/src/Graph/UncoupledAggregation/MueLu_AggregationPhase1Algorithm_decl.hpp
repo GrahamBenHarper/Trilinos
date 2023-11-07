@@ -119,7 +119,7 @@ class AggregationPhase1Algorithm : public MueLu::AggregationAlgorithmBase<LocalO
   int RandomOrdinal(int min, int max) const;
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_AGGREGATIONPHASE1ALGORITHM_SHORT
 #endif /* MUELU_AGGREGATIONPHASE1ALGORITHM_DECL_HPP_ */

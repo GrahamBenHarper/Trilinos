@@ -132,7 +132,7 @@ class AggregationPhase1Algorithm_kokkos : public MueLu::AggregationAlgorithmBase
   std::string description() const { return "Phase 1 (main)"; }
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_AGGREGATIONPHASE1ALGORITHM_KOKKOS_SHORT
 #endif  // MUELU_AGGREGATIONPHASE1ALGORITHM_KOKKOS_DECL_HPP

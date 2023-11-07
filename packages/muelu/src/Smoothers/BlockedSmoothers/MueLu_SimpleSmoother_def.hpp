@@ -247,7 +247,7 @@ void SimpleSmoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Apply(MultiVecto
   bool bRangeThyraMode  = rangeMapExtractor_->getThyraMode();   //  && (Teuchos::rcp_dynamic_cast<BlockedCrsMatrix>(F_) == Teuchos::null);
   bool bDomainThyraMode = domainMapExtractor_->getThyraMode();  // && (Teuchos::rcp_dynamic_cast<BlockedCrsMatrix>(F_) == Teuchos::null);
 
-  //RCP<Teuchos::FancyOStream> fancy = Teuchos::fancyOStream(Teuchos::rcpFromRef(std::cout));
+  // RCP<Teuchos::FancyOStream> fancy = Teuchos::fancyOStream(Teuchos::rcpFromRef(std::cout));
 
   // wrap current solution vector in RCP
   RCP<MultiVector> rcpX       = Teuchos::rcpFromRef(X);

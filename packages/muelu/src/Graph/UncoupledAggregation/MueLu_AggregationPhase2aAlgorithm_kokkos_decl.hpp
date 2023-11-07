@@ -129,7 +129,7 @@ class AggregationPhase2aAlgorithm_kokkos : public MueLu::AggregationAlgorithmBas
   std::string description() const { return "Phase 2a (secondary)"; }
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_AGGREGATIONPHASE2AALGORITHM_KOKKOS_SHORT
 #endif  // MUELU_AGGREGATIONPHASE2AALGORITHM_KOKKOS_DECL_HPP

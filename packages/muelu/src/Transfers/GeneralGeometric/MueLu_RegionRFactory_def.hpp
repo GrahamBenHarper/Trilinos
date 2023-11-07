@@ -1048,7 +1048,7 @@ void RegionRFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 
 }  // Build3D()
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_REGIONRFACTORY_SHORT
 #endif  // MUELU_REGIONRFACTORY_DEF_HPP

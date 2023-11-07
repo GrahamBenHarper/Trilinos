@@ -83,7 +83,7 @@ class ParameterListAcceptor {
 
   //! @}
 
-};  //class ParameterListAcceptor
+};  // class ParameterListAcceptor
 
 // Partial implementation of ParameterListAcceptor that stores the object parameters in an internal parameterList
 class ParameterListAcceptorImpl : public ParameterListAcceptor {

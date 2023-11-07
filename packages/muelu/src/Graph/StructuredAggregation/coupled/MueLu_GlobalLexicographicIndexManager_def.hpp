@@ -375,6 +375,6 @@ void GlobalLexicographicIndexManager<LocalOrdinal, GlobalOrdinal, Node>::
   myLID   = ktmp * this->lNumCoarseNodes10 + jtmp * this->lCoarseNodesPerDir[0] + itmp;
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_GLOBALLEXICOGRAPHICINDEXMANAGER_DEF_HPP_ */

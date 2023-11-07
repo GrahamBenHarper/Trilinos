@@ -141,8 +141,8 @@ class SmootherPrototype : public SmootherBase<Scalar, LocalOrdinal, GlobalOrdina
 
 }  // namespace MueLu
 
-//TODO: private copy constructor
-//TODO: update comments
+// TODO: private copy constructor
+// TODO: update comments
 
 #define MUELU_SMOOTHERPROTOTYPE_SHORT
 #endif  // MUELU_SMOOTHERPROTOTYPE_DECL_HPP

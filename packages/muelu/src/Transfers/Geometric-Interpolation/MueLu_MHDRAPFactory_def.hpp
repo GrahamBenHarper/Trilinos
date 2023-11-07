@@ -99,9 +99,9 @@ void MHDRAPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &fine
     // Inputs: A, P
     //
 
-    //DEBUG
-    //Teuchos::FancyOStream fout(*GetOStream(Runtime1));
-    //coarseLevel.print(fout,Teuchos::VERB_HIGH);
+    // DEBUG
+    // Teuchos::FancyOStream fout(*GetOStream(Runtime1));
+    // coarseLevel.print(fout,Teuchos::VERB_HIGH);
 
     RCP<Matrix> A   = Get<RCP<Matrix> >(fineLevel, "A");
     RCP<Matrix> A00 = Get<RCP<Matrix> >(fineLevel, "A00");
@@ -227,21 +227,21 @@ std::string MHDRAPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::PrintLoadB
   // TODO: provide a option to skip this (to avoid global communication)
   // TODO: skip if nproc == 1
 
-  //nonzero imbalance
+  // nonzero imbalance
   size_t numMyNnz = Ac.getLocalNumEntries();
   GO maxNnz, minNnz;
   RCP<const Teuchos::Comm<int> > comm = Ac.getRowMap()->getComm();
   MueLu_maxAll(comm, (GO)numMyNnz, maxNnz);
-  //min nnz over all proc (disallow any processors with 0 nnz)
+  // min nnz over all proc (disallow any processors with 0 nnz)
   MueLu_minAll(comm, (GO)((numMyNnz > 0) ? numMyNnz : maxNnz), minNnz);
   double imbalance = ((double)maxNnz) / minNnz;
 
   size_t numMyRows = Ac.getLocalNumRows();
-  //Check whether Ac is spread over more than one process.
+  // Check whether Ac is spread over more than one process.
   GO numActiveProcesses = 0;
   MueLu_sumAll(comm, (GO)((numMyRows > 0) ? 1 : 0), numActiveProcesses);
 
-  //min, max, and avg # rows per proc
+  // min, max, and avg # rows per proc
   GO minNumRows, maxNumRows;
   double avgNumRows;
   MueLu_maxAll(comm, (GO)numMyRows, maxNumRows);
@@ -256,7 +256,7 @@ std::string MHDRAPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::PrintLoadB
   return ss.str();
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_MHDRAPFACTORY_SHORT
 #endif  // MUELU_MHDRAPFACTORY_DEF_HPP

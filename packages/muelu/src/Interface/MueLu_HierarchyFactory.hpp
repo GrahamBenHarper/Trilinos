@@ -93,4 +93,4 @@ class HierarchyFactory : public BaseClass {
 }  // namespace MueLu
 
 #define MUELU_HIERARCHYFACTORY_SHORT
-#endif  //ifndef MUELU_HIERARCHYFACTORY_HPP
+#endif  // ifndef MUELU_HIERARCHYFACTORY_HPP

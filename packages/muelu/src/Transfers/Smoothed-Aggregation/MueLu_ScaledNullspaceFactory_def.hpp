@@ -82,7 +82,7 @@ void ScaledNullspaceFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Le
 
   RCP<MultiVector> nullspace, tentativeNullspace;
 
-  //TEUCHOS_TEST_FOR_EXCEPTION(currentLevel.GetLevelID() != 0, Exceptions::RuntimeError, "MueLu::ScaledNullspaceFactory::Build(): ScaledNullspaceFactory can be used for finest level (LevelID == 0) only.");
+  // TEUCHOS_TEST_FOR_EXCEPTION(currentLevel.GetLevelID() != 0, Exceptions::RuntimeError, "MueLu::ScaledNullspaceFactory::Build(): ScaledNullspaceFactory can be used for finest level (LevelID == 0) only.");
 
   if (currentLevel.GetLevelID() == 0) {
     if (currentLevel.IsAvailable("Nullspace", NoFactory::get())) {
@@ -123,6 +123,6 @@ void ScaledNullspaceFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Le
 
 }  // Build
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_SCALEDNULLSPACEFACTORY_DEF_HPP

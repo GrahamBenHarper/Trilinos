@@ -70,7 +70,7 @@ namespace MueLu {
 /*!
     @brief Preconditioner (wrapped as a Xpetra::Operator) for Maxwell's equations in curl-curl form.
 
- 
+
     @ingroup MueLuAdapters
   */
 template <class Scalar,
@@ -103,14 +103,14 @@ class Maxwell1 : public VerboseObject, public Xpetra::Operator<Scalar, LocalOrdi
   }
 
   /** Constructor with Jacobian
-     *
-     * \param[in] SM_Matrix Jacobian
-     * \param[in] D0_Matrix Discrete Gradient
-     * \param[in] Nullspace Null space (needed for periodic)
-     * \param[in] Coords Nodal coordinates
-     * \param[in] List Parameter list
-     * \param[in] ComputePrec If true, compute the preconditioner immediately
-     */
+   *
+   * \param[in] SM_Matrix Jacobian
+   * \param[in] D0_Matrix Discrete Gradient
+   * \param[in] Nullspace Null space (needed for periodic)
+   * \param[in] Coords Nodal coordinates
+   * \param[in] List Parameter list
+   * \param[in] ComputePrec If true, compute the preconditioner immediately
+   */
   Maxwell1(const Teuchos::RCP<Matrix>& SM_Matrix,
            const Teuchos::RCP<Matrix>& D0_Matrix,
            const Teuchos::RCP<MultiVector>& Nullspace,
@@ -124,14 +124,14 @@ class Maxwell1 : public VerboseObject, public Xpetra::Operator<Scalar, LocalOrdi
   }
 
   /** Constructor with Jacobian and nodal matrix
-     *
-     * \param[in] SM_Matrix Jacobian
-     * \param[in] D0_Matrix Discrete Gradient
-     * \param[in] Kn_Matrix Nodal Laplacian
-     * \param[in] Coords Nodal coordinates
-     * \param[in] List Parameter list
-     * \param[in] ComputePrec If true, compute the preconditioner immediately
-     */
+   *
+   * \param[in] SM_Matrix Jacobian
+   * \param[in] D0_Matrix Discrete Gradient
+   * \param[in] Kn_Matrix Nodal Laplacian
+   * \param[in] Coords Nodal coordinates
+   * \param[in] List Parameter list
+   * \param[in] ComputePrec If true, compute the preconditioner immediately
+   */
   Maxwell1(const Teuchos::RCP<Matrix>& SM_Matrix,
            const Teuchos::RCP<Matrix>& D0_Matrix,
            const Teuchos::RCP<Matrix>& Kn_Matrix,
@@ -145,15 +145,15 @@ class Maxwell1 : public VerboseObject, public Xpetra::Operator<Scalar, LocalOrdi
   }
 
   /** Gmhd GMHD Constructor with Jacobian and nodal matrix AND Gmhd matrix
-     *
-     * \param[in] SM_Matrix Jacobian
-     * \param[in] D0_Matrix Discrete Gradient
-     * \param[in] Kn_Matrix Nodal Laplacian
-     * \param[in] Coords Nodal coordinates
-     * \param[in] List Parameter list
-     * \param[in] GmhdA_Matrix Gmhd matrix including generalized Ohms law equations
-     * \param[in] ComputePrec If true, compute the preconditioner immediately
-     */
+   *
+   * \param[in] SM_Matrix Jacobian
+   * \param[in] D0_Matrix Discrete Gradient
+   * \param[in] Kn_Matrix Nodal Laplacian
+   * \param[in] Coords Nodal coordinates
+   * \param[in] List Parameter list
+   * \param[in] GmhdA_Matrix Gmhd matrix including generalized Ohms law equations
+   * \param[in] ComputePrec If true, compute the preconditioner immediately
+   */
   Maxwell1(const Teuchos::RCP<Matrix>& SM_Matrix,
            const Teuchos::RCP<Matrix>& D0_Matrix,
            const Teuchos::RCP<Matrix>& Kn_Matrix,
@@ -170,11 +170,11 @@ class Maxwell1 : public VerboseObject, public Xpetra::Operator<Scalar, LocalOrdi
   }
 
   /** Constructor with parameter list
-     *
-     * \param[in] SM_Matrix Jacobian
-     * \param[in] List Parameter list
-     * \param[in] ComputePrec If true, compute the preconditioner immediately
-     */
+   *
+   * \param[in] SM_Matrix Jacobian
+   * \param[in] List Parameter list
+   * \param[in] ComputePrec If true, compute the preconditioner immediately
+   */
   Maxwell1(const Teuchos::RCP<Matrix>& SM_Matrix,
            Teuchos::ParameterList& List,
            bool ComputePrec = true)
@@ -245,13 +245,13 @@ class Maxwell1 : public VerboseObject, public Xpetra::Operator<Scalar, LocalOrdi
   void GMHDSetupHierarchy(Teuchos::ParameterList& List) const;
 
   /** Initialize with matrices except the Jacobian (don't compute the preconditioner)
-     *
-     * \param[in] D0_Matrix Discrete Gradient
-     * \param[in] Kn_Matrix Kn nodal matrix
-     * \param[in] Nullspace Null space (needed for periodic)
-     * \param[in] Coords Nodal coordinates
-     * \param[in] List Parameter list
-     */
+   *
+   * \param[in] D0_Matrix Discrete Gradient
+   * \param[in] Kn_Matrix Kn nodal matrix
+   * \param[in] Nullspace Null space (needed for periodic)
+   * \param[in] Coords Nodal coordinates
+   * \param[in] List Parameter list
+   */
   void initialize(const Teuchos::RCP<Matrix>& D0_Matrix,
                   const Teuchos::RCP<Matrix>& Kn_Matrix,
                   const Teuchos::RCP<MultiVector>& Nullspace,

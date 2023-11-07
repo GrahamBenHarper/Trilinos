@@ -72,7 +72,7 @@
 #include <Xpetra_EpetraCrsMatrix.hpp>
 
 // needed because of inlined function
-//TODO: remove inline function?
+// TODO: remove inline function?
 #include <Xpetra_EpetraCrsMatrix_fwd.hpp>
 #include <Xpetra_CrsMatrixWrap_fwd.hpp>
 
@@ -103,7 +103,7 @@ class Epetra_Vector;
 namespace MueLu {
 
 #ifdef HAVE_MUELU_EPETRA
-//defined after Utilities class
+// defined after Utilities class
 template <typename SC, typename LO, typename GO, typename NO>
 RCP<Xpetra::CrsMatrixWrap<SC, LO, GO, NO> >
 Convert_Epetra_CrsMatrix_ToXpetra_CrsMatrixWrap(RCP<Epetra_CrsMatrix>& epAB);
@@ -647,7 +647,7 @@ class Utilities<double, int, int, Xpetra::EpetraNode> : public UtilitiesBase<dou
             Teuchos::ArrayView<const Scalar> valview(&scaledVals[0], nnz);
             tpOp.replaceLocalValues(i, cols_view, valview);
           }
-        }  //for (size_t i=0; ...
+        }  // for (size_t i=0; ...
 
       } else {
         typename Tpetra::CrsMatrix<Scalar, LocalOrdinal, GlobalOrdinal, Node>::local_inds_host_view_type cols;
@@ -663,14 +663,14 @@ class Utilities<double, int, int, Xpetra::EpetraNode> : public UtilitiesBase<dou
           }
           // FIXME FIXME FIXME FIXME FIXME FIXME
           for (size_t j = 0; j < nnz; ++j)
-            scaledVals[j] = vals[j] * scalingVector[i];  //FIXME i or gid?
+            scaledVals[j] = vals[j] * scalingVector[i];  // FIXME i or gid?
 
           if (nnz > 0) {
             Teuchos::ArrayView<const LocalOrdinal> cols_view(cols.data(), nnz);
             Teuchos::ArrayView<const Scalar> valview(&scaledVals[0], nnz);
             tpOp.replaceGlobalValues(gid, cols_view, valview);
           }
-        }  //for (size_t i=0; ...
+        }  // for (size_t i=0; ...
       }
 
       if (doFillComplete) {
@@ -691,7 +691,7 @@ class Utilities<double, int, int, Xpetra::EpetraNode> : public UtilitiesBase<dou
   static void MyOldScaleMatrix_Epetra(Matrix& Op, const Teuchos::ArrayRCP<Scalar>& scalingVector, bool /* doFillComplete */, bool /* doOptimizeStorage */) {
 #ifdef HAVE_MUELU_EPETRA
     try {
-      //const Epetra_CrsMatrix& epOp = Utilities<double,int,int>::Op2NonConstEpetraCrs(Op);
+      // const Epetra_CrsMatrix& epOp = Utilities<double,int,int>::Op2NonConstEpetraCrs(Op);
       const Epetra_CrsMatrix& epOp = Op2NonConstEpetraCrs(Op);
 
       Epetra_Map const& rowMap = epOp.RowMap();
@@ -819,7 +819,7 @@ class Utilities<double, int, int, Xpetra::EpetraNode> : public UtilitiesBase<dou
   }
 
   /*! @brief Extract coordinates from parameter list and return them in a Xpetra::MultiVector
-    */
+   */
   static RCP<Xpetra::MultiVector<typename Teuchos::ScalarTraits<Scalar>::magnitudeType, LocalOrdinal, GlobalOrdinal, Node> > ExtractCoordinatesFromParameterList(ParameterList& paramList) {
     RCP<Xpetra::MultiVector<typename Teuchos::ScalarTraits<Scalar>::magnitudeType, LocalOrdinal, GlobalOrdinal, Node> > coordinates = Teuchos::null;
 
@@ -925,11 +925,11 @@ long ExtractNonSerializableData(const Teuchos::ParameterList& inList, Teuchos::P
 void TokenizeStringAndStripWhiteSpace(const std::string& stream, std::vector<std::string>& tokenList, const char* token = ",");
 
 /*! Returns true if a parameter name is a valid Muemex custom level variable, e.g. "MultiVector myArray"
-  */
+ */
 bool IsParamMuemexVariable(const std::string& name);
 
 /*! Returns true if a parameter name is a valid user custom level variable, e.g. "MultiVector myArray"
-  */
+ */
 bool IsParamValidVariable(const std::string& name);
 
 #ifdef HAVE_MUELU_EPETRA
@@ -1169,7 +1169,7 @@ Teuchos::RCP<const Teuchos::Comm<int> > GenerateNodeComm(RCP<const Teuchos::Comm
 // Lower case string
 std::string lowerCase(const std::string& s);
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_UTILITIES_SHORT
 #endif  // MUELU_UTILITIES_DECL_HPP

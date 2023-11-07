@@ -256,7 +256,7 @@ void SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Leve
     // loop over all vert line indices (stop as soon as possible)
     LO cntCoarseNodes = 0;
     for (LO vt = 0; vt < TVertLineId.size(); ++vt) {
-      //vertical line id in *vt
+      // vertical line id in *vt
       LO curVertLineId = TVertLineId[vt];
 
       if (cx[curVertLineId * myCoarseZLayers] == -1.0 &&
@@ -282,27 +282,27 @@ void SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BuildP(Leve
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::FindCpts(LocalOrdinal const PtsPerLine, LocalOrdinal const CoarsenRate, LocalOrdinal const Thin, LocalOrdinal** LayerCpts) const {
   /*
-     * Given the number of points in the z direction (PtsPerLine) and a
-     * coarsening rate (CoarsenRate), determine which z-points will serve
-     * as Cpts and return the total number of Cpts.
-     *
-     * Input
-     *    PtsPerLine:   Number of fine level points in the z direction
-     *
-     *    CoarsenRate:  Roughly, number of Cpts  = (PtsPerLine+1)/CoarsenRate - 1
-     *
-     *    Thin:         Must be either 0 or 1. Thin decides what to do when
-     *                  (PtsPerLine+1)/CoarsenRate is not an integer.
-     *
-     *                    Thin == 0  ==>   ceil() the above fraction
-     *                    Thin == 1  ==>   floor() the above fraction
-     *
-     * Output
-     *    LayerCpts     Array where LayerCpts[i] indicates that the
-     *                  LayerCpts[i]th fine level layer is a Cpt Layer.
-     *                  Note: fine level layers are assumed to be numbered starting
-     *                        a one.
-     */
+   * Given the number of points in the z direction (PtsPerLine) and a
+   * coarsening rate (CoarsenRate), determine which z-points will serve
+   * as Cpts and return the total number of Cpts.
+   *
+   * Input
+   *    PtsPerLine:   Number of fine level points in the z direction
+   *
+   *    CoarsenRate:  Roughly, number of Cpts  = (PtsPerLine+1)/CoarsenRate - 1
+   *
+   *    Thin:         Must be either 0 or 1. Thin decides what to do when
+   *                  (PtsPerLine+1)/CoarsenRate is not an integer.
+   *
+   *                    Thin == 0  ==>   ceil() the above fraction
+   *                    Thin == 1  ==>   floor() the above fraction
+   *
+   * Output
+   *    LayerCpts     Array where LayerCpts[i] indicates that the
+   *                  LayerCpts[i]th fine level layer is a Cpt Layer.
+   *                  Note: fine level layers are assumed to be numbered starting
+   *                        a one.
+   */
   typename Teuchos::ScalarTraits<Scalar>::coordinateType temp, RestStride, di;
   LO NCpts, i;
   LO NCLayers = -1;
@@ -343,55 +343,55 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
                      RCP<const Map>& coarseMap, const RCP<MultiVector> fineNullspace,
                      RCP<MultiVector>& coarseNullspace, RCP<Matrix>& R, bool buildRestriction, bool doLinear) const {
   /*
-     * Given a CSR matrix (OrigARowPtr, OrigAcols, OrigAvals), information
-     * describing the z-layer and vertical line (LayerId and VertLineId)
-     * of each matrix block row, a coarsening rate, and dofs/node information,
-     * construct a prolongator that coarsening to semicoarsening in the z-direction
-     * using something like an operator-dependent grid transfer. In particular,
-     * matrix stencils are collapsed to vertical lines. Thus, each vertical line
-     * gives rise to a block tridiagonal matrix. BlkRows corresponding to
-     * Cpts are replaced by identity matrices. This tridiagonal is solved
-     * to determine each interpolation basis functions. Each Blk Rhs corresponds
-     * to all zeros except at the corresponding C-pt which has an identity
-     *
-     * On termination, return the number of local prolongator columns owned by
-     * this processor.
-     *
-     * Note: This code was adapted from a matlab code where offsets/arrays
-     *       start from 1. In most parts of the code, this 1 offset is kept
-     *       (in some cases wasting the first element of the array). The
-     *       input and output matrices of this function has been changed to
-     *       have offsets/rows/columns which start from 0. LayerId[] and
-     *       VertLineId[] currently start from 1.
-     *
-     * Input
-     * =====
-     *    Ntotal       Number of fine level Blk Rows owned by this processor
-     *
-     *    nz           Number of vertical layers. Note: partitioning must be done
-     *                 so that each processor owns an entire vertical line. This
-     *                 means that nz is the global number of layers, which should
-     *                 be equal to the local number of layers.
-     *    CoarsenRate  Rate of z semicoarsening. Smoothed aggregation-like coarsening
-     *                 would correspond to CoarsenRate = 3.
-     *    LayerId      Array from 0 to Ntotal-1 + Ghost. LayerId(BlkRow) gives the
-     *                 layer number associated with the dofs within BlkRow.
-     *    VertLineId   Array from 1 to Ntotal, VertLineId(BlkRow) gives a unique
-     *                 vertical line id (from 0 to Ntotal/nz-1) of BlkRow. All
-     *                 BlkRows associated with nodes along the same vertical line
-     *                 in the mesh should have the same LineId.
-     *    DofsPerNode  Number of degrees-of-freedom per mesh node.
-     *
-     *    OrigARowPtr, CSR arrays corresponding to the fine level matrix.
-     *    OrigAcols,
-     *    OrigAvals
-     *
-     * Output
-     * =====
-     *    ParamPptr,   CSR arrays corresponding to the final prolongation matrix.
-     *    ParamPcols,
-     *    ParamsPvals
-     */
+   * Given a CSR matrix (OrigARowPtr, OrigAcols, OrigAvals), information
+   * describing the z-layer and vertical line (LayerId and VertLineId)
+   * of each matrix block row, a coarsening rate, and dofs/node information,
+   * construct a prolongator that coarsening to semicoarsening in the z-direction
+   * using something like an operator-dependent grid transfer. In particular,
+   * matrix stencils are collapsed to vertical lines. Thus, each vertical line
+   * gives rise to a block tridiagonal matrix. BlkRows corresponding to
+   * Cpts are replaced by identity matrices. This tridiagonal is solved
+   * to determine each interpolation basis functions. Each Blk Rhs corresponds
+   * to all zeros except at the corresponding C-pt which has an identity
+   *
+   * On termination, return the number of local prolongator columns owned by
+   * this processor.
+   *
+   * Note: This code was adapted from a matlab code where offsets/arrays
+   *       start from 1. In most parts of the code, this 1 offset is kept
+   *       (in some cases wasting the first element of the array). The
+   *       input and output matrices of this function has been changed to
+   *       have offsets/rows/columns which start from 0. LayerId[] and
+   *       VertLineId[] currently start from 1.
+   *
+   * Input
+   * =====
+   *    Ntotal       Number of fine level Blk Rows owned by this processor
+   *
+   *    nz           Number of vertical layers. Note: partitioning must be done
+   *                 so that each processor owns an entire vertical line. This
+   *                 means that nz is the global number of layers, which should
+   *                 be equal to the local number of layers.
+   *    CoarsenRate  Rate of z semicoarsening. Smoothed aggregation-like coarsening
+   *                 would correspond to CoarsenRate = 3.
+   *    LayerId      Array from 0 to Ntotal-1 + Ghost. LayerId(BlkRow) gives the
+   *                 layer number associated with the dofs within BlkRow.
+   *    VertLineId   Array from 1 to Ntotal, VertLineId(BlkRow) gives a unique
+   *                 vertical line id (from 0 to Ntotal/nz-1) of BlkRow. All
+   *                 BlkRows associated with nodes along the same vertical line
+   *                 in the mesh should have the same LineId.
+   *    DofsPerNode  Number of degrees-of-freedom per mesh node.
+   *
+   *    OrigARowPtr, CSR arrays corresponding to the fine level matrix.
+   *    OrigAcols,
+   *    OrigAvals
+   *
+   * Output
+   * =====
+   *    ParamPptr,   CSR arrays corresponding to the final prolongation matrix.
+   *    ParamPcols,
+   *    ParamsPvals
+   */
   int NLayers, NVertLines, MaxNnz, NCLayers, MyLine, MyLayer;
   int *InvLineLayer = NULL, *CptLayers = NULL, StartLayer, NStencilNodes;
   int BlkRow = -1, dof_j, node_k, *Sub2FullMap = NULL, RowLeng;
@@ -473,9 +473,9 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   NVertLines++;
 
   /*
-     * Make an inverse map so that we can quickly find the dof
-     * associated with a particular vertical line and layer.
-     */
+   * Make an inverse map so that we can quickly find the dof
+   * associated with a particular vertical line and layer.
+   */
 
   Teuchos::ArrayRCP<LO> TInvLineLayer = Teuchos::arcp<LO>(1 + NVertLines * NLayers);
   InvLineLayer                        = TInvLineLayer.getRawPtr();
@@ -484,19 +484,19 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   }
 
   /*
-     * Determine coarse layers where injection will be applied.
-     */
+   * Determine coarse layers where injection will be applied.
+   */
 
   Teuchos::ArrayRCP<LO> TCptLayers = Teuchos::arcp<LO>(nz + 1);
   CptLayers                        = TCptLayers.getRawPtr();
   NCLayers                         = FindCpts(nz, CoarsenRate, 0, &CptLayers);
 
   /*
-     * Compute the largest possible interpolation stencil width based
-     * on the location of the Clayers. This stencil width is actually
-     * nodal (i.e. assuming 1 dof/node). To get the true max stencil width
-     * one needs to multiply this by DofsPerNode.
-     */
+   * Compute the largest possible interpolation stencil width based
+   * on the location of the Clayers. This stencil width is actually
+   * nodal (i.e. assuming 1 dof/node). To get the true max stencil width
+   * one needs to multiply this by DofsPerNode.
+   */
 
   if (NCLayers < 2)
     MaxStencilSize = nz;
@@ -513,11 +513,11 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   }
 
   /*
-     * Allocate storage associated with solving a banded sub-matrix needed to
-     * determine the interpolation stencil. Note: we compute interpolation stencils
-     * for all dofs within a node at the same time, and so the banded solution
-     * must be large enough to hold all DofsPerNode simultaneously.
-     */
+   * Allocate storage associated with solving a banded sub-matrix needed to
+   * determine the interpolation stencil. Note: we compute interpolation stencils
+   * for all dofs within a node at the same time, and so the banded solution
+   * must be large enough to hold all DofsPerNode simultaneously.
+   */
 
   Teuchos::ArrayRCP<LO> TSub2FullMap = Teuchos::arcp<LO>((MaxStencilSize + 1) * DofsPerNode);
   Sub2FullMap                        = TSub2FullMap.getRawPtr();
@@ -529,8 +529,8 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     RestrictBandSol = TResBandSol.getRawPtr();
   }
   /*
-     * Lapack variables. See comments for dgbsv().
-     */
+   * Lapack variables. See comments for dgbsv().
+   */
   KL                             = 2 * DofsPerNode - 1;
   KU                             = 2 * DofsPerNode - 1;
   KLU                            = KL + KU;
@@ -548,11 +548,11 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   }
 
   /*
-     * Allocate storage for the final interpolation matrix. Note: each prolongator
-     * row might have entries corresponding to at most two nodes.
-     * Note: the total fine level dofs equals DofsPerNode*Ntotal and the max
-     *       nnz per prolongator row is DofsPerNode*2.
-     */
+   * Allocate storage for the final interpolation matrix. Note: each prolongator
+   * row might have entries corresponding to at most two nodes.
+   * Note: the total fine level dofs equals DofsPerNode*Ntotal and the max
+   *       nnz per prolongator row is DofsPerNode*2.
+   */
 
   Ndofs  = DofsPerNode * Ntotal;
   MaxNnz = 2 * DofsPerNode * Ndofs;
@@ -565,15 +565,15 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 
   Xpetra::global_size_t itemp = GNdofs / nz;
   coarseMap                   = StridedMapFactory::Build(rowMap->lib(),
-                                       NCLayers * itemp,
-                                       NCLayers * NVertLines * DofsPerNode,
-                                       0, /* index base */
-                                       stridingInfo_,
-                                       rowMap->getComm(),
-                                       -1, /* strided block id */
-                                       0 /* domain gid offset */);
+                                                         NCLayers * itemp,
+                                                         NCLayers * NVertLines * DofsPerNode,
+                                                         0, /* index base */
+                                                         stridingInfo_,
+                                                         rowMap->getComm(),
+                                                         -1, /* strided block id */
+                                                         0 /* domain gid offset */);
 
-  //coarseMap = MapFactory::createContigMapWithNode(rowMap->lib(),(NCLayers*GNdofs)/nz, NCLayers*NVertLines*DofsPerNode,(rowMap->getComm()), rowMap->getNode());
+  // coarseMap = MapFactory::createContigMapWithNode(rowMap->lib(),(NCLayers*GNdofs)/nz, NCLayers*NVertLines*DofsPerNode,(rowMap->getComm()), rowMap->getNode());
 
   P               = rcp(new CrsMatrixWrap(rowMap, coarseMap, 0));
   coarseNullspace = MultiVectorFactory::Build(coarseMap, fineNullspace->getNumVectors());
@@ -607,10 +607,10 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     Rptr[1] = 0;
   }
   /*
-     * Setup P's rowptr as if each row had its maximum of 2*DofsPerNode nonzeros.
-     * This will be useful while filling up P, and then later we will squeeze out
-     * the unused nonzeros locations.
-     */
+   * Setup P's rowptr as if each row had its maximum of 2*DofsPerNode nonzeros.
+   * This will be useful while filling up P, and then later we will squeeze out
+   * the unused nonzeros locations.
+   */
 
   for (i = 1; i <= MaxNnz; i++) Pcols[i] = -1; /* mark all entries as unused */
   count = 1;
@@ -628,11 +628,11 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   }
 
   /*
-     * Build P column by column. The 1st block column corresponds to the 1st coarse
-     * layer and the first line. The 2nd block column corresponds to the 2nd coarse
-     * layer and the first line. The NCLayers+1 block column corresponds to the
-     * 1st coarse layer and the 2nd line, etc.
-     */
+   * Build P column by column. The 1st block column corresponds to the 1st coarse
+   * layer and the first line. The 2nd block column corresponds to the 2nd coarse
+   * layer and the first line. The NCLayers+1 block column corresponds to the
+   * 1st coarse layer and the 2nd line, etc.
+   */
 
   col = 0;
   for (MyLine = 1; MyLine <= NVertLines; MyLine += 1) {
@@ -641,15 +641,15 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
       MyLayer = CptLayers[iii];
 
       /*
-         * StartLayer gives the layer number of the lowest layer that
-         * is nonzero in the interpolation stencil that is currently
-         * being computed. Normally, if we are not near a boundary this
-         * is simply CptsLayers[iii-1]+1.
-         *
-         * NStencilNodes indicates the number of nonzero nodes in the
-         * interpolation stencil that is currently being computed. Normally,
-         * if we are not near a boundary this is CptLayers[iii+1]-StartLayer.
-         */
+       * StartLayer gives the layer number of the lowest layer that
+       * is nonzero in the interpolation stencil that is currently
+       * being computed. Normally, if we are not near a boundary this
+       * is simply CptsLayers[iii-1]+1.
+       *
+       * NStencilNodes indicates the number of nonzero nodes in the
+       * interpolation stencil that is currently being computed. Normally,
+       * if we are not near a boundary this is CptLayers[iii+1]-StartLayer.
+       */
 
       if (iii != 1)
         StartLayer = CptLayers[iii - 1] + 1;
@@ -664,9 +664,9 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
       N = NStencilNodes * DofsPerNode;
 
       /*
-         *  dgbsv() does not require that the first KL rows be initialized,
-         *  so we could avoid zeroing out some entries?
-         */
+       *  dgbsv() does not require that the first KL rows be initialized,
+       *  so we could avoid zeroing out some entries?
+       */
 
       for (i = 0; i < NStencilNodes * DofsPerNode * DofsPerNode; i++) BandSol[i] = 0.0;
       for (i = 0; i < LDAB * N; i++) BandMat[i] = 0.0;
@@ -676,9 +676,9 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
       }
 
       /*
-         *  Fill BandMat and BandSol (which is initially the rhs) for each
-         *  node in the interpolation stencil that is being computed.
-         */
+       *  Fill BandMat and BandSol (which is initially the rhs) for each
+       *  node in the interpolation stencil that is being computed.
+       */
 
       if (!doLinear) {
         for (node_k = 1; node_k <= NStencilNodes; node_k++) {
@@ -878,12 +878,12 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   }
 
   /*
-     * Squeeze the -1's out of the columns. At the same time convert Pcols
-     * so that now the first column is numbered '0' as opposed to '1'.
-     * Also, the arrays Pcols and Pvals should now use the zeroth element
-     * as opposed to just starting with the first element. Pptr will be
-     * fixed in the for loop below so that Pptr[0] = 0, etc.
-     */
+   * Squeeze the -1's out of the columns. At the same time convert Pcols
+   * so that now the first column is numbered '0' as opposed to '1'.
+   * Also, the arrays Pcols and Pvals should now use the zeroth element
+   * as opposed to just starting with the first element. Pptr will be
+   * fixed in the for loop below so that Pptr[0] = 0, etc.
+   */
   CurRow = 1;
   NewPtr = 1;
   for (size_t ii = 1; ii <= Pptr[Ntotal * DofsPerNode] - 1; ii++) {
@@ -905,8 +905,8 @@ LocalOrdinal SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   for (i = CurRow; i <= Ntotal * DofsPerNode; i++) Pptr[CurRow] = LastGuy;
 
   /* Now move the pointers so that they now point to the beginning of each
-     * row as opposed to the end of each row
-     */
+   * row as opposed to the end of each row
+   */
   for (i = -Ntotal * DofsPerNode + 1; i >= 2; i--) {
     Pptr[i - 1] = Pptr[i - 2]; /* extra -1 added to start from 0 */
   }
@@ -1025,7 +1025,7 @@ void SemiCoarsenPFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::RevertToPie
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_SEMICOARSENPFACTORY_SHORT
 #endif  // MUELU_SEMICOARSENPFACTORY_DEF_HPP

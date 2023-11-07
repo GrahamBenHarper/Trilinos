@@ -92,7 +92,7 @@ class TekoSmoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdina
   //@{
 
   /*! @brief Constructor
-    */
+   */
   TekoSmoother()
     : type_("Teko smoother") {
     TEUCHOS_TEST_FOR_EXCEPTION(true, Exceptions::RuntimeError, "MueLu::TekoSmoother: Teko can only be used with SC=double. For more information refer to the doxygen documentation of TekoSmoother.");
@@ -118,7 +118,7 @@ class TekoSmoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdina
   //@{
 
   /*! @brief Setup routine
-    */
+   */
   void Setup(Level &currentLevel) {}
 
   /*! @brief Apply the Teko smoother.
@@ -144,7 +144,7 @@ class TekoSmoother : public SmootherPrototype<Scalar, LocalOrdinal, GlobalOrdina
   }
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
+  // using MueLu::Describable::describe; // overloading, not hiding
   void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const {
     MUELU_DESCRIBE;
 
@@ -194,7 +194,7 @@ class TekoSmoother<double, int, GlobalOrdinal, Node> : public SmootherPrototype<
   //@{
 
   /*! @brief Constructor
-    */
+   */
   TekoSmoother()
     : type_("Teko smoother")
     , A_(Teuchos::null)
@@ -229,7 +229,7 @@ class TekoSmoother<double, int, GlobalOrdinal, Node> : public SmootherPrototype<
   //@{
 
   /*! @brief Setup routine
-    */
+   */
   void Setup(Level &currentLevel) {
     RCP<Teuchos::FancyOStream> out = Teuchos::fancyOStream(Teuchos::rcpFromRef(std::cout));
 
@@ -310,8 +310,8 @@ class TekoSmoother<double, int, GlobalOrdinal, Node> : public SmootherPrototype<
 
     inverseOp_->apply(
         Thyra::NOTRANS,
-        *thyB,       //const MultiVectorBase<Scalar> &X,
-        thyX.ptr(),  //const Ptr<MultiVectorBase<Scalar> > &Y,
+        *thyB,       // const MultiVectorBase<Scalar> &X,
+        thyX.ptr(),  // const Ptr<MultiVectorBase<Scalar> > &Y,
         1.0,
         0.0);
 
@@ -337,7 +337,7 @@ class TekoSmoother<double, int, GlobalOrdinal, Node> : public SmootherPrototype<
   }
 
   //! Print the object with some verbosity level to an FancyOStream object.
-  //using MueLu::Describable::describe; // overloading, not hiding
+  // using MueLu::Describable::describe; // overloading, not hiding
   void print(Teuchos::FancyOStream &out, const VerbLevel verbLevel = Default) const {
     MUELU_DESCRIBE;
 

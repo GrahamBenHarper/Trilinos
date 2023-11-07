@@ -123,9 +123,9 @@ class UnsmooshFactory : public PFactory {
   void BuildP(Level & /* fineLevel */, Level & /* coarseLevel */) const {};  // TAW no real need for an extra BuildP routine. Just use Build
 
  private:
-};  //class UnsmooshFactory
+};  // class UnsmooshFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_UNSMOOSHFACTORY_SHORT
 

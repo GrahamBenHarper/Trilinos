@@ -67,7 +67,7 @@ RCP<ParameterList> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Nod
 
   validParamList->set<std::string>("visualization: output filename", "viz%LEVELID", "filename for VTK-style visualization output");
   validParamList->set<int>("visualization: output file: time step", 0, "time step variable for output file name");       // Remove me?
-  validParamList->set<int>("visualization: output file: iter", 0, "nonlinear iteration variable for output file name");  //Remove me?
+  validParamList->set<int>("visualization: output file: iter", 0, "nonlinear iteration variable for output file name");  // Remove me?
   validParamList->set<std::string>("visualization: style", "Point Cloud", "style of aggregate visualization for VTK output. Can be 'Point Cloud', 'Jacks', 'Convex Hulls'");
   validParamList->set<bool>("visualization: build colormap", false, "Whether to build a random color map in a separate xml file.");
   validParamList->set<bool>("visualization: fine graph edges", false, "Whether to draw all fine node connections along with the aggregates.");
@@ -87,18 +87,18 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doPointClo
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doJacks(std::vector<int>& vertices, std::vector<int>& geomSizes, LO numLocalAggs, LO numFineNodes, const std::vector<bool>& isRoot, const ArrayRCP<LO>& vertex2AggId) {
-  //For each aggregate, find the root node then connect it with the other nodes in the aggregate
-  //Doesn't matter the order, as long as all edges are found.
+  // For each aggregate, find the root node then connect it with the other nodes in the aggregate
+  // Doesn't matter the order, as long as all edges are found.
   vertices.reserve(vertices.size() + 3 * (numFineNodes - numLocalAggs));
   geomSizes.reserve(vertices.size() + 2 * (numFineNodes - numLocalAggs));
   int root = 0;
-  for (int i = 0; i < numLocalAggs; i++)  //TODO: Replace this O(n^2) with a better way
+  for (int i = 0; i < numLocalAggs; i++)  // TODO: Replace this O(n^2) with a better way
   {
     while (!isRoot[root])
       root++;
     int numInAggFound = 0;
     for (int j = 0; j < numFineNodes; j++) {
-      if (j == root)  //don't make a connection from the root to itself
+      if (j == root)  // don't make a connection from the root to itself
       {
         numInAggFound++;
         continue;
@@ -107,15 +107,15 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doJacks(st
         vertices.push_back(root);
         vertices.push_back(j);
         geomSizes.push_back(2);
-        //Also draw the free endpoint explicitly for the current line
+        // Also draw the free endpoint explicitly for the current line
         vertices.push_back(j);
         geomSizes.push_back(1);
         numInAggFound++;
-        //if(numInAggFound == aggSizes_[vertex2AggId_[root]]) //don't spend more time looking if done with that root
-        //  break;
+        // if(numInAggFound == aggSizes_[vertex2AggId_[root]]) //don't spend more time looking if done with that root
+        //   break;
       }
     }
-    root++;  //get set up to look for the next root
+    root++;  // get set up to look for the next root
   }
 }
 
@@ -130,7 +130,7 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
         aggNodes.push_back(i);
     }
 
-    //have a list of nodes in the aggregate
+    // have a list of nodes in the aggregate
     TEUCHOS_TEST_FOR_EXCEPTION(aggNodes.size() == 0, Exceptions::RuntimeError,
                                "CoarseningVisualization::doConvexHulls2D: aggregate contains zero nodes!");
     if (aggNodes.size() == 1) {
@@ -208,25 +208,25 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
           vertices.push_back(hull[i]);
         }
         geomSizes.push_back(hull.size());
-      }  //else colinear
-    }    //else 3 + nodes
+      }  // else colinear
+    }    // else 3 + nodes
   }
 }
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHulls3D(std::vector<int>& vertices, std::vector<int>& geomSizes, LO numLocalAggs, LO numFineNodes, const std::vector<bool>& /* isRoot */, const ArrayRCP<LO>& vertex2AggId, const Teuchos::ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType>& xCoords, const Teuchos::ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType>& yCoords, const Teuchos::ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType>& zCoords) {
-  //Use 3D quickhull algo.
-  //Vector of node indices representing triangle vertices
-  //Note: Calculate the hulls first since will only include point data for points in the hulls
-  //Effectively the size() of vertIndices after each hull is added to it
+  // Use 3D quickhull algo.
+  // Vector of node indices representing triangle vertices
+  // Note: Calculate the hulls first since will only include point data for points in the hulls
+  // Effectively the size() of vertIndices after each hull is added to it
   typedef std::list<int>::iterator Iter;
   for (int agg = 0; agg < numLocalAggs; agg++) {
-    std::list<int> aggNodes;  //At first, list of all nodes in the aggregate. As nodes are enclosed or included by/in hull, remove them
+    std::list<int> aggNodes;  // At first, list of all nodes in the aggregate. As nodes are enclosed or included by/in hull, remove them
     for (int i = 0; i < numFineNodes; i++) {
       if (vertex2AggId[i] == agg)
         aggNodes.push_back(i);
     }
-    //First, check anomalous cases
+    // First, check anomalous cases
     TEUCHOS_TEST_FOR_EXCEPTION(aggNodes.size() == 0, Exceptions::RuntimeError,
                                "CoarseningVisualization::doConvexHulls3D: aggregate contains zero nodes!");
     if (aggNodes.size() == 1) {
@@ -239,7 +239,7 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
       geomSizes.push_back(2);
       continue;
     }
-    //check for collinearity
+    // check for collinearity
     bool areCollinear = true;
     {
       Iter it = aggNodes.begin();
@@ -247,7 +247,7 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
       myVec3 comp;
       {
         it++;
-        myVec3 secondVec(xCoords[*it], yCoords[*it], zCoords[*it]);  //cross this with other vectors to compare
+        myVec3 secondVec(xCoords[*it], yCoords[*it], zCoords[*it]);  // cross this with other vectors to compare
         comp = vecSubtract(secondVec, firstVec);
         it++;
       }
@@ -261,8 +261,8 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
       }
     }
     if (areCollinear) {
-      //find the endpoints of segment describing all the points
-      //compare x, if tie compare y, if tie compare z
+      // find the endpoints of segment describing all the points
+      // compare x, if tie compare y, if tie compare z
       Iter min = aggNodes.begin();
       Iter max = aggNodes.begin();
       Iter it  = ++aggNodes.begin();
@@ -294,7 +294,7 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
     }
     bool areCoplanar = true;
     {
-      //number of points is known to be >= 3
+      // number of points is known to be >= 3
       Iter vert = aggNodes.begin();
       myVec3 v1(xCoords[*vert], yCoords[*vert], zCoords[*vert]);
       vert++;
@@ -302,9 +302,9 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
       vert++;
       myVec3 v3(xCoords[*vert], yCoords[*vert], zCoords[*vert]);
       vert++;
-      //Make sure the first three points aren't also collinear (need a non-degenerate triangle to get a normal)
+      // Make sure the first three points aren't also collinear (need a non-degenerate triangle to get a normal)
       while (mymagnitude(crossProduct(vecSubtract(v1, v2), vecSubtract(v1, v3))) < 1e-10) {
-        //Replace the third point with the next point
+        // Replace the third point with the next point
         v3 = myVec3(xCoords[*vert], yCoords[*vert], zCoords[*vert]);
         vert++;
       }
@@ -316,7 +316,7 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
         }
       }
       if (areCoplanar) {
-        //do 2D convex hull
+        // do 2D convex hull
         myVec3 planeNorm = getNorm(v1, v2, v3);
         planeNorm.x      = fabs(planeNorm.x);
         planeNorm.y      = fabs(planeNorm.y);
@@ -324,14 +324,14 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
         std::vector<myVec2> points;
         std::vector<int> nodes;
         if (planeNorm.x >= planeNorm.y && planeNorm.x >= planeNorm.z) {
-          //project points to yz plane to make hull
+          // project points to yz plane to make hull
           for (Iter it = aggNodes.begin(); it != aggNodes.end(); it++) {
             nodes.push_back(*it);
             points.push_back(myVec2(yCoords[*it], zCoords[*it]));
           }
         }
         if (planeNorm.y >= planeNorm.x && planeNorm.y >= planeNorm.z) {
-          //use xz
+          // use xz
           for (Iter it = aggNodes.begin(); it != aggNodes.end(); it++) {
             nodes.push_back(*it);
             points.push_back(myVec2(xCoords[*it], zCoords[*it]));
@@ -351,8 +351,8 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
         continue;
       }
     }
-    Iter exIt        = aggNodes.begin();                            //iterator to be used for searching for min/max x/y/z
-    int extremeSix[] = {*exIt, *exIt, *exIt, *exIt, *exIt, *exIt};  //nodes with minimumX, maxX, minY ...
+    Iter exIt        = aggNodes.begin();                            // iterator to be used for searching for min/max x/y/z
+    int extremeSix[] = {*exIt, *exIt, *exIt, *exIt, *exIt, *exIt};  // nodes with minimumX, maxX, minY ...
     exIt++;
     for (; exIt != aggNodes.end(); exIt++) {
       Iter it = exIt;
@@ -387,7 +387,7 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
       extremeVectors[i] = thisExtremeVec;
     }
     double maxDist = 0;
-    int base1      = 0;  //ints from 0-5: which pair out of the 6 extreme points are the most distant? (indices in extremeSix and extremeVectors)
+    int base1      = 0;  // ints from 0-5: which pair out of the 6 extreme points are the most distant? (indices in extremeSix and extremeVectors)
     int base2      = 0;
     for (int i = 0; i < 5; i++) {
       for (int j = i + 1; j < 6; j++) {
@@ -400,17 +400,17 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
         }
       }
     }
-    std::list<myTriangle> hullBuilding;  //each Triangle is a triplet of nodes (int IDs) that form a triangle
-    //remove base1 and base2 iters from aggNodes, they are known to be in the hull
+    std::list<myTriangle> hullBuilding;  // each Triangle is a triplet of nodes (int IDs) that form a triangle
+    // remove base1 and base2 iters from aggNodes, they are known to be in the hull
     aggNodes.remove(extremeSix[base1]);
     aggNodes.remove(extremeSix[base2]);
-    //extremeSix[base1] and [base2] still have the myVec3 representation
+    // extremeSix[base1] and [base2] still have the myVec3 representation
     myTriangle tri;
     tri.v1 = extremeSix[base1];
     tri.v2 = extremeSix[base2];
-    //Now find the point that is furthest away from the line between base1 and base2
+    // Now find the point that is furthest away from the line between base1 and base2
     maxDist = 0;
-    //need the vectors to do "quadruple product" formula
+    // need the vectors to do "quadruple product" formula
     myVec3 b1 = extremeVectors[base1];
     myVec3 b2 = extremeVectors[base2];
     Iter thirdNode;
@@ -423,12 +423,12 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
         thirdNode = node;
       }
     }
-    //Now know the last node in the first triangle
+    // Now know the last node in the first triangle
     tri.v3 = *thirdNode;
     hullBuilding.push_back(tri);
     myVec3 b3(xCoords[*thirdNode], yCoords[*thirdNode], zCoords[*thirdNode]);
     aggNodes.erase(thirdNode);
-    //Find the fourth node (most distant from triangle) to form tetrahedron
+    // Find the fourth node (most distant from triangle) to form tetrahedron
     maxDist          = 0;
     int fourthVertex = -1;
     for (Iter node = aggNodes.begin(); node != aggNodes.end(); node++) {
@@ -442,8 +442,8 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
     }
     aggNodes.remove(fourthVertex);
     myVec3 b4(xCoords[fourthVertex], yCoords[fourthVertex], zCoords[fourthVertex]);
-    //Add three new triangles to hullBuilding to form the first tetrahedron
-    //use tri to hold the triangle info temporarily before being added to list
+    // Add three new triangles to hullBuilding to form the first tetrahedron
+    // use tri to hold the triangle info temporarily before being added to list
     tri    = hullBuilding.front();
     tri.v1 = fourthVertex;
     hullBuilding.push_back(tri);
@@ -453,29 +453,29 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
     tri    = hullBuilding.front();
     tri.v3 = fourthVertex;
     hullBuilding.push_back(tri);
-    //now orient all four triangles so that the vertices are oriented clockwise (so getNorm_ points outward for each)
+    // now orient all four triangles so that the vertices are oriented clockwise (so getNorm_ points outward for each)
     myVec3 barycenter((b1.x + b2.x + b3.x + b4.x) / 4.0, (b1.y + b2.y + b3.y + b4.y) / 4.0, (b1.z + b2.z + b3.z + b4.z) / 4.0);
     for (std::list<myTriangle>::iterator tetTri = hullBuilding.begin(); tetTri != hullBuilding.end(); tetTri++) {
       myVec3 triVert1(xCoords[tetTri->v1], yCoords[tetTri->v1], zCoords[tetTri->v1]);
       myVec3 triVert2(xCoords[tetTri->v2], yCoords[tetTri->v2], zCoords[tetTri->v2]);
       myVec3 triVert3(xCoords[tetTri->v3], yCoords[tetTri->v3], zCoords[tetTri->v3]);
       myVec3 trinorm   = getNorm(triVert1, triVert2, triVert3);
-      myVec3 ptInPlane = tetTri == hullBuilding.begin() ? b1 : b4;  //first triangle definitely has b1 in it, other three definitely have b4
+      myVec3 ptInPlane = tetTri == hullBuilding.begin() ? b1 : b4;  // first triangle definitely has b1 in it, other three definitely have b4
       if (isInFront(barycenter, ptInPlane, trinorm)) {
-        //don't want the faces of the tetrahedron to face inwards (towards barycenter) so reverse orientation
-        //by swapping two vertices
+        // don't want the faces of the tetrahedron to face inwards (towards barycenter) so reverse orientation
+        // by swapping two vertices
         int temp   = tetTri->v1;
         tetTri->v1 = tetTri->v2;
         tetTri->v2 = temp;
       }
     }
-    //now, have starting polyhedron in hullBuilding (all faces are facing outwards according to getNorm_) and remaining nodes to process are in aggNodes
-    //recursively, for each triangle, make a list of the points that are 'in front' of the triangle. Find the point with the maximum distance from the triangle.
-    //Add three new triangles, each sharing one edge with the original triangle but now with the most distant point as a vertex. Remove the most distant point from
-    //the list of all points that need to be processed. Also from that list remove all points that are in front of the original triangle but not in front of all three
-    //new triangles, since they are now enclosed in the hull.
-    //Construct point lists for each face of the tetrahedron individually.
-    myVec3 trinorms[4];  //normals to the four tetrahedron faces, now oriented outwards
+    // now, have starting polyhedron in hullBuilding (all faces are facing outwards according to getNorm_) and remaining nodes to process are in aggNodes
+    // recursively, for each triangle, make a list of the points that are 'in front' of the triangle. Find the point with the maximum distance from the triangle.
+    // Add three new triangles, each sharing one edge with the original triangle but now with the most distant point as a vertex. Remove the most distant point from
+    // the list of all points that need to be processed. Also from that list remove all points that are in front of the original triangle but not in front of all three
+    // new triangles, since they are now enclosed in the hull.
+    // Construct point lists for each face of the tetrahedron individually.
+    myVec3 trinorms[4];  // normals to the four tetrahedron faces, now oriented outwards
     int index = 0;
     for (std::list<myTriangle>::iterator tetTri = hullBuilding.begin(); tetTri != hullBuilding.end(); tetTri++) {
       myVec3 triVert1(xCoords[tetTri->v1], yCoords[tetTri->v1], zCoords[tetTri->v1]);
@@ -488,14 +488,14 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
     std::list<int> startPoints2;
     std::list<int> startPoints3;
     std::list<int> startPoints4;
-    //scope this so that 'point' is not in function scope
+    // scope this so that 'point' is not in function scope
     {
       Iter point = aggNodes.begin();
-      while (!aggNodes.empty())  //this removes points one at a time as they are put in startPointsN or are already done
+      while (!aggNodes.empty())  // this removes points one at a time as they are put in startPointsN or are already done
       {
         myVec3 pointVec(xCoords[*point], yCoords[*point], zCoords[*point]);
-        //Note: Because of the way the tetrahedron faces are constructed above,
-        //face 1 definitely contains b1 and faces 2-4 definitely contain b4.
+        // Note: Because of the way the tetrahedron faces are constructed above,
+        // face 1 definitely contains b1 and faces 2-4 definitely contain b4.
         if (isInFront(pointVec, b1, trinorms[0])) {
           startPoints1.push_back(*point);
           point = aggNodes.erase(point);
@@ -509,10 +509,10 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
           startPoints4.push_back(*point);
           point = aggNodes.erase(point);
         } else {
-          point = aggNodes.erase(point);  //points here are already inside tetrahedron.
+          point = aggNodes.erase(point);  // points here are already inside tetrahedron.
         }
       }
-      //Call processTriangle for each triangle in the initial tetrahedron, one at a time.
+      // Call processTriangle for each triangle in the initial tetrahedron, one at a time.
     }
     typedef std::list<myTriangle>::iterator TriIter;
     TriIter firstTri  = hullBuilding.begin();
@@ -523,7 +523,7 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
     myTriangle start3 = *firstTri;
     firstTri++;
     myTriangle start4 = *firstTri;
-    //kick off depth-first recursive filling of hullBuilding list with all triangles in the convex hull
+    // kick off depth-first recursive filling of hullBuilding list with all triangles in the convex hull
     if (!startPoints1.empty())
       processTriangle(hullBuilding, start1, startPoints1, barycenter, xCoords, yCoords, zCoords);
     if (!startPoints2.empty())
@@ -532,8 +532,8 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doConvexHu
       processTriangle(hullBuilding, start3, startPoints3, barycenter, xCoords, yCoords, zCoords);
     if (!startPoints4.empty())
       processTriangle(hullBuilding, start4, startPoints4, barycenter, xCoords, yCoords, zCoords);
-    //hullBuilding now has all triangles that make up this hull.
-    //Dump hullBuilding info into the list of all triangles for the scene.
+    // hullBuilding now has all triangles that make up this hull.
+    // Dump hullBuilding info into the list of all triangles for the scene.
     vertices.reserve(vertices.size() + 3 * hullBuilding.size());
     for (TriIter hullTri = hullBuilding.begin(); hullTri != hullBuilding.end(); hullTri++) {
       vertices.push_back(hullTri->v1);
@@ -549,12 +549,12 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doGraphEdg
   ArrayView<const Scalar> values;
   ArrayView<const LocalOrdinal> neighbors;
 
-  std::vector<std::pair<int, int> > vert1;  //vertices (node indices)
+  std::vector<std::pair<int, int> > vert1;  // vertices (node indices)
 
   ArrayView<const LocalOrdinal> indices;
   for (LocalOrdinal locRow = 0; locRow < LocalOrdinal(G->GetNodeNumVertices()); locRow++) {
     neighbors = G->getNeighborVertices(locRow);
-    //Add those local indices (columns) to the list of connections (which are pairs of the form (localM, localN))
+    // Add those local indices (columns) to the list of connections (which are pairs of the form (localM, localN))
     for (int gEdge = 0; gEdge < int(neighbors.size()); ++gEdge) {
       vert1.push_back(std::pair<int, int>(locRow, neighbors[gEdge]));
     }
@@ -567,9 +567,9 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doGraphEdg
     }
   }
   std::sort(vert1.begin(), vert1.end());
-  std::vector<std::pair<int, int> >::iterator newEnd = unique(vert1.begin(), vert1.end());  //remove duplicate edges
+  std::vector<std::pair<int, int> >::iterator newEnd = unique(vert1.begin(), vert1.end());  // remove duplicate edges
   vert1.erase(newEnd, vert1.end());
-  //std::vector<int> points1;
+  // std::vector<int> points1;
   vertices.reserve(2 * vert1.size());
   geomSizes.reserve(vert1.size());
   for (size_t i = 0; i < vert1.size(); i++) {
@@ -603,7 +603,7 @@ double VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::dotProdu
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 bool VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::isInFront(myVec3 point, myVec3 inPlane, myVec3 n) {
-  myVec3 rel(point.x - inPlane.x, point.y - inPlane.y, point.z - inPlane.z);  //position of the point relative to the plane
+  myVec3 rel(point.x - inPlane.x, point.y - inPlane.y, point.z - inPlane.z);  // position of the point relative to the plane
   return dotProduct(rel, n) > 1e-12 ? true : false;
 }
 
@@ -644,17 +644,17 @@ myVec2 VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::getNorm(
 }
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
-myVec3 VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::getNorm(myVec3 v1, myVec3 v2, myVec3 v3)  //normal to face of triangle (will be outward rel. to polyhedron) (v1, v2, v3 are in CCW order when normal is toward viewpoint)
+myVec3 VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::getNorm(myVec3 v1, myVec3 v2, myVec3 v3)  // normal to face of triangle (will be outward rel. to polyhedron) (v1, v2, v3 are in CCW order when normal is toward viewpoint)
 {
   return crossProduct(vecSubtract(v2, v1), vecSubtract(v3, v1));
 }
 
-//get minimum distance from 'point' to plane containing v1, v2, v3 (or the triangle with v1, v2, v3 as vertices)
+// get minimum distance from 'point' to plane containing v1, v2, v3 (or the triangle with v1, v2, v3 as vertices)
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 double VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::pointDistFromTri(myVec3 point, myVec3 v1, myVec3 v2, myVec3 v3) {
   using namespace std;
   myVec3 norm = getNorm(v1, v2, v3);
-  //must normalize the normal vector
+  // must normalize the normal vector
   double normScl = mymagnitude(norm);
   double rv      = 0.0;
   if (normScl > 1e-8) {
@@ -691,18 +691,18 @@ double VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::pointDis
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 std::vector<myTriangle> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::processTriangle(std::list<myTriangle>& tris, myTriangle tri, std::list<int>& pointsInFront, myVec3& barycenter, const Teuchos::ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType>& xCoords, const Teuchos::ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType>& yCoords, const Teuchos::ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType>& zCoords) {
   //*tri is in the tris list, and is the triangle to process here. tris is a complete list of all triangles in the hull so far. pointsInFront is only a list of the nodes in front of tri. Need coords also.
-  //precondition: each triangle is already oriented so that getNorm_(v1, v2, v3) points outward (away from interior of hull)
-  //First find the point furthest from triangle.
+  // precondition: each triangle is already oriented so that getNorm_(v1, v2, v3) points outward (away from interior of hull)
+  // First find the point furthest from triangle.
   using namespace std;
   typedef std::list<int>::iterator Iter;
   typedef std::list<myTriangle>::iterator TriIter;
   typedef list<pair<int, int> >::iterator EdgeIter;
   double maxDist = 0;
-  //Need vector representations of triangle's vertices
+  // Need vector representations of triangle's vertices
   myVec3 v1(xCoords[tri.v1], yCoords[tri.v1], zCoords[tri.v1]);
   myVec3 v2(xCoords[tri.v2], yCoords[tri.v2], zCoords[tri.v2]);
   myVec3 v3(xCoords[tri.v3], yCoords[tri.v3], zCoords[tri.v3]);
-  myVec3 farPointVec;  //useful to have both the point's coordinates and it's position in the list
+  myVec3 farPointVec;  // useful to have both the point's coordinates and it's position in the list
   Iter farPoint = pointsInFront.begin();
   for (Iter point = pointsInFront.begin(); point != pointsInFront.end(); point++) {
     myVec3 pointVec(xCoords[*point], yCoords[*point], zCoords[*point]);
@@ -714,9 +714,9 @@ std::vector<myTriangle> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal
       farPoint    = point;
     }
   }
-  //Find all the triangles that the point is in front of (can be more than 1)
-  //At the same time, remove them from tris, as every one will be replaced later
-  vector<myTriangle> visible;  //use a list of iterators so that the underlying object is still in tris
+  // Find all the triangles that the point is in front of (can be more than 1)
+  // At the same time, remove them from tris, as every one will be replaced later
+  vector<myTriangle> visible;  // use a list of iterators so that the underlying object is still in tris
   for (TriIter it = tris.begin(); it != tris.end();) {
     myVec3 vec1(xCoords[it->v1], yCoords[it->v1], zCoords[it->v1]);
     myVec3 vec2(xCoords[it->v2], yCoords[it->v2], zCoords[it->v2]);
@@ -728,11 +728,11 @@ std::vector<myTriangle> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal
     } else
       it++;
   }
-  //Figure out what triangles need to be destroyed/created
-  //First create a list of edges (as std::pair<int, int>, where the two ints are the node endpoints)
+  // Figure out what triangles need to be destroyed/created
+  // First create a list of edges (as std::pair<int, int>, where the two ints are the node endpoints)
   list<pair<int, int> > horizon;
-  //For each triangle, add edges to the list iff the edge only appears once in the set of all
-  //Have members of horizon have the lower node # first, and the higher one second
+  // For each triangle, add edges to the list iff the edge only appears once in the set of all
+  // Have members of horizon have the lower node # first, and the higher one second
   for (vector<myTriangle>::iterator it = visible.begin(); it != visible.end(); it++) {
     pair<int, int> e1(it->v1, it->v2);
     pair<int, int> e2(it->v2, it->v3);
@@ -757,9 +757,9 @@ std::vector<myTriangle> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal
     horizon.push_back(e2);
     horizon.push_back(e3);
   }
-  //sort based on lower node first, then higher node (lexicographical ordering built in to pair)
+  // sort based on lower node first, then higher node (lexicographical ordering built in to pair)
   horizon.sort();
-  //Remove all edges from horizon, except those that appear exactly once
+  // Remove all edges from horizon, except those that appear exactly once
   {
     EdgeIter it = horizon.begin();
     while (it != horizon.end()) {
@@ -772,13 +772,13 @@ std::vector<myTriangle> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal
         it++;
     }
   }
-  //Now make a list of new triangles being created, each of which take 2 vertices from an edge and one from farPoint
+  // Now make a list of new triangles being created, each of which take 2 vertices from an edge and one from farPoint
   list<myTriangle> newTris;
   for (EdgeIter it = horizon.begin(); it != horizon.end(); it++) {
     myTriangle t(it->first, it->second, *farPoint);
     newTris.push_back(t);
   }
-  //Ensure every new triangle is oriented outwards, using the barycenter of the initial tetrahedron
+  // Ensure every new triangle is oriented outwards, using the barycenter of the initial tetrahedron
   vector<myTriangle> trisToProcess;
   vector<list<int> > newFrontPoints;
   for (TriIter it = newTris.begin(); it != newTris.end(); it++) {
@@ -786,7 +786,7 @@ std::vector<myTriangle> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal
     myVec3 t2(xCoords[it->v2], yCoords[it->v2], zCoords[it->v2]);
     myVec3 t3(xCoords[it->v3], yCoords[it->v3], zCoords[it->v3]);
     if (isInFront(barycenter, t1, getNorm(t1, t2, t3))) {
-      //need to swap two vertices to flip orientation of triangle
+      // need to swap two vertices to flip orientation of triangle
       int temp       = it->v1;
       myVec3 tempVec = t1;
       it->v1         = it->v2;
@@ -794,11 +794,11 @@ std::vector<myTriangle> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal
       it->v2         = temp;
       t2             = tempVec;
     }
-    myVec3 outwardNorm = getNorm(t1, t2, t3);  //now definitely points outwards
-    //Add the triangle to tris
+    myVec3 outwardNorm = getNorm(t1, t2, t3);  // now definitely points outwards
+    // Add the triangle to tris
     tris.push_back(*it);
     trisToProcess.push_back(tris.back());
-    //Make a list of the points that are in front of nextToProcess, to be passed in for processing
+    // Make a list of the points that are in front of nextToProcess, to be passed in for processing
     list<int> newInFront;
     for (Iter point = pointsInFront.begin(); point != pointsInFront.end();) {
       myVec3 pointVec(xCoords[*point], yCoords[*point], zCoords[*point]);
@@ -810,11 +810,11 @@ std::vector<myTriangle> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal
     }
     newFrontPoints.push_back(newInFront);
   }
-  vector<myTriangle> allRemoved;  //list of all invalid iterators that were erased by calls to processmyTriangle below
+  vector<myTriangle> allRemoved;  // list of all invalid iterators that were erased by calls to processmyTriangle below
   for (int i = 0; i < int(trisToProcess.size()); i++) {
     if (!newFrontPoints[i].empty()) {
-      //Comparing the 'triangle to process' to the one for this call prevents infinite recursion/stack overflow.
-      //TODO: Why was it doing that? Rounding error? Make more robust fix. But this does work for the time being.
+      // Comparing the 'triangle to process' to the one for this call prevents infinite recursion/stack overflow.
+      // TODO: Why was it doing that? Rounding error? Make more robust fix. But this does work for the time being.
       if (find(allRemoved.begin(), allRemoved.end(), trisToProcess[i]) == allRemoved.end() && !(trisToProcess[i] == tri)) {
         vector<myTriangle> removedList = processTriangle(tris, trisToProcess[i], newFrontPoints[i], barycenter, xCoords, yCoords, zCoords);
         for (int j = 0; j < int(removedList.size()); j++)
@@ -873,7 +873,7 @@ std::vector<int> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>
 #endif
 
   bool includeMin = false;
-  //int debug_it = 0;
+  // int debug_it = 0;
   while (1) {
     std::vector<int>::iterator leftMost = nodes.begin();
     if (!includeMin && leftMost == minNode) {
@@ -882,21 +882,21 @@ std::vector<int> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>
     std::vector<int>::iterator it = leftMost;
     it++;
     for (; it != nodes.end(); it++) {
-      if (it == minNode && !includeMin)  //don't compare to min on very first sweep
+      if (it == minNode && !includeMin)  // don't compare to min on very first sweep
         continue;
       if (*it == hull.back())
         continue;
-      //see if it is in front of line containing nodes thisHull.back() and leftMost
-      //first get the left normal of leftMost - thisHull.back() (<dy, -dx>)
+      // see if it is in front of line containing nodes thisHull.back() and leftMost
+      // first get the left normal of leftMost - thisHull.back() (<dy, -dx>)
       myVec2 leftMostVec = points[leftMost - nodes.begin()];
       myVec2 lastVec(xCoords[hull.back()], yCoords[hull.back()]);
       myVec2 testNorm = getNorm(vecSubtract(leftMostVec, lastVec));
-      //now dot testNorm with *it - leftMost. If dot is positive, leftMost becomes it. If dot is zero, take one further from thisHull.back().
+      // now dot testNorm with *it - leftMost. If dot is positive, leftMost becomes it. If dot is zero, take one further from thisHull.back().
       myVec2 itVec(xCoords[*it], yCoords[*it]);
       double dotProd = dotProduct(testNorm, vecSubtract(itVec, lastVec));
       if (-1e-8 < dotProd && dotProd < 1e-8) {
-        //thisHull.back(), it and leftMost are collinear.
-        //Just sum the differences in x and differences in y for each and compare to get further one, don't need distance formula
+        // thisHull.back(), it and leftMost are collinear.
+        // Just sum the differences in x and differences in y for each and compare to get further one, don't need distance formula
         myVec2 itDist       = vecSubtract(itVec, lastVec);
         myVec2 leftMostDist = vecSubtract(leftMostVec, lastVec);
         if (fabs(itDist.x) + fabs(itDist.y) > fabs(leftMostDist.x) + fabs(leftMostDist.y)) {
@@ -906,13 +906,13 @@ std::vector<int> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>
         leftMost = it;
       }
     }
-    //if leftMost is min, then the loop is complete.
+    // if leftMost is min, then the loop is complete.
     if (*leftMost == *minNode)
       break;
     hull.push_back(*leftMost);
-    includeMin = true;  //have found second point (the one after min) so now include min in the searches
-    //debug_it ++;
-    //if(debug_it > 100) exit(0); //break;
+    includeMin = true;  // have found second point (the one after min) so now include min in the searches
+    // debug_it ++;
+    // if(debug_it > 100) exit(0); //break;
   }
   return hull;
 }
@@ -924,8 +924,8 @@ std::vector<int> VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>
   sort(uniqueNodes.begin(), uniqueNodes.end());
   vector<int>::iterator newUniqueFineEnd = unique(uniqueNodes.begin(), uniqueNodes.end());
   uniqueNodes.erase(newUniqueFineEnd, uniqueNodes.end());
-  //uniqueNodes is now a sorted list of the nodes whose info actually goes in file
-  //Now replace values in vertices with locations of the old values in uniqueFine
+  // uniqueNodes is now a sorted list of the nodes whose info actually goes in file
+  // Now replace values in vertices with locations of the old values in uniqueFine
   for (int i = 0; i < int(vertices.size()); i++) {
     int lo     = 0;
     int hi     = uniqueNodes.size() - 1;
@@ -973,7 +973,7 @@ std::string VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::get
 
   if (filenameToWrite.rfind(".vtu") == std::string::npos)
     filenameToWrite.append(".vtu");
-  if (numProcs > 1 && filenameToWrite.rfind("%PROCID") == std::string::npos)  //filename can't be identical between processsors in parallel problem
+  if (numProcs > 1 && filenameToWrite.rfind("%PROCID") == std::string::npos)  // filename can't be identical between processsors in parallel problem
     filenameToWrite.insert(filenameToWrite.rfind(".vtu"), "-proc%PROCID");
 
   filenameToWrite = this->replaceAll(filenameToWrite, "%LEVELID", toString(level));
@@ -1011,7 +1011,7 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::writeFileV
   bool localIsGlobal = GlobalOrdinal(nodeMap->getGlobalNumElements()) == GlobalOrdinal(nodeMap->getLocalNumElements());
   for (size_t i = 0; i < uniqueFine.size(); i++) {
     if (localIsGlobal) {
-      fout << uniqueFine[i] << " ";  //if all nodes are on this processor, do not map from local to global
+      fout << uniqueFine[i] << " ";  // if all nodes are on this processor, do not map from local to global
     } else
       fout << nodeMap->getGlobalElement(uniqueFine[i]) << " ";
     if (i % 10 == 9)
@@ -1100,16 +1100,16 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::writeFileV
   for (int i = 0; i < int(geomSize.size()); i++) {
     switch (geomSize[i]) {
       case 1:
-        fout << "1 ";  //Point
+        fout << "1 ";  // Point
         break;
       case 2:
-        fout << "3 ";  //Line
+        fout << "3 ";  // Line
         break;
       case 3:
-        fout << "5 ";  //Triangle
+        fout << "5 ";  // Triangle
         break;
       default:
-        fout << "7 ";  //Polygon
+        fout << "7 ";  // Polygon
     }
     if (i % 30 == 29)
       fout << std::endl
@@ -1129,9 +1129,9 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::writeFileV
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::writePVTU(std::ofstream& pvtu, std::string baseFname, int numProcs, bool bFineEdges, bool /* bCoarseEdges */) const {
-  //If using vtk, filenameToWrite now contains final, correct ***.vtu filename (for the current proc)
-  //So the root proc will need to use its own filenameToWrite to make a list of the filenames of all other procs to put in
-  //pvtu file.
+  // If using vtk, filenameToWrite now contains final, correct ***.vtu filename (for the current proc)
+  // So the root proc will need to use its own filenameToWrite to make a list of the filenames of all other procs to put in
+  // pvtu file.
   pvtu << "<VTKFile type=\"PUnstructuredGrid\" byte_order=\"LittleEndian\">" << std::endl;
   pvtu << "  <PUnstructuredGrid GhostLevel=\"0\">" << std::endl;
   pvtu << "    <PPointData Scalars=\"Node Aggregate Processor\">" << std::endl;
@@ -1143,10 +1143,10 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::writePVTU(
   pvtu << "      <PDataArray type=\"Float64\" NumberOfComponents=\"3\"/>" << std::endl;
   pvtu << "    </PPoints>" << std::endl;
   for (int i = 0; i < numProcs; i++) {
-    //specify the piece for each proc (the replaceAll expression matches what the filenames will be on other procs)
+    // specify the piece for each proc (the replaceAll expression matches what the filenames will be on other procs)
     pvtu << "    <Piece Source=\"" << replaceAll(baseFname, "%PROCID", toString(i)) << "\"/>" << std::endl;
   }
-  //reference files with graph pieces, if applicable
+  // reference files with graph pieces, if applicable
   if (bFineEdges) {
     for (int i = 0; i < numProcs; i++) {
       std::string fn = replaceAll(baseFname, "%PROCID", toString(i));
@@ -1171,8 +1171,8 @@ void VisualizationHelpers<Scalar, LocalOrdinal, GlobalOrdinal, Node>::buildColor
   try {
     std::ofstream color("random-colormap.xml");
     color << "<ColorMap name=\"MueLu-Random\" space=\"RGB\">" << std::endl;
-    //Give -1, -2, -3 distinctive colors (so that the style functions can have constrasted geometry types)
-    //Do red, orange, yellow to constrast with cool color spectrum for other types
+    // Give -1, -2, -3 distinctive colors (so that the style functions can have constrasted geometry types)
+    // Do red, orange, yellow to constrast with cool color spectrum for other types
     color << "  <Point x=\"" << -1 << "\" o=\"1\" r=\"1\" g=\"0\" b=\"0\"/>" << std::endl;
     color << "  <Point x=\"" << -2 << "\" o=\"1\" r=\"1\" g=\"0.6\" b=\"0\"/>" << std::endl;
     color << "  <Point x=\"" << -3 << "\" o=\"1\" r=\"1\" g=\"1\" b=\"0\"/>" << std::endl;

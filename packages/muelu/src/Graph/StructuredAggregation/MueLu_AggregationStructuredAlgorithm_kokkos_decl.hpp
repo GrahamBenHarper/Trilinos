@@ -208,7 +208,7 @@ class AggregationStructuredAlgorithm_kokkos : public MueLu::AggregationAlgorithm
 
 };  // class AggregationStructuredAlgorithm_kokkos
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_AGGREGATIONSTRUCTUREDALGORITHM_KOKKOS_SHORT
 #endif /* MUELU_AGGREGATIONSTRUCTUREDALGORITHM_DECL_HPP_ */

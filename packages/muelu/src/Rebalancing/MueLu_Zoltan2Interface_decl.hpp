@@ -107,7 +107,7 @@ namespace MueLu {
 
   */
 
-//FIXME: this class should not be templated
+// FIXME: this class should not be templated
 template <class Scalar,
           class LocalOrdinal  = DefaultLocalOrdinal,
           class GlobalOrdinal = DefaultGlobalOrdinal,
@@ -143,7 +143,7 @@ class Zoltan2Interface : public SingleLevelFactoryBase {
  private:
   RCP<ParameterList> defaultZoltan2Params;
 
-};  //class Zoltan2Interface
+};  // class Zoltan2Interface
 
 #ifdef HAVE_MUELU_EPETRA
 
@@ -239,9 +239,9 @@ class Zoltan2Interface<double, int, int, Xpetra::EpetraNode> : public SingleLeve
 
 #endif  // HAVE_MUELU_EPETRA
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_ZOLTAN2INTERFACE_SHORT
-#endif  //if defined(HAVE_MUELU_ZOLTAN2) && defined(HAVE_MPI)
+#endif  // if defined(HAVE_MUELU_ZOLTAN2) && defined(HAVE_MPI)
 
 #endif  // MUELU_ZOLTAN2INTERFACE_DECL_HPP

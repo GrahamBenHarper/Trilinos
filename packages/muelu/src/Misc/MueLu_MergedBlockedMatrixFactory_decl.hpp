@@ -94,9 +94,9 @@ class MergedBlockedMatrixFactory : public SingleLevelFactoryBase {
   //@}
 
  private:
-};  //class MergedBlockedMatrixFactory
+};  // class MergedBlockedMatrixFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_MERGEDBLOCKEDMATRIXFACTORY_SHORT
 

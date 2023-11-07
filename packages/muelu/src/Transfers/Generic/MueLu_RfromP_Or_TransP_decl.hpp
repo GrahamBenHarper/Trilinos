@@ -102,9 +102,9 @@ class RfromP_Or_TransP : public TwoLevelFactoryBase {
 
   //@}
 
-};  //class RfromP_Or_TransP
+};  // class RfromP_Or_TransP
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_RFROMP_OR_TRANSP_SHORT
 #endif  // MUELU_RFROMP_OR_TRANSP_DECL_HPP

@@ -97,7 +97,7 @@ struct DropTol {
   DropTol(DropTol&&)      = default;
 
   DropTol& operator=(DropTol const&) = default;
-  DropTol& operator=(DropTol&&) = default;
+  DropTol& operator=(DropTol&&)      = default;
 
   DropTol(real_type val_, real_type diag_, LO col_, bool drop_)
     : val{val_}
@@ -394,7 +394,7 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
     TEUCHOS_TEST_FOR_EXCEPTION(useSignedClassicalSA && classicalAlgo != defaultAlgo, Exceptions::RuntimeError, "\"aggregation: classical algo\" != default is not supported for scalled classical sa aggregation");
 
     GO numDropped = 0, numTotal = 0;
-    std::string graphType = "unamalgamated";  //for description purposes only
+    std::string graphType = "unamalgamated";  // for description purposes only
 
     /* NOTE: storageblocksize (from GetStorageBlockSize()) is the size of a block in the chosen storage scheme.
        BlockSize is the number of storage blocks that must kept together during the amalgamation process.
@@ -402,7 +402,7 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
        Both of these quantities may be different than numPDEs (from GetFixedBlockSize()), but the following must always hold:
 
        numPDEs = BlockSize * storageblocksize.
-       
+
        If numPDEs==1
          Matrix is point storage (classical CRS storage).  storageblocksize=1 and BlockSize=1
          No other values makes sense.
@@ -515,10 +515,10 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
           A->getLocalRowView(row, indices, vals);
 
           if (classicalAlgo == defaultAlgo) {
-            //FIXME the current predrop function uses the following
-            //FIXME    if(std::abs(vals[k]) > std::abs(threshold_) || grow == gcid )
-            //FIXME but the threshold doesn't take into account the rows' diagonal entries
-            //FIXME For now, hardwiring the dropping in here
+            // FIXME the current predrop function uses the following
+            // FIXME    if(std::abs(vals[k]) > std::abs(threshold_) || grow == gcid )
+            // FIXME but the threshold doesn't take into account the rows' diagonal entries
+            // FIXME For now, hardwiring the dropping in here
 
             LO rownnz = 0;
             if (useSignedClassicalRS) {
@@ -547,9 +547,9 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
                 MT aiiajj           = STS::magnitude(threshold * threshold * ghostedDiagVals[col] * ghostedDiagVals[row]);                        // eps^2*|a_ii|*|a_jj|
                 MT aij              = is_nonpositive ? STS::magnitude(vals[colID] * vals[colID]) : (-STS::magnitude(vals[colID] * vals[colID]));  // + |a_ij|^2, if a_ij < 0, - |a_ij|^2 if a_ij >=0
                 /*
-		  if(row==1326) printf("A(%d,%d) = %6.4e, raw_aij = %6.4e aij = %6.4e aiiajj = %6.4e\n",row,col,vals[colID],
+                  if(row==1326) printf("A(%d,%d) = %6.4e, raw_aij = %6.4e aij = %6.4e aiiajj = %6.4e\n",row,col,vals[colID],
                                        vals[colID],aij, aiiajj);
-		  */
+                  */
 
                 if ((!rowIsDirichlet && aij > aiiajj) || row == col) {
                   columns[realnnz++] = col;
@@ -575,7 +575,7 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
             }
           } else {
             /* Cut Algorithm */
-            //CMS
+            // CMS
             using DropTol = Details::DropTol<real_type, LO>;
             std::vector<DropTol> drop_vec;
             drop_vec.reserve(nnz);
@@ -675,7 +675,7 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
             // CMS
             rows[row + 1] = realnnz;
           }
-        }  //end for row
+        }  // end for row
 
         columns.resize(realnnz);
         numTotal = A->getLocalNumEntries();
@@ -727,7 +727,7 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
             // }
           }
 #endif
-        }  //end generateColoringGraph
+        }  // end generateColoringGraph
       } else if (BlockSize > 1 && threshold == STS::zero()) {
         // Case 3:  Multiple DOF/node problem without dropping
         const RCP<const Map> rowMap = A->getRowMap();
@@ -836,7 +836,7 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
             amalgBoundaryNodes[row] = true;
           }
           rows[row + 1] = realnnz;
-        }  //for (LO row = 0; row < numRows; row++)
+        }  // for (LO row = 0; row < numRows; row++)
         columns.resize(realnnz);
 
         RCP<GraphBase> graph = rcp(new LWGraph(rows, columns, uniqueMap, nonUniqueMap, "amalgamated graph of A"));
@@ -970,7 +970,7 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
             amalgBoundaryNodes[row] = true;
           }
           rows[row + 1] = realnnz;
-        }  //for (LO row = 0; row < numRows; row++)
+        }  // for (LO row = 0; row < numRows; row++)
         columns.resize(realnnz);
 
         RCP<GraphBase> graph = rcp(new LWGraph(rows, columns, uniqueMap, nonUniqueMap, "amalgamated graph of A"));
@@ -1083,12 +1083,12 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
               GetOStream(Warnings0) << "Constructing new importer instance" << std::endl;
               importer = ImportFactory::Build(uniqueMap, nonUniqueMap);
             }
-          }  //subtimer
+          }  // subtimer
           ghostedCoords = Xpetra::MultiVectorFactory<real_type, LO, GO, NO>::Build(nonUniqueMap, Coords->getNumVectors());
           {
             SubFactoryMonitor m1(*this, "Coordinate import", currentLevel);
             ghostedCoords->doImport(*Coords, *importer, Xpetra::INSERT);
-          }  //subtimer
+          }  // subtimer
 
           // Construct Distance Laplacian diagonal
           RCP<Vector> localLaplDiag = VectorFactory::Build(uniqueMap);
@@ -1146,13 +1146,13 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
               if (!haveAddedToDiag)
                 localLaplDiagData[row] = STS::rmax();
             }
-          }  //subtimer
+          }  // subtimer
           {
             SubFactoryMonitor m1(*this, "Laplacian distributed diagonal", currentLevel);
             ghostedLaplDiag = VectorFactory::Build(nonUniqueMap);
             ghostedLaplDiag->doImport(*localLaplDiag, *importer, Xpetra::INSERT);
             ghostedLaplDiagData = ghostedLaplDiag->getDataNonConst(0);
-          }  //subtimer
+          }  // subtimer
 
         } else {
           GetOStream(Runtime0) << "Skipping distance laplacian construction due to 0 threshold" << std::endl;
@@ -1193,7 +1193,7 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
             }
           }
 
-          ArrayView<const SC> vals;  //CMS hackery
+          ArrayView<const SC> vals;  // CMS hackery
           for (LO row = 0; row < numRows; row++) {
             ArrayView<const LO> indices;
             indicesExtra.resize(0);
@@ -1398,9 +1398,9 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
               rows_stop[row] = rownnz + rows[row];
             else
               rows[row + 1] = realnnz;
-          }  //for (LO row = 0; row < numRows; row++)
+          }  // for (LO row = 0; row < numRows; row++)
 
-        }  //subtimer
+        }  // subtimer
 
         if (use_stop_array) {
           // Do symmetrization of the cut matrix
@@ -1449,7 +1449,7 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
           SubFactoryMonitor m1(*this, "Build amalgamated graph", currentLevel);
           graph = rcp(new LWGraph(rows, columns, uniqueMap, nonUniqueMap, "amalgamated graph of A"));
           graph->SetBoundaryNodeMap(amalgBoundaryNodes);
-        }  //subtimer
+        }  // subtimer
 
         if (GetVerbLevel() & Statistics1) {
           GO numLocalBoundaryNodes  = 0;
@@ -1482,10 +1482,10 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
     }
 
   } else {
-    //what Tobias has implemented
+    // what Tobias has implemented
 
     SC threshold = as<SC>(pL.get<double>("aggregation: drop tol"));
-    //GetOStream(Runtime0) << "algorithm = \"" << algo << "\": threshold = " << threshold << ", blocksize = " << A->GetFixedBlockSize() << std::endl;
+    // GetOStream(Runtime0) << "algorithm = \"" << algo << "\": threshold = " << threshold << ", blocksize = " << A->GetFixedBlockSize() << std::endl;
     GetOStream(Runtime0) << "algorithm = \""
                          << "failsafe"
                          << "\": threshold = " << threshold << ", blocksize = " << A->GetFixedBlockSize() << std::endl;
@@ -1590,13 +1590,13 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level
     }
 
     // 6) store results in Level
-    //graph->SetBoundaryNodeMap(gBoundaryNodeMap);
+    // graph->SetBoundaryNodeMap(gBoundaryNodeMap);
     Set(currentLevel, "DofsPerNode", blockdim);
     Set(currentLevel, "Graph", graph);
 
-  }  //if (doExperimentalWrap) ... else ...
+  }  // if (doExperimentalWrap) ... else ...
 
-}  //Build
+}  // Build
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::MergeRows(const Matrix& A, const LO row, Array<LO>& cols, const Array<LO>& translation) const {
@@ -1963,6 +1963,6 @@ void CoalesceDropFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::BlockDiagon
   }
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif  // MUELU_COALESCEDROPFACTORY_DEF_HPP

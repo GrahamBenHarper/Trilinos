@@ -102,9 +102,9 @@ class TransPFactory : public TwoLevelFactoryBase {
 
   //@}
 
-};  //class TransPFactory
+};  // class TransPFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_TRANSPFACTORY_SHORT
 #endif  // MUELU_TRANSPFACTORY_DECL_HPP

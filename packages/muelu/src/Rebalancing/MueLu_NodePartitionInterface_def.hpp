@@ -119,8 +119,8 @@ void NodePartitionInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Le
   Set(level, "Partition", decomposition);
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
-#endif  //if defined(HAVE_MPI)
+#endif  // if defined(HAVE_MPI)
 
 #endif  // MUELU_NODEPARTITIONINTERFACE_DEF_HPP

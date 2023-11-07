@@ -116,7 +116,7 @@ void ZoltanInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &le
   RCP<const Teuchos::MpiComm<int> > dupMpiComm            = rcp_dynamic_cast<const Teuchos::MpiComm<int> >(rowMap->getComm()->duplicate());
   RCP<const Teuchos::OpaqueWrapper<MPI_Comm> > zoltanComm = dupMpiComm->getRawMpiComm();
 
-  RCP<Zoltan> zoltanObj_ = rcp(new Zoltan((*zoltanComm)()));  //extract the underlying MPI_Comm handle and create a Zoltan object
+  RCP<Zoltan> zoltanObj_ = rcp(new Zoltan((*zoltanComm)()));  // extract the underlying MPI_Comm handle and create a Zoltan object
   if (zoltanObj_ == Teuchos::null)
     throw Exceptions::RuntimeError("MueLu::Zoltan : Unable to create Zoltan data structure");
 
@@ -194,7 +194,7 @@ void ZoltanInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level &le
   zoltanObj_->LB_Free_Part(&import_gids, &import_lids, &import_procs, &import_to_part);
   zoltanObj_->LB_Free_Part(&export_gids, &export_lids, &export_procs, &export_to_part);
 
-}  //Build()
+}  // Build()
 
 //-------------------------------------------------------------------------------------------------------------
 // GetLocalNumberOfRows
@@ -213,7 +213,7 @@ int ZoltanInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::GetLocalNumberOf
   TEUCHOS_TEST_FOR_EXCEPTION(blockSize == 0, Exceptions::RuntimeError, "MueLu::Zoltan : Matrix has block size 0.");
 
   return A->getRowMap()->getLocalNumElements() / blockSize;
-}  //GetLocalNumberOfRows()
+}  // GetLocalNumberOfRows()
 
 //-------------------------------------------------------------------------------------------------------------
 // GetLocalNumberOfNonzeros
@@ -270,7 +270,7 @@ int ZoltanInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   *ierr   = ZOLTAN_OK;
 
   return dim;
-}  //GetProblemDimension
+}  // GetProblemDimension
 
 //-------------------------------------------------------------------------------------------------------------
 // GetProblemGeometry
@@ -289,7 +289,7 @@ void ZoltanInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   double_multivector_type *Coords = (double_multivector_type *)data;
 
   if (dim != Teuchos::as<int>(Coords->getNumVectors())) {
-    //FIXME I'm assuming dim should be 1, 2, or 3 coming in?!
+    // FIXME I'm assuming dim should be 1, 2, or 3 coming in?!
     *ierr = ZOLTAN_FATAL;
     return;
   }
@@ -307,10 +307,10 @@ void ZoltanInterface<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
 
   *ierr = ZOLTAN_OK;
 
-}  //GetProblemGeometry
+}  // GetProblemGeometry
 
-}  //namespace MueLu
+}  // namespace MueLu
 
-#endif  //if defined(HAVE_MUELU_ZOLTAN) && defined(HAVE_MPI)
+#endif  // if defined(HAVE_MUELU_ZOLTAN) && defined(HAVE_MPI)
 
 #endif  // MUELU_ZOLTANINTERFACE_DEF_HPP

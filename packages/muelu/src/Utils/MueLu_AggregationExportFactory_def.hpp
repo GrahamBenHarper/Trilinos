@@ -97,7 +97,7 @@ RCP<const ParameterList> AggregationExportFactory<Scalar, LocalOrdinal, GlobalOr
   // New-style master list options (here are same defaults as in masterList.xml)
   validParamList->set<std::string>("aggregation: output filename", "", "filename for VTK-style visualization output");
   validParamList->set<int>("aggregation: output file: time step", 0, "time step variable for output file name");       // Remove me?
-  validParamList->set<int>("aggregation: output file: iter", 0, "nonlinear iteration variable for output file name");  //Remove me?
+  validParamList->set<int>("aggregation: output file: iter", 0, "nonlinear iteration variable for output file name");  // Remove me?
   validParamList->set<std::string>("aggregation: output file: agg style", "Point Cloud", "style of aggregate visualization for VTK output");
   validParamList->set<bool>("aggregation: output file: fine graph edges", false, "Whether to draw all fine node connections along with the aggregates.");
   validParamList->set<bool>("aggregation: output file: coarse graph edges", false, "Whether to draw all coarse node connections along with the aggregates.");
@@ -112,7 +112,7 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Declar
   Input(fineLevel, "UnAmalgamationInfo");  //< AmalgamationFactory (needed for UnAmalgamationInfo variable)
 
   const ParameterList& pL = GetParameterList();
-  //Only pull in coordinates if the user explicitly requests direct VTK output, so as not to break uses of old code
+  // Only pull in coordinates if the user explicitly requests direct VTK output, so as not to break uses of old code
   if (pL.isParameter("aggregation: output filename") && pL.get<std::string>("aggregation: output filename").length()) {
     Input(fineLevel, "Coordinates");
     Input(fineLevel, "A");
@@ -128,15 +128,15 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Declar
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(Level& fineLevel, Level& coarseLevel) const {
   using namespace std;
-  //Decide which build function to follow, based on input params
+  // Decide which build function to follow, based on input params
   const ParameterList& pL = GetParameterList();
   FactoryMonitor m(*this, "AggregationExportFactory", coarseLevel);
   Teuchos::RCP<Aggregates> aggregates          = Get<Teuchos::RCP<Aggregates> >(fineLevel, "Aggregates");
   Teuchos::RCP<const Teuchos::Comm<int> > comm = aggregates->GetMap()->getComm();
   int numProcs                                 = comm->getSize();
   int myRank                                   = comm->getRank();
-  string masterFilename                        = pL.get<std::string>("aggregation: output filename");  //filename parameter from master list
-  string pvtuFilename                          = "";                                                   //only root processor will set this
+  string masterFilename                        = pL.get<std::string>("aggregation: output filename");  // filename parameter from master list
+  string pvtuFilename                          = "";                                                   // only root processor will set this
   string localFilename                         = pL.get<std::string>("Output filename");
   string filenameToWrite;
   bool useVTK         = false;
@@ -145,9 +145,9 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(
   if (masterFilename.length()) {
     useVTK          = true;
     filenameToWrite = masterFilename;
-    if (filenameToWrite.rfind(".vtu") == string::npos)  //Must have the file extension in the name
+    if (filenameToWrite.rfind(".vtu") == string::npos)  // Must have the file extension in the name
       filenameToWrite.append(".vtu");
-    if (numProcs > 1 && filenameToWrite.rfind("%PROCID") == string::npos)  //filename can't be identical between processsors in parallel problem
+    if (numProcs > 1 && filenameToWrite.rfind("%PROCID") == string::npos)  // filename can't be identical between processsors in parallel problem
       filenameToWrite.insert(filenameToWrite.rfind(".vtu"), "-proc%PROCID");
   } else
     filenameToWrite = localFilename;
@@ -165,13 +165,13 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(
     fineGraph = Get<RCP<GraphBase> >(fineLevel, "Graph");
   if (doCoarseGraphEdges_)
     coarseGraph = Get<RCP<GraphBase> >(coarseLevel, "Graph");
-  if (useVTK)  //otherwise leave null, will not be accessed by non-vtk code
+  if (useVTK)  // otherwise leave null, will not be accessed by non-vtk code
   {
     coords  = Get<RCP<CoordinateMultiVector> >(fineLevel, "Coordinates");
     coords_ = coords;
     if (doCoarseGraphEdges_)
       coordsCoarse = Get<RCP<CoordinateMultiVector> >(coarseLevel, "Coordinates");
-    dims_ = coords->getNumVectors();  //2D or 3D?
+    dims_ = coords->getNumVectors();  // 2D or 3D?
     if (numProcs > 1) {
       if (aggregates->AggregatesCrossProcessors()) {  // Do we want to use the map from aggregates here instead of the map from A? Using the map from A seems to be problematic with multiple dofs per node
         RCP<Import> coordImporter                = Xpetra::ImportFactory<LocalOrdinal, GlobalOrdinal, Node>::Build(coords->getMap(), Amat->getColMap());
@@ -220,15 +220,15 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(
   filenameToWrite = this->replaceAll(filenameToWrite, "%LEVELID", toString(fineLevel.GetLevelID()));
   filenameToWrite = this->replaceAll(filenameToWrite, "%TIMESTEP", toString(timeStep));
   filenameToWrite = this->replaceAll(filenameToWrite, "%ITER", toString(iter));
-  //Proc id MUST be included in vtu filenames to distinguish them (if multiple procs)
-  //In all other cases (else), including processor # in filename is optional
+  // Proc id MUST be included in vtu filenames to distinguish them (if multiple procs)
+  // In all other cases (else), including processor # in filename is optional
   string masterStem = "";
   if (useVTK) {
     masterStem = filenameToWrite.substr(0, filenameToWrite.rfind(".vtu"));
     masterStem = this->replaceAll(masterStem, "%PROCID", "");
   }
   pvtuFilename     = masterStem + "-master.pvtu";
-  string baseFname = filenameToWrite;  //get a version of the filename string with the %PROCID token, but without substituting myRank (needed for pvtu output)
+  string baseFname = filenameToWrite;  // get a version of the filename string with the %PROCID token, but without substituting myRank (needed for pvtu output)
   filenameToWrite  = this->replaceAll(filenameToWrite, "%PROCID", toString(myRank));
   GetOStream(Runtime0) << "AggregationExportFactory: outputfile \"" << filenameToWrite << "\"" << std::endl;
   ofstream fout(filenameToWrite.c_str());
@@ -258,16 +258,16 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(
     }
   } else {
     using namespace std;
-    //Make sure we have coordinates
+    // Make sure we have coordinates
     TEUCHOS_TEST_FOR_EXCEPTION(coords.is_null(), Exceptions::RuntimeError, "AggExportFactory could not get coordinates, but they are required for VTK output.");
     numAggs_  = numAggs;
     numNodes_ = coords->getLocalLength();
-    //Get the sizes of the aggregates to speed up grabbing node IDs
+    // Get the sizes of the aggregates to speed up grabbing node IDs
     aggSizes_       = aggregates->ComputeAggregateSizesArrayRCP();
     myRank_         = myRank;
     string aggStyle = "Point Cloud";
     try {
-      aggStyle = pL.get<string>("aggregation: output file: agg style");  //Let "Point Cloud" be the default style
+      aggStyle = pL.get<string>("aggregation: output file: agg style");  // Let "Point Cloud" be the default style
     } catch (std::exception& e) {
     }
     vector<int> vertices;
@@ -277,8 +277,8 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(
     for (LocalOrdinal i = 0; i < numNodes_; i++) {
       isRoot_.push_back(aggregates->IsRoot(i));
     }
-    //If problem is serial and not outputting fine nor coarse graph edges, don't make pvtu file
-    //Otherwise create it
+    // If problem is serial and not outputting fine nor coarse graph edges, don't make pvtu file
+    // Otherwise create it
     if (myRank == 0 && (numProcs != 1 || doCoarseGraphEdges_ || doFineGraphEdges_)) {
       ofstream pvtu(pvtuFilename.c_str());
       writePVTU_(pvtu, baseFname, numProcs);
@@ -288,7 +288,7 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(
       this->doPointCloud(vertices, geomSizes, numAggs_, numNodes_);
     else if (aggStyle == "Jacks")
       this->doJacks(vertices, geomSizes, numAggs_, numNodes_, isRoot_, vertex2AggId_);
-    else if (aggStyle == "Jacks++")  //Not actually implemented
+    else if (aggStyle == "Jacks++")  // Not actually implemented
       doJacksPlus_(vertices, geomSizes);
     else if (aggStyle == "Convex Hulls")
       doConvexHulls(vertices, geomSizes);
@@ -319,7 +319,7 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Build(
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doJacksPlus_(std::vector<int>& /* vertices */, std::vector<int>& /* geomSizes */) const {
-  //TODO
+  // TODO
 }
 
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
@@ -341,9 +341,9 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doGrap
   using namespace std;
   ArrayView<const Scalar> values;
   ArrayView<const LocalOrdinal> neighbors;
-  //Allow two different colors of connections (by setting "aggregates" scalar to CONTRAST_1 or CONTRAST_2)
-  vector<pair<int, int> > vert1;  //vertices (node indices)
-  vector<pair<int, int> > vert2;  //size of every cell is assumed to be 2 vertices, since all edges are drawn as lines
+  // Allow two different colors of connections (by setting "aggregates" scalar to CONTRAST_1 or CONTRAST_2)
+  vector<pair<int, int> > vert1;  // vertices (node indices)
+  vector<pair<int, int> > vert2;  // size of every cell is assumed to be 2 vertices, since all edges are drawn as lines
 
   Teuchos::ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType> xCoords = coords_->getData(0);
   Teuchos::ArrayRCP<const typename Teuchos::ScalarTraits<Scalar>::coordinateType> yCoords = coords_->getData(1);
@@ -368,16 +368,16 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doGrap
       while (gEdge != int(neighbors.size())) {
         if (dofs == 1) {
           if (neighbors[gEdge] == indices[aEdge]) {
-            //graph and matrix both have this edge, wasn't filtered, show as color 1
+            // graph and matrix both have this edge, wasn't filtered, show as color 1
             vert1.push_back(pair<int, int>(int(globRow), neighbors[gEdge]));
             gEdge++;
             aEdge++;
           } else {
-            //graph contains an edge at gEdge which was filtered from A, show as color 2
+            // graph contains an edge at gEdge which was filtered from A, show as color 2
             vert2.push_back(pair<int, int>(int(globRow), neighbors[gEdge]));
             gEdge++;
           }
-        } else  //for multiple DOF problems, don't try to detect filtered edges and ignore A
+        } else  // for multiple DOF problems, don't try to detect filtered edges and ignore A
         {
           vert1.push_back(pair<int, int>(int(globRow), neighbors[gEdge]));
           gEdge++;
@@ -390,7 +390,7 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doGrap
       if (dofs == 1)
         A->getLocalRowView(locRow, indices, values);
       neighbors = G->getNeighborVertices(locRow);
-      //Add those local indices (columns) to the list of connections (which are pairs of the form (localM, localN))
+      // Add those local indices (columns) to the list of connections (which are pairs of the form (localM, localN))
       int gEdge = 0;
       int aEdge = 0;
       while (gEdge != int(neighbors.size())) {
@@ -425,7 +425,7 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doGrap
     }
   }
   sort(vert1.begin(), vert1.end());
-  vector<pair<int, int> >::iterator newEnd = unique(vert1.begin(), vert1.end());  //remove duplicate edges
+  vector<pair<int, int> >::iterator newEnd = unique(vert1.begin(), vert1.end());  // remove duplicate edges
   vert1.erase(newEnd, vert1.end());
   sort(vert2.begin(), vert2.end());
   newEnd = unique(vert2.begin(), vert2.end());
@@ -448,7 +448,7 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::doGrap
   fout << "  <UnstructuredGrid>" << endl;
   fout << "    <Piece NumberOfPoints=\"" << unique1.size() + unique2.size() << "\" NumberOfCells=\"" << vert1.size() + vert2.size() << "\">" << endl;
   fout << "      <PointData Scalars=\"Node Aggregate Processor\">" << endl;
-  fout << "        <DataArray type=\"Int32\" Name=\"Node\" format=\"ascii\">" << endl;  //node and aggregate will be set to CONTRAST_1|2, but processor will have its actual value
+  fout << "        <DataArray type=\"Int32\" Name=\"Node\" format=\"ascii\">" << endl;  // node and aggregate will be set to CONTRAST_1|2, but processor will have its actual value
   string indent = "          ";
   fout << indent;
   for (size_t i = 0; i < unique1.size(); i++) {
@@ -608,7 +608,7 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::writeF
   bool localIsGlobal = GlobalOrdinal(nodeMap_->getGlobalNumElements()) == GlobalOrdinal(nodeMap_->getLocalNumElements());
   for (size_t i = 0; i < uniqueFine.size(); i++) {
     if (localIsGlobal) {
-      fout << uniqueFine[i] << " ";  //if all nodes are on this processor, do not map from local to global
+      fout << uniqueFine[i] << " ";  // if all nodes are on this processor, do not map from local to global
     } else
       fout << nodeMap_->getGlobalElement(uniqueFine[i]) << " ";
     if (i % 10 == 9)
@@ -685,16 +685,16 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::writeF
   for (size_t i = 0; i < geomSizes.size(); i++) {
     switch (geomSizes[i]) {
       case 1:
-        fout << "1 ";  //Point
+        fout << "1 ";  // Point
         break;
       case 2:
-        fout << "3 ";  //Line
+        fout << "3 ";  // Line
         break;
       case 3:
-        fout << "5 ";  //Triangle
+        fout << "5 ";  // Triangle
         break;
       default:
-        fout << "7 ";  //Polygon
+        fout << "7 ";  // Polygon
     }
     if (i % 30 == 29)
       fout << endl
@@ -714,8 +714,8 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::buildC
   try {
     ofstream color("random-colormap.xml");
     color << "<ColorMap name=\"MueLu-Random\" space=\"RGB\">" << endl;
-    //Give -1, -2, -3 distinctive colors (so that the style functions can have constrasted geometry types)
-    //Do red, orange, yellow to constrast with cool color spectrum for other types
+    // Give -1, -2, -3 distinctive colors (so that the style functions can have constrasted geometry types)
+    // Do red, orange, yellow to constrast with cool color spectrum for other types
     color << "  <Point x=\"" << CONTRAST_1_ << "\" o=\"1\" r=\"1\" g=\"0\" b=\"0\"/>" << endl;
     color << "  <Point x=\"" << CONTRAST_2_ << "\" o=\"1\" r=\"1\" g=\"0.6\" b=\"0\"/>" << endl;
     color << "  <Point x=\"" << CONTRAST_3_ << "\" o=\"1\" r=\"1\" g=\"1\" b=\"0\"/>" << endl;
@@ -733,9 +733,9 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::buildC
 template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
 void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::writePVTU_(std::ofstream& pvtu, std::string baseFname, int numProcs) const {
   using namespace std;
-  //If using vtk, filenameToWrite now contains final, correct ***.vtu filename (for the current proc)
-  //So the root proc will need to use its own filenameToWrite to make a list of the filenames of all other procs to put in
-  //pvtu file.
+  // If using vtk, filenameToWrite now contains final, correct ***.vtu filename (for the current proc)
+  // So the root proc will need to use its own filenameToWrite to make a list of the filenames of all other procs to put in
+  // pvtu file.
   pvtu << "<VTKFile type=\"PUnstructuredGrid\" byte_order=\"LittleEndian\">" << endl;
   pvtu << "  <PUnstructuredGrid GhostLevel=\"0\">" << endl;
   pvtu << "    <PPointData Scalars=\"Node Aggregate Processor\">" << endl;
@@ -747,10 +747,10 @@ void AggregationExportFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::writeP
   pvtu << "      <PDataArray type=\"Float64\" NumberOfComponents=\"3\"/>" << endl;
   pvtu << "    </PPoints>" << endl;
   for (int i = 0; i < numProcs; i++) {
-    //specify the piece for each proc (the replaceAll expression matches what the filenames will be on other procs)
+    // specify the piece for each proc (the replaceAll expression matches what the filenames will be on other procs)
     pvtu << "    <Piece Source=\"" << this->replaceAll(baseFname, "%PROCID", toString(i)) << "\"/>" << endl;
   }
-  //reference files with graph pieces, if applicable
+  // reference files with graph pieces, if applicable
   if (doFineGraphEdges_) {
     for (int i = 0; i < numProcs; i++) {
       string fn = this->replaceAll(baseFname, "%PROCID", toString(i));

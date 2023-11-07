@@ -231,7 +231,7 @@ void LocalOrdinalTransferFactory<LocalOrdinal, GlobalOrdinal, Node>::BuildAggreg
   size_t error_count = 0;
   for (LO lnode = 0; lnode < vertex2AggID.size(); lnode++) {
     if (procWinner[lnode] == myPID &&
-        //lnode < vertex2AggID.size() &&
+        // lnode < vertex2AggID.size() &&
         lnode < fineData.size() &&  // TAW do not access off-processor data
         vertex2AggID[lnode] < coarseData.size()) {
       if (coarseData[vertex2AggID[lnode]] == LO_INVALID)

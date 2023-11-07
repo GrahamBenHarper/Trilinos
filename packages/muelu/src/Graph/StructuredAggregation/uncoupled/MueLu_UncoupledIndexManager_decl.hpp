@@ -83,10 +83,10 @@ class UncoupledIndexManager : public IndexManager<LocalOrdinal, GlobalOrdinal, N
 #include "MueLu_UseShortNamesOrdinal.hpp"
 
  public:
-  //LBV: I doubt that it makes sense to have
-  // this particular constructor since it is
-  // not used anywhere and parameters cannot
-  // all accessible after construction.
+  // LBV: I doubt that it makes sense to have
+  //  this particular constructor since it is
+  //  not used anywhere and parameters cannot
+  //  all accessible after construction.
   UncoupledIndexManager() = default;
 
   UncoupledIndexManager(const RCP<const Teuchos::Comm<int> > comm, const bool coupled,
@@ -143,7 +143,7 @@ class UncoupledIndexManager : public IndexManager<LocalOrdinal, GlobalOrdinal, N
   const int numRanks;  ///< Number of ranks used to decompose the problem.
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_UNCOUPLEDINDEXMANAGER_SHORT
 #endif  // MUELU_UNCOUPLEDINDEXMANAGER_DECL_HPP

@@ -160,7 +160,7 @@ class LocalLexicographicIndexManager : public IndexManager<LocalOrdinal, GlobalO
                                 LO& myLID) const;
 };
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_LOCALLEXICOGRAPHICINDEXMANAGER_SHORT
 #endif  // MUELU_LOCALLEXICOGRAPHICINDEXMANAGER_DECL_HPP

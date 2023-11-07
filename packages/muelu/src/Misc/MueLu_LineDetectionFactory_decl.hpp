@@ -132,9 +132,9 @@ class LineDetectionFactory : public SingleLevelFactoryBase {
   //! switch to vertical mode
   mutable LO Zorientation_;
 
-};  //class LineDetectionFactory
+};  // class LineDetectionFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_LINEDETECTIONFACTORY_SHORT
 #endif  // MUELU_LINEDETECTIONFACTORY_DECL_HPP

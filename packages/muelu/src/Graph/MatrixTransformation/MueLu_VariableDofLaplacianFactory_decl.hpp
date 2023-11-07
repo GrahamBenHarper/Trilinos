@@ -341,9 +341,9 @@ class VariableDofLaplacianFactory : public SingleLevelFactoryBase {
     }
   }
 
-};  //class CoalesceDropFactory
+};  // class CoalesceDropFactory
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #define MUELU_VARIABLEDOFLAPLACIANFACTORY_SHORT
 

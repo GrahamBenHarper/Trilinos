@@ -100,9 +100,9 @@ void AdaptiveSaMLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, N
   MUELU_READ_PARAM(paramList, "coarse: max size", int, 128, maxCoarseSize);
 
   MUELU_READ_PARAM(paramList, "aggregation: type", std::string, "Uncoupled", agg_type);
-  //MUELU_READ_PARAM(paramList, "aggregation: threshold",                double,                 0.0,       agg_threshold);
+  // MUELU_READ_PARAM(paramList, "aggregation: threshold",                double,                 0.0,       agg_threshold);
   MUELU_READ_PARAM(paramList, "aggregation: damping factor", double, (double)4 / (double)3, agg_damping);
-  //MUELU_READ_PARAM(paramList, "aggregation: smoothing sweeps",            int,                   1,       agg_smoothingsweeps);
+  // MUELU_READ_PARAM(paramList, "aggregation: smoothing sweeps",            int,                   1,       agg_smoothingsweeps);
   MUELU_READ_PARAM(paramList, "aggregation: nodes per aggregate", int, 1, minPerAgg);
 
   MUELU_READ_PARAM(paramList, "null space: type", std::string, "default vectors", nullspaceType);
@@ -142,11 +142,11 @@ void AdaptiveSaMLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, N
   // Create MueLu factories
   // RCP<NullspaceFactory>     nspFact = rcp(new NullspaceFactory());
   RCP<CoalesceDropFactory> dropFact = rcp(new CoalesceDropFactory());
-  //dropFact->SetVerbLevel(toMueLuVerbLevel(eVerbLevel));
+  // dropFact->SetVerbLevel(toMueLuVerbLevel(eVerbLevel));
 
   // Uncoupled aggregation
   RCP<UncoupledAggregationFactory> AggFact = rcp(new UncoupledAggregationFactory());
-  AggFact->SetMinNodesPerAggregate(minPerAgg);  //TODO should increase if run anything other than 1D
+  AggFact->SetMinNodesPerAggregate(minPerAgg);  // TODO should increase if run anything other than 1D
   AggFact->SetMaxNeighAlreadySelected(maxNbrAlreadySelected);
   AggFact->SetOrdering("natural");
 
@@ -232,7 +232,7 @@ void AdaptiveSaMLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, N
   //
   ParameterList& coarseList = paramList.sublist("coarse: list");
   //    coarseList.get("smoother: type", "Amesos-KLU"); // set default
-  //RCP<SmootherFactory> coarseFact = this->GetSmootherFactory(coarseList);
+  // RCP<SmootherFactory> coarseFact = this->GetSmootherFactory(coarseList);
   RCP<SmootherFactory> coarseFact = MLParameterListInterpreter::GetSmootherFactory(coarseList);
 
   // Smoothers Top Level Parameters
@@ -267,7 +267,7 @@ void AdaptiveSaMLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, N
       // std::cout << std::endl << "Merged List for level  " << levelID << std::endl;
       // std::cout << levelSmootherParam << std::endl;
 
-      //RCP<SmootherFactory> smootherFact = this->GetSmootherFactory(levelSmootherParam); // TODO: missing AFact input arg.
+      // RCP<SmootherFactory> smootherFact = this->GetSmootherFactory(levelSmootherParam); // TODO: missing AFact input arg.
       RCP<SmootherFactory> smootherFact = MLParameterListInterpreter::GetSmootherFactory(levelSmootherParam);  // TODO: missing AFact input arg.
       manager->SetFactory("Smoother", smootherFact);
       smootherFact->DisableMultipleCallCheck();
@@ -300,7 +300,7 @@ void AdaptiveSaMLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, N
     manager->SetFactory("R", RFact);
     manager->SetFactory("Nullspace", nspFact);
 
-    //initmanager->SetFactory("CoarseSolver", coarseFact);
+    // initmanager->SetFactory("CoarseSolver", coarseFact);
     initmanager->SetFactory("Graph", dropFact);
     initmanager->SetFactory("Aggregates", AggFact);
     initmanager->SetFactory("DofsPerNode", dropFact);
@@ -395,7 +395,7 @@ void AdaptiveSaMLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, N
 
     Xpetra::IO<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Write("new_nsp.vec", *nspVector2);
 
-    //H.Delete("CoarseSolver", init_levelManagers_[0]->GetFactory("CoarseSolver").get());
+    // H.Delete("CoarseSolver", init_levelManagers_[0]->GetFactory("CoarseSolver").get());
   }
 
   {
@@ -404,7 +404,7 @@ void AdaptiveSaMLParameterListInterpreter<Scalar, LocalOrdinal, GlobalOrdinal, N
     // this is a little bit tricky to understand
     for (size_t k = 0; k < HierarchyManager::getNumFactoryManagers(); k++) {
       HierarchyManager::GetFactoryManager(k)->Clean();
-      //Teuchos::rcp_dynamic_cast<const SingleLevelFactoryBase>(HierarchyManager::GetFactoryManager(k)->GetFactory("Smoother"))->DisableMultipleCallCheck(); // after changing to MLParamterListInterpreter functions
+      // Teuchos::rcp_dynamic_cast<const SingleLevelFactoryBase>(HierarchyManager::GetFactoryManager(k)->GetFactory("Smoother"))->DisableMultipleCallCheck(); // after changing to MLParamterListInterpreter functions
     }
     // not sure about this. i only need it if Smoother is defined explicitely (not using default smoother)
     // need this: otherwise RAPFactory::Build is complaining on level 0

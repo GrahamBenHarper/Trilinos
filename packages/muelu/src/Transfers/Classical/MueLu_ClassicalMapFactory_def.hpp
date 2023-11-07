@@ -412,7 +412,7 @@ void ClassicalMapFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   Kokkos::View<LO*, Kokkos::LayoutLeft, Kokkos::HostSpace> myColors_v(&myColors_out[0], myColors_h.size());
   Kokkos::deep_copy(myColors_v, myColors_h);
 
-  //clean up coloring handle
+  // clean up coloring handle
   kh.destroy_graph_coloring_handle();
 
 }  // end DoGraphColoring
@@ -427,7 +427,7 @@ void ClassicalMapFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   LO LO_INVALID = Teuchos::OrdinalTraits<LO>::invalid();
   LO MIS        = Teuchos::ScalarTraits<LO>::one();
 
-  //FIXME: Not efficient
+  // FIXME: Not efficient
   myColors.resize(0);
   myColors.resize(graph.GetNodeNumVertices(), LO_INVALID);
   auto boundaryNodes = graph.GetBoundaryNodeMap();
@@ -462,7 +462,7 @@ void ClassicalMapFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
   //  params.set("color_method", colorAlg);
   //  params.set("verbose", verbose);
   //  params.set("serial_threshold",serialThreshold);
-  //params.set("recolor_degrees",recolorDegrees);
+  // params.set("recolor_degrees",recolorDegrees);
 
   // Do the coloring via Zoltan2
   using GraphAdapter = MueLuGraphBaseAdapter<GraphBase>;
@@ -493,9 +493,9 @@ void ClassicalMapFactory<Scalar, LocalOrdinal, GlobalOrdinal, Node>::
     printf("\n");
 
     */
-#endif  //ifdef HAVE_MUELU_ZOLTAN2
+#endif  // ifdef HAVE_MUELU_ZOLTAN2
 }
 
-}  //namespace MueLu
+}  // namespace MueLu
 
 #endif /* MUELU_CLASSICALMAPFACTORY_DEF_HPP_ */
