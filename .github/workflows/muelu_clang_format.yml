@@ -19,4 +19,4 @@ jobs:
       with:
         name: Format patch
         path: format_patch.txt
-      conclusion: failure
+    - conclusion: failure
