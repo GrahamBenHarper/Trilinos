@@ -19,3 +19,8 @@ jobs:
       with:
         name: Format patch
         path: format_patch.txt
+    - if: ${{ hashFiles('format_patch.txt') != '' }}
+    - uses: actions/github-script@v3
+      with:
+        script: |
+            core.setFailed('Please download and apply the formatting patch!')
