@@ -21,16 +21,14 @@ jobs:
       with:
         name: Format patch
         path: format_patch.txt
-    - uses: tonyhallett/artifacts-url-comments@v1.1.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Add comment
+      uses: mshick/add-pr-comment@v2
+      if: ${{ hashFiles('format_patch.txt') != '' }}
       with:
-        prefix: MueLu clang-format failed! Please download and apply the patch file.
-        suffix: 
-        format: name
-        addTo: pull
+        message: |
+          The MueLu clang-format job failed! Please download and apply the patch file from the job details.
     - uses: actions/github-script@v3
       if: ${{ hashFiles('format_patch.txt') != '' }}
       with:
         script: |
-            core.setFailed('Please download and apply the formatting patch!')
+          core.setFailed('Please download and apply the formatting patch!')
