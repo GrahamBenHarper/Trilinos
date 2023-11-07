@@ -10,9 +10,11 @@ jobs:
     - uses: actions/checkout@v2
     - uses: DoozyX/clang-format-lint-action@v0.16.2
       with:
-        source: './packages/muelu/src'
-        exclude: './lib'
-        extensions: 'cpp,hpp'
-        clangFormatVersion: 8
-        style: file
-        inplace: False
+        source: './packages/muelu'
+        exclude: './packages/muelu/src/MueCentral/MueLu_MasterList.cpp'
+    - run: git diff > format_patch.txt
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: Format patch
+        path: format_patch.txt
