@@ -12,7 +12,8 @@ jobs:
       with:
         source: './packages/muelu'
         exclude: './packages/muelu/src/MueCentral/MueLu_MasterList.cpp'
-    - run: git diff HEAD \> format_patch.txt
+        inplace: true
+    - run: git diff HEAD > format_patch.txt
     - uses: actions/upload-artifact@v3
       if: always()
       with:
