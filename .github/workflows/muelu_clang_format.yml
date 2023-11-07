@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: DoozyX/clang-format-lint-action@v0.16.2
       with:
         source: './packages/muelu'
@@ -15,7 +15,8 @@ jobs:
         inplace: true
     - run: git diff HEAD > format_patch.txt
     - uses: actions/upload-artifact@v3
-      if: always()
+      if: ${{ hashFiles('format_patch.txt') != '' }}
       with:
         name: Format patch
         path: format_patch.txt
+      conclusion: failure
