@@ -117,7 +117,7 @@ void MatrixFreeTentativePFactory<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::Ko
   RCP<MultiVector> coarseNullspace = MultiVectorFactory::Build(coarseMap, NSDim);
 
   Teuchos::RCP<Operator> P = Teuchos::rcp(new MatrixFreeTentativeP<Scalar, LocalOrdinal, GlobalOrdinal, Tpetra::KokkosCompat::KokkosDeviceWrapperNode<DeviceType>>(coarseMap, fineMap, aggregates));
-  P->apply(*fineNullspace, *coarseNullspace, Teuchos::TRANS, 1.0, 0.0);  // coarse = alpha*R*fine + beta*coarse
+    P->apply(*fineNullspace, *coarseNullspace, Teuchos::TRANS, 1.0, 0.0);  // coarse = alpha*R*fine + beta*coarse
 
   Set(coarseLevel, "Nullspace", coarseNullspace);
   Set(coarseLevel, "P", P);
