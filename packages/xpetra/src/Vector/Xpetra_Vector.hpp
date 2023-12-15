@@ -124,11 +124,11 @@ namespace Xpetra {
     //! Computes dot product of this Vector against input Vector x.
     virtual Scalar dot(const Vector< Scalar, LocalOrdinal, GlobalOrdinal, Node > &a) const = 0;
 
-    //! Return 1-norm of this Vector.
-    virtual typename Teuchos::ScalarTraits< Scalar >::magnitudeType norm1() const = 0;
+      //! Return 1-norm of this Vector.
+   virtual typename Teuchos::ScalarTraits< Scalar >::magnitudeType norm1() const = 0;
 
-    //! Compute 2-norm of this Vector.
-    virtual typename Teuchos::ScalarTraits< Scalar >::magnitudeType norm2() const = 0;
+     //! Compute 2-norm of this Vector.
+ virtual typename Teuchos::ScalarTraits< Scalar >::magnitudeType norm2() const = 0;
 
     //! Compute Inf-norm of this Vector.
     virtual typename Teuchos::ScalarTraits< Scalar >::magnitudeType normInf() const = 0;
