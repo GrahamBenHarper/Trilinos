@@ -89,7 +89,7 @@ RCP<const ParameterList> CoalesceDropFactory_kokkos<Scalar, LocalOrdinal, Global
   validParamList->getEntry("aggregation: classical algo").setValidator(rcp(new Teuchos::StringValidator(Teuchos::tuple<std::string>("default", "unscaled cut", "scaled cut", "scaled cut symmetric"))));
   validParamList->getEntry("aggregation: distance laplacian algo").setValidator(rcp(new Teuchos::StringValidator(Teuchos::tuple<std::string>("default", "unscaled cut", "scaled cut", "scaled cut symmetric"))));
 #endif
-  validParamList->getEntry("aggregation: strength-of-connection: matrix").setValidator(rcp(new Teuchos::StringValidator(Teuchos::tuple<std::string>("A", "distance laplacian"))));
+  validParamList->getEntry("aggregation: strength-of-connection: matrix").setValidator(rcp(new Teuchos::StringValidator(Teuchos::tuple<std::string>("A", "distance laplacian", "MinvA"))));
   validParamList->getEntry("aggregation: strength-of-connection: measure").setValidator(rcp(new Teuchos::StringValidator(Teuchos::tuple<std::string>("smoothed aggregation", "signed smoothed aggregation", "signed ruge-stueben", "unscaled"))));
   validParamList->getEntry("aggregation: distance laplacian metric").setValidator(rcp(new Teuchos::StringValidator(Teuchos::tuple<std::string>("unweighted", "material"))));
 
@@ -111,6 +111,7 @@ void CoalesceDropFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Decl
 
   std::string socUsesMatrix = pL.get<std::string>("aggregation: strength-of-connection: matrix");
   bool needCoords           = (socUsesMatrix == "distance laplacian");
+  bool needM                = (socUsesMatrix == "MinvA");
 #ifdef HAVE_MUELU_COALESCEDROP_ALLOW_OLD_PARAMETERS
   std::string droppingMethod = pL.get<std::string>("aggregation: drop scheme");
   needCoords |= (droppingMethod.find("distance laplacian") != std::string::npos);
@@ -120,6 +121,9 @@ void CoalesceDropFactory_kokkos<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Decl
     std::string distLaplMetric = pL.get<std::string>("aggregation: distance laplacian metric");
     if (distLaplMetric == "material")
       Input(currentLevel, "Material");
+  }
+  if (needM) {
+    Input(currentLevel, "M");
   }
 
   bool useBlocking = pL.get<bool>("aggregation: use blocking");
@@ -451,6 +455,14 @@ std::tuple<GlobalOrdinal, typename MueLu::LWGraph_kokkos<LocalOrdinal, GlobalOrd
         } else if (socUsesMeasure == "signed smoothed aggregation") {
           ScalarDroppingDistanceLaplacian<Scalar, LocalOrdinal, GlobalOrdinal, Node, Misc::SignedSmoothedAggregationMeasure>::runDroppingFunctors_on_dlap(*A, results, filtered_rowptr, nnz_filtered, boundaryNodes, droppingMethod, threshold, aggregationMayCreateDirichlet, symmetrizeDroppedGraph, useBlocking, distanceLaplacianMetric, currentLevel, *this);
         }
+      } else if (socUsesMatrix == "MinvA") {
+        auto M = Get<RCP<Matrix>>(currentLevel, "M");
+        // build MinvA using the graph of A
+        auto MinvA = MatrixFactory::BuildCopy(A);
+        // multiply the diagonal through
+
+        // set MinvA on this level
+        Set(currentLevel, "MinvA", MinvA);
       }
     } else {
       Kokkos::deep_copy(results, KEEP);
