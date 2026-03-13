@@ -456,11 +456,19 @@ std::tuple<GlobalOrdinal, typename MueLu::LWGraph_kokkos<LocalOrdinal, GlobalOrd
           ScalarDroppingDistanceLaplacian<Scalar, LocalOrdinal, GlobalOrdinal, Node, Misc::SignedSmoothedAggregationMeasure>::runDroppingFunctors_on_dlap(*A, results, filtered_rowptr, nnz_filtered, boundaryNodes, droppingMethod, threshold, aggregationMayCreateDirichlet, symmetrizeDroppedGraph, useBlocking, distanceLaplacianMetric, currentLevel, *this);
         }
       } else if (socUsesMatrix == "MinvA") {
+        // TODO: this probably shouldn't go under the dropping list
+
+        // two branches: if we're on the fine grid, we need to grab M and compute MinvA
+        // otherwise, we need to grab the previous MinvA from the hierarchy and compute RMinvAP
+
+        // grep the user-provided matrix M
         auto M = Get<RCP<Matrix>>(currentLevel, "M");
+        // get the diagonal inverse of M (TODO: using InverseApproximationFactory is likely better)
+        Teuchos::RCP<Vector> MinvDiag = Utilities::GetMatrixDiagonalInverse(*M);
         // build MinvA using the graph of A
         auto MinvA = MatrixFactory::BuildCopy(A);
-        // multiply the diagonal through
-
+        // multiply MinvDiag through
+        MinvA->leftScale(*MinvDiag);
         // set MinvA on this level
         Set(currentLevel, "MinvA", MinvA);
       }
